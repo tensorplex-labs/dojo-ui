@@ -1,118 +1,132 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import { Button } from "@/components/Button";
+import { CategoryItem } from "@/components/CategoryItem";
+import { DropdownContainer } from "@/components/DropDown";
+import NavigationBar from "@/components/NavigationBar";
+import TPLXDatatable from "@/components/TPLXDatatable";
+import YieldInputGroup from "@/components/YieldInputGroup";
+import { FontManrope, FontSpaceMono } from "@/utils/typography";
+import { useEffect, useState } from "react";
+import { dropdownOptions, mockData, columnDef, categories } from "@/data";
 
 export default function Home() {
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [inputValue, setInputValue] = useState("");
+  const [inputValue1, setInputValue1] = useState("");
+  const [inputValue2, setInputValue2] = useState("");
+
+  const clearInputs = () => {
+    setInputValue1("");
+    setInputValue2("");
+  };
+
+const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const value = event.target.value;
+  if (value === "" || /^[0-9]{0,4}(\.[0-9]*)?$/.test(value)) {
+    setInputValue(value);
+  }
+};
+
+  const handleCategoryClick = (categoryLabel: string) => {
+    setActiveCategory(categoryLabel);
+  };
+  const handleYieldInputChange = (index: number, value: string) => {
+    if (index === 0) {
+      setInputValue1(value);
+    } else if (index === 1) {
+      setInputValue2(value);
+    }
+  };
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">pages/index.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="bg-[#FFFFF4]">
+      <div className="bg-[#F6F6E6]  pb-[116px] border-b-2 border-black">
+        <NavigationBar />
+        <h1
+          className={`${FontSpaceMono.className} tracking-tight text-4xl mt-9 mb-11 text-black font-bold text-center`}
+        >
+          QUESTION BANKS
+        </h1>
+      </div>
+      <div className="relative mt-[-116px] mx-auto w-[1075px] bg-[#DBF5E9] h-[177px] flex border-2 border-black self-center shadow-brut-sm justify-between">
+        <div className="pl-[29px] pt-[21px]">
+          <h1
+            className={`${FontManrope.className} text-lg font-extrabold text-black`}
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+            TRY OUT A QUESTION
+          </h1>
+          <p
+            className={`${FontManrope.className} text-base text-black opacity-50 mt-2 font-medium`}
+          >
+            Find out how easy it is to earn with Tensorplex Guru! Try out a
+            sample question!{" "}
+          </p>
+          <div className="mt-1">
+            <Button buttonText="Start Demo" className="mr-[20px]" />
+            <Button buttonText="connect wallet" />
+          </div>
+          <p
+            className={`${FontManrope.className} font-extrabold text-black mt-2 opacity-50 text-sm`}
+          >
+            Est 2 mins
+          </p>
+        </div>
+        <div className="relative flex w-[300px] justify-end items-center h-full">
+          <img src="/grid-lines.svg" className="h-[177px] absolute" />
+          <img
+            src="/bitTensor-logo.svg"
+            className="h-[100px] w-[100px] relative z-10 mr-[60px]"
+          />
         </div>
       </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+      <div className="mt-[18px] w-[1075px] mx-auto flex">
+        <div className="flex gap-2">
+          <div className="mt-[18px] w-[720px] mx-auto flex flex-wrap gap-[18px]">
+            {categories.map((category) => (
+              <CategoryItem
+                key={category.label}
+                label={category.label}
+                isActive={category.label === activeCategory}
+                onClick={() => handleCategoryClick(category.label)}
+              />
+            ))}
+          </div>
+          <div className="flex gap-2 mt-[18px]">
+            <DropdownContainer
+              buttonText="Sort By Recency"
+              imgSrc="/top-down-arrow.svg"
+              className="w-[193.89px]"
+            >
+              <ul className="text-black opacity-75">
+                {dropdownOptions.map((option, index) => (
+                  <li
+                    key={index}
+                    className={`px-2 py-[6px] text-black opacity-75 font-semibold text-base ${FontManrope.className} hover:bg-[#dbf5e9] hover:opacity-100 cursor-pointer`}
+                  >
+                    {option.text}
+                  </li>
+                ))}
+              </ul>
+            </DropdownContainer>
+            <DropdownContainer
+              buttonText="Filters"
+              imgSrc="/filter-funnel.svg"
+              count={"+0"}
+            >
+              <div className="w-[300px] px-[7px] py-[14px]">
+                <YieldInputGroup
+                  label="Potential Yield"
+                  values={[inputValue1, inputValue2]}
+                  onClear={clearInputs}
+                  onChange={handleYieldInputChange}
+                />
+              </div>
+            </DropdownContainer>
+          </div>
+        </div>
       </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+      <div className="w-[1075px] mx-auto flex flex-col  mt-[19px] mb-[40px]">
+        <h1 className={`${FontSpaceMono.className} text-black font-bold text-[22px] mb-[19px]`}>SHOWING 312 RECORDS</h1>
+        <TPLXDatatable data={mockData} columnDef={columnDef} pageSize={10}/>
       </div>
-    </main>
+    </div>
   );
 }
