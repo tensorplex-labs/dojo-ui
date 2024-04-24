@@ -60,8 +60,8 @@ const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
             sample question!{" "}
           </p>
           <div className="mt-1">
-            <Button buttonText="Start Demo" className="mr-[20px]" />
-            <Button buttonText="connect wallet" />
+            <Button buttonText="Start Demo" className="mr-[20px] text-white" />
+            <Button buttonText="connect wallet" className="text-white"/>
           </div>
           <p
             className={`${FontManrope.className} font-extrabold text-black mt-2 opacity-50 text-sm`}
