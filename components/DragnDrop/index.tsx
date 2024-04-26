@@ -66,7 +66,11 @@ const DraggableItem: React.FC<{ id: string; content: string; index: number; move
       <>
         {/* <DragPreviewImage connect={preview} src="/path/to/drag-preview.png" /> */}
         <div 
-          ref={(node: HTMLDivElement | null) => drag(drop(node))} 
+          ref={(node) => {
+            if (node !== null) {
+              drag(drop(node));
+            }
+          }}          
           style={{ 
             opacity: isDragging ? 0.5 : 1, 
             width: '440px', 

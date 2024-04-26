@@ -5,37 +5,440 @@ export const dropdownOptions = [
     { text: "Least Questions" },
   ];
 
-  const categoryTypes = [
-    { label: "Object Detection", isActive: false },
-    { label: "Content Classification", isActive: false },
-    { label: "Semantic Segmentation", isActive: false },
-    { label: "Named Entity Recognition", isActive: false },
-    { label: "Object & Event Detection", isActive: false },
-  ];
-  export const mockData = new Array(50).fill(null).map((_, index) => {
-    // Generate a random number for the time remaining
-    const randomNumber = Math.floor(Math.random() * 60); // Random number between 0 and 59
-    let expiry;
+  // const categoryTypes = [
+  //   { label: "Object Detection", isActive: false },
+  //   { label: "Content Classification", isActive: false },
+  //   { label: "Semantic Segmentation", isActive: false },
+  //   { label: "Named Entity Recognition", isActive: false },
+  //   { label: "Object & Event Detection", isActive: false },
+  // ];
+  // export const mockData = new Array(50).fill(null).map((_, index) => {
+  //   // Generate a random number for the time remaining
+  //   const randomNumber = Math.floor(Math.random() * 60); // Random number between 0 and 59
+  //   let expiry;
   
-    if (randomNumber === 0) {
-      expiry = "Expired"; // Changed from "<1m left" to "Expired"
-    } else {
-      expiry = `${randomNumber}m`; // Minutes
+  //   if (randomNumber === 0) {
+  //     expiry = "Expired"; // Changed from "<1m left" to "Expired"
+  //   } else {
+  //     expiry = `${randomNumber}m`; // Minutes
+  //   }
+  
+  //   // Generate slots filled and total slots
+  //   const slotsFilled = Math.floor(Math.random() * 10) + 1; // Random number between 1 and 10
+  //   const totalSlots = Math.floor(Math.random() * (15 - slotsFilled)) + slotsFilled; // Random number between slotsFilled and 15
+  
+  //   return {
+  //     name: `Item ${index + 1}`,
+  //     type: categoryTypes[index % categoryTypes.length].label, // Cycle through category types
+  //     yield: `${index + 1} stTAO`,
+  //     expiry: expiry,
+  //     slotsFilled: `${slotsFilled}/${totalSlots}`, // Updated to show filled slots out of total slots
+  //     operations: "Operation Data",
+  //   };
+  // });
+
+  export const mockData = [
+    {
+        "name": "Item 1",
+        "type": "Object Detection",
+        "yield": "1 stTAO",
+        "expiry": "Expired",
+        "slotsFilled": "5/10",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 2",
+        "type": "Content Classification",
+        "yield": "2 stTAO",
+        "expiry": "14m",
+        "slotsFilled": "5/14",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 3",
+        "type": "Semantic Segmentation",
+        "yield": "3 stTAO",
+        "expiry": "8m",
+        "slotsFilled": "2/9",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 4",
+        "type": "Named Entity Recognition",
+        "yield": "4 stTAO",
+        "expiry": "5m",
+        "slotsFilled": "4/8",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 5",
+        "type": "Object & Event Detection",
+        "yield": "5 stTAO",
+        "expiry": "24m",
+        "slotsFilled": "2/8",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 6",
+        "type": "Object Detection",
+        "yield": "6 stTAO",
+        "expiry": "53m",
+        "slotsFilled": "9/14",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 7",
+        "type": "Content Classification",
+        "yield": "7 stTAO",
+        "expiry": "34m",
+        "slotsFilled": "9/9",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 8",
+        "type": "Semantic Segmentation",
+        "yield": "8 stTAO",
+        "expiry": "18m",
+        "slotsFilled": "7/7",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 9",
+        "type": "Named Entity Recognition",
+        "yield": "9 stTAO",
+        "expiry": "26m",
+        "slotsFilled": "5/11",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 10",
+        "type": "Object & Event Detection",
+        "yield": "10 stTAO",
+        "expiry": "20m",
+        "slotsFilled": "8/9",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 11",
+        "type": "Object Detection",
+        "yield": "11 stTAO",
+        "expiry": "47m",
+        "slotsFilled": "4/11",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 12",
+        "type": "Content Classification",
+        "yield": "12 stTAO",
+        "expiry": "53m",
+        "slotsFilled": "1/11",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 13",
+        "type": "Semantic Segmentation",
+        "yield": "13 stTAO",
+        "expiry": "55m",
+        "slotsFilled": "4/12",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 14",
+        "type": "Named Entity Recognition",
+        "yield": "14 stTAO",
+        "expiry": "58m",
+        "slotsFilled": "10/14",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 15",
+        "type": "Object & Event Detection",
+        "yield": "15 stTAO",
+        "expiry": "5m",
+        "slotsFilled": "4/4",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 16",
+        "type": "Object Detection",
+        "yield": "16 stTAO",
+        "expiry": "58m",
+        "slotsFilled": "3/5",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 17",
+        "type": "Content Classification",
+        "yield": "17 stTAO",
+        "expiry": "38m",
+        "slotsFilled": "8/10",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 18",
+        "type": "Semantic Segmentation",
+        "yield": "18 stTAO",
+        "expiry": "33m",
+        "slotsFilled": "6/13",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 19",
+        "type": "Named Entity Recognition",
+        "yield": "19 stTAO",
+        "expiry": "52m",
+        "slotsFilled": "10/12",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 20",
+        "type": "Object & Event Detection",
+        "yield": "20 stTAO",
+        "expiry": "25m",
+        "slotsFilled": "3/4",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 21",
+        "type": "Object Detection",
+        "yield": "21 stTAO",
+        "expiry": "10m",
+        "slotsFilled": "5/9",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 22",
+        "type": "Content Classification",
+        "yield": "22 stTAO",
+        "expiry": "29m",
+        "slotsFilled": "9/11",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 23",
+        "type": "Semantic Segmentation",
+        "yield": "23 stTAO",
+        "expiry": "58m",
+        "slotsFilled": "1/4",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 24",
+        "type": "Named Entity Recognition",
+        "yield": "24 stTAO",
+        "expiry": "48m",
+        "slotsFilled": "2/3",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 25",
+        "type": "Object & Event Detection",
+        "yield": "25 stTAO",
+        "expiry": "27m",
+        "slotsFilled": "10/10",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 26",
+        "type": "Object Detection",
+        "yield": "26 stTAO",
+        "expiry": "22m",
+        "slotsFilled": "5/12",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 27",
+        "type": "Content Classification",
+        "yield": "27 stTAO",
+        "expiry": "11m",
+        "slotsFilled": "9/13",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 28",
+        "type": "Semantic Segmentation",
+        "yield": "28 stTAO",
+        "expiry": "51m",
+        "slotsFilled": "8/11",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 29",
+        "type": "Named Entity Recognition",
+        "yield": "29 stTAO",
+        "expiry": "21m",
+        "slotsFilled": "2/13",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 30",
+        "type": "Object & Event Detection",
+        "yield": "30 stTAO",
+        "expiry": "26m",
+        "slotsFilled": "7/8",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 31",
+        "type": "Object Detection",
+        "yield": "31 stTAO",
+        "expiry": "20m",
+        "slotsFilled": "8/11",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 32",
+        "type": "Content Classification",
+        "yield": "32 stTAO",
+        "expiry": "16m",
+        "slotsFilled": "4/14",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 33",
+        "type": "Semantic Segmentation",
+        "yield": "33 stTAO",
+        "expiry": "33m",
+        "slotsFilled": "9/13",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 34",
+        "type": "Named Entity Recognition",
+        "yield": "34 stTAO",
+        "expiry": "53m",
+        "slotsFilled": "10/10",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 35",
+        "type": "Object & Event Detection",
+        "yield": "35 stTAO",
+        "expiry": "32m",
+        "slotsFilled": "7/14",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 36",
+        "type": "Object Detection",
+        "yield": "36 stTAO",
+        "expiry": "38m",
+        "slotsFilled": "3/6",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 37",
+        "type": "Content Classification",
+        "yield": "37 stTAO",
+        "expiry": "59m",
+        "slotsFilled": "6/7",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 38",
+        "type": "Semantic Segmentation",
+        "yield": "38 stTAO",
+        "expiry": "10m",
+        "slotsFilled": "10/10",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 39",
+        "type": "Named Entity Recognition",
+        "yield": "39 stTAO",
+        "expiry": "34m",
+        "slotsFilled": "4/6",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 40",
+        "type": "Object & Event Detection",
+        "yield": "40 stTAO",
+        "expiry": "47m",
+        "slotsFilled": "6/11",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 41",
+        "type": "Object Detection",
+        "yield": "41 stTAO",
+        "expiry": "5m",
+        "slotsFilled": "9/12",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 42",
+        "type": "Content Classification",
+        "yield": "42 stTAO",
+        "expiry": "33m",
+        "slotsFilled": "1/4",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 43",
+        "type": "Semantic Segmentation",
+        "yield": "43 stTAO",
+        "expiry": "36m",
+        "slotsFilled": "10/10",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 44",
+        "type": "Named Entity Recognition",
+        "yield": "44 stTAO",
+        "expiry": "17m",
+        "slotsFilled": "3/11",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 45",
+        "type": "Object & Event Detection",
+        "yield": "45 stTAO",
+        "expiry": "54m",
+        "slotsFilled": "9/9",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 46",
+        "type": "Object Detection",
+        "yield": "46 stTAO",
+        "expiry": "3m",
+        "slotsFilled": "10/11",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 47",
+        "type": "Content Classification",
+        "yield": "47 stTAO",
+        "expiry": "29m",
+        "slotsFilled": "2/14",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 48",
+        "type": "Semantic Segmentation",
+        "yield": "48 stTAO",
+        "expiry": "46m",
+        "slotsFilled": "1/6",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 49",
+        "type": "Named Entity Recognition",
+        "yield": "49 stTAO",
+        "expiry": "30m",
+        "slotsFilled": "10/12",
+        "operations": "Operation Data"
+    },
+    {
+        "name": "Item 50",
+        "type": "Object & Event Detection",
+        "yield": "50 stTAO",
+        "expiry": "45m",
+        "slotsFilled": "6/14",
+        "operations": "Operation Data"
     }
-  
-    // Generate slots filled and total slots
-    const slotsFilled = Math.floor(Math.random() * 10) + 1; // Random number between 1 and 10
-    const totalSlots = Math.floor(Math.random() * (15 - slotsFilled)) + slotsFilled; // Random number between slotsFilled and 15
-  
-    return {
-      name: `Item ${index + 1}`,
-      type: categoryTypes[index % categoryTypes.length].label, // Cycle through category types
-      yield: `${index + 1} stTAO`,
-      expiry: expiry,
-      slotsFilled: `${slotsFilled}/${totalSlots}`, // Updated to show filled slots out of total slots
-      operations: "Operation Data",
-    };
-  });
+]
   export const columnDef = [
     {
       accessorKey: "name",
