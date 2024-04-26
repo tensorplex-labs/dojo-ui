@@ -1,3 +1,4 @@
+import { FontManrope } from '@/utils/typography';
 import React, { useState } from 'react';
 
 interface SliderProps {
@@ -41,8 +42,8 @@ const Slider: React.FC<SliderProps> = ({
         className="slider w-full"
       />
       <div className="flex justify-between w-full">
-        {minLabel && <span className="text-xs">{minLabel}</span>}
-        {maxLabel && <span className="text-xs">{maxLabel}</span>}
+        {minLabel && <span className={`text-[13px] font-semibold opacity-50 ${FontManrope.className} `}>{minLabel}</span>}
+        {maxLabel && <span className={`text-[13px] font-semibold opacity-50 ${FontManrope.className} `}>{maxLabel}</span>}
       </div>
     </div>
   );
