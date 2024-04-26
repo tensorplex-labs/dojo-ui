@@ -7,12 +7,23 @@ import YieldInputGroup from "@/components/YieldInputGroup";
 import { FontManrope, FontSpaceMono } from "@/utils/typography";
 import { useEffect, useState } from "react";
 import { dropdownOptions, mockData, columnDef, categories } from "@/data";
+import Slider from "@/components/Slider";
+import YieldInput from "@/components/YieldInput";
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("All");
+  const [filteredData, setFilteredData] = useState(mockData); // State to hold filtered data
   const [inputValue, setInputValue] = useState("");
   const [inputValue1, setInputValue1] = useState("");
   const [inputValue2, setInputValue2] = useState("");
+  useEffect(() => {
+    if (activeCategory === "All") {
+      setFilteredData(mockData);
+    } else {
+      const filtered = mockData.filter((dataItem) => dataItem.type === activeCategory);
+      setFilteredData(filtered);
+    }
+  }, [activeCategory]); // Run this effect when activeCategory changes
 
   const clearInputs = () => {
     setInputValue1("");
@@ -123,10 +134,12 @@ const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
           </div>
         </div>
       </div>
-      <div className="w-[1075px] mx-auto flex flex-col  mt-[19px] mb-[40px]">
-        <h1 className={`${FontSpaceMono.className} text-black font-bold text-[22px] mb-[19px]`}>SHOWING 312 RECORDS</h1>
-        <TPLXDatatable data={mockData} columnDef={columnDef} pageSize={10}/>
-      </div>
+      <div className="w-[1075px] mx-auto flex flex-col mt-[19px] mb-[40px]">
+      <h1 className={`${FontSpaceMono.className} text-black font-bold text-[22px] mb-[19px]`}>
+        SHOWING {filteredData.length} RECORDS
+      </h1>
+      <TPLXDatatable data={filteredData} columnDef={columnDef} pageSize={10} />
+    </div>
     </div>
   );
 }

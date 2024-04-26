@@ -203,6 +203,31 @@ const TPLXDatatable = ({
                       key={cell.id}
                       className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
                     >
+                      {cell.getValue() === "Expired" ? (
+                        <div
+                          className={`px-0.5 text-center rounded-full ${FontManrope.className} text-base bg-red-500 bg-opacity-50 text-white font-bold`}
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </div>
+                      ) : (
+                        <div
+                          className={`${FontManrope.className} text-lg text-black opacity-60 font-bold`}
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </div>
+                      )}
+                    </td>
+                  ) : cell.column.columnDef.header === "Slots Filled" ? (
+                    <td
+                      key={cell.id}
+                      className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
+                    >
                       <div
                         className={`${FontManrope.className} text-lg text-black opacity-60 font-bold`}
                       >
@@ -212,13 +237,16 @@ const TPLXDatatable = ({
                         )}
                       </div>
                     </td>
-                  ) : cell.column.columnDef.header === "Operations" ? (
+                  ): cell.column.columnDef.header === "Operations" ? (
                     <td
-                      key={cell.id}
-                      className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className} flex justify-end`}
-                    >
-                      <Button buttonText="Start" className="text-white"/>
-                    </td>
+                    key={cell.id}
+                    className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className} flex justify-end`}
+                  >
+                    <Button
+                      buttonText={ `${row.original.expiry === "Expired" ? "Expired" : "Start"}`}
+                      className={`text-white ${row.original.expiry === "Expired" ? "bg-gray-400" : ""} disabled:bg-gray-400`}
+                    />
+                  </td>
                   ) : null
                 )}
               </tr>

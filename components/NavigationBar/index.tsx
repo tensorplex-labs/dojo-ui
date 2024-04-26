@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FontManrope, FontSpaceMono } from "@/utils/typography";
+import Link from "next/link";
 const WalletConnect = ({
   handleWalletConnect,
 }: {
@@ -113,23 +114,23 @@ const NavigationBar = () => {
           <div className="flex justify-between">
             <div className="flex space-x-4 items-center">
               <div>
-                <a
+                <Link
                   href="/"
                   className="flex items-center py-5 px-2 text-gray-700 hover:text-gray-900"
                 >
                   <img src="./logo.svg" alt="logo" className="h-[20px]" />
-                </a>
+                </Link>
               </div>
               {/* Primary Nav Items */}
               <div className="hidden md:flex items-center space-x-3">
                 {headerItems.map((item, index) => (
-                  <a
+                  <Link
                     key={index}
                     href={item.url}
                     className={`py-5 px-4 hover:opacity-100 hover:underline-offset-2 hover:underline text-black hover:text-black opacity-75 font-bold text-xl ${FontManrope.className} tracking-tight	`}
                   >
                     {item.title}
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>
