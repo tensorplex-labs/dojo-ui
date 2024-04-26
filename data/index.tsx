@@ -18,12 +18,9 @@ export const dropdownOptions = [
     let expiry;
   
     if (randomNumber === 0) {
-      expiry = "<1m left"; // Less than 1 minute
-    } else if (randomNumber < 60) {
-      expiry = `${randomNumber}m`; // Minutes
+      expiry = "Expired"; // Changed from "<1m left" to "Expired"
     } else {
-      const hours = Math.floor(randomNumber / 60);
-      expiry = `${hours}h`; // Hours
+      expiry = `${randomNumber}m`; // Minutes
     }
   
     // Generate slots filled and total slots
