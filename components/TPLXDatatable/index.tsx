@@ -239,11 +239,14 @@ const TPLXDatatable = ({
                     </td>
                   ): cell.column.columnDef.header === "Operations" ? (
                     <td
-                      key={cell.id}
-                      className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className} flex justify-end`}
-                    >
-                      <Button buttonText="Start" className="text-white"/>
-                    </td>
+                    key={cell.id}
+                    className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className} flex justify-end`}
+                  >
+                    <Button
+                      buttonText={ `${row.original.expiry === "Expired" ? "Expired" : "Start"}`}
+                      className={`text-white ${row.original.expiry === "Expired" ? "bg-gray-400" : ""} disabled:bg-gray-400`}
+                    />
+                  </td>
                   ) : null
                 )}
               </tr>
