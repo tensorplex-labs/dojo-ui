@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 const { fontFamily } = require('tailwindcss/defaultTheme')
+import { red } from 'tailwindcss/colors';
 
 const config: Config = {
   content: [
@@ -9,6 +10,33 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        primary: 'hsla(var(--primary))',
+        secondary: 'hsla(var(--secondary))',
+        accent: 'hsla(var(--accent))',
+        background: {
+          DEFAULT: 'hsla(var(--background))',
+          accent: 'hsla(var(--background-dark))',
+        },
+        foreground: 'hsla(var(--foreground))',
+        danger: red,
+        muted: {
+          DEFAULT: 'hsla(var(--muted))',
+          foreground: 'hsla(var(--muted-foreground))',
+        },
+        card: {
+          foreground: 'hsla(var(--card-foreground))',
+          background: 'hsla(var(--card-background))',
+        },
+        font: {
+          primary: 'hsla(var(--text-primary))',
+          secondary: 'hsla(var(--text-secondary))',
+          accent: 'hsla(var(--text-accent))',
+        },
+        transit: {
+          DEFAULT: 'hsla(var(--transit))',
+        },
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

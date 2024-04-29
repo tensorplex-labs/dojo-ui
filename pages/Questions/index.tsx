@@ -1,6 +1,7 @@
-import MultiSelect from '@/components/MultiSelect';
+
 import Layout from '@/layout';
 import React, { ReactNode, useState } from 'react';
+import MultiSelect from '@/components/MultileSelect';
 
 type QuestionPageProps = {
   children: ReactNode;

@@ -104,6 +104,7 @@ const NavigationBar = () => {
   const headerItems = [
     { title: "Home", url: "/" },
     { title: "Dashboard", url: "/quest" },
+    { title: "Apply", url: "/apply" },
     { title: "FAQ", url: "/faq" },
   ];
 
