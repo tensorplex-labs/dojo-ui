@@ -681,19 +681,19 @@ export const dropdownOptions = [
   export const questionDataPY = [
     {
       id: 1,
-      src: 'https://69zqqk.csb.app/', 
+      src: 'https://45wrtk-8050.csb.app/', 
       title: '1 (hidden: gpt-4-turbo)',
       showTitle: true,
     },
     {
       id: 2,
-      src: 'https://69zqqk.csb.app/', 
+      src: 'https://45wrtk-8050.csb.app/', 
       title: '2 (hidden: dolphin-mixtral-8x7b)',
       showTitle: true,
     },
     {
       id: 3,
-      src: 'https://69zqqk.csb.app/', 
+      src: 'https://45wrtk-8050.csb.app/', 
       title: '3 (hidden: phind-codellama-34b)',
       showTitle: true,
     },

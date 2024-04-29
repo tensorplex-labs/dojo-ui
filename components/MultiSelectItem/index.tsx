@@ -8,8 +8,8 @@ interface MultiSelectItemProps {
 
 const MultiSelectItem: React.FC<MultiSelectItemProps> = ({ option, isSelected, onSelectionChange }) => {
     const selectedStyles = isSelected
-      ? 'border-2 border-[#00B6A6] bg-opacity-15'
-      : 'border-2 border-gray-300';
+      ? 'border-2 border-[#00B6A6] bg-opacity-15 bg-[#00B6A6] opacity-[14]'
+      : 'border-2 border-gray-300 bg-[#F6F6E6] opacity-[14]';
   
     return (
       <div className="w-full my-2.5 ">
