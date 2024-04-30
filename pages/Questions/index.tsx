@@ -48,8 +48,16 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
   };
   return (
     <Layout>
-{/*       
       <div className="flex flex-col items-center justify-center mt-4 mb-4 max-w-[1200px] mx-auto">
+        <div className=' flex justify-start items-center text-left self-start mt-[42px]'>
+          <h1 className={`text-2xl font-bold ${FontManrope.className} mr-[17px]`}>Question 1 of 25</h1>
+          <span className={`${FontSpaceMono.className} bg-[#D0A215] text-white px-2.5 py-[5px] rounded-[20px] border border-black font-bold`}>IMAGE RECOGNITION PROMPT</span>
+        </div>
+        <p className="text-center flex self-start font-semibold opacity-60 mb-4">Classify different attributes about your data</p>
+          
+        </div>
+      {/* Multiselect Question */}
+      {/* <div className="flex flex-col items-center justify-center mt-4 mb-4 max-w-[1200px] mx-auto">
         <div className=' flex justify-start items-center text-left self-start mt-[42px]'>
           <h1 className={`text-2xl font-bold ${FontManrope.className} mr-[17px]`}>Multi-Select Question</h1>
           <span className={`${FontSpaceMono.className} bg-[#D0A215] text-white px-2.5 py-[5px] rounded-[20px] border border-black font-bold`}>IMAGE GENERATION PROMPT</span>
@@ -71,7 +79,8 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
             </div>
           </div>
       </div> */}
-          <div className="flex flex-col items-center justify-center mt-4 mb-4 max-w-[1200px] mx-auto">
+            {/* Rank Question */}
+          {/* <div className="flex flex-col items-center justify-center mt-4 mb-4 max-w-[1200px] mx-auto">
       <div className='flex justify-start items-center text-left self-start mt-[42px]'>
         <h1 className={`text-2xl font-bold ${FontManrope.className} mr-[17px]`}>Rank Question</h1>
         <span className={`${FontSpaceMono.className} bg-[#D0A215] text-white px-2.5 py-[5px] rounded-[20px] border border-black font-bold`}>CODING GENERATION PROMPT</span>
@@ -93,7 +102,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
           </div>
         </div>
       </>
-    </div>
+    </div> */}
     </Layout>
   );
 };
