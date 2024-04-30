@@ -87,7 +87,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
               url={plot.src}
             />
           ))}
-          <div className="w-full bg-[#FFFFF4] pl-[48px]">
+          <div className="w-[780px] bg-[#FFFFF4] pl-[48px]">
             <p>Please rank the following output in accordance to the animation described as much as possible, considering any interactions included</p>
             <DragnDrop options={options} onOrderChange={handleOrderChange} />
           </div>
