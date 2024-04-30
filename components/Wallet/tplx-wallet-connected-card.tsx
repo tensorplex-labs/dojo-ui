@@ -26,6 +26,11 @@ const TPLXLWalletConnectedCard = ({ connector, address }: Props) => {
   const { disconnect } = useDisconnect();
   const handleCopy = useCopyToClipboard(address ?? '');
   const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
+  const disconnectHandler = () => {
+    disconnect();
+    //Do disconenct to your backend here as well.
+  }
+
   return (
     <div className="p-2">
       <span className={cn(FontSpaceMono.className, 'text-xs font-bold')}>
@@ -46,7 +51,7 @@ const TPLXLWalletConnectedCard = ({ connector, address }: Props) => {
               <div className="w-2 h-2 bg-[#00B6A6] rounded-full translate-y-[2px]"></div>
             </div>
             <TPLXButton
-              onClick={() => disconnect()}
+              onClick={disconnectHandler}
               variant={'secondary'}
               className={cn(
                 FontSpaceMono.className,

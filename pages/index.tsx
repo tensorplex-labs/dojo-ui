@@ -10,6 +10,7 @@ import { dropdownOptions, mockData, columnDef, categories } from "@/data";
 import Slider from "@/components/Slider";
 import YieldInput from "@/components/YieldInput";
 
+
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [filteredData, setFilteredData] = useState(mockData); // State to hold filtered data
