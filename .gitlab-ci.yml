@@ -1,0 +1,44 @@
+image: docker:20.10.16
+services:
+  - name: docker:20.10.16-dind
+    alias: docker
+    command: ['--tls=false']
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ''
+  DOCEKR_HOST: tcp://127.0.0.1:2375
+
+default:
+  tags:
+    - tensorplex
+
+.deploy:
+  image: node:20.7.0
+  stage: deploy
+  script:
+    - npm install --global vercel
+    - npm install --force
+    - npm run typechain
+    - vercel pull --yes --environment=production --token=$VERCEL_TOKEN
+    - NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL vercel build --prod --token=$VERCEL_TOKEN
+    - NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
+
+stages:
+  - deploy
+
+# ========================================================================================
+
+deploy_preview:
+  only:
+    - staging
+  extends: .deploy
+  environment:
+    name: staging
+
+deploy_production:
+  only:
+    - main
+  extends: .deploy
+  environment:
+    name: prod
