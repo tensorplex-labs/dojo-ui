@@ -78,7 +78,7 @@ const Page = () => {
         >
           MINER APPLICATION FORM
         </h1>
-        <div className={`${FontManrope.className} text-font-secondary text-center`}>Complete the form with the necessary details to get your API key and subscription key via email.
+        <div className={`${FontManrope.className} opacity-50 text-center`}>Complete the form with the necessary details to get your API key and subscription key via email.
         </div>
       </div>
       <div className={cn(`${FontSpaceMono.className} flex justify-center mt-10 h-screen`)}>
@@ -122,10 +122,10 @@ const Page = () => {
             </div>
           </form>
       </div>
-      <TPLXModalContainer className={'w-[512px] h-[206px]'} headerClassName={'h-12 pl-4'}
+      <TPLXModalContainer className={'w-[512px] h-[206px]'} headerClassName={'h-12 pl-4'} bodyClassName="p-0"
                           header={"APPLICATION RECEIVED!"} open={open} onClose={() => handleOnClose()} onSave={() =>handleOnClose()}>
         <div
-          className={cn(`${FontManrope.className} py-4 px-6 border-b-2 border-black bg-accent text-font-secondary text-[16px] leading-[120%] h-[88px] flex items-center`)}>
+          className={cn(`${FontManrope.className} py-4 px-6 border-b-2 border-black bg-accent opacity-60 text-[16px] leading-[120%] h-[88px] flex items-center`)}>
           <span>{modalMessage}</span>
         </div>
         <div className={'text-right p-1 w-[100%] h-[100%]'}>
