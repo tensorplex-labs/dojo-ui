@@ -1,6 +1,8 @@
+'use client'
 import React, { useState } from "react";
 import { FontManrope, FontSpaceMono } from "@/utils/typography";
 import Link from "next/link";
+import { TPLXWalletButton } from "../Wallet/tplx-wallet-button-entry";
 const WalletConnect = ({
   handleWalletConnect,
 }: {
@@ -71,14 +73,6 @@ const TPLXMobileMenu = ({
   );
 };
 
-// TPLXWalletButton component
-const TPLXWalletButton = () => {
-  return (
-    <button className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
-      Wallet Connected
-    </button>
-  );
-};
 
 // NavigationBar component
 const NavigationBar = () => {
@@ -135,11 +129,7 @@ const NavigationBar = () => {
               </div>
             </div>
             <div className="flex items-center justify-center gap-[8px]">
-              {isWalletConnected ? (
-                <TPLXWalletButton />
-              ) : (
-                <WalletConnect handleWalletConnect={handleWalletConnect} />
-              )}
+              <TPLXWalletButton></TPLXWalletButton>
               <TPLXMobileMenu
                 menuItems={headerItems}
                 isOpen={isMobileMenuOpen}

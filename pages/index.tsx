@@ -13,6 +13,7 @@ import Modal from "@/components/Modal";
 import LabelledInput from "@/components/LabelledInput";
 import SubscriptionTable from "@/components/SubscriptionTable";
 
+
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [filteredData, setFilteredData] = useState(mockData); // State to hold filtered data
