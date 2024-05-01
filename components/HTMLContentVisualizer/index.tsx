@@ -14,7 +14,7 @@ const HTMLContentVisualizer: React.FC<HTMLContentVisualizerProps> = ({ htmlConte
       <iframe
         srcDoc={htmlContent}
         title={title}
-        className="w-full h-full"
+        className="w-full aspect-[5/4.5] mt-[34px] px-[10px]"
         sandbox="allow-scripts allow-same-origin"
       />
     </div>

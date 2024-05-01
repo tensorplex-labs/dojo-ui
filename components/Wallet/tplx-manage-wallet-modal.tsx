@@ -9,12 +9,20 @@ import { cn } from '@/utils/tw';
 import TPLXModalContainer from '../ModalContainer';
 import { recoverMessageAddress, type Address } from 'viem';
 import { SiweMessage } from 'siwe';
-
+import useWorkerLoginAuth from '@/hooks/useWorkerLoginAuth';
+interface WorkerLoginAuthResponse {
+  success: boolean;
+  body?: {
+    token: string;
+  };
+  error?: string;
+}
 interface Props {
   open: boolean;
   onSave?: () => void;
   onClose?: () => void;
 }
+
 
 const getConnectorById = (
   connectors: readonly Connector[],
@@ -55,6 +63,71 @@ const TPLXManageWalletConnectModal = ({
     return message.prepareMessage();
   };
 
+  useEffect(() => {
+    localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkb2pvLWFwaSIsInN1YiI6IjB4OTk3QkRkMjM1MDcyQjU1NTc1QTFhMWI0ZEE4ODQxNUE5ZDc2QjUwNSIsImV4cCI6MTcxNDY1NzIyN30.JEJY_piKjZx_25uXecQHKZp2w2My7ljOJGglFQHD7kk')
+  },[])
+
+  const workerLoginAuth = async (payload: any): Promise<WorkerLoginAuthResponse> => {
+    // Your logic here
+    // Make sure to return an object of type WorkerLoginAuthResponse
+    // For example:
+    try {
+      const response = await fetch('/api/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || 'An error occurred');
+      }
+      return {
+        success: true,
+        body: {
+          token: data.token,
+        },
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'An unknown error occurred',
+      };
+    }
+  };
+  
+  const postSignInWithEthereum = async (signature: string, message: any) => {
+    console.log("This is the signature", signature);
+    try {
+      if (!address) {
+        console.error("Wallet address is undefined");
+        onClose?.();
+        return;
+      }
+      // Create the payload
+      const payload = {
+        walletAddress: address,
+        chainId: chainId.toString(),
+        signature: signature,
+        message: 'Hello World',
+        timestamp: (Math.floor(Date.now() / 1000)).toString(),      };
+
+      // Call the workerLoginAuth function with the payload
+      const response = await workerLoginAuth(payload);
+      if (response && response.success && response.body?.token) {
+        localStorage.setItem('token', response.body.token);
+        onSave?.();
+      } else {
+        throw new Error(response.error || 'Authentication failed');
+      }
+    } catch (error) {
+      console.error("Error during worker login authentication", error);
+      onClose?.(); // Close the modal on error
+    }
+  };
+
+
   const signInWithEthereum = async (address:string) => {
     if (!address) {
       return;
@@ -70,10 +143,6 @@ const TPLXManageWalletConnectModal = ({
     signInWithEthereum(address).catch((err) => {
       console.log("Error signing in with ethereum",err)
     });
-  }
-
-  const postSignInWithEthereum = async (signature:string) => {
-    console.log("This is the signature", signature);
   }
 
   const conenctWalletHandler = (connectorId: string) => {
@@ -102,7 +171,7 @@ const TPLXManageWalletConnectModal = ({
           signature,
         });
         setRecoveredAddress(recoveredAddress);
-        postSignInWithEthereum(signature);
+        postSignInWithEthereum(signature, variables?.message);
       }
     })();
   }, [signature, variables?.message]);

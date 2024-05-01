@@ -9,6 +9,11 @@ import { useEffect, useState } from "react";
 import { dropdownOptions, mockData, columnDef, categories } from "@/data";
 import Slider from "@/components/Slider";
 import YieldInput from "@/components/YieldInput";
+import Modal from "@/components/Modal";
+import LabelledInput from "@/components/LabelledInput";
+import SubscriptionTable from "@/components/SubscriptionTable";
+import useGetTasks from "@/hooks/useGetTasks"; // Import the hook
+import { useAccount, useSignMessage } from "wagmi";
 
 
 export default function Home() {
@@ -17,6 +22,38 @@ export default function Home() {
   const [inputValue, setInputValue] = useState("");
   const [inputValue1, setInputValue1] = useState("");
   const [inputValue2, setInputValue2] = useState("");
+  const [showDemo, setShowDemo] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [taskTypes, setTaskTypes] = useState(['CODE_GENERATION', 'CONVERSATION']);
+  const [sort, setSort] = useState('createdAt');
+  const [yieldMin, setYieldMin] = useState(8.41);
+  const [yieldMax, setYieldMax] = useState(9);
+  const { address, status } = useAccount();
+
+  const { tasks, pagination, loading, error } = useGetTasks(page, limit, taskTypes, sort, yieldMin, yieldMax);
+
+  const subscriptionsData = [
+    // This data would come from your state or props
+    { name: 'Miner 1', subscriptionKey: 'sk-xxxxxx...xxxxxx', created: '2023-04-01' },
+    { name: 'Miner 1', subscriptionKey: 'sk-xxxxxx...xxxxxx', created: '2023-04-02' },
+    // ... more data
+  ];
+
+  const handleInputChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue1(e.target.value);
+  };
+
+  const handleInputChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue2(e.target.value);
+  };
+  // Function to toggle the demo content or modal
+  const toggleDemo = () => {
+    setShowDemo(!showDemo);
+  };
+
   useEffect(() => {
     if (activeCategory === "All") {
       setFilteredData(mockData);
@@ -31,12 +68,12 @@ export default function Home() {
     setInputValue2("");
   };
 
-const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  const value = event.target.value;
-  if (value === "" || /^[0-9]{0,4}(\.[0-9]*)?$/.test(value)) {
-    setInputValue(value);
-  }
-};
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    if (value === "" || /^[0-9]{0,4}(\.[0-9]*)?$/.test(value)) {
+      setInputValue(value);
+    }
+  };
 
   const handleCategoryClick = (categoryLabel: string) => {
     setActiveCategory(categoryLabel);
@@ -72,8 +109,11 @@ const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
             sample question!{" "}
           </p>
           <div className="mt-1">
-            <Button buttonText="Start Demo" className="mr-[20px] text-white" />
-            <Button buttonText="connect wallet" className="text-white"/>
+            <Button
+              buttonText="Start Demo"
+              className="mr-[20px] text-white"
+              onClick={toggleDemo} // Attach the toggle function to the onClick event
+            />            <Button buttonText="connect wallet" className="text-white" />
           </div>
           <p
             className={`${FontManrope.className} font-extrabold text-black mt-2 opacity-50 text-sm`}
@@ -136,11 +176,59 @@ const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         </div>
       </div>
       <div className="w-[1075px] mx-auto flex flex-col mt-[19px] mb-[40px]">
-      <h1 className={`${FontSpaceMono.className} text-black font-bold text-[22px] mb-[19px]`}>
-        SHOWING {filteredData.length} RECORDS
-      </h1>
-      <TPLXDatatable data={filteredData} columnDef={columnDef} pageSize={10} />
-    </div>
+        <h1 className={`${FontSpaceMono.className} text-black font-bold text-[22px] mb-[19px]`}>
+          SHOWING {tasks.length} RECORDS
+        </h1>
+        <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} />
+      </div>
+      {showDemo && (
+        <Modal
+          showModal={isModalVisible}
+          setShowModal={setIsModalVisible}
+          title="SUBSCRIPTION KEYS"
+          btnText="Close"
+        >
+          <div className='bg-[#DBF5E9] w-full px-[22px] py-[15px]'>
+            <div>
+              <h1 className={`${FontSpaceMono.className} font-bold text-base`}>ENTER SUBSCRIPTION KEY</h1>
+              <h2 className={`${FontManrope.className} font-medium text-base opacity-60`}>Obtain subscription key from miners</h2>
+            </div>
+            <div className={` flex-row`}>
+              <div className="flex flex-row justify-between">
+                <div className="flex mr-2">
+                  <LabelledInput
+                    id="name"
+                    label="Name"
+                    type="text"
+                    placeholder="Name"
+                    value={inputValue1}
+                    onChange={handleInputChange1}
+                  />
+                </div>
+                <div className="flex-1 ml-2">
+                  <LabelledInput
+                    id="subscriptionKey"
+                    label="SUBSCRIPTION KEY"
+                    type="text"
+                    placeholder="Enter Subscription Key Here"
+                    value={inputValue2}
+                    onChange={handleInputChange2}
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end">
+                <button
+                  className=" px-[18px] py-[10px] text-base h-auto bg-[#00B6A6] font-spacemono text-white border-2 border-black uppercase cursor-pointer shadow-brut-sm font-bold hover:bg-opacity-80 active:border-b-2"
+                  onClick={() => { }}
+                >
+                  Proceed
+                </button>
+              </div>
+            </div>
+          </div>
+          <SubscriptionTable data={subscriptionsData} />
+        </Modal>
+      )}
     </div>
   );
 }
