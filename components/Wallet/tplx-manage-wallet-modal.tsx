@@ -23,6 +23,7 @@ interface Props {
   onClose?: () => void;
 }
 
+
 const getConnectorById = (
   connectors: readonly Connector[],
   connectorId: string,
@@ -66,11 +67,36 @@ const TPLXManageWalletConnectModal = ({
     localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkb2pvLWFwaSIsInN1YiI6IjB4OTk3QkRkMjM1MDcyQjU1NTc1QTFhMWI0ZEE4ODQxNUE5ZDc2QjUwNSIsImV4cCI6MTcxNDY1NzIyN30.JEJY_piKjZx_25uXecQHKZp2w2My7ljOJGglFQHD7kk')
   },[])
 
-  const { workerLoginAuth } = useWorkerLoginAuth() as {
-    workerLoginAuth: (payload: any) => Promise<WorkerLoginAuthResponse>;
-    loading: boolean;
-    error: string | null;
+  const workerLoginAuth = async (payload: any): Promise<WorkerLoginAuthResponse> => {
+    // Your logic here
+    // Make sure to return an object of type WorkerLoginAuthResponse
+    // For example:
+    try {
+      const response = await fetch('/api/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || 'An error occurred');
+      }
+      return {
+        success: true,
+        body: {
+          token: data.token,
+        },
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'An unknown error occurred',
+      };
+    }
   };
+  
   const postSignInWithEthereum = async (signature: string, message: any) => {
     console.log("This is the signature", signature);
     try {
