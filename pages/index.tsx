@@ -12,6 +12,8 @@ import YieldInput from "@/components/YieldInput";
 import Modal from "@/components/Modal";
 import LabelledInput from "@/components/LabelledInput";
 import SubscriptionTable from "@/components/SubscriptionTable";
+import useGetTasks from "@/hooks/useGetTasks"; // Import the hook
+import { useAccount, useSignMessage } from "wagmi";
 
 
 export default function Home() {
@@ -22,6 +24,17 @@ export default function Home() {
   const [inputValue2, setInputValue2] = useState("");
   const [showDemo, setShowDemo] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [taskTypes, setTaskTypes] = useState(['CODE_GENERATION', 'CONVERSATION']);
+  const [sort, setSort] = useState('createdAt');
+  const [yieldMin, setYieldMin] = useState(8.41);
+  const [yieldMax, setYieldMax] = useState(9);
+  const { address, status } = useAccount();
+
+  const { tasks, pagination, loading, error } = useGetTasks(page, limit, taskTypes, sort, yieldMin, yieldMax);
+
   const subscriptionsData = [
     // This data would come from your state or props
     { name: 'Miner 1', subscriptionKey: 'sk-xxxxxx...xxxxxx', created: '2023-04-01' },
@@ -40,6 +53,7 @@ export default function Home() {
   const toggleDemo = () => {
     setShowDemo(!showDemo);
   };
+
   useEffect(() => {
     if (activeCategory === "All") {
       setFilteredData(mockData);
@@ -71,8 +85,6 @@ export default function Home() {
       setInputValue2(value);
     }
   };
-
-
   return (
     <div className="bg-[#FFFFF4]">
       <div className="bg-[#F6F6E6]  pb-[116px] border-b-2 border-black">
@@ -165,9 +177,9 @@ export default function Home() {
       </div>
       <div className="w-[1075px] mx-auto flex flex-col mt-[19px] mb-[40px]">
         <h1 className={`${FontSpaceMono.className} text-black font-bold text-[22px] mb-[19px]`}>
-          SHOWING {filteredData.length} RECORDS
+          SHOWING {tasks.length} RECORDS
         </h1>
-        <TPLXDatatable data={filteredData} columnDef={columnDef} pageSize={10} />
+        <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} />
       </div>
       {showDemo && (
         <Modal
@@ -215,7 +227,6 @@ export default function Home() {
             </div>
           </div>
           <SubscriptionTable data={subscriptionsData} />
-
         </Modal>
       )}
     </div>
