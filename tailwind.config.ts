@@ -20,6 +20,7 @@ const config: Config = {
         },
         foreground: 'hsla(var(--foreground))',
         danger: red,
+        error: 'hsla(var(--error))',
         muted: {
           DEFAULT: 'hsla(var(--muted))',
           foreground: 'hsla(var(--muted-foreground))',

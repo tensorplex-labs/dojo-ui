@@ -62,12 +62,12 @@ const TPLXModalContainer = React.forwardRef<HTMLInputElement, Props>(
                 </span>
                 <div
                   onClick={(e) => onClose()}
-                  className="hover:cursor-pointer px-4 py-1 flex items-center justify-center border-l-[2px] border-black"
+                  className="hover:cursor-pointer px-4 py-1  flex items-center justify-center border-l-[2px] border-black"
                 >
                   <IconX className="w-6 h-6"></IconX>
                 </div>
               </div>
-              <div className={cn(bodyClassName)}>{children}</div>
+              <div className={cn('p-2', bodyClassName)}>{children}</div>
             </div>
           </TPLXBrutCard>
         )}
