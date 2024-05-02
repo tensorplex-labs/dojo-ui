@@ -18,7 +18,7 @@ const ChatBubble: React.FC<ChatMessageProps> = ({ message, isSpeaker, userName }
     : 'bg-black text-white';
 
   return (
-    <div className={`flex items-end ${isSpeaker ? 'justify-start ' : 'justify-end '} ${FontManrope.className}`}>
+    <div className={`flex items-end ${isSpeaker ? 'justify-start ' : 'justify-end '} ${FontManrope.className} mb-[19px]`}>
       {isSpeaker && (
         <div className={`rounded-full h-8 w-8 flex items-center justify-center mr-2 ${chatHeadClasses}`}>
           {chatHead}
@@ -42,24 +42,37 @@ const ChatBubble: React.FC<ChatMessageProps> = ({ message, isSpeaker, userName }
 const ChatComponent: React.FC = () => {
   // Example messages
   const messages = [
-    { text: 'Hello, how are you?', isSpeaker: false, userName: 'Sam' },
-    { text: 'I am fine, thank you!', isSpeaker: true, userName: 'Bob' },
+    { text: 'Hello! What were you up to this morning?', isSpeaker: false, userName: 'Sam' },
+    { text: 'I was playing with my dogs. I love my dogs! They keep me company and make me happy.', isSpeaker: true, userName: 'Bob' },
+    { text: 'That’s so fun! How many dogs do you have?', isSpeaker: false, userName: 'Sam' },
+    { text: '3', isSpeaker: true, userName: 'Bob' },
   ];
 
+    // Function to handle slider value changes
+    const handleSliderChange = (value: number) => {
+        // Handle the slider value change here
+        // For example, you could set the value to the state or pass it to another component
+        console.log(value); // Just logging it for now
+      };
+    
   return (
-    <div className="space-y-2 w-[541px] bg-[#F6F6E6] border-2 border-[#000] border-opacity-10 rounded-tr-xl rounded-tl-xl">
+    <div className="space-y-2 w-[541px] bg-[#F6F6E6] border-2 border-[#000] border-opacity-10 rounded-xl">
         <div className="border-b-2 p-4 ">
             {messages.map((msg, index) => (
                 <ChatBubble key={index} message={msg.text} isSpeaker={msg.isSpeaker} userName={msg.userName} />
             ))}
         </div>
-        <div className="row-start-2 h-[160px] px-[57px] py-[30px]">
-            <h1 className={`${FontSpaceMono.className} text-base font-bold mb-[5px]`}>LINEAR SCALE</h1>
+        <div className="row-start-2 h-[160px] px-[57px] py-[30px] rounded-br-lg">
+            <h1 className={`${FontSpaceMono.className} text-base font-bold mb-[5px]`}>LINEAR SCALE<span className=' text-red-500'>*</span></h1>
             <p className={`${FontManrope.className} text-base font-bold opacity-60 mb-[16px]`}>Rate Bob’s sentiment from 1 (negative) to 5 (positive)</p>
-            <Slider min={0} max={0} step={0} initialValue={0} onChange={function (value: number): void {
-                  throw new Error('Function not implemented.');
-              } } />
-      </div>
+            <Slider
+                min={1}
+                max={5}
+                step={1} // Changed step from 5 to 1 to allow values between 1 and 5
+                initialValue={1}
+                onChange={handleSliderChange}
+            />
+        </div>
     </div>
   );
 };

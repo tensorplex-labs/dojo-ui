@@ -1,4 +1,3 @@
-import { FontManrope } from '@/utils/typography';
 import React, { useState } from 'react';
 
 interface SliderProps {
@@ -9,7 +8,7 @@ interface SliderProps {
   onChange: (value: number) => void;
   minLabel?: string;
   maxLabel?: string;
-  className?: string; // Add a className prop
+  className?: string;
 }
 
 const Slider: React.FC<SliderProps> = ({
@@ -20,7 +19,7 @@ const Slider: React.FC<SliderProps> = ({
   onChange,
   minLabel,
   maxLabel,
-  className = '', // Default to an empty string if not provided
+  className = '',
 }) => {
   const [value, setValue] = useState(initialValue);
 
@@ -30,21 +29,45 @@ const Slider: React.FC<SliderProps> = ({
     onChange(newValue);
   };
 
+  // Calculate the number of steps
+  const numberOfSteps = Math.floor((max - min) / step);
+
+  // Generate an array of steps
+  const stepsArray = Array.from({ length: numberOfSteps }, (_, i) => min + i * step);
+
   return (
-    <div className={`flex flex-col items-center ${className}`}> {/* Apply the className prop */}
+    <div className={`relative mb-6 ${className} flex items-center`}>
+      <label htmlFor="labels-range-input" className="sr-only">Labels range</label>
+      {stepsArray.map((stepValue, index) => (
+        <span
+          key={index}
+          className="ml-1 w-[5px] h-[11px] bg-[#00B6A6] border-black border text-gray-500 dark:text-gray-400 absolute z-10"
+          style={{ left: `calc(${((stepValue - min) / (max - min)) * 100}% - 0.5rem)` }}
+        >
+         
+        </span>
+      ))}
       <input
+        id="labels-range-input"
         type="range"
         min={min}
         max={max}
         step={step}
         value={value}
         onChange={handleSliderChange}
-        className="slider w-full"
+        className="w-full h-[6px] bg-[#00B6A6] rounded-lg appearance-none accent-[#D9D9D9] cursor-pointer border border-black"
       />
-      <div className="flex justify-between w-full">
-        {minLabel && <span className={`text-[13px] font-semibold opacity-50 ${FontManrope.className} `}>{minLabel}</span>}
-        {maxLabel && <span className={`text-[13px] font-semibold opacity-50 ${FontManrope.className} `}>{maxLabel}</span>}
-      </div>
+
+      {minLabel && (
+        <span className="text-sm text-gray-500 dark:text-gray-400 absolute start-0 -bottom-6">
+          {minLabel}
+        </span>
+      )}
+      {maxLabel && (
+        <span className="text-sm text-gray-500 dark:text-gray-400 absolute end-0 -bottom-6">
+          {maxLabel}
+        </span>
+      )}
     </div>
   );
 };
