@@ -206,11 +206,6 @@ const TPLXManageWalletConnectModal = ({
   useEffect(() => {
     (async () => {
       if (variables?.message && signature) {
-        const recoveredAddress = await recoverMessageAddress({
-          message: variables?.message,
-          signature,
-        });
-        setRecoveredAddress(recoveredAddress);
         postSignInWithEthereum(signature);
       }
     })();
