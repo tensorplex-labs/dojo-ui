@@ -188,7 +188,7 @@ export default function Home() {
           title="SUBSCRIPTION KEYS"
           btnText="Close"
         >
-          <div className='bg-[#DBF5E9] w-full px-[22px] py-[15px]'>
+          <div className='bg-[#DBF5E9] w-full px-[22px] py-[15px] text-black'>
             <div>
               <h1 className={`${FontSpaceMono.className} font-bold text-base`}>ENTER SUBSCRIPTION KEY</h1>
               <h2 className={`${FontManrope.className} font-medium text-base opacity-60`}>Obtain subscription key from miners</h2>

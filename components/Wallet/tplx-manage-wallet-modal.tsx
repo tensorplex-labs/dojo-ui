@@ -69,7 +69,7 @@ const TPLXManageWalletConnectModal = ({
 
   const workerLoginAuth = async (payload: any): Promise<WorkerLoginAuthResponse> => {
     try {
-      const response = await fetch('/api/auth', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/worker/login/auth`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -57,7 +57,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
         </div>
         <p className="text-center flex self-start font-semibold opacity-60 mb-4">Classify different attributes about your data</p>
           <ChatComponent />
-
+        
         </div>
       {/* Multiselect Question */}
       {/* <div className="flex flex-col items-center justify-center mt-4 mb-4 max-w-[1200px] mx-auto">

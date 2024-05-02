@@ -21,6 +21,7 @@ const useWorkerLoginAuth = () => {
   const [error, setError] = useState<string | null>(null);
 
   const workerLoginAuth = async (payload: LoginAuthPayload) => {
+    localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkb2pvLWFwaSIsInN1YiI6IjB4OTk3QkRkMjM1MDcyQjU1NTc1QTFhMWI0ZEE4ODQxNUE5ZDc2QjUwNSIsImV4cCI6MTcxNDY1NzIyN30.JEJY_piKjZx_25uXecQHKZp2w2My7ljOJGglFQHD7kk');
     setLoading(true);
     try {
       const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/worker/login/auth`;
@@ -39,6 +40,7 @@ const useWorkerLoginAuth = () => {
       if (response.ok && data.success) {
         if (data.body?.token) {
             localStorage.setItem('token', data.body.token);
+            
           } else {
             throw new Error('Token is undefined');
           }
