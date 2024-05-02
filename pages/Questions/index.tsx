@@ -7,6 +7,8 @@ import LinkContentVisualizer from '@/components/LinkContentVisualizer';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import MultiSelectRadio from '@/components/MultileSelect';
 import MultiSelect from '@/components/MultileSelect';
+import ChatComponent from '@/components/ChatComponent.tsx';
+import Slider from '@/components/Slider';
 
 type QuestionPageProps = {
   children: ReactNode;
@@ -54,7 +56,8 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
           <span className={`${FontSpaceMono.className} bg-[#D0A215] text-white px-2.5 py-[5px] rounded-[20px] border border-black font-bold`}>IMAGE RECOGNITION PROMPT</span>
         </div>
         <p className="text-center flex self-start font-semibold opacity-60 mb-4">Classify different attributes about your data</p>
-          
+          <ChatComponent />
+
         </div>
       {/* Multiselect Question */}
       {/* <div className="flex flex-col items-center justify-center mt-4 mb-4 max-w-[1200px] mx-auto">

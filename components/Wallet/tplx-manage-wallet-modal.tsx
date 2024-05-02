@@ -68,9 +68,6 @@ const TPLXManageWalletConnectModal = ({
   },[])
 
   const workerLoginAuth = async (payload: any): Promise<WorkerLoginAuthResponse> => {
-    // Your logic here
-    // Make sure to return an object of type WorkerLoginAuthResponse
-    // For example:
     try {
       const response = await fetch('/api/auth', {
         method: 'POST',
