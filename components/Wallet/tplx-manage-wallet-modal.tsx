@@ -110,8 +110,9 @@ const TPLXManageWalletConnectModal = ({
         walletAddress: address,
         chainId: chainId.toString(),
         signature: signature,
-        message: 'Hello World',
+        message: message,
         timestamp: (Math.floor(Date.now() / 1000)).toString(),      };
+      console.log("Payload", payload)
 
       // Call the workerLoginAuth function with the payload
       const response = await workerLoginAuth(payload);
