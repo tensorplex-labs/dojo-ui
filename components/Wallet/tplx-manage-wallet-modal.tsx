@@ -1,15 +1,15 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 
-import TPLXWalletNetworkCard from './tplx-walletnetwork-card';
-import { Connector, useAccount, useChainId, useConnect, useSignMessage } from 'wagmi';
-import TPLXLWalletConnectedCard from './tplx-wallet-connected-card';
-import { FontSpaceMono } from '@/utils/typography';
-import { cn } from '@/utils/tw';
-import TPLXModalContainer from '../ModalContainer';
-import { recoverMessageAddress, type Address } from 'viem';
-import { SiweMessage } from 'siwe';
 import useWorkerLoginAuth from '@/hooks/useWorkerLoginAuth';
+import { cn } from '@/utils/tw';
+import { FontSpaceMono } from '@/utils/typography';
+import { SiweMessage } from 'siwe';
+import { recoverMessageAddress, type Address } from 'viem';
+import { Connector, useAccount, useChainId, useConnect, useSignMessage } from 'wagmi';
+import TPLXModalContainer from '../ModalContainer';
+import TPLXLWalletConnectedCard from './tplx-wallet-connected-card';
+import TPLXWalletNetworkCard from './tplx-walletnetwork-card';
 interface WorkerLoginAuthResponse {
   success: boolean;
   body?: {
@@ -42,6 +42,8 @@ const TPLXManageWalletConnectModal = ({
   const { connectors, connect, connectAsync } = useConnect();
   const { connector, address, status } = useAccount();
   const [recoveredAddress, setRecoveredAddress] = useState<Address>();
+  const [nonce, setNonce] = useState<string>();
+  const [siweMessage, setSiweMessage] = useState<string>();
   const {
     data: signature,
     variables,
@@ -50,17 +52,47 @@ const TPLXManageWalletConnectModal = ({
     signMessageAsync: signMessage,
   } = useSignMessage();
   const chainId = useChainId();
+  const fetchNonce = async (address: string) => {
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/${address}`;
+    const method = 'GET';
+    const options: RequestInit = {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
 
-  const createSiweMessage = (address: string, statement: string) => {
+    try {
+      const response = await fetch(url, options);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      // Extracting 'nonce' from the response body if available
+      const _nonce = data.body && data.body.nonce ? data.body.nonce : undefined;
+      console.log(`Nonce fetched successfully: ${_nonce}`)
+      setNonce(_nonce);
+      return _nonce;
+    } catch (error) {
+      console.error('There was a problem with your fetch operation:', error);
+      throw error;
+    }
+  };
+
+
+  const createSiweMessage = (address: string, nonce: string, statement: string) => {
     const message = new SiweMessage({
-      domain: window.location.host,
+      domain: `${window.location.host}`,
       address,
       statement,
       uri: window.location.origin,
       version: '1',
       chainId: chainId,
+      nonce: nonce
     });
-    return message.prepareMessage();
+    const preparedMessage = message.prepareMessage();
+    setSiweMessage(preparedMessage)
+    return preparedMessage;
   };
 
   const workerLoginAuth = async (payload: any): Promise<WorkerLoginAuthResponse> => {
@@ -72,7 +104,9 @@ const TPLXManageWalletConnectModal = ({
         },
         body: JSON.stringify(payload),
       });
+      console.log(`Sending payload to backend...${JSON.stringify(payload)}`)
       const data = await response.json();
+      console.log("This is the data", data)
       if (!response.ok) {
         throw new Error(data.error || 'An error occurred');
       }
@@ -89,8 +123,8 @@ const TPLXManageWalletConnectModal = ({
       };
     }
   };
-  
-  const postSignInWithEthereum = async (signature: string, message: any) => {
+
+  const postSignInWithEthereum = async (signature: string) => {
     console.log("This is the signature", signature);
     try {
       if (!address) {
@@ -103,8 +137,10 @@ const TPLXManageWalletConnectModal = ({
         walletAddress: address,
         chainId: chainId.toString(),
         signature: signature,
-        message: message,
-        timestamp: (Math.floor(Date.now() / 1000)).toString(),      };
+        message: siweMessage,
+        timestamp: (Math.floor(Date.now() / 1000)).toString(),
+        nonce: nonce,
+      };
 
       // Call the workerLoginAuth function with the payload
       const response = await workerLoginAuth(payload);
@@ -125,11 +161,15 @@ const TPLXManageWalletConnectModal = ({
     if (!address) {
       return;
     }
-    const msg = createSiweMessage(
-      address,
-      'Sign in with Ethereum to tensorplex',
-    );
-    await signMessage({ message: msg });
+    const _nonce = await fetchNonce(address);
+    if (_nonce) {
+      const msg = createSiweMessage(
+        address,
+        _nonce,
+        'Sign in with Ethereum to tensorplex',
+      );
+      await signMessage({ message: msg });
+    }
   };
 
   const postConnectWallet = async (address:string) => {
@@ -159,12 +199,7 @@ const TPLXManageWalletConnectModal = ({
   useEffect(() => {
     (async () => {
       if (variables?.message && signature) {
-        const recoveredAddress = await recoverMessageAddress({
-          message: variables?.message,
-          signature,
-        });
-        setRecoveredAddress(recoveredAddress);
-        postSignInWithEthereum(signature, variables?.message);
+        postSignInWithEthereum(signature);
       }
     })();
   }, [signature, variables?.message]);
