@@ -73,7 +73,7 @@ const Page = () => {
   return (
     <div className="bg-background text-black h-full">
       <div className="bg-background-accent h-[257px] border-b-2 border-black">
-        <NavigationBar />
+        <NavigationBar openModal={()=>{}}/>
         <h1 className={`${FontSpaceMono.className} text-font-primary tracking-wide text-4xl mt-9 mb-4 text-black font-bold text-center`}
         >
           MINER APPLICATION FORM
@@ -129,7 +129,7 @@ const Page = () => {
           <span>{modalMessage}</span>
         </div>
         <div className={'text-right p-1 w-[100%] h-[100%]'}>
-          <Button className={cn('w-[85px] h-[39px] mt-2 mr-4 shadow-brut-sm text-[16px] text-white')}
+          <Button className={cn('w-[85px] h-[39px] mt-2 mr-4 hover:shadow-brut-sm text-[16px] text-white')}
                   buttonText={"CLOSE"} onClick={() => handleOnClose ()} />
         </div>
       </TPLXModalContainer>

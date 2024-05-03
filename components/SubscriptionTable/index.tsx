@@ -21,7 +21,7 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({ data }) => {
           <th className="px-5 py-3 border-b-2  text-left text-sm opacity-75 font-bold uppercase tracking-wider">
             Name
           </th>
-          <th className="px-5 py-3 border-b-2  text-left text-sm opacity-75 font-bold uppercase tracking-wider">
+          <th className="px-5 py-3 border-b-2  text-left text-sm opacity-75 font-bold uppercase tracking-wider w-1/2">
             Subscription Key
           </th>
           <th className="px-5 py-3 border-b-2 text-left text-sm opacity-75 font-bold uppercase tracking-wider">

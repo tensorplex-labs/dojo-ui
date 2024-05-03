@@ -71,8 +71,8 @@ const Footer: React.FC<FooterProps> = (props) => {
             </div>
             </div>
             <div className="flex justify-end items-center space-x-[11px]">
-                <Button buttonText={"SKIP"} className="text-black bg-[#E4E4E4] shadow-brut-sm px-[37px] py-[15px]" />
-                <Button buttonText={"PROCEED"} className="text-white bg-[#00B6A6] shadow-brut-sm px-[37px] py-[15px]" />
+                <Button buttonText={"SKIP"} className="text-black bg-[#E4E4E4] hover:shadow-brut-sm px-[37px] py-[15px]" />
+                <Button buttonText={"PROCEED"} className="text-white bg-[#00B6A6] hover:shadow-brut-sm px-[37px] py-[15px]" />
             </div>
         </div>
     </div>
