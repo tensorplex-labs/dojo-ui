@@ -1,23 +1,24 @@
 import { Button } from "@/components/Button";
 import { CategoryItem } from "@/components/CategoryItem";
 import { DropdownContainer } from "@/components/DropDown";
+import LabelledInput from "@/components/LabelledInput";
+import Modal from "@/components/Modal";
 import NavigationBar from "@/components/NavigationBar";
+import Slider from "@/components/Slider";
+import SubscriptionTable from "@/components/SubscriptionTable";
 import TPLXDatatable from "@/components/TPLXDatatable";
+import YieldInput from "@/components/YieldInput";
 import YieldInputGroup from "@/components/YieldInputGroup";
+import { categories, columnDef, dropdownOptions, mockData } from "@/data";
+import useGetTasks from "@/hooks/useGetTasks"; // Import the hook
 import { FontManrope, FontSpaceMono } from "@/utils/typography";
 import { useEffect, useState } from "react";
-import { dropdownOptions, mockData, columnDef, categories } from "@/data";
-import Slider from "@/components/Slider";
-import YieldInput from "@/components/YieldInput";
-import Modal from "@/components/Modal";
-import LabelledInput from "@/components/LabelledInput";
-import SubscriptionTable from "@/components/SubscriptionTable";
-import useGetTasks from "@/hooks/useGetTasks"; // Import the hook
 import { useAccount, useSignMessage } from "wagmi";
 
 
 export default function Home() {
-  const [activeCategory, setActiveCategory] = useState("All");
+  // const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategories, setActiveCategories] = useState<string[]>(["All"]);
   const [filteredData, setFilteredData] = useState(mockData); // State to hold filtered data
   const [inputValue, setInputValue] = useState("");
   const [inputValue1, setInputValue1] = useState("");
@@ -55,13 +56,13 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (activeCategory === "All") {
+    if (activeCategories.length == 1 && activeCategories.includes("All")) {
       setFilteredData(mockData);
     } else {
-      const filtered = mockData.filter((dataItem) => dataItem.type === activeCategory);
+      const filtered = mockData.filter((dataItem) => activeCategories.includes(dataItem.type));
       setFilteredData(filtered);
     }
-  }, [activeCategory]); // Run this effect when activeCategory changes
+  }, [activeCategories]); // Run this effect when activeCategory changes
 
   const clearInputs = () => {
     setInputValue1("");
@@ -76,7 +77,27 @@ export default function Home() {
   };
 
   const handleCategoryClick = (categoryLabel: string) => {
-    setActiveCategory(categoryLabel);
+    if (categoryLabel === "All") {
+      setActiveCategories(['All']);
+      return;
+    }
+    let updatedCategories: any[] = [];
+    setActiveCategories(prevCategories => {
+      // Check if the category is already active
+      if (prevCategories.includes(categoryLabel)) {
+        // If it is, remove it from the array
+        updatedCategories = prevCategories.filter(category => category !== categoryLabel && category !== 'All');
+      } else {
+        // If it's not, add it to the array
+        updatedCategories = [...prevCategories.filter(category => category !== 'All'), categoryLabel];
+      }
+      return updatedCategories;
+    });
+
+    const taskTypes: string[] = categories.filter(category => updatedCategories.includes(category.label)).map(category => category?.taskType).filter((taskType): taskType is string => typeof taskType === 'string');
+    console.info('taskTypes', taskTypes)
+    setTaskTypes(taskTypes);
+
   };
   const handleYieldInputChange = (index: number, value: string) => {
     if (index === 0) {
@@ -96,7 +117,7 @@ export default function Home() {
           QUESTION BANKS
         </h1>
       </div>
-{/*       
+{/*
       <div className="relative mt-[-116px] mx-auto w-[1075px] bg-[#DBF5E9] h-[177px] flex border-2 border-black self-center shadow-brut-sm justify-between">
         <div className="pl-[29px] pt-[21px]">
           <h1
@@ -138,7 +159,7 @@ export default function Home() {
               <CategoryItem
                 key={category.label}
                 label={category.label}
-                isActive={category.label === activeCategory}
+                isActive={activeCategories.includes(category.label)}
                 onClick={() => handleCategoryClick(category.label)}
               />
             ))}
