@@ -13,6 +13,7 @@ const useUpdateWorkerPartner = () => {
   const [response, setResponse] = useState<UpdateWorkerPartnerResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const jwtToken = localStorage.getItem('jwtToken');
 
   const updateWorkerPartner = async (
     minerSubscriptionKey: string,
@@ -32,6 +33,7 @@ const useUpdateWorkerPartner = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwtToken}`
         },
         body: JSON.stringify(payload),
       });
