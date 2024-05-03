@@ -63,16 +63,9 @@ const TPLXManageWalletConnectModal = ({
     return message.prepareMessage();
   };
 
-  useEffect(() => {
-    localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkb2pvLWFwaSIsInN1YiI6IjB4OTk3QkRkMjM1MDcyQjU1NTc1QTFhMWI0ZEE4ODQxNUE5ZDc2QjUwNSIsImV4cCI6MTcxNDY1NzIyN30.JEJY_piKjZx_25uXecQHKZp2w2My7ljOJGglFQHD7kk')
-  },[])
-
   const workerLoginAuth = async (payload: any): Promise<WorkerLoginAuthResponse> => {
-    // Your logic here
-    // Make sure to return an object of type WorkerLoginAuthResponse
-    // For example:
     try {
-      const response = await fetch('/api/auth', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/worker/login/auth`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -110,7 +103,7 @@ const TPLXManageWalletConnectModal = ({
         walletAddress: address,
         chainId: chainId.toString(),
         signature: signature,
-        message: 'Hello World',
+        message: message,
         timestamp: (Math.floor(Date.now() / 1000)).toString(),      };
 
       // Call the workerLoginAuth function with the payload

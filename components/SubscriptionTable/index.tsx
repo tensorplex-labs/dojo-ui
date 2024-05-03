@@ -15,7 +15,7 @@ type SubscriptionTableProps = {
 
 const SubscriptionTable: React.FC<SubscriptionTableProps> = ({ data }) => {
   return (
-    <table className="min-w-full leading-normal ">
+    <table className="min-w-full leading-normal text-black">
       <thead>
         <tr className={`${FontSpaceMono.className}`}>
           <th className="px-5 py-3 border-b-2  text-left text-sm opacity-75 font-bold uppercase tracking-wider">

@@ -22,7 +22,7 @@ function Modal({
   };
 
   return (
-    <div className="backdrop-brightness-50 backdrop-blur-sm justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none ">
+    <div className="backdrop-brightness-50 backdrop-blur-sm justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none text-black">
       <div className="relative">
         <div className="relative flex flex-col ouline-none focus:outline-none bg-[#F8F8F8] border-1 border-neutral-950 border-collapse border-[1px] shadow-brut-sm min-w-[300px] w-[900px] m-2 md:m-0">
           <div className="flex items-start justify-between border-solid border-blueGray-200">
@@ -42,6 +42,7 @@ function Modal({
         </div>
       </div>
     </div>
+    
   );
 }
 

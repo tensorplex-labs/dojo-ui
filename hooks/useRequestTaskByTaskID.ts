@@ -11,7 +11,7 @@ interface Task {
   maxResults: number;
 }
 
-const useRequestTask = (taskId: string) => {
+const useRequestTaskByTaskID = (taskId: string) => {
   const [task, setTask] = useState<Task | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -47,4 +47,4 @@ const useRequestTask = (taskId: string) => {
   return { task, loading, error };
 };
 
-export default useRequestTask;
+export default useRequestTaskByTaskID;
