@@ -1,3 +1,4 @@
+import { getFromLocalStorage } from '@/utils/general_helpers';
 import { useState, useEffect } from 'react';
 
 interface Task {
@@ -17,7 +18,7 @@ const useRequestTaskByTaskID = (taskId: string) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const jwtToken = localStorage.getItem('token'); // Get jwtToken from localStorage
+    const jwtToken = getFromLocalStorage('jwtToken');
     const fetchTask = async () => {
       setLoading(true);
       try {
