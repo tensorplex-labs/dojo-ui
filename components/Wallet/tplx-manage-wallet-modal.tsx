@@ -43,7 +43,7 @@ const TPLXManageWalletConnectModal = ({
   const { connector, address, status } = useAccount();
   const [recoveredAddress, setRecoveredAddress] = useState<Address>();
   const [nonce, setNonce] = useState<string>();
-  const [message, setMessage] = useState<string>();
+  const [siweMessage, setSiweMessage] = useState<string>();
   const {
     data: signature,
     variables,
@@ -91,7 +91,7 @@ const TPLXManageWalletConnectModal = ({
       nonce: nonce
     });
     const preparedMessage = message.prepareMessage();
-    setMessage(preparedMessage)
+    setSiweMessage(preparedMessage)
     return preparedMessage;
   };
 
@@ -137,7 +137,7 @@ const TPLXManageWalletConnectModal = ({
         walletAddress: address,
         chainId: chainId.toString(),
         signature: signature,
-        message: message,
+        message: siweMessage,
         timestamp: (Math.floor(Date.now() / 1000)).toString(),
         nonce: nonce,
       };
