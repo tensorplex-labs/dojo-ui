@@ -11,13 +11,6 @@ import { Connector, useAccount, useChainId, useConnect, useSignMessage } from 'w
 import TPLXModalContainer from '../ModalContainer';
 import TPLXLWalletConnectedCard from './tplx-wallet-connected-card';
 import TPLXWalletNetworkCard from './tplx-walletnetwork-card';
-interface WorkerLoginAuthResponse {
-  success: boolean;
-  body?: {
-    token: string;
-  };
-  error?: string;
-}
 interface Props {
   open: boolean;
   onSave?: () => void;
