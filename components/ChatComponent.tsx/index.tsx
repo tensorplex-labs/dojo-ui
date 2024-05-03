@@ -12,21 +12,21 @@ const ChatBubble: React.FC<ChatMessageProps> = ({ message, isSpeaker, userName }
   const chatHead = userName.charAt(0).toUpperCase();
   const bubbleClasses = isSpeaker
     ? 'self-end rounded-e-lg rounded-tl-lg border border-black bg-[#00B6A6] bg-opacity-10'
-    : 'border border-black self-start rounded-e-lg rounded-tl-lg bg-[#ababab] bg-opacity-[17]';
+    : 'border border-black self-start rounded-e-lg rounded-tl-lg bg-[#ABABAB] bg-opacity-15';
   const chatHeadClasses = isSpeaker
-    ? 'bg-[#00B6A6] text-black'
+    ? 'bg-[#00B6A6] text-white'
     : 'bg-black text-white';
 
   return (
-    <div className={`flex items-end ${isSpeaker ? 'justify-start ' : 'justify-end '} ${FontManrope.className} mb-[19px]`}>
+    <div className={`flex items-start ${isSpeaker ? 'justify-start ' : 'justify-end '} ${FontManrope.className} mb-[19px]`}>
       {isSpeaker && (
-        <div className={`rounded-full h-8 w-8 flex items-center justify-center mr-2 ${chatHeadClasses}`}>
+        <div className={`rounded-full h-8 w-8 font-bold flex items-center justify-center mr-2 ${chatHeadClasses}`}>
           {chatHead}
         </div>
       )}
-      <div className={`max-w-xs md:max-w-md lg:max-w-lg px-4 py-2 text-sm font-bold text-opacity-60 ${bubbleClasses}`}>
+      <div className={`max-w-[350px] px-4 py-2 text-sm font-bold text-opacity-60 ${bubbleClasses} `}>
         <h1 className={`text-base font-extrabold ${isSpeaker && 'text-[#24837B]'} `}>{userName}</h1>
-        <p>{message}</p>
+        <p className={`text-opacity-60 text-black`}>{message}</p>
       </div>
 
     {!isSpeaker && (
@@ -71,6 +71,7 @@ const ChatComponent: React.FC = () => {
                 step={1} // Changed step from 5 to 1 to allow values between 1 and 5
                 initialValue={1}
                 onChange={handleSliderChange}
+                showSections
             />
         </div>
     </div>

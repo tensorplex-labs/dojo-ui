@@ -1,3 +1,4 @@
+import { getFromLocalStorage } from '@/utils/general_helpers';
 import { useState } from 'react';
 
 interface SubmitTaskResponse {
@@ -19,10 +20,11 @@ interface SubmitTaskPayload {
   resultData: ResultDataItem[];
 }
 
-const useSubmitTask = (jwtToken: string) => {
+const useSubmitTask = () => {
   const [response, setResponse] = useState<SubmitTaskResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const jwtToken = getFromLocalStorage('jwtToken');
 
   const submitTask = async (taskId: string, resultData: ResultDataItem[]) => {
     setLoading(true);
