@@ -1,5 +1,5 @@
 import { getFromLocalStorage } from '@/utils/general_helpers';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Task {
   id: string;
@@ -49,7 +49,8 @@ const useGetTasks = (page: number, limit: number, taskTypes: string[], sort: str
           headers: {
             'Authorization': `Bearer ${jwtToken}`,
           }
-        });        const data: TasksResponse = await response.json();
+        });
+        const data: TasksResponse = await response.json();
 
         if (response.ok) {
           setTasks(data.body.tasks);
