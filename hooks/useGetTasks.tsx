@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Task {
   id: string;
@@ -46,9 +46,9 @@ const useGetTasks = (page: number, limit: number, taskTypes: string[], sort: str
         const response = await fetch(endpoint, {
           headers: {
             'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkb2pvLWFwaSIsInN1YiI6IjB4OTk3QkRkMjM1MDcyQjU1NTc1QTFhMWI0ZEE4ODQxNUE5ZDc2QjUwNSIsImV4cCI6MTcxNDY1NzIyN30.JEJY_piKjZx_25uXecQHKZp2w2My7ljOJGglFQHD7kk',
-                    'Access-Control-Allow-Origin': '*',
           }
-        });        const data: TasksResponse = await response.json();
+        });
+        const data: TasksResponse = await response.json();
 
         if (response.ok) {
           setTasks(data.body.tasks);
