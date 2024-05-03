@@ -48,7 +48,6 @@ const useGetTasks = (page: number, limit: number, taskTypes: string[], sort: str
         const response = await fetch(endpoint, {
           headers: {
             'Authorization': `Bearer ${jwtToken}`,
-            'Access-Control-Allow-Origin': '*',
           }
         });        const data: TasksResponse = await response.json();
 
