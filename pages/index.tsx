@@ -29,8 +29,8 @@ export default function Home() {
   const [limit, setLimit] = useState(10);
   const [taskTypes, setTaskTypes] = useState(['CODE_GENERATION', 'CONVERSATION']);
   const [sort, setSort] = useState('createdAt');
-  const [yieldMin, setYieldMin] = useState(8.41);
-  const [yieldMax, setYieldMax] = useState(9);
+  const [yieldMin, setYieldMin] = useState(0);
+  const [yieldMax, setYieldMax] = useState(10);
   const { address, status } = useAccount();
 
   const { tasks, pagination, loading, error } = useGetTasks(page, limit, taskTypes, sort, yieldMin, yieldMax);
