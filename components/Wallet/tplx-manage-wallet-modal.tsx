@@ -145,7 +145,7 @@ const TPLXManageWalletConnectModal = ({
       // Call the workerLoginAuth function with the payload
       const response = await workerLoginAuth(payload);
       if (response && response.success && response.body?.token) {
-        localStorage.setItem('token', response.body.token);
+        localStorage.setItem('jwtToken', response.body.token);
         onSave?.();
       } else {
         throw new Error(response.error || 'Authentication failed');
