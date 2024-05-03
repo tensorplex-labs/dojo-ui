@@ -39,6 +39,7 @@ const useWorkerLoginAuth = () => {
       if (response.ok && data.success) {
         if (data.body?.token) {
             localStorage.setItem('token', data.body.token);
+            
           } else {
             throw new Error('Token is undefined');
           }

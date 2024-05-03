@@ -1,3 +1,4 @@
+import { getFromLocalStorage } from '@/utils/general_helpers';
 import { useEffect, useState } from 'react';
 
 interface Task {
@@ -34,6 +35,7 @@ const useGetTasks = (page: number, limit: number, taskTypes: string[], sort: str
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const jwtToken = getFromLocalStorage('jwtToken');
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -45,7 +47,7 @@ const useGetTasks = (page: number, limit: number, taskTypes: string[], sort: str
 
         const response = await fetch(endpoint, {
           headers: {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkb2pvLWFwaSIsInN1YiI6IjB4OTk3QkRkMjM1MDcyQjU1NTc1QTFhMWI0ZEE4ODQxNUE5ZDc2QjUwNSIsImV4cCI6MTcxNDY1NzIyN30.JEJY_piKjZx_25uXecQHKZp2w2My7ljOJGglFQHD7kk',
+            'Authorization': `Bearer ${jwtToken}`,
           }
         });
         const data: TasksResponse = await response.json();

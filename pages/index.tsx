@@ -86,8 +86,9 @@ export default function Home() {
     }
   };
   return (
-    <div className="bg-[#FFFFF4]">
-      <div className="bg-[#F6F6E6]  pb-[116px] border-b-2 border-black">
+    <div className="bg-[#FFFFF4] min-h-screen">
+      <div className="bg-[#F6F6E6] border-b-2 border-black">
+        {/* enable pb-116 if the commented section is alive again*/}
         <NavigationBar />
         <h1
           className={`${FontSpaceMono.className} tracking-tight text-4xl mt-9 mb-11 text-black font-bold text-center`}
@@ -95,6 +96,7 @@ export default function Home() {
           QUESTION BANKS
         </h1>
       </div>
+{/*       
       <div className="relative mt-[-116px] mx-auto w-[1075px] bg-[#DBF5E9] h-[177px] flex border-2 border-black self-center shadow-brut-sm justify-between">
         <div className="pl-[29px] pt-[21px]">
           <h1
@@ -128,7 +130,7 @@ export default function Home() {
             className="h-[100px] w-[100px] relative z-10 mr-[60px]"
           />
         </div>
-      </div>
+      </div> */}
       <div className="mt-[18px] w-[1075px] mx-auto flex">
         <div className="flex gap-2">
           <div className="mt-[18px] w-[720px] mx-auto flex flex-wrap gap-[18px]">
@@ -188,7 +190,7 @@ export default function Home() {
           title="SUBSCRIPTION KEYS"
           btnText="Close"
         >
-          <div className='bg-[#DBF5E9] w-full px-[22px] py-[15px]'>
+          <div className='bg-[#DBF5E9] w-full px-[22px] py-[15px] text-black'>
             <div>
               <h1 className={`${FontSpaceMono.className} font-bold text-base`}>ENTER SUBSCRIPTION KEY</h1>
               <h2 className={`${FontManrope.className} font-medium text-base opacity-60`}>Obtain subscription key from miners</h2>

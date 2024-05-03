@@ -1,3 +1,4 @@
+import { getFromLocalStorage } from '@/utils/general_helpers';
 import { useState, useEffect } from 'react';
 
 interface Task {
@@ -11,13 +12,13 @@ interface Task {
   maxResults: number;
 }
 
-const useRequestTask = (taskId: string) => {
+const useRequestTaskByTaskID = (taskId: string) => {
   const [task, setTask] = useState<Task | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const jwtToken = localStorage.getItem('token'); // Get jwtToken from localStorage
+    const jwtToken = getFromLocalStorage('jwtToken');
     const fetchTask = async () => {
       setLoading(true);
       try {
@@ -47,4 +48,4 @@ const useRequestTask = (taskId: string) => {
   return { task, loading, error };
 };
 
-export default useRequestTask;
+export default useRequestTaskByTaskID;
