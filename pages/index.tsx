@@ -27,7 +27,7 @@ export default function Home() {
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [taskTypes, setTaskTypes] = useState(['CODE_GENERATION', 'CONVERSATION']);
+  const [taskTypes, setTaskTypes] = useState(['CODE_GENERATION', 'DIALOGUE']);
   const [sort, setSort] = useState('createdAt');
   const [yieldMin, setYieldMin] = useState(0);
   const [yieldMax, setYieldMax] = useState(10);
