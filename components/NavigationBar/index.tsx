@@ -96,8 +96,8 @@ const NavigationBar = () => {
   };
 
   const headerItems = [
-    { title: "Home", url: "/" },
-    { title: "Dashboard", url: "/quest" },
+    // { title: "Home", url: "/" },
+    // { title: "Dashboard", url: "/quest" },
     { title: "Apply", url: "/apply" },
     { title: "FAQ", url: "/faq" },
   ];
@@ -116,7 +116,6 @@ const NavigationBar = () => {
                   <img src="./logo.svg" alt="logo" className="h-[20px]" />
                 </Link>
               </div>
-              {/* Primary Nav Items */}
               <div className="hidden md:flex items-center space-x-3">
                 {headerItems.map((item, index) => (
                   <Link
