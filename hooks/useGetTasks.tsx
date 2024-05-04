@@ -35,7 +35,7 @@ const useGetTasks = (page: number, limit: number, taskTypes: string[], sort: str
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const jwtToken = getFromLocalStorage('token');
+  const jwtToken = getFromLocalStorage('jwtToken');
 
   useEffect(() => {
     const fetchTasks = async () => {

@@ -3,18 +3,18 @@ import { IconX } from '@tabler/icons-react';
 import React from 'react';
 
 interface UserCardProps {
-  closeModal: () => void;
+  closeModal: Function;
   children?: React.ReactNode;
 }
 
 const UserCard: React.FC<UserCardProps> = ({ closeModal, children }) => {
     const handleCloseModal = () => {
-        // setShowModal(false);
+        closeModal(false);
       };
   return (
     <>
       {/* Backdrop */}
-      <div className="fixed inset-0 z-40" onClick={closeModal}></div>
+      <div className="fixed inset-0 z-40" onClick={handleCloseModal}></div>
 
       {/* Modal Container */}
       <div className="fixed w-[1115px] mt-[90px] m-auto inset-0 z-50 flex items-start justify-end p-4">

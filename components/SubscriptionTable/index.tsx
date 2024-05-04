@@ -1,12 +1,11 @@
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { IconEdit, IconTrash } from '@tabler/icons-react';
 import React from 'react';
-
 type SubscriptionData = {
-  name: string;
+  id: string;
   subscriptionKey: string;
-  created: string; // Assuming the date is a string, you might want to use a Date object or a specific format
-  // Add any other properties related to operations if needed
+  createdAt: string; // Changed from 'created' to 'createdAt'
+  name: string;
 };
 
 type SubscriptionTableProps = {
@@ -42,7 +41,7 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({ data }) => {
               {item.subscriptionKey}
             </td>
             <td className="px-5 py-5 border-b border-gray-200 bg-white text-base">
-              {item.created}
+              {/* {item.created} */}
             </td>
             <td className="px-5 py-5 border-b border-gray-200 bg-white text-base">
               <button className="text-blue-600 hover:text-blue-900"><IconEdit /></button>

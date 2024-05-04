@@ -26,6 +26,7 @@ import { cn } from "@/utils/tw";
 import { IconCopy, IconExternalLink } from "@tabler/icons-react";
 import { useModal } from "@/hooks/useModal";
 import { MODAL } from "@/providers/modals";
+import { usePartnerList } from "@/hooks/usePartnerList";
 
 
 export default function Home() {
@@ -54,7 +55,9 @@ export default function Home() {
     disconnect();
     //Do disconenct to your backend here as well.
   }
+  
   const { tasks, pagination, loading, error } = useGetTasks(page, limit, taskTypes, sort, yieldMin, yieldMax);
+  const { partners, isLoading } = usePartnerList();
   const handleViewClick = () => {
     // Logic to close Wallet & API (if any)
     // For example, if you have a function to close the wallet, call it here
@@ -213,7 +216,7 @@ export default function Home() {
         <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} />
       </div>
       {showUserCard && (
-      <UserCard closeModal={() => setShowUserCard(false)}>
+      <UserCard closeModal={setShowUserCard}>
         <div className="flex flex-col gap-[5px] w-full p-5  py-3.5 border-b-2">
           <div className="flex items-center justify-between ">
             <div className="flex items-center justify-start gap-[5px]">
@@ -317,7 +320,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <SubscriptionTable data={subscriptionsData} />
+          <SubscriptionTable data={partners} />
         </Modal>
       )}
     </div>
