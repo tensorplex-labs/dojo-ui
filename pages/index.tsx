@@ -28,7 +28,7 @@ export default function Home() {
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [taskTypes, setTaskTypes] = useState(['CODE_GENERATION', 'DIALOGUE']);
+  const [taskTypes, setTaskTypes] = useState(['CODE_GENERATION', 'DIALOGUE', 'TEXT_TO_IMAGE']);
   const [sort, setSort] = useState('createdAt');
   const [yieldMin, setYieldMin] = useState(0);
   const [yieldMax, setYieldMax] = useState(10);
@@ -76,29 +76,51 @@ export default function Home() {
     }
   };
 
-  const handleCategoryClick = (categoryLabel: string) => {
-    if (categoryLabel === "All") {
-      setActiveCategories(['All']);
-      return;
-    }
-    let updatedCategories: any[] = [];
-    setActiveCategories(prevCategories => {
-      // Check if the category is already active
+const handleCategoryClick = (categoryLabel: string) => {
+  setActiveCategories(prevCategories => {
+    let updatedCategories: string[];
+    const ALL_CATEGORY: string = 'All';
+    if (categoryLabel === ALL_CATEGORY) {
+      // handle 'All' case
+      updatedCategories = [ALL_CATEGORY];
+    } else {
+      // handle all other cases
       if (prevCategories.includes(categoryLabel)) {
         // If it is, remove it from the array
-        updatedCategories = prevCategories.filter(category => category !== categoryLabel && category !== 'All');
+        updatedCategories = prevCategories.filter(category => category !== categoryLabel);
+        // Remove 'All' if other categories are selected
+        if (updatedCategories.length > 0) {
+          updatedCategories = updatedCategories.filter(category => category !== ALL_CATEGORY);
+        }
       } else {
         // If it's not, add it to the array
-        updatedCategories = [...prevCategories.filter(category => category !== 'All'), categoryLabel];
+        updatedCategories = [...prevCategories.filter(category => category !== ALL_CATEGORY), categoryLabel];
       }
-      return updatedCategories;
-    });
 
-    const taskTypes: string[] = categories.filter(category => updatedCategories.includes(category.label)).map(category => category?.taskType).filter((taskType): taskType is string => typeof taskType === 'string');
-    console.info('taskTypes', taskTypes)
-    setTaskTypes(taskTypes);
+      // if none selected, default back to All
+      if (updatedCategories.length === 0) {
+        updatedCategories = [ALL_CATEGORY];
+      }
+    }
 
-  };
+    // Set the task types based on the updated categories
+    const updatedTaskTypes = categories
+      .filter(category => updatedCategories.includes(category.label))
+      .map(category => category.taskType)
+      .filter((taskType): taskType is string => typeof taskType === 'string');
+
+    // If no specific categories are selected, reset taskTypes to include all types
+    if (updatedCategories.length === 0 || updatedCategories.includes(ALL_CATEGORY)) {
+      // TODO remove hardcoding here
+      setTaskTypes(['CODE_GENERATION', 'DIALOGUE', 'TEXT_TO_IMAGE']);
+    } else {
+      setTaskTypes(updatedTaskTypes);
+    }
+
+    return updatedCategories;
+  });
+};
+
   const handleYieldInputChange = (index: number, value: string) => {
     if (index === 0) {
       setInputValue1(value);
