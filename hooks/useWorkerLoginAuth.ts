@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-interface LoginAuthResponse {
+export interface LoginAuthResponse {
   success: boolean;
   body?: {
     token: string;
@@ -8,12 +8,13 @@ interface LoginAuthResponse {
   error?: string;
 }
 
-interface LoginAuthPayload {
+export interface LoginAuthPayload {
   walletAddress: string;
   chainId: string;
   signature: string;
   message: string;
-  timestamp: number;
+  timestamp: string;
+  nonce?: string;
 }
 
 const useWorkerLoginAuth = () => {
@@ -24,7 +25,7 @@ const useWorkerLoginAuth = () => {
     setLoading(true);
     try {
       const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/worker/login/auth`;
-      
+
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: {
@@ -38,8 +39,8 @@ const useWorkerLoginAuth = () => {
 
       if (response.ok && data.success) {
         if (data.body?.token) {
-            localStorage.setItem('token', data.body.token);
-            
+            localStorage.setItem('jwtToken', data.body.token);
+
           } else {
             throw new Error('Token is undefined');
           }

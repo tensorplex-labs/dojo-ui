@@ -6,7 +6,7 @@ import YieldInput from "@/components/YieldInput";
 import Slider from "@/components/Slider";
 import { Button } from "@/components/Button";
 import Footer from "@/components/Footer";
-import { WagmiProvider } from "wagmi";
+import { WagmiProvider, useAccount } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ModalProvider, { MODAL } from '@/providers/modals';
 import { config } from "@/components/Wallet/WagmiWalletConfig";
@@ -21,6 +21,7 @@ import SubscriptionTable from "@/components/SubscriptionTable";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { useEtherScanOpen } from "@/hooks/useEtherScanOpen";
 import { useModal } from "@/hooks/useModal";
+import { usePartnerList } from "@/hooks/usePartnerList";
 
 
 type LayoutProps = {
@@ -33,24 +34,37 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { openModal } = useModal(MODAL.wallet);
   const [showUserCard, setShowUserCard] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [address, setAddress] = useState<string | null>(null);
   const [inputValue1, setInputValue1] = useState("");
   const [inputValue2, setInputValue2] = useState("");
+  const { partners, isLoading } = usePartnerList();
+
+  const { address, status } = useAccount();
 
   const subscriptionsData = [
-  // This data would come from your state or props
-  { name: 'Miner 1', subscriptionKey: 'sk-xxxxxx...xxxxxx', created: '2023-04-01' },
-  { name: 'Miner 1', subscriptionKey: 'sk-xxxxxx...xxxxxx', created: '2023-04-02' },
-  // ... more data
-];
+    // This data would come from your state or props
+    { name: 'Miner 1', subscriptionKey: 'sk-xxxxxx...xxxxxx', created: '2023-04-01' },
+    { name: 'Miner 1', subscriptionKey: 'sk-xxxxxx...xxxxxx', created: '2023-04-02' },
+    // ... more data
+  ];
 
+  const handleViewClick = () => {
+    // Logic to close Wallet & API (if any)
+    // For example, if you have a function to close the wallet, call it here
+    // closeWallet();
+    setShowUserCard(false);
+    // Set showDemo to true to bring up the demo
+    setIsModalVisible(true);
+  };
+
+  const walletManagementHandler = () => {
+    openModal();
+    setShowUserCard(false);
+  }
 
   // Define the handler functions
   const handleCopy = useCopyToClipboard(address ?? '');
   const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
-  const handleViewClick = () => {
-    setIsModalVisible(true);
-  };
+
 
   const handleInputChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue1(e.target.value);
@@ -66,13 +80,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
           <ModalProvider>
-            <div className="bg-[#F6F6E6] border-b-2 border-black text-white font-bold">
-              <NavigationBar openModal={openModal}/>
+            <div className="bg-[#F6F6E6] border-b-2 border-black text-white">
+            <NavigationBar openModal={()=>setShowUserCard(true)}/>
             </div>
             <main className="max-w-[1075px] mx-auto">{children}</main>
-            <hr className=" border-black"/>
+            <hr className=" border-black" />
             {showUserCard && (
-      <UserCard closeModal={() => setShowUserCard(false)}>
+      <UserCard closeModal={setShowUserCard}>
         <div className="flex flex-col gap-[5px] w-full p-5  py-3.5 border-b-2">
           <div className="flex items-center justify-between ">
             <div className="flex items-center justify-start gap-[5px]">
@@ -83,9 +97,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               ></img>
               <p className={`${FontManrope.className} font-bold`}>Metamask</p>
             </div>
-            <div className=" inline-flex gap-2" onClick={openModal}>
+            <div className=" inline-flex gap-2" onClick={walletManagementHandler}>
+              <span className={`${FontManrope.className} gap-2 w-fit hover:cursor-pointer hover:bg-muted p-[10px] rounded-full overflow-hidden flex justify-start items-center text-black `}>
               <TPLXWeb3Icon size={20} address={address ?? ''}></TPLXWeb3Icon>
-              <span className={FontManrope.className}>
                 {getFirstFourLastFour(address ?? '')}
               </span>
             </div>
@@ -176,7 +190,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               </div>
             </div>
           </div>
-          <SubscriptionTable data={subscriptionsData} />
+          <SubscriptionTable data={partners} />
         </Modal>
       )}
             <Footer />

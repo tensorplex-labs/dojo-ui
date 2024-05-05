@@ -1,38 +1,37 @@
 import { Button } from "@/components/Button";
 import { CategoryItem } from "@/components/CategoryItem";
 import { DropdownContainer } from "@/components/DropDown";
-import NavigationBar from "@/components/NavigationBar";
-import TPLXDatatable from "@/components/TPLXDatatable";
-import YieldInputGroup from "@/components/YieldInputGroup";
-import { FontManrope, FontSpaceMono } from "@/utils/typography";
-import { useEffect, useState } from "react";
-import { dropdownOptions, mockData, columnDef, categories } from "@/data";
-import Slider from "@/components/Slider";
-import YieldInput from "@/components/YieldInput";
-import Modal from "@/components/Modal";
 import LabelledInput from "@/components/LabelledInput";
+import Modal from "@/components/Modal";
+import NavigationBar from "@/components/NavigationBar";
+import Slider from "@/components/Slider";
 import SubscriptionTable from "@/components/SubscriptionTable";
-import useGetTasks from "@/hooks/useGetTasks"; // Import the hook
-import { useAccount, useDisconnect, useSignMessage } from "wagmi";
-import UserCard from "@/components/UserCard";
-import TPLXWalletButtonBadge from "@/components/Wallet/tplx-wallet-button-badge";
-import TPLXLWalletConnectedCard from "@/components/Wallet/tplx-wallet-connected-card";
 import { TPLXButton } from "@/components/TPLXButton";
+import TPLXDatatable from "@/components/TPLXDatatable";
+import UserCard from "@/components/UserCard";
 import TPLXWeb3Icon from "@/components/Wallet/tplx-web3-icon";
-import { getFirstFourLastFour } from "@/utils/math_helpers";
+import YieldInput from "@/components/YieldInput";
+import YieldInputGroup from "@/components/YieldInputGroup";
+import { categories, columnDef, dropdownOptions, mockData } from "@/data";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
+import { useCreateSubscriptionKey } from "@/hooks/useCreateSubscriptionKey";
 import { useEtherScanOpen } from "@/hooks/useEtherScanOpen";
-import { cn } from "@/utils/tw";
-import { IconCopy, IconExternalLink } from "@tabler/icons-react";
+import useGetTasks from "@/hooks/useGetTasks"; // Import the hook
 import { useModal } from "@/hooks/useModal";
-import { MODAL } from "@/providers/modals";
 import { usePartnerList } from "@/hooks/usePartnerList";
+import useRequestTaskByTaskID from "@/hooks/useRequestTaskByTaskID";
+import { MODAL } from "@/providers/modals";
+import { getFirstFourLastFour } from "@/utils/math_helpers";
+import { FontManrope, FontSpaceMono } from "@/utils/typography";
+import { IconCopy, IconExternalLink } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
+import { useAccount, useDisconnect, useSignMessage } from "wagmi";
 
 
 export default function Home() {
-    const { openModal } = useModal(MODAL.wallet);
-
-  const [activeCategory, setActiveCategory] = useState("All");
+  const { openModal } = useModal(MODAL.wallet);
+  // const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategories, setActiveCategories] = useState<string[]>(["All"]);
   const [filteredData, setFilteredData] = useState(mockData); // State to hold filtered data
   const [inputValue, setInputValue] = useState("");
   const [inputValue1, setInputValue1] = useState("");
@@ -43,7 +42,7 @@ export default function Home() {
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [taskTypes, setTaskTypes] = useState(['CODE_GENERATION', 'DIALOGUE']);
+  const [taskTypes, setTaskTypes] = useState(['CODE_GENERATION', 'DIALOGUE', 'TEXT_TO_IMAGE']);
   const [sort, setSort] = useState('createdAt');
   const [yieldMin, setYieldMin] = useState(0);
   const [yieldMax, setYieldMax] = useState(10);
@@ -55,14 +54,22 @@ export default function Home() {
     disconnect();
     //Do disconenct to your backend here as well.
   }
-  
+  const walletManagementHandler = () => {
+    openModal();
+    setShowUserCard(false);
+  }
   const { tasks, pagination, loading, error } = useGetTasks(page, limit, taskTypes, sort, yieldMin, yieldMax);
+
+  // useEffect(()=>{
+  //   useGetTasks(page, limit, taskTypes, sort, yieldMin, yieldMax);
+  // }, [activeCategories])
+
   const { partners, isLoading } = usePartnerList();
   const handleViewClick = () => {
     // Logic to close Wallet & API (if any)
     // For example, if you have a function to close the wallet, call it here
     // closeWallet();
-
+    setShowUserCard(false);
     // Set showDemo to true to bring up the demo
     setIsModalVisible(true);
   };
@@ -87,13 +94,13 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (activeCategory === "All") {
+    if (activeCategories.length == 1 && activeCategories.includes("All")) {
       setFilteredData(mockData);
     } else {
-      const filtered = mockData.filter((dataItem) => dataItem.type === activeCategory);
+      const filtered = mockData.filter((dataItem) => activeCategories.includes(dataItem.type));
       setFilteredData(filtered);
     }
-  }, [activeCategory]); // Run this effect when activeCategory changes
+  }, [activeCategories]); // Run this effect when activeCategory changes
 
   const clearInputs = () => {
     setInputValue1("");
@@ -107,14 +114,66 @@ export default function Home() {
     }
   };
 
-  const handleCategoryClick = (categoryLabel: string) => {
-    setActiveCategory(categoryLabel);
-  };
+const handleCategoryClick = (categoryLabel: string) => {
+  setActiveCategories(prevCategories => {
+    let updatedCategories: string[];
+    const ALL_CATEGORY: string = 'All';
+    if (categoryLabel === ALL_CATEGORY) {
+      // handle 'All' case
+      updatedCategories = [ALL_CATEGORY];
+    } else {
+      // handle all other cases
+      if (prevCategories.includes(categoryLabel)) {
+        // If it is, remove it from the array
+        updatedCategories = prevCategories.filter(category => category !== categoryLabel);
+        // Remove 'All' if other categories are selected
+        if (updatedCategories.length > 0) {
+          updatedCategories = updatedCategories.filter(category => category !== ALL_CATEGORY);
+        }
+      } else {
+        // If it's not, add it to the array
+        updatedCategories = [...prevCategories.filter(category => category !== ALL_CATEGORY), categoryLabel];
+      }
+
+      // if none selected, default back to All
+      if (updatedCategories.length === 0) {
+        updatedCategories = [ALL_CATEGORY];
+      }
+    }
+
+    // Set the task types based on the updated categories
+    const updatedTaskTypes = categories
+      .filter(category => updatedCategories.includes(category.label))
+      .map(category => category.taskType)
+      .filter((taskType): taskType is string => typeof taskType === 'string');
+
+    // If no specific categories are selected, reset taskTypes to include all types
+    if (updatedCategories.length === 0 || updatedCategories.includes(ALL_CATEGORY)) {
+      // TODO remove hardcoding here
+      setTaskTypes(['CODE_GENERATION', 'DIALOGUE', 'TEXT_TO_IMAGE']);
+    } else {
+      setTaskTypes(updatedTaskTypes);
+    }
+
+    return updatedCategories;
+  });
+};
+
   const handleYieldInputChange = (index: number, value: string) => {
     if (index === 0) {
       setInputValue1(value);
     } else if (index === 1) {
       setInputValue2(value);
+    }
+  };
+
+  const { createSubscriptionKey, response } = useCreateSubscriptionKey();
+  const handleSubmit = async (event: React.FormEvent) => {
+    await createSubscriptionKey({ name: inputValue1, minerSubscriptionKey: inputValue2 });
+
+    if(response?.success){
+      setInputValue1("");
+      setInputValue2("");
     }
   };
   return (
@@ -128,7 +187,7 @@ export default function Home() {
           QUESTION BANKS
         </h1>
       </div>
-{/* 
+{/*
       <div className="relative mt-[-116px] mx-auto w-[1075px] bg-[#DBF5E9] h-[177px] flex border-2 border-black self-center shadow-brut-sm justify-between">
         <div className="pl-[29px] pt-[21px]">
           <h1
@@ -170,7 +229,7 @@ export default function Home() {
               <CategoryItem
                 key={category.label}
                 label={category.label}
-                isActive={category.label === activeCategory}
+                isActive={activeCategories.includes(category.label)}
                 onClick={() => handleCategoryClick(category.label)}
               />
             ))}
@@ -227,9 +286,9 @@ export default function Home() {
               ></img>
               <p className={`${FontManrope.className} font-bold`}>Metamask</p>
             </div>
-            <div className=" inline-flex gap-2" onClick={openModal}>
+            <div className=" inline-flex gap-2" onClick={walletManagementHandler}>
+              <span className={`${FontManrope.className} gap-2 w-fit hover:cursor-pointer hover:bg-muted p-[10px] rounded-full overflow-hidden flex justify-start items-center text-black `}>
               <TPLXWeb3Icon size={20} address={address ?? ''}></TPLXWeb3Icon>
-              <span className={FontManrope.className}>
                 {getFirstFourLastFour(address ?? '')}
               </span>
             </div>
@@ -268,7 +327,7 @@ export default function Home() {
         </div>
         <div className=" w-full px-4 py-5">
           <button
-            onClick={() => console.log('clicked')}
+            onClick={walletManagementHandler}
             className={` text-white hover:shadow-brut-sm hover:cursor-pointer hover:bg-opacity-75 inline-flex items-center justify-center whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none px-4 py-2 text-xs md:text-sm rounded-none border-2 border-black h-[40px] w-full bg-[#00B6A6] ${FontSpaceMono.className} font-bold text-base uppercase`}
           >
             Manage Wallet
@@ -314,6 +373,7 @@ export default function Home() {
               <div className="flex justify-end">
                 <button
                   className=" px-[18px] py-[10px] text-base h-auto bg-[#00B6A6] font-spacemono text-white border-2 border-black uppercase cursor-pointer hover:shadow-brut-sm font-bold hover:bg-opacity-80 active:border-b-2"
+                  onClick={handleSubmit}
                   >
                   Create
                 </button>

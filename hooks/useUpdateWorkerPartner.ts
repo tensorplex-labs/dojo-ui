@@ -3,7 +3,7 @@ import { useState } from 'react';
 interface UpdateWorkerPartnerResponse {
   success: boolean;
   body: {
-    miner_subscription_key: string;
+    minerSubscriptionKey: string;
     name: string;
   };
   error: string | null;

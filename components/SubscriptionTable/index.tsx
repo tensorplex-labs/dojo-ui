@@ -32,7 +32,7 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({ data }) => {
         </tr>
       </thead>
       <tbody className={`${FontManrope.className} text-opacity-60`}>
-        {data.map((item, index) => (
+        {data?.map((item, index) => (
           <tr key={index} className='opacity-60 font-medium'>
             <td className="p-5 border-b border-gray-200 bg-white text-base">
               {item.name}
@@ -41,7 +41,7 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({ data }) => {
               {item.subscriptionKey}
             </td>
             <td className="px-5 py-5 border-b border-gray-200 bg-white text-base">
-              {/* {item.created} */}
+              {item?.createdAt}
             </td>
             <td className="px-5 py-5 border-b border-gray-200 bg-white text-base">
               <button className="text-blue-600 hover:text-blue-900"><IconEdit /></button>

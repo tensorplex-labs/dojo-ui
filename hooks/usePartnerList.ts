@@ -2,6 +2,8 @@ import { getFromLocalStorage } from '@/utils/general_helpers';
 import { useState, useEffect } from 'react';
 
 interface Partner {
+  createdAt: any;
+  subscriptionKey: any;
   id: string;
   name: string;
   // Add other relevant fields
@@ -19,7 +21,7 @@ export const usePartnerList = (): UsePartnerListResult => {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    const jwtToken = getFromLocalStorage('token');
+    const jwtToken = getFromLocalStorage('jwtToken');
     const fetchPartners = async () => {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/worker/partner/list`, {
@@ -33,7 +35,7 @@ export const usePartnerList = (): UsePartnerListResult => {
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        setPartners(data); // Assuming the JSON response is an array of partners
+        setPartners(data.body.partners); // Assuming the JSON response is an array of partners
       } catch (err) {
         setError(err as Error);
       } finally {
