@@ -7,6 +7,7 @@ interface LinkContentVisualizerProps {
   }
   
   const LinkContentVisualizer: React.FC<LinkContentVisualizerProps> = ({ title, showTitle, url }) => {
+    console.log(url);
     return (
       <div className="flex flex-col justify-center w-full h-full">
         {showTitle && <p className={`text-start font-bold ${FontSpaceMono.className}`}>{title}</p>}

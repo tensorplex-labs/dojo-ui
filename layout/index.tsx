@@ -73,10 +73,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const handleInputChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue2(e.target.value);
   };
+  const handleSubmit = () => {
+    // API submission logic here
+  };
 
 
   return (
-    <div className="bg-[#FFFFF4] text-black">
+    <div className="bg-[#FFFFF4] min-h-screen text-black">
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
           <ModalProvider>
@@ -198,6 +201,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         </QueryClientProvider>
       </WagmiProvider>
     </div>
+ 
   );
 };
 

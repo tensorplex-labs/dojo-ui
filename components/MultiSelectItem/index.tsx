@@ -2,7 +2,7 @@ import { IconCheck } from '@tabler/icons-react';
 import React from 'react';
 
 interface MultiSelectItemProps {
-    option: { value: string; label: string };
+    option: string;
     isSelected: boolean;
     onSelectionChange: (value: string) => void;
   }
@@ -18,9 +18,9 @@ const MultiSelectItem: React.FC<MultiSelectItemProps> = ({ option, isSelected, o
               <span className="relative">
                   <input
                   type="checkbox"
-                  value={option.value}
+                  value={option}
                   checked={isSelected}
-                  onChange={() => onSelectionChange(option.value)}
+                  onChange={() => onSelectionChange(option)}
                   className="sr-only" // Hide the default checkbox
                   />
                    <span className={`block w-4 h-4 bg-white ${selectedStyles}`}></span>
@@ -33,7 +33,7 @@ const MultiSelectItem: React.FC<MultiSelectItemProps> = ({ option, isSelected, o
                   </span>
                   )}
               </span>
-              <span className="select-none">{option.label}</span>
+              <span className="select-none">{option}</span>
           </label>
       </div>
     );
