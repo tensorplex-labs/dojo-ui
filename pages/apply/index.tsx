@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import NavigationBar from '@/components/NavigationBar';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { Button } from '@/components/Button';
@@ -94,21 +94,28 @@ const Page = () => {
   const [modalMessage, setModalMessage] = useState("");
   // TODO: Refactor with proper type and hook
   const onSubmit = async (formData: z.infer<typeof FormSchema>) => {
-     await submitApplication({
+      await submitApplication({
       hotkey: formData.hotkey,
       organisationName: formData.organizationalKey, // Note the API expects "organisationName"
       email: formData.email
     });
+  };
 
-    console.log("response onSubmit", response)
-    if (response && response.success) {
+  const handleFormMessage = () => {
+
+  }
+
+  useEffect(() => {
+    if (!response) return; // response is initially null, and we don't want to do anything
+
+    if (response.success) {
       reset();
       setModalMessage(response.message);
     } else {
       setModalMessage(response?.message || 'Submission failed');
     }
     setOpen(true);
-  };
+  }, [response, reset]);
 
   const handleOnClose = () => {
     setOpen(false);

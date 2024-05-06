@@ -41,9 +41,11 @@ export const useSubmitApplication = () => {
       }
 
       setResponse({ success: true, message: 'Email sent with API and subscription keys.' });
+      // return { success: true, message: 'Email sent with API and subscription keys.' }
     } catch (error) {
       console.error("error.....", error);
       setResponse({ success: false, message: 'An error occurred' });
+      // return { success: false, message: 'An error occurred' }
     } finally {
       setIsLoading(false);
     }
