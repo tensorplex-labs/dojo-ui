@@ -18,8 +18,8 @@ const YieldInputGroup: React.FC<YieldInputGroupProps> = ({ label, values, otherV
           {label}
         </p>
         <a
-          className={`text-[#00B6A6] ${FontSpaceMono.className} text-base uppercase underline font-bold cursor-pointer`}
-          onClick={onClear}
+          className={`text-[#00B6A6] ${FontSpaceMono.className} text-base uppercase underline font-bold cursor-not-allowed`}
+          onClick={onClear}       
         >
           CLEAR
         </a>

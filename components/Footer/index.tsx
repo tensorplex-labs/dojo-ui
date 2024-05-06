@@ -29,7 +29,7 @@ const Footer: React.FC<FooterProps> = (props) => {
         <div className="flex justify-between">
         {/* Stake Amount */}
             <div className=" flex">
-                <div className="w-[290px]">
+                {/* <div className="w-[290px]">
                     <div className="flex justify-between items-center mb-4">
                         <h1 className={`uppercase ${FontSpaceMono.className} text-base font-bold`}>
                             Stake Amount
@@ -37,7 +37,6 @@ const Footer: React.FC<FooterProps> = (props) => {
                         <YieldInput
                             value={""}
                             onChange={(value: string) => {
-                            // Handle change
                             }}
                         />
                     </div>
@@ -47,16 +46,15 @@ const Footer: React.FC<FooterProps> = (props) => {
                         step={10}
                         initialValue={0}
                         onChange={(value: number) => {
-                            // Handle slider change
                         }}
                         minLabel="Low Confidence"
                         maxLabel="High Confidence"
                         className="w-full mt-4"
                     />
                 </div>
-            <   div className="w-px bg-gray-300 mx-4 my-2"></div> {/* This is the line */}
+            <   div className="w-px bg-gray-300 mx-4 my-2"></div>  */}
             {/* Risk & Rewards */}
-                <div className="w-[250px] flex flex-col ml-4">
+                <div className="w-[250px] flex flex-col">
                     <h1 className={`uppercase ${FontSpaceMono.className} text-base font-bold mb-4`}> Risk & Rewards </h1>
                     <div className="flex justify-between gap-5">
                     <div className="flex flex-col">

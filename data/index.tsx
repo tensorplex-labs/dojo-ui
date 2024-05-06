@@ -1,7 +1,7 @@
 export const dropdownOptions = [
   { text: "Most Attempted" },
   { text: "Most Recent" },
-  { text: "Highest Potential Yield" },
+  // { text: "Highest Potential Yield" },
   { text: "Least Questions" },
 ];
 
@@ -448,10 +448,10 @@ export const columnDef = [
     accessorKey: "type",
     header: "Type",
   },
-  {
-    accessorKey: "yield",
-    header: "Yield",
-  },
+  // {
+  //   accessorKey: "yield",
+  //   header: "Yield",
+  // },
   {
     accessorKey: "expireAt",
     header: "Expiry",
@@ -489,12 +489,7 @@ export const categories = [
   { label: "All", isActive: true },
   { label: "Code Generation", isActive: false, taskType: "CODE_GENERATION"},
   { label: "Text To Image", isActive: false, taskType: "TEXT_TO_IMAGE"},
-  { label: "Dialogue", isActive: false, taskType: "DIALOGUE"},
-  { label: "Object Detection", isActive: false },
-  { label: "Content Classification", isActive: false },
-  { label: "Semantic Segmentation", isActive: false },
-  { label: "Named Entity Recognition", isActive: false },
-  { label: "Object & Event Detection", isActive: false },
+  { label: "Dialogue", isActive: false, taskType: "DIALOGUE"}
 ];
 
 export const questionMultiSelectData = [

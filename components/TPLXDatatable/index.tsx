@@ -195,21 +195,23 @@ const TPLXDatatable = ({
                         )}
                       </div>
                     </td>
-                  ) : cell.column.columnDef.header === "Yield" ? (
-                    <td
-                      key={cell.id}
-                      className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
-                    >
-                      <div
-                        className={`${FontManrope.className} text-lg text-black opacity-60 font-bold`}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </div>
-                    </td>
-                  ) : cell.column.columnDef.header === "Expiry" ? (
+                  ) : 
+                  // cell.column.columnDef.header === "Yield" ? (
+                  //   <td
+                  //     key={cell.id}
+                  //     className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
+                  //   >
+                  //     <div
+                  //       className={`${FontManrope.className} text-lg text-black opacity-60 font-bold`}
+                  //     >
+                  //       {flexRender(
+                  //         cell.column.columnDef.cell,
+                  //         cell.getContext()
+                  //       )}
+                  //     </div>
+                  //   </td>
+                  // ) : 
+                  cell.column.columnDef.header === "Expiry" ? (
                     <td
                       key={cell.id}
                       className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}

@@ -74,12 +74,6 @@ export default function Home() {
     setIsModalVisible(true);
   };
 
-  const subscriptionsData = [
-    // This data would come from your state or props
-    { name: 'Miner 1', subscriptionKey: 'sk-xxxxxx...xxxxxx', created: '2023-04-01' },
-    { name: 'Miner 1', subscriptionKey: 'sk-xxxxxx...xxxxxx', created: '2023-04-02' },
-    // ... more data
-  ];
 
   const handleInputChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue1(e.target.value);
@@ -176,6 +170,26 @@ const handleCategoryClick = (categoryLabel: string) => {
       setInputValue2("");
     }
   };
+{/* 
+  most attempted -> order=numResults
+  most recent -> order=createdAt
+  least questions -> order=numCriteria 
+*/}
+  const updateSorting = (sort: string) => {
+    switch (sort) {
+      case 'Most Attempted':
+        setSort('numResults');
+        break;
+      case 'Most Recent':
+        setSort('createdAt');
+        break;
+      case 'Least Questions':
+        setSort('numCriteria');
+        break;
+      default:
+        setSort('createdAt');
+    }
+  };
   return (
     <div className="bg-[#FFFFF4] min-h-screen">
       <div className="bg-[#F6F6E6] border-b-2 border-black">
@@ -245,10 +259,12 @@ const handleCategoryClick = (categoryLabel: string) => {
                   <li
                     key={index}
                     className={`px-2 py-[6px] text-black opacity-75 font-semibold text-base ${FontManrope.className} hover:bg-[#dbf5e9] hover:opacity-100 cursor-pointer`}
+                    onClick={() => updateSorting(option.text)}
                   >
                     {option.text}
                   </li>
                 ))}
+
               </ul>
             </DropdownContainer>
             <DropdownContainer
@@ -259,7 +275,7 @@ const handleCategoryClick = (categoryLabel: string) => {
               <div className="w-[300px] px-[7px] py-[14px]">
                 <YieldInputGroup
                   label="Potential Yield"
-                  values={[inputValue1, inputValue2]}
+                  values={['8.41', '9']}
                   onClear={clearInputs}
                   onChange={handleYieldInputChange}
                 />
