@@ -7,11 +7,20 @@ interface Task {
   body: string;
   expireAt: string;
   type: string;
-  taskData: any[];
+  taskData: {
+    task: string;
+    prompt: string;
+    criteria: Array<{
+      type: string;
+      options?: string[];
+      max?: number;
+      min?: number;
+    }>;
+    responses: Array<any>;
+  };
   status: string;
   maxResults: number;
 }
-
 const useRequestTaskByTaskID = (taskId: string) => {
   const [task, setTask] = useState<Task | null>(null);
   const [loading, setLoading] = useState<boolean>(false);

@@ -14,6 +14,8 @@ import {
 } from "@tabler/icons-react";
 import { FontManrope, FontSpaceMono } from "@/utils/typography";
 import { Button } from "../Button";
+import useRequestTaskByTaskID from "@/hooks/useRequestTaskByTaskID";
+import { useRouter } from "next/router";
 
 export interface FilterDef {
   filterType: "global" | "column";
@@ -126,6 +128,15 @@ const TPLXDatatable = ({
     (_, i) => startPage + i
   );
 
+  const [taskId, setTaskId] = useState<string>("");
+  const { task, loading, error } = useRequestTaskByTaskID(taskId);
+  const router = useRouter(); // Initialize useRouter
+
+  
+  const onStartHandler = (id: string) => {
+    setTaskId(id);
+    router.push(`/Questions?taskId=${id}`);
+  }
   // Render the UI for your table
   return (
     <div {...props} ref={tableContainerRef} className="flex flex-col gap-4">
@@ -245,6 +256,7 @@ const TPLXDatatable = ({
                     <Button
                       buttonText={ `${row.original.expiry === "Expired" ? "Expired" : "Start"}`}
                       className={`text-white ${row.original.expiry === "Expired" ? "bg-gray-400" : ""} disabled:bg-gray-400`}
+                      onClick={() => onStartHandler(row.original.taskId)}
                     />
                   </td>
                   ) : null

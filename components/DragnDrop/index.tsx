@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { DndProvider, useDrag, useDrop, DragPreviewImage } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 type DragnDropProps = {
-    options: { value: string; label: string }[];
+    options: string[];
     onOrderChange: (newOrder: string[]) => void;
   };
   
@@ -16,20 +16,26 @@ interface Item {
 
 
 const DragnDrop: React.FC<DragnDropProps> = ({ options, onOrderChange }) => {
-    const [items, setItems] = useState(options.map((option) => ({ id: option.value, content: option.label, type: 'ITEM' })));
-
+  const [items, setItems] = useState(options.map((option, index) => ({ id: `item-${index}`, content: option, type: 'ITEM' })));
   const moveItem = (dragIndex: number, hoverIndex: number) => {
     const dragItem = items[dragIndex];
     const newItems = [...items];
     newItems.splice(dragIndex, 1);
-    newItems.splice(hoverIndex, 0, dragItem)
+    newItems.splice(hoverIndex, 0, dragItem);
     setItems(newItems);
-    onOrderChange(newItems.map(item => item.content));
+  
+    // Update the orderObject to reflect the new order of items
+    const orderObject = newItems.reduce<{ [key: string]: string }>((acc, item) => {
+      acc[item.id] = item.content; // Map the item's id to its content
+      return acc;
+    }, {});
+  
+    onOrderChange(Object.values(orderObject)); // Pass the reordered contents as an array
   };
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className=" py-2.5">
+      <div className=" py-2.5 ">
         {items.map((item, index) => (
           <DraggableItem
             key={item.id}
@@ -73,7 +79,7 @@ const DraggableItem: React.FC<{ id: string; content: string; index: number; move
           }}          
           style={{ 
             opacity: isDragging ? 0.5 : 1, 
-            width: '440px', 
+            width: '100%', 
             height: '45px' 
           }} 
           className="flex items-center border-2 border-black bg-[#F6F6E6] p-2 mb-2 cursor-grab"

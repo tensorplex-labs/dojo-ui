@@ -6,17 +6,30 @@ import Modal from "@/components/Modal";
 import NavigationBar from "@/components/NavigationBar";
 import Slider from "@/components/Slider";
 import SubscriptionTable from "@/components/SubscriptionTable";
+import { TPLXButton } from "@/components/TPLXButton";
 import TPLXDatatable from "@/components/TPLXDatatable";
+import UserCard from "@/components/UserCard";
+import TPLXWeb3Icon from "@/components/Wallet/tplx-web3-icon";
 import YieldInput from "@/components/YieldInput";
 import YieldInputGroup from "@/components/YieldInputGroup";
 import { categories, columnDef, dropdownOptions, mockData } from "@/data";
+import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
+import { useCreateSubscriptionKey } from "@/hooks/useCreateSubscriptionKey";
+import { useEtherScanOpen } from "@/hooks/useEtherScanOpen";
 import useGetTasks from "@/hooks/useGetTasks"; // Import the hook
+import { useModal } from "@/hooks/useModal";
+import { usePartnerList } from "@/hooks/usePartnerList";
+import useRequestTaskByTaskID from "@/hooks/useRequestTaskByTaskID";
+import { MODAL } from "@/providers/modals";
+import { getFirstFourLastFour } from "@/utils/math_helpers";
 import { FontManrope, FontSpaceMono } from "@/utils/typography";
+import { IconCopy, IconExternalLink } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
-import { useAccount, useSignMessage } from "wagmi";
+import { useAccount, useDisconnect, useSignMessage } from "wagmi";
 
 
 export default function Home() {
+  const { openModal } = useModal(MODAL.wallet);
   // const [activeCategory, setActiveCategory] = useState("All");
   const [activeCategories, setActiveCategories] = useState<string[]>(["All"]);
   const [filteredData, setFilteredData] = useState(mockData); // State to hold filtered data
@@ -25,6 +38,7 @@ export default function Home() {
   const [inputValue2, setInputValue2] = useState("");
   const [showDemo, setShowDemo] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [showUserCard, setShowUserCard] = useState(false);
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
@@ -33,8 +47,32 @@ export default function Home() {
   const [yieldMin, setYieldMin] = useState(0);
   const [yieldMax, setYieldMax] = useState(10);
   const { address, status } = useAccount();
-
+  const { disconnect } = useDisconnect();
+  const handleCopy = useCopyToClipboard(address ?? '');
+  const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
+  const disconnectHandler = () => {
+    disconnect();
+    //Do disconenct to your backend here as well.
+  }
+  const walletManagementHandler = () => {
+    openModal();
+    setShowUserCard(false);
+  }
   const { tasks, pagination, loading, error } = useGetTasks(page, limit, taskTypes, sort, yieldMin, yieldMax);
+
+  // useEffect(()=>{
+  //   useGetTasks(page, limit, taskTypes, sort, yieldMin, yieldMax);
+  // }, [activeCategories])
+
+  const { partners, isLoading } = usePartnerList();
+  const handleViewClick = () => {
+    // Logic to close Wallet & API (if any)
+    // For example, if you have a function to close the wallet, call it here
+    // closeWallet();
+    setShowUserCard(false);
+    // Set showDemo to true to bring up the demo
+    setIsModalVisible(true);
+  };
 
   const subscriptionsData = [
     // This data would come from your state or props
@@ -128,11 +166,21 @@ const handleCategoryClick = (categoryLabel: string) => {
       setInputValue2(value);
     }
   };
+
+  const { createSubscriptionKey, response } = useCreateSubscriptionKey();
+  const handleSubmit = async (event: React.FormEvent) => {
+    await createSubscriptionKey({ name: inputValue1, minerSubscriptionKey: inputValue2 });
+
+    if(response?.success){
+      setInputValue1("");
+      setInputValue2("");
+    }
+  };
   return (
     <div className="bg-[#FFFFF4] min-h-screen">
       <div className="bg-[#F6F6E6] border-b-2 border-black">
         {/* enable pb-116 if the commented section is alive again*/}
-        <NavigationBar />
+        <NavigationBar openModal={()=>setShowUserCard(true)}/>
         <h1
           className={`${FontSpaceMono.className} tracking-tight text-4xl mt-9 mb-11 text-black font-bold text-center`}
         >
@@ -226,7 +274,68 @@ const handleCategoryClick = (categoryLabel: string) => {
         </h1>
         <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} />
       </div>
-      {showDemo && (
+      {showUserCard && (
+      <UserCard closeModal={setShowUserCard}>
+        <div className="flex flex-col gap-[5px] w-full p-5  py-3.5 border-b-2">
+          <div className="flex items-center justify-between ">
+            <div className="flex items-center justify-start gap-[5px]">
+              <img
+                className="w-5 aspect-square"
+                alt="i"
+                src={"/wallet_logo/metamask_logo.svg"}
+              ></img>
+              <p className={`${FontManrope.className} font-bold`}>Metamask</p>
+            </div>
+            <div className=" inline-flex gap-2" onClick={walletManagementHandler}>
+              <span className={`${FontManrope.className} gap-2 w-fit hover:cursor-pointer hover:bg-muted p-[10px] rounded-full overflow-hidden flex justify-start items-center text-black `}>
+              <TPLXWeb3Icon size={20} address={address ?? ''}></TPLXWeb3Icon>
+                {getFirstFourLastFour(address ?? '')}
+              </span>
+            </div>
+          </div>
+          <div className={`flex items-center gap-[5px] pl-5 ${FontManrope.className} font-bold text-sm text-opacity-75`}>
+            4.332stTAO
+          </div>
+          <div className="flex items-center justify-start pl-5 gap-[20px]">
+            <TPLXButton
+              onClick={handleCopy}
+              className="text-[#24837B] p-0 h-fit font-bold"
+              variant={'link'}
+            >
+              <span className=" text-xs mr-[3px] underline-offset-2 underline">
+                COPY ADDRESS
+              </span>{' '}
+              <IconCopy className="w-4 h-4" />
+            </TPLXButton>
+            <TPLXButton
+              onClick={handleEtherscan}
+              className="text-[#24837B] p-0 h-fit font-bold"
+              variant={'link'}
+            >
+              <span className="text-xs mr-[3px] underline-offset-2 underline">
+                VIEW ON ETHERSCAN
+              </span>{' '}
+              <IconExternalLink className="w-4 h-4" />
+            </TPLXButton>
+          </div>
+        </div>
+        <div className="text-sm  flex justify-between w-full items-center p-4 border-b-2">
+          <h1 className={`${FontSpaceMono.className} font-bold uppercase`}>Subscription Keys</h1>
+        
+          <button className={`${FontSpaceMono.className} text-[#24837B] underline font-bold`} onClick={handleViewClick}>VIEW</button>
+          
+        </div>
+        <div className=" w-full px-4 py-5">
+          <button
+            onClick={walletManagementHandler}
+            className={` text-white hover:shadow-brut-sm hover:cursor-pointer hover:bg-opacity-75 inline-flex items-center justify-center whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none px-4 py-2 text-xs md:text-sm rounded-none border-2 border-black h-[40px] w-full bg-[#00B6A6] ${FontSpaceMono.className} font-bold text-base uppercase`}
+          >
+            Manage Wallet
+          </button>
+        </div>
+      </UserCard>
+      )}
+      {isModalVisible && (
         <Modal
           showModal={isModalVisible}
           setShowModal={setIsModalVisible}
@@ -263,15 +372,15 @@ const handleCategoryClick = (categoryLabel: string) => {
               </div>
               <div className="flex justify-end">
                 <button
-                  className=" px-[18px] py-[10px] text-base h-auto bg-[#00B6A6] font-spacemono text-white border-2 border-black uppercase cursor-pointer shadow-brut-sm font-bold hover:bg-opacity-80 active:border-b-2"
-                  onClick={() => { }}
-                >
-                  Proceed
+                  className=" px-[18px] py-[10px] text-base h-auto bg-[#00B6A6] font-spacemono text-white border-2 border-black uppercase cursor-pointer hover:shadow-brut-sm font-bold hover:bg-opacity-80 active:border-b-2"
+                  onClick={handleSubmit}
+                  >
+                  Create
                 </button>
               </div>
             </div>
           </div>
-          <SubscriptionTable data={subscriptionsData} />
+          <SubscriptionTable data={partners} />
         </Modal>
       )}
     </div>

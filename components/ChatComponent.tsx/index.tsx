@@ -56,12 +56,12 @@ const ChatComponent: React.FC = () => {
       };
     
   return (
-    <div className="space-y-2 w-[541px] bg-[#F6F6E6] border-2 border-[#000] border-opacity-10 rounded-xl">
-        <div className="border-b-2 p-4 ">
+    <div className="space-y-2 w-[541px] bg-[#F6F6E6] border-2 border-[#000] border-opacity-10 rounded-xl mt-4">
+        {/* <div className="border-b-2 p-4 ">
             {messages.map((msg, index) => (
                 <ChatBubble key={index} message={msg.text} isSpeaker={msg.isSpeaker} userName={msg.userName} />
             ))}
-        </div>
+        </div> */}
         <div className="row-start-2 h-[160px] px-[57px] py-[30px] rounded-br-lg">
             <h1 className={`${FontSpaceMono.className} text-base font-bold mb-[5px]`}>LINEAR SCALE<span className=' text-red-500'>*</span></h1>
             <p className={`${FontManrope.className} text-base font-bold opacity-60 mb-[16px]`}>Rate Bob’s sentiment from 1 (negative) to 5 (positive)</p>
