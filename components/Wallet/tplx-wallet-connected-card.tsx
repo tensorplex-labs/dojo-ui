@@ -1,6 +1,3 @@
-
-
-
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import { useEtherScanOpen } from '@/hooks/useEtherScanOpen';
 import { cn } from '@/utils/tw';
@@ -14,8 +11,8 @@ import { TPLXBrutCard } from '../BrutCard';
 import { TPLXButton } from '../TPLXButton';
 import TPLXWeb3Icon from './tplx-web3-icon';
 import { getFirstFourLastFour } from '@/utils/math_helpers';
-
-
+import { clearLocalStorage } from '@/utils/general_helpers';
+import { useRouter } from 'next/router';
 
 
 interface Props {
@@ -23,11 +20,20 @@ interface Props {
   address?: string;
 }
 const TPLXLWalletConnectedCard = ({ connector, address }: Props) => {
-  const { disconnect } = useDisconnect();
+  const { disconnectAsync } = useDisconnect();
   const handleCopy = useCopyToClipboard(address ?? '');
   const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
-  const disconnectHandler = () => {
-    disconnect();
+  const router = useRouter()
+  const disconnectHandler = async () => {
+    try {
+      const result = await disconnectAsync()
+      console.log("disconnected: ", result);
+      clearLocalStorage();
+      router.push('/')
+    } catch(err) {
+      console.error("Error in disconnecting", err);
+    }
+
     //Do disconenct to your backend here as well.
   }
 
