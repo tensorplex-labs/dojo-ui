@@ -3,7 +3,12 @@ const getFromLocalStorage = (key: string) => {
         return ""
     }
     return localStorage.getItem(key)
-  }
+}
 
-  
-  export { getFromLocalStorage };
+const clearLocalStorage = () => {
+    localStorage.removeItem('jwtToken')
+    // remove all the storage as need
+}
+
+
+export { getFromLocalStorage, clearLocalStorage}

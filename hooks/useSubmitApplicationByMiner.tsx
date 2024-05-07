@@ -1,5 +1,6 @@
 import { getFromLocalStorage } from '@/utils/general_helpers';
 import React, { useState } from 'react';
+import { err } from 'pino-std-serializers';
 
 interface ApplicationData {
   hotkey: string;
@@ -39,10 +40,12 @@ export const useSubmitApplication = () => {
         throw new Error('Failed to submit application');
       }
 
-      const result = await response.json();
       setResponse({ success: true, message: 'Email sent with API and subscription keys.' });
+      // return { success: true, message: 'Email sent with API and subscription keys.' }
     } catch (error) {
+      console.error("error.....", error);
       setResponse({ success: false, message: 'An error occurred' });
+      // return { success: false, message: 'An error occurred' }
     } finally {
       setIsLoading(false);
     }

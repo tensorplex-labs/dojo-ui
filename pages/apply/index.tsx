@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import NavigationBar from '@/components/NavigationBar';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { Button } from '@/components/Button';
@@ -24,6 +24,7 @@ import { IconCopy, IconExternalLink } from '@tabler/icons-react';
 import Modal from '@/components/Modal';
 import LabelledInput from '@/components/LabelledInput';
 import SubscriptionTable from '@/components/SubscriptionTable';
+import { DefaultApiResponse } from '@/utils/model';
 
 const FormSchema = z.object({
   hotkey: z.string().min(1, {
@@ -59,15 +60,7 @@ const Page = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [inputValue1, setInputValue1] = useState("");
   const [inputValue2, setInputValue2] = useState("");
-
   const { address, status } = useAccount();
-
-  const subscriptionsData = [
-    // This data would come from your state or props
-    { name: 'Miner 1', subscriptionKey: 'sk-xxxxxx...xxxxxx', created: '2023-04-01' },
-    { name: 'Miner 1', subscriptionKey: 'sk-xxxxxx...xxxxxx', created: '2023-04-02' },
-    // ... more data
-  ];
 
   const handleViewClick = () => {
     // Logic to close Wallet & API (if any)
@@ -100,20 +93,28 @@ const Page = () => {
   const [modalMessage, setModalMessage] = useState("");
   // TODO: Refactor with proper type and hook
   const onSubmit = async (formData: z.infer<typeof FormSchema>) => {
-    await submitApplication({
+      await submitApplication({
       hotkey: formData.hotkey,
       organisationName: formData.organizationalKey, // Note the API expects "organisationName"
       email: formData.email
     });
+  };
 
-    if (response?.success) {
+  const handleFormMessage = () => {
+
+  }
+
+  useEffect(() => {
+    if (!response) return; // response is initially null, and we don't want to do anything
+
+    if (response.success) {
       reset();
       setModalMessage(response.message);
     } else {
       setModalMessage(response?.message || 'Submission failed');
     }
     setOpen(true);
-  };
+  }, [response, reset]);
 
   const handleOnClose = () => {
     setOpen(false);
@@ -230,9 +231,9 @@ const Page = () => {
         </div>
         <div className="text-sm  flex justify-between w-full items-center p-4 border-b-2">
           <h1 className={`${FontSpaceMono.className} font-bold uppercase`}>Subscription Keys</h1>
-        
+
           <button className={`${FontSpaceMono.className} text-[#24837B] underline font-bold`} onClick={handleViewClick}>VIEW</button>
-          
+
         </div>
         <div className=" w-full px-4 py-5">
           <button
