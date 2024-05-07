@@ -1,46 +1,79 @@
 import { Button } from "@/components/Button";
 import { CategoryItem } from "@/components/CategoryItem";
 import { DropdownContainer } from "@/components/DropDown";
-import NavigationBar from "@/components/NavigationBar";
-import TPLXDatatable from "@/components/TPLXDatatable";
-import YieldInputGroup from "@/components/YieldInputGroup";
-import { FontManrope, FontSpaceMono } from "@/utils/typography";
-import { useEffect, useState } from "react";
-import { dropdownOptions, mockData, columnDef, categories } from "@/data";
-import Slider from "@/components/Slider";
-import YieldInput from "@/components/YieldInput";
-import Modal from "@/components/Modal";
 import LabelledInput from "@/components/LabelledInput";
+import Modal from "@/components/Modal";
+import NavigationBar from "@/components/NavigationBar";
+import Slider from "@/components/Slider";
 import SubscriptionTable from "@/components/SubscriptionTable";
+import { TPLXButton } from "@/components/TPLXButton";
+import TPLXDatatable from "@/components/TPLXDatatable";
+import UserCard from "@/components/UserCard";
+import TPLXWeb3Icon from "@/components/Wallet/tplx-web3-icon";
+import YieldInput from "@/components/YieldInput";
+import YieldInputGroup from "@/components/YieldInputGroup";
+import { categories, columnDef, dropdownOptions, mockData } from "@/data";
+import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
+import { useCreateSubscriptionKey } from "@/hooks/useCreateSubscriptionKey";
+import { useEtherScanOpen } from "@/hooks/useEtherScanOpen";
 import useGetTasks from "@/hooks/useGetTasks"; // Import the hook
-import { useAccount, useSignMessage } from "wagmi";
+import { useModal } from "@/hooks/useModal";
+import { usePartnerList } from "@/hooks/usePartnerList";
+import useRequestTaskByTaskID from "@/hooks/useRequestTaskByTaskID";
+import { MODAL } from "@/providers/modals";
+import { getFirstFourLastFour } from "@/utils/math_helpers";
+import { FontManrope, FontSpaceMono } from "@/utils/typography";
+import { IconCopy, IconExternalLink } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
+import { useAccount, useDisconnect, useSignMessage } from "wagmi";
 
 
 export default function Home() {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const { openModal } = useModal(MODAL.wallet);
+  // const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategories, setActiveCategories] = useState<string[]>(["All"]);
   const [filteredData, setFilteredData] = useState(mockData); // State to hold filtered data
   const [inputValue, setInputValue] = useState("");
   const [inputValue1, setInputValue1] = useState("");
   const [inputValue2, setInputValue2] = useState("");
   const [showDemo, setShowDemo] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [showUserCard, setShowUserCard] = useState(false);
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [taskTypes, setTaskTypes] = useState(['CODE_GENERATION', 'DIALOGUE']);
+  const [taskTypes, setTaskTypes] = useState(['CODE_GENERATION', 'DIALOGUE', 'TEXT_TO_IMAGE']);
   const [sort, setSort] = useState('createdAt');
   const [yieldMin, setYieldMin] = useState(0);
   const [yieldMax, setYieldMax] = useState(10);
   const { address, status } = useAccount();
-
+  const { disconnect } = useDisconnect();
+  const handleCopy = useCopyToClipboard(address ?? '');
+  const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
+  const disconnectHandler = () => {
+    disconnect();
+    //Do disconenct to your backend here as well.
+  }
+  const walletManagementHandler = () => {
+    openModal();
+    setShowUserCard(false);
+  }
   const { tasks, pagination, loading, error } = useGetTasks(page, limit, taskTypes, sort, yieldMin, yieldMax);
 
-  const subscriptionsData = [
-    // This data would come from your state or props
-    { name: 'Miner 1', subscriptionKey: 'sk-xxxxxx...xxxxxx', created: '2023-04-01' },
-    { name: 'Miner 1', subscriptionKey: 'sk-xxxxxx...xxxxxx', created: '2023-04-02' },
-    // ... more data
-  ];
+  // useEffect(()=>{
+  //   useGetTasks(page, limit, taskTypes, sort, yieldMin, yieldMax);
+  // }, [activeCategories])
+
+
+  const handleViewClick = () => {
+    // Logic to close Wallet & API (if any)
+    // For example, if you have a function to close the wallet, call it here
+    // closeWallet();
+    setShowUserCard(false);
+    // Set showDemo to true to bring up the demo
+    setIsModalVisible(true);
+  };
+
 
   const handleInputChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue1(e.target.value);
@@ -55,13 +88,13 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (activeCategory === "All") {
+    if (activeCategories.length == 1 && activeCategories.includes("All")) {
       setFilteredData(mockData);
     } else {
-      const filtered = mockData.filter((dataItem) => dataItem.type === activeCategory);
+      const filtered = mockData.filter((dataItem) => activeCategories.includes(dataItem.type));
       setFilteredData(filtered);
     }
-  }, [activeCategory]); // Run this effect when activeCategory changes
+  }, [activeCategories]); // Run this effect when activeCategory changes
 
   const clearInputs = () => {
     setInputValue1("");
@@ -75,9 +108,51 @@ export default function Home() {
     }
   };
 
-  const handleCategoryClick = (categoryLabel: string) => {
-    setActiveCategory(categoryLabel);
-  };
+const handleCategoryClick = (categoryLabel: string) => {
+  setActiveCategories(prevCategories => {
+    let updatedCategories: string[];
+    const ALL_CATEGORY: string = 'All';
+    if (categoryLabel === ALL_CATEGORY) {
+      // handle 'All' case
+      updatedCategories = [ALL_CATEGORY];
+    } else {
+      // handle all other cases
+      if (prevCategories.includes(categoryLabel)) {
+        // If it is, remove it from the array
+        updatedCategories = prevCategories.filter(category => category !== categoryLabel);
+        // Remove 'All' if other categories are selected
+        if (updatedCategories.length > 0) {
+          updatedCategories = updatedCategories.filter(category => category !== ALL_CATEGORY);
+        }
+      } else {
+        // If it's not, add it to the array
+        updatedCategories = [...prevCategories.filter(category => category !== ALL_CATEGORY), categoryLabel];
+      }
+
+      // if none selected, default back to All
+      if (updatedCategories.length === 0) {
+        updatedCategories = [ALL_CATEGORY];
+      }
+    }
+
+    // Set the task types based on the updated categories
+    const updatedTaskTypes = categories
+      .filter(category => updatedCategories.includes(category.label))
+      .map(category => category.taskType)
+      .filter((taskType): taskType is string => typeof taskType === 'string');
+
+    // If no specific categories are selected, reset taskTypes to include all types
+    if (updatedCategories.length === 0 || updatedCategories.includes(ALL_CATEGORY)) {
+      // TODO remove hardcoding here
+      setTaskTypes(['CODE_GENERATION', 'DIALOGUE', 'TEXT_TO_IMAGE']);
+    } else {
+      setTaskTypes(updatedTaskTypes);
+    }
+
+    return updatedCategories;
+  });
+};
+
   const handleYieldInputChange = (index: number, value: string) => {
     if (index === 0) {
       setInputValue1(value);
@@ -85,18 +160,49 @@ export default function Home() {
       setInputValue2(value);
     }
   };
+
+  const { createSubscriptionKey, response } = useCreateSubscriptionKey();
+  const handleSubmit = async (event: React.FormEvent) => {
+    await createSubscriptionKey({ name: inputValue1, minerSubscriptionKey: inputValue2 });
+
+    if(response?.success){
+      setInputValue1("");
+      setInputValue2("");
+    }
+  };
+{/* 
+  most attempted -> order=numResults
+  most recent -> order=createdAt
+  least questions -> order=numCriteria 
+*/}
+  const updateSorting = (sort: string) => {
+    switch (sort) {
+      case 'Most Attempted':
+        setSort('numResults');
+        break;
+      case 'Most Recent':
+        setSort('createdAt');
+        break;
+      case 'Least Questions':
+        setSort('numCriteria');
+        break;
+      default:
+        setSort('createdAt');
+    }
+  };
+
   return (
     <div className="bg-[#FFFFF4] min-h-screen">
       <div className="bg-[#F6F6E6] border-b-2 border-black">
         {/* enable pb-116 if the commented section is alive again*/}
-        <NavigationBar />
+        <NavigationBar openModal={()=>setShowUserCard(true)}/>
         <h1
           className={`${FontSpaceMono.className} tracking-tight text-4xl mt-9 mb-11 text-black font-bold text-center`}
         >
           QUESTION BANKS
         </h1>
       </div>
-{/*       
+{/*
       <div className="relative mt-[-116px] mx-auto w-[1075px] bg-[#DBF5E9] h-[177px] flex border-2 border-black self-center shadow-brut-sm justify-between">
         <div className="pl-[29px] pt-[21px]">
           <h1
@@ -138,7 +244,7 @@ export default function Home() {
               <CategoryItem
                 key={category.label}
                 label={category.label}
-                isActive={category.label === activeCategory}
+                isActive={activeCategories.includes(category.label)}
                 onClick={() => handleCategoryClick(category.label)}
               />
             ))}
@@ -154,10 +260,12 @@ export default function Home() {
                   <li
                     key={index}
                     className={`px-2 py-[6px] text-black opacity-75 font-semibold text-base ${FontManrope.className} hover:bg-[#dbf5e9] hover:opacity-100 cursor-pointer`}
+                    onClick={() => updateSorting(option.text)}
                   >
                     {option.text}
                   </li>
                 ))}
+
               </ul>
             </DropdownContainer>
             <DropdownContainer
@@ -168,7 +276,7 @@ export default function Home() {
               <div className="w-[300px] px-[7px] py-[14px]">
                 <YieldInputGroup
                   label="Potential Yield"
-                  values={[inputValue1, inputValue2]}
+                  values={['8.41', '9']}
                   onClear={clearInputs}
                   onChange={handleYieldInputChange}
                 />
@@ -183,7 +291,68 @@ export default function Home() {
         </h1>
         <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} />
       </div>
-      {showDemo && (
+      {showUserCard && (
+      <UserCard closeModal={setShowUserCard}>
+        <div className="flex flex-col gap-[5px] w-full p-5  py-3.5 border-b-2">
+          <div className="flex items-center justify-between ">
+            <div className="flex items-center justify-start gap-[5px]">
+              <img
+                className="w-5 aspect-square"
+                alt="i"
+                src={"/wallet_logo/metamask_logo.svg"}
+              ></img>
+              <p className={`${FontManrope.className} font-bold`}>Metamask</p>
+            </div>
+            <div className=" inline-flex gap-2" onClick={walletManagementHandler}>
+              <span className={`${FontManrope.className} gap-2 w-fit hover:cursor-pointer hover:bg-muted p-[10px] rounded-full overflow-hidden flex justify-start items-center text-black `}>
+              <TPLXWeb3Icon size={20} address={address ?? ''}></TPLXWeb3Icon>
+                {getFirstFourLastFour(address ?? '')}
+              </span>
+            </div>
+          </div>
+          <div className={`flex items-center gap-[5px] pl-5 ${FontManrope.className} font-bold text-sm text-opacity-75`}>
+            4.332stTAO
+          </div>
+          <div className="flex items-center justify-start pl-5 gap-[20px]">
+            <TPLXButton
+              onClick={handleCopy}
+              className="text-[#24837B] p-0 h-fit font-bold"
+              variant={'link'}
+            >
+              <span className=" text-xs mr-[3px] underline-offset-2 underline">
+                COPY ADDRESS
+              </span>{' '}
+              <IconCopy className="w-4 h-4" />
+            </TPLXButton>
+            <TPLXButton
+              onClick={handleEtherscan}
+              className="text-[#24837B] p-0 h-fit font-bold"
+              variant={'link'}
+            >
+              <span className="text-xs mr-[3px] underline-offset-2 underline">
+                VIEW ON ETHERSCAN
+              </span>{' '}
+              <IconExternalLink className="w-4 h-4" />
+            </TPLXButton>
+          </div>
+        </div>
+        <div className="text-sm  flex justify-between w-full items-center p-4 border-b-2">
+          <h1 className={`${FontSpaceMono.className} font-bold uppercase`}>Subscription Keys</h1>
+        
+          <button className={`${FontSpaceMono.className} text-[#24837B] underline font-bold`} onClick={handleViewClick}>VIEW</button>
+          
+        </div>
+        <div className=" w-full px-4 py-5">
+          <button
+            onClick={walletManagementHandler}
+            className={` text-white hover:shadow-brut-sm hover:cursor-pointer hover:bg-opacity-75 inline-flex items-center justify-center whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none px-4 py-2 text-xs md:text-sm rounded-none border-2 border-black h-[40px] w-full bg-[#00B6A6] ${FontSpaceMono.className} font-bold text-base uppercase`}
+          >
+            Manage Wallet
+          </button>
+        </div>
+      </UserCard>
+      )}
+      {isModalVisible && (
         <Modal
           showModal={isModalVisible}
           setShowModal={setIsModalVisible}
@@ -220,15 +389,15 @@ export default function Home() {
               </div>
               <div className="flex justify-end">
                 <button
-                  className=" px-[18px] py-[10px] text-base h-auto bg-[#00B6A6] font-spacemono text-white border-2 border-black uppercase cursor-pointer shadow-brut-sm font-bold hover:bg-opacity-80 active:border-b-2"
-                  onClick={() => { }}
-                >
-                  Proceed
+                  className=" px-[18px] py-[10px] text-base h-auto bg-[#00B6A6] font-spacemono text-white border-2 border-black uppercase cursor-pointer hover:shadow-brut-sm font-bold hover:bg-opacity-80 active:border-b-2"
+                  onClick={handleSubmit}
+                  >
+                  Create
                 </button>
               </div>
             </div>
           </div>
-          <SubscriptionTable data={subscriptionsData} />
+          <SubscriptionTable/>
         </Modal>
       )}
     </div>

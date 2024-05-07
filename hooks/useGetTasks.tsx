@@ -43,7 +43,7 @@ const useGetTasks = (page: number, limit: number, taskTypes: string[], sort: str
         const taskQuery = taskTypes.join(',');
         const yieldMinQuery = yieldMin ? `&yieldMin=${yieldMin}` : '';
         const yieldMaxQuery = yieldMax ? `&yieldMax=${yieldMax}` : '';
-        const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/?page=${page}&limit=${limit}&task=${taskQuery}&sort=${sort}${yieldMinQuery}${yieldMaxQuery}`;
+        const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/?page=${page}&limit=${limit}&task=${taskQuery}&sort=${sort}&yieldMin=8.41&yieldMax=9`;
 
         const response = await fetch(endpoint, {
           headers: {

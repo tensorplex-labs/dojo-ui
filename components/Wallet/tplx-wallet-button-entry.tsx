@@ -11,11 +11,13 @@ import { useModal } from '@/hooks/useModal';
 import { MODAL } from '@/providers/modals';
 
 
-
-export const TPLXWalletButton = () => {
+type TPLXWalletButtonProps = {
+  openModal: () => void; // Prop for the openModal function
+};
+export const TPLXWalletButton = ({ openModal }: TPLXWalletButtonProps) => {
   const chainId = useChainId();
   const { address, status } = useAccount();
-  const { openModal } = useModal(MODAL.wallet);
+  // const { openModal } = useModal(MODAL.wallet);
   const { disconnect } = useDisconnect();
 
   useEffect(() => {
@@ -27,7 +29,7 @@ export const TPLXWalletButton = () => {
         // eslint-disable-next-line jsx-a11y/click-events-have-key-events
         <div
           onClick={openModal}
-          className="w-fit hover:cursor-pointer hover:bg-muted p-[10px] rounded-full overflow-hidden flex justify-start items-center"
+          className="w-fit hover:cursor-pointer hover:bg-muted p-[10px] rounded-full overflow-hidden flex justify-start items-center text-black"
         >
           <TPLXWalletButtonBadge account={address} />
         </div>
