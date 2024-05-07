@@ -73,9 +73,11 @@ const TPLXMobileMenu = ({
   );
 };
 
-
+type NavigationBarProps = {
+  openModal: () => void;
+};
 // NavigationBar component
-const NavigationBar = () => {
+const NavigationBar = ({ openModal }: NavigationBarProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
@@ -129,12 +131,7 @@ const NavigationBar = () => {
               </div>
             </div>
             <div className="flex items-center justify-center gap-[8px]">
-              <TPLXWalletButton></TPLXWalletButton>
-              <TPLXMobileMenu
-                menuItems={headerItems}
-                isOpen={isMobileMenuOpen}
-                toggleMenu={toggleMobileMenu}
-              />
+              <TPLXWalletButton openModal={openModal}></TPLXWalletButton>
             </div>
           </div>
         </div>

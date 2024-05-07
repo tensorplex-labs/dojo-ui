@@ -7,11 +7,20 @@ interface Task {
   body: string;
   expireAt: string;
   type: string;
-  taskData: any[];
+  taskData: {
+    task: string;
+    prompt: string;
+    criteria: Array<{
+      type: string;
+      options?: string[];
+      max?: number;
+      min?: number;
+    }>;
+    responses: Array<any>;
+  };
   status: string;
   maxResults: number;
 }
-
 const useRequestTaskByTaskID = (taskId: string) => {
   const [task, setTask] = useState<Task | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -22,7 +31,7 @@ const useRequestTaskByTaskID = (taskId: string) => {
     const fetchTask = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/${taskId}/`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/${taskId}`, {
           headers: {
             'Authorization': `Bearer ${jwtToken}`
           },

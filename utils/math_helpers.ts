@@ -90,4 +90,12 @@ export const getFirstFourLastFour = (str: string) => {
   return `${str.slice(0, 4)}...${str.slice(-4)}`;
 };
 
+
+export const getFirstSixLastSix = (str: string) => {
+  if (str === '' || str === null) {
+    return '-';
+  }
+  return `${str.slice(0, 6)}...${str.slice(-6)}`;
+};
+
 export { formatDollar, roundTwoDP, roundDP, abbreviateNumber };

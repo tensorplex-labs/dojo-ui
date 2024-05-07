@@ -1,9 +1,10 @@
+import { getFromLocalStorage } from '@/utils/general_helpers';
 import { useState } from 'react';
 
 interface UpdateWorkerPartnerResponse {
   success: boolean;
   body: {
-    miner_subscription_key: string;
+    minerSubscriptionKey: string;
     name: string;
   };
   error: string | null;
@@ -21,17 +22,17 @@ const useUpdateWorkerPartner = () => {
   ) => {
     setLoading(true);
     try {
-      const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/partner/edit`;
       const payload = {
-        miner_subscription_key: minerSubscriptionKey,
-        new_miner_subscription_key: newMinerSubscriptionKey,
+        minerSubscriptionKey: minerSubscriptionKey,
+        newMinerSubscriptionKey: newMinerSubscriptionKey,
         name: name,
       };
-
-      const response = await fetch(endpoint, {
+      const jwtToken = getFromLocalStorage('jwtToken');
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/partner/edit`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwtToken}`,
         },
         body: JSON.stringify(payload),
       });

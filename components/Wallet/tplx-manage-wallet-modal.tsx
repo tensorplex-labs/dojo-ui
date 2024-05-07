@@ -1,7 +1,8 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 
-import useWorkerLoginAuth from '@/hooks/useWorkerLoginAuth';
+import useWorkerLoginAuth, { LoginAuthPayload } from '@/hooks/useWorkerLoginAuth';
+import { getFromLocalStorage } from '@/utils/general_helpers';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
 import { SiweMessage } from 'siwe';
@@ -10,13 +11,6 @@ import { Connector, useAccount, useChainId, useConnect, useSignMessage } from 'w
 import TPLXModalContainer from '../ModalContainer';
 import TPLXLWalletConnectedCard from './tplx-wallet-connected-card';
 import TPLXWalletNetworkCard from './tplx-walletnetwork-card';
-interface WorkerLoginAuthResponse {
-  success: boolean;
-  body?: {
-    token: string;
-  };
-  error?: string;
-}
 interface Props {
   open: boolean;
   onSave?: () => void;
@@ -51,6 +45,7 @@ const TPLXManageWalletConnectModal = ({
     status:statusSignMessage,
     signMessageAsync: signMessage,
   } = useSignMessage();
+  const { workerLoginAuth } = useWorkerLoginAuth();
   const chainId = useChainId();
   const fetchNonce = async (address: string) => {
     const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/${address}`;
@@ -95,60 +90,31 @@ const TPLXManageWalletConnectModal = ({
     return preparedMessage;
   };
 
-  const workerLoginAuth = async (payload: any): Promise<WorkerLoginAuthResponse> => {
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/worker/login/auth`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-      console.log(`Sending payload to backend...${JSON.stringify(payload)}`)
-      const data = await response.json();
-      console.log("This is the data", data)
-      if (!response.ok) {
-        throw new Error(data.error || 'An error occurred');
-      }
-      return {
-        success: true,
-        body: {
-          token: data.token,
-        },
-      };
-    } catch (error) {
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : 'An unknown error occurred',
-      };
-    }
-  };
-
   const postSignInWithEthereum = async (signature: string) => {
     console.log("This is the signature", signature);
     try {
       if (!address) {
-        console.error("Wallet address is undefined");
-        onClose?.();
-        return;
+        throw new Error('Wallet address is undefined');
       }
+      if (!siweMessage) {
+        throw new Error('SIWE message has not been prepared');
+      }
+
       // Create the payload
-      const payload = {
+      const payload: LoginAuthPayload = {
         walletAddress: address,
         chainId: chainId.toString(),
         signature: signature,
         message: siweMessage,
-        timestamp: (Math.floor(Date.now() / 1000)).toString(),
+        timestamp: Math.floor(Date.now() / 1000).toString(),
         nonce: nonce,
       };
 
       // Call the workerLoginAuth function with the payload
-      const response = await workerLoginAuth(payload);
-      if (response && response.success && response.body?.token) {
-        localStorage.setItem('jwtToken', response.body.token);
-        onSave?.();
-      } else {
-        throw new Error(response.error || 'Authentication failed');
+      await workerLoginAuth(payload);
+      const token = getFromLocalStorage('jwtToken');
+      if (!token) {
+        throw new Error('Token not found in local storage');
       }
     } catch (error) {
       console.error("Error during worker login authentication", error);

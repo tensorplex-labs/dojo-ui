@@ -17,12 +17,13 @@ const YieldInput: React.FC<YieldInputProps> = ({ value, onChange }) => {
   return (
     <div className="inline-flex items-center text-black border-black border-2 w-[35%]">
       <input
-        className="text-black w-full font-bold text-center focus:outline-none px-1"
+        className="text-black disabled:text-opacity-50 w-full font-bold text-center focus:outline-none px-1 disabled:bg-gray-100  disabled:cursor-not-allowed"
         type="text"
         inputMode="numeric"
         pattern="^[0-9]{0,4}$"
         value={value}
         onChange={handleInputChange}
+        disabled={true}
       />
       <div className="flex items-center justify-center h-full bg-[#E4E4E4] px-2">
         <p
