@@ -5,6 +5,7 @@ import LabelledInput from "@/components/LabelledInput";
 import Modal from "@/components/Modal";
 import NavigationBar from "@/components/NavigationBar";
 import Slider from "@/components/Slider";
+import SubscriptionModal from "@/components/SubscriptionModal";
 import SubscriptionTable from "@/components/SubscriptionTable";
 import { TPLXButton } from "@/components/TPLXButton";
 import TPLXDatatable from "@/components/TPLXDatatable";
@@ -77,13 +78,6 @@ export default function Home() {
   
 
 
-  const handleInputChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue1(e.target.value);
-  };
-
-  const handleInputChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue2(e.target.value);
-  };
   // Function to toggle the demo content or modal
   const toggleDemo = () => {
     setShowDemo(!showDemo);
@@ -170,7 +164,6 @@ const handleCategoryClick = (categoryLabel: string) => {
   const { createSubscriptionKey, response } = useCreateSubscriptionKey();
   const handleSubmit = async (event: React.FormEvent) => {
     await createSubscriptionKey({ name: inputValue1, minerSubscriptionKey: inputValue2 });
-
     if(response?.success){
       setInputValue1("");
       setInputValue2("");
@@ -358,54 +351,7 @@ const handleCategoryClick = (categoryLabel: string) => {
         </div>
       </UserCard>
       )}
-      {isModalVisible && (
-        <Modal
-          showModal={isModalVisible}
-          setShowModal={setIsModalVisible}
-          title="SUBSCRIPTION KEYS"
-          btnText="Close"
-        >
-          <div className='bg-[#DBF5E9] w-full px-[22px] py-[15px] text-black'>
-            <div>
-              <h1 className={`${FontSpaceMono.className} font-bold text-base`}>ENTER SUBSCRIPTION KEY</h1>
-              <h2 className={`${FontManrope.className} font-medium text-base opacity-60`}>Obtain subscription key from miners</h2>
-            </div>
-            <div className={` flex-row`}>
-              <div className="flex flex-row justify-between">
-                <div className="flex mr-2">
-                  <LabelledInput
-                    id="name"
-                    label="Name"
-                    type="text"
-                    placeholder="Name"
-                    value={inputValue1}
-                    onChange={handleInputChange1}
-                  />
-                </div>
-                <div className="flex-1 ml-2">
-                  <LabelledInput
-                    id="subscriptionKey"
-                    label="SUBSCRIPTION KEY"
-                    type="text"
-                    placeholder="Enter Subscription Key Here"
-                    value={inputValue2}
-                    onChange={handleInputChange2}
-                  />
-                </div>
-              </div>
-              <div className="flex justify-end">
-                <button
-                  className=" px-[18px] py-[10px] text-base h-auto bg-[#00B6A6] font-spacemono text-white border-2 border-black uppercase cursor-pointer hover:shadow-brut-sm font-bold hover:bg-opacity-80 active:border-b-2"
-                  onClick={handleSubmit}
-                  >
-                  Create
-                </button>
-              </div>
-            </div>
-          </div>
-          <SubscriptionTable/>
-        </Modal>
-      )}
+      {isModalVisible && ( <SubscriptionModal setIsModalVisible={setIsModalVisible} isModalVisible={isModalVisible} />)}
     </div>
   );
 }

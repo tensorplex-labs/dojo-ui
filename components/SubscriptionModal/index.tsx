@@ -1,10 +1,19 @@
-import useDisableMinerByWorker from '@/hooks/useDisableMinerByWorker';
-import { usePartnerList } from '@/hooks/usePartnerList';
-import useUpdateWorkerPartner from '@/hooks/useUpdateWorkerPartner';
-import { getFirstFourLastFour, getFirstSixLastSix } from '@/utils/math_helpers';
+import React, { useState } from 'react';
+import Modal from '@/components/Modal';
+import LabelledInput from '@/components/LabelledInput';
+import SubscriptionTable from '@/components/SubscriptionTable';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
+import { useCreateSubscriptionKey } from '@/hooks/useCreateSubscriptionKey';
+import { usePartnerList } from '@/hooks/usePartnerList';
+import { getFirstSixLastSix } from '@/utils/math_helpers';
 import { IconCheck, IconEdit, IconTrash, IconX } from '@tabler/icons-react';
-import React, { useEffect, useState } from 'react';
+import useUpdateWorkerPartner from '@/hooks/useUpdateWorkerPartner';
+import useDisableMinerByWorker from '@/hooks/useDisableMinerByWorker';
+
+type SubscriptionModalProps = {
+  isModalVisible: boolean;
+  setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+};
 type SubscriptionData = {
   id: string;
   subscriptionKey: string;
@@ -12,27 +21,46 @@ type SubscriptionData = {
   name: string;
 };
 
-type SubscriptionTableProps = {
-  // subscriptionData?: SubscriptionData[];
-  refetch?: boolean | null;
-};
 
-
-
-const SubscriptionTable: React.FC<SubscriptionTableProps> = ({refetch}) => {
+const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
+  isModalVisible, 
+  setIsModalVisible
+}) => {
+  const [inputValue1, setInputValue1] = useState('');
+  const [inputValue2, setInputValue2] = useState('');
+  const [refetchTrigger, setRefetchTrigger] = useState(false); // Trigger for refetch
+  const { createSubscriptionKey, response } = useCreateSubscriptionKey();
   const [editRowId, setEditRowId] = useState<string | null>(null);
   const [editableData, setEditableData] = useState<SubscriptionData | null>(null);
-  const [refetchTrigger, setRefetchTrigger] = useState(false); // Could be a timestamp or a simple counter
   const { updateWorkerPartner } = useUpdateWorkerPartner();
   const { disableMinerByWorker } = useDisableMinerByWorker();
   const { partners, isLoading } = usePartnerList(refetchTrigger);
+  const [errorMsg, setErrorMsg] = useState('');
+  const handleInputChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue1(e.target.value);
+  };
 
-  useEffect(()=>{
-    if(refetch){
-      setRefetchTrigger((prev) => !prev);
-    }
-  },[partners])
+  const handleInputChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue2(e.target.value);
+  };
 
+  const handleSubmit = async (event: React.FormEvent) => {
+    if(inputValue1 && inputValue2){
+      await createSubscriptionKey({ name: inputValue1, minerSubscriptionKey: inputValue2 });
+        if(response?.success){
+          setInputValue1("");
+          setInputValue2("");
+          setRefetchTrigger((prev) => !prev);
+          setErrorMsg("");
+        } else {
+          setErrorMsg("Invalid Subscription Key Please Retry");
+        }
+      } else {
+        setErrorMsg("Subscription Key is Required");
+      }
+  };
+
+  
   const handleEdit = (item: SubscriptionData) => {
     setEditRowId(item.id);
     setEditableData({ ...item });
@@ -67,8 +95,56 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({refetch}) => {
     await disableMinerByWorker(item.subscriptionKey, true);
     setRefetchTrigger((prev) => !prev);
   };
+
   return (
-    <table className="w-full leading-normal text-black table-fixed">
+    <Modal
+      showModal={isModalVisible}
+      setShowModal={setIsModalVisible}
+      title="SUBSCRIPTION KEYS"
+      btnText="Close"
+    >
+      <div className='bg-[#DBF5E9] w-full px-[22px] py-[15px] text-black'>
+        <div>
+          <h1 className={`${FontSpaceMono.className} font-bold text-base`}>ENTER SUBSCRIPTION KEY</h1>
+          <h2 className={`${FontManrope.className} font-medium text-base opacity-60`}>Obtain subscription key from miners</h2>
+        </div>
+        <div className={` flex-row`}>
+          <div className="flex flex-row justify-between">
+            <div className="flex mr-2">
+              <LabelledInput
+                id="name"
+                label="Name"
+                type="text"
+                placeholder="Name"
+                value={inputValue1}
+                onChange={handleInputChange1}
+              />
+            </div>
+            <div className="flex-1 ml-2">
+              <LabelledInput
+                id="subscriptionKey"
+                label="SUBSCRIPTION KEY"
+                type="text"
+                placeholder="Enter Subscription Key Here"
+                value={inputValue2}
+                onChange={handleInputChange2}
+              />
+              {!inputValue2 || errorMsg && <p className=' text-red-500'>{errorMsg}</p>}
+              {/* <p className=' text-red-500'>Invalid Subscription Key Please Retry</p> */}
+            </div>
+          </div>
+          <div className="flex justify-end">
+            <button
+              className=" px-[18px] py-[10px] text-base h-auto bg-[#00B6A6] font-spacemono text-white border-2 border-black uppercase cursor-pointer hover:shadow-brut-sm font-bold hover:bg-opacity-80 active:border-b-2"
+              onClick={handleSubmit}
+            >
+              Create
+            </button>
+          </div>
+        </div>
+      </div>
+      {/* <SubscriptionTable/> */}
+      <table className="w-full leading-normal text-black table-fixed">
       <thead>
         <tr className={`${FontSpaceMono.className}`}>
           <th className="px-5 py-3 border-b-2  text-left text-sm opacity-75 font-bold uppercase tracking-wider">
@@ -132,7 +208,8 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({refetch}) => {
         ))}
       </tbody>
     </table>
+    </Modal>
   );
 };
 
-export default SubscriptionTable;
+export default SubscriptionModal;

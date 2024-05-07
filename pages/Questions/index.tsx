@@ -95,6 +95,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
   return (
     <Layout>
       <div className="flex flex-col items-center justify-center mt-4 mb-4 max-w-[1200px] mx-auto">
+      <span className={`${FontSpaceMono.className} bg-[#D0A215] text-white self-start px-2.5 py-[5px] rounded-[20px] border border-black font-bold`}>{task?.type} PROMPT</span>
         <div className="text-left flex self-start font-semibold opacity-60 my-5 whitespace-pre-wrap">
           {formattedPrompt}
         </div>
@@ -109,14 +110,14 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
         </div>
 
         {/* <ChatComponent /> */}
-        <div className='grid grid-cols-2 gap-4'>
+        {/* <div className='grid grid-cols-2 gap-4'>
           <div className=' p-4'>
             <ImageComponent src={"https://cdn.britannica.com/55/174255-050-526314B6/brown-Guernsey-cow.jpg"}/>
           </div>
           <div className=' p-4'>
             <ImageComponent src={"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Cow_female_black_white.jpg/1200px-Cow_female_black_white.jpg"}/>
           </div>
-        </div>
+        </div> */}
         {/* <div className=' flex justify-start items-center text-left self-start mt-[42px]'>
           <h1 className={`text-2xl font-bold ${FontManrope.className} mr-[17px]`}>Ranking Question </h1>
           <span className={`${FontSpaceMono.className} bg-[#D0A215] text-white px-2.5 py-[5px] rounded-[20px] border border-black font-bold`}>{task?.type} PROMPT</span>
@@ -124,6 +125,9 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
         {/* <p className="text-center flex self-start font-semibold opacity-60 mb-4">{task?.taskData?.prompt}</p> */}
         {isSlider && <>
           {/* <ChatComponent /> */}
+          <div className=' flex justify-start items-center text-left self-start mt-[42px]'>
+            <h1 className={`text-2xl font-bold ${FontManrope.className} mr-[17px]`}>Rate Question</h1>
+          </div>
           <div className="space-y-2 w-[541px] bg-[#F6F6E6] border-2 border-[#000] border-opacity-10 rounded-xl mt-4">
             <div className="row-start-2 h-[160px] px-[57px] py-[30px] rounded-br-lg">
               <h1 className={`${FontSpaceMono.className} text-base font-bold mb-[5px]`}>LINEAR SCALE<span className=' text-red-500'>*</span></h1>
@@ -145,7 +149,6 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
         <div className="flex flex-col items-center justify-center mt-4 mb-4 max-w-[1200px] mx-auto">
           <div className=' flex justify-start items-center text-left self-start mt-[42px]'>
             <h1 className={`text-2xl font-bold ${FontManrope.className} mr-[17px]`}>Multi-Select Question</h1>
-            <span className={`${FontSpaceMono.className} bg-[#D0A215] text-white px-2.5 py-[5px] rounded-[20px] border border-black font-bold`}>{task?.type} PROMPT</span>
           </div>
           {/* <p className="text-center flex self-start font-semibold opacity-60 mb-4">Please evaluate the coding question, and answer accordingly.</p> */}
           <div className="flex flex-col items-center justify-center mt-4 mb-4 mx-auto w-[610px] border-2 border-opacity-10 border-black rounded-b-xl">
@@ -164,7 +167,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
         <div className="flex flex-col items-center justify-center mt-4 mb-4 max-w-[1200px] mx-auto">
           <div className='flex justify-start items-center text-left self-start mt-[42px]'>
             <h1 className={`text-2xl font-bold ${FontManrope.className} mr-[17px]`}>Rank Question</h1>
-            <span className={`${FontSpaceMono.className} bg-[#D0A215] text-white px-2.5 py-[5px] rounded-[20px] border border-black font-bold`}>{task?.type} PROMPT</span>
+            {/* <span className={`${FontSpaceMono.className} bg-[#D0A215] text-white px-2.5 py-[5px] rounded-[20px] border border-black font-bold`}>{task?.type} PROMPT</span> */}
           </div>
           <>
             {/* <p className="text-center flex self-start font-semibold opacity-60 mb-4">Which animation best represent an animated solar system? The slider should speed up the animation.</p> */}
