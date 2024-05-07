@@ -105,6 +105,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
               title={''} 
               showTitle={true} 
               url={plot.completion.sandbox_url} 
+              key={plot.id}
             />
           ))}
         </div>

@@ -28,7 +28,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
 }) => {
   const [inputValue1, setInputValue1] = useState('');
   const [inputValue2, setInputValue2] = useState('');
-  const [refetchTrigger, setRefetchTrigger] = useState(false); // Trigger for refetch
+  const [refetchTrigger, setRefetchTrigger] = useState(0); // Trigger for refetch
   const { createSubscriptionKey, response } = useCreateSubscriptionKey();
   const [editRowId, setEditRowId] = useState<string | null>(null);
   const [editableData, setEditableData] = useState<SubscriptionData | null>(null);
@@ -45,12 +45,13 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
+
     if(inputValue1 && inputValue2){
       await createSubscriptionKey({ name: inputValue1, minerSubscriptionKey: inputValue2 });
+      setRefetchTrigger((prev) => prev+1);
         if(response?.success){
           setInputValue1("");
           setInputValue2("");
-          setRefetchTrigger((prev) => !prev);
           setErrorMsg("");
         } else {
           setErrorMsg("Invalid Subscription Key Please Retry");
@@ -66,7 +67,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
     setEditableData({ ...item });
     editableData?.subscriptionKey &&
     updateWorkerPartner(item.subscriptionKey, editableData!.subscriptionKey, editableData!.name)
-    setRefetchTrigger((prev) => !prev);
+    setRefetchTrigger((prev) => prev + 1);
   };
   const handleCancel = () => {
     setEditRowId(null);
@@ -76,7 +77,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
   const handleSave = async () => {
     await updateWorkerPartner(editableData!.subscriptionKey, editableData!.subscriptionKey, editableData!.name);
     setEditRowId(null);
-    setRefetchTrigger((prev) => !prev);
+    setRefetchTrigger((prev) => prev + 1);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, field: keyof SubscriptionData) => {
@@ -93,7 +94,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
 
   const handleDelete = async (item: SubscriptionData) => {
     await disableMinerByWorker(item.subscriptionKey, true);
-    setRefetchTrigger((prev) => !prev);
+    setRefetchTrigger((prev) => prev + 1);
   };
 
   return (
@@ -129,7 +130,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
                 value={inputValue2}
                 onChange={handleInputChange2}
               />
-              {!inputValue2 || errorMsg && <p className=' text-red-500'>{errorMsg}</p>}
+              {/* {!inputValue2 || errorMsg && <p className=' text-red-500'>{errorMsg}</p>} */}
               {/* <p className=' text-red-500'>Invalid Subscription Key Please Retry</p> */}
             </div>
           </div>
