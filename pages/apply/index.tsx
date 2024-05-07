@@ -289,7 +289,7 @@ const Page = () => {
               </div>
             </div>
           </div>
-          <SubscriptionTable data={partners} />
+          <SubscriptionTable />
         </Modal>
       )}
     </div>

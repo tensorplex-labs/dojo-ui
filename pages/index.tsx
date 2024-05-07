@@ -64,7 +64,7 @@ export default function Home() {
   //   useGetTasks(page, limit, taskTypes, sort, yieldMin, yieldMax);
   // }, [activeCategories])
 
-  const { partners, isLoading } = usePartnerList();
+
   const handleViewClick = () => {
     // Logic to close Wallet & API (if any)
     // For example, if you have a function to close the wallet, call it here
@@ -190,6 +190,7 @@ const handleCategoryClick = (categoryLabel: string) => {
         setSort('createdAt');
     }
   };
+
   return (
     <div className="bg-[#FFFFF4] min-h-screen">
       <div className="bg-[#F6F6E6] border-b-2 border-black">
@@ -396,7 +397,7 @@ const handleCategoryClick = (categoryLabel: string) => {
               </div>
             </div>
           </div>
-          <SubscriptionTable data={partners} />
+          <SubscriptionTable/>
         </Modal>
       )}
     </div>

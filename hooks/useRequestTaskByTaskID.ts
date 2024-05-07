@@ -31,7 +31,7 @@ const useRequestTaskByTaskID = (taskId: string) => {
     const fetchTask = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/${taskId}/`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/${taskId}`, {
           headers: {
             'Authorization': `Bearer ${jwtToken}`
           },

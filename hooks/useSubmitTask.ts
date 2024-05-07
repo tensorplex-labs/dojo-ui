@@ -25,17 +25,10 @@ const useSubmitTask =  () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const jwtToken = getFromLocalStorage('jwtToken');
-  const [taskId, setTaskId] = useState<string>(''); // [1
   type RankOrder = { [key: string]: string };
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const taskIdFromUrl = urlParams.get('taskId');
-    if (taskIdFromUrl) {
-      setTaskId(taskIdFromUrl);
-    }
-  }, []);
-  const submitTask = async ( multiSelectData: string[], rankingData: RankOrder, scoreData: number) => {
+  const submitTask = async ( taskId: string, multiSelectData: string[], rankingData: RankOrder, scoreData: number) => {
     setLoading(true);
+    console.log(taskId)
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/submit-result/${taskId}`, {
         method: 'PUT',

@@ -42,8 +42,9 @@ export const SubmitProvider: React.FC<{children: ReactNode}> = ({ children }) =>
   };
   const {submitTask, response} = useSubmitTask();
   const handleSubmit = async() => {
-    if (rankingData) {
-      await submitTask(multiSelectData, rankingData, scoreData);
+    const taskId = String(router.query.taskId || '')
+    if (rankingData && taskId) {
+      await submitTask(taskId, multiSelectData, rankingData, scoreData);
       if(response){
           router.push('/')
       }
@@ -51,7 +52,6 @@ export const SubmitProvider: React.FC<{children: ReactNode}> = ({ children }) =>
       console.log("what's wrong")
     }
   }
-  console.log(rankingData, multiSelectData, scoreData, "FROM SUBMIT")
   return (
     <SubmitContext.Provider value={{
       multiSelectData,

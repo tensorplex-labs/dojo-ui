@@ -15,7 +15,7 @@ interface UsePartnerListResult {
   error: Error | null;
 }
 
-export const usePartnerList = (): UsePartnerListResult => {
+export const usePartnerList = (refetchDependency: any): UsePartnerListResult => {
   const [partners, setPartners] = useState<Partner[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
@@ -44,7 +44,7 @@ export const usePartnerList = (): UsePartnerListResult => {
     };
 
     fetchPartners();
-  }, []); // Empty dependency array means this effect will only run once after the initial render
+  }, [refetchDependency]);
 
   return { partners, isLoading, error };
 };

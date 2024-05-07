@@ -56,11 +56,11 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
       switch (criterion.type) {
         case 'multi-select':
           setIsMultiSelectQuestion(true);
-          setMultiSelectQuestionData(criterion.options);
+          criterion.options && setMultiSelectQuestionData(criterion.options);
           break;
         case 'ranking':
           setIsRankQuestion(true);
-          setRankQuestionData(criterion.options);
+          criterion.options && setRankQuestionData(criterion.options);
           break;
         case 'score':
           setIsChatComponent(true);

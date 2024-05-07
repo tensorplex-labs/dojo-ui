@@ -1,4 +1,5 @@
 import useDisableMinerByWorker from '@/hooks/useDisableMinerByWorker';
+import { usePartnerList } from '@/hooks/usePartnerList';
 import useUpdateWorkerPartner from '@/hooks/useUpdateWorkerPartner';
 import { getFirstFourLastFour, getFirstSixLastSix } from '@/utils/math_helpers';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
@@ -12,31 +13,37 @@ type SubscriptionData = {
 };
 
 type SubscriptionTableProps = {
-  data: SubscriptionData[];
+  // data: SubscriptionData[];
+  // handleUpdate: () => void;
 };
 
 
 
-const SubscriptionTable: React.FC<SubscriptionTableProps> = ({ data }) => {
+const SubscriptionTable: React.FC<SubscriptionTableProps> = () => {
   const [editRowId, setEditRowId] = useState<string | null>(null);
   const [editableData, setEditableData] = useState<SubscriptionData | null>(null);
+  const [partnersData, setPartnersData] = useState(); // Assuming you have a state [partners, setPartners
+  const [refetchTrigger, setRefetchTrigger] = useState(false); // Could be a timestamp or a simple counter
   const { updateWorkerPartner } = useUpdateWorkerPartner();
   const { disableMinerByWorker } = useDisableMinerByWorker();
+  const { partners, isLoading } = usePartnerList(refetchTrigger);
+
   const handleEdit = (item: SubscriptionData) => {
     setEditRowId(item.id);
     setEditableData({ ...item });
     editableData?.subscriptionKey &&
     updateWorkerPartner(item.subscriptionKey, editableData!.subscriptionKey, editableData!.name)
+    setRefetchTrigger((prev) => !prev);
   };
   const handleCancel = () => {
     setEditRowId(null);
     setEditableData(null);
   };
 
-  const handleSave = () => {
-    console.log('Save data:', editableData);
-    updateWorkerPartner(editableData!.subscriptionKey, editableData!.subscriptionKey, editableData!.name)
+  const handleSave = async () => {
+    await updateWorkerPartner(editableData!.subscriptionKey, editableData!.subscriptionKey, editableData!.name);
     setEditRowId(null);
+    setRefetchTrigger((prev) => !prev);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, field: keyof SubscriptionData) => {
@@ -51,10 +58,10 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({ data }) => {
     });
   };
 
-  const handleDelete = (item: SubscriptionData) => {
-    disableMinerByWorker(item.subscriptionKey, true);
+  const handleDelete = async (item: SubscriptionData) => {
+    await disableMinerByWorker(item.subscriptionKey, true);
+    setRefetchTrigger((prev) => !prev);
   };
-  
   return (
     <table className="w-full leading-normal text-black table-fixed">
       <thead>
@@ -74,7 +81,7 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({ data }) => {
         </tr>
       </thead>
       <tbody className={`${FontManrope.className} text-opacity-60`}>
-      {data.map((item) => (
+      {partners.map((item) => (
           <tr key={item.id} className='opacity-60 font-medium'>
             <td className='px-5 py-3'>
               {editRowId === item.id ? (
