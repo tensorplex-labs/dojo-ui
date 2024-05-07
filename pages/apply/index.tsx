@@ -59,7 +59,6 @@ const Page = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [inputValue1, setInputValue1] = useState("");
   const [inputValue2, setInputValue2] = useState("");
-  const { partners } = usePartnerList();
 
   const { address, status } = useAccount();
 

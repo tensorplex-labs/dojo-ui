@@ -74,6 +74,8 @@ export default function Home() {
     setIsModalVisible(true);
   };
 
+  
+
 
   const handleInputChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue1(e.target.value);
@@ -107,6 +109,10 @@ export default function Home() {
       setInputValue(value);
     }
   };
+
+  useEffect(() => {
+
+  }, [showUserCard]);
 
 const handleCategoryClick = (categoryLabel: string) => {
   setActiveCategories(prevCategories => {
@@ -238,8 +244,8 @@ const handleCategoryClick = (categoryLabel: string) => {
         </div>
       </div> */}
       <div className="mt-[18px] w-[1075px] mx-auto flex">
-        <div className="flex gap-2">
-          <div className="mt-[18px] w-[720px] mx-auto flex flex-wrap gap-[18px]">
+        <div className="flex justify-between  gap-2 w-full">
+          <div className="mt-[18px] flex flex-wrap gap-2">
             {categories.map((category) => (
               <CategoryItem
                 key={category.label}
@@ -251,7 +257,7 @@ const handleCategoryClick = (categoryLabel: string) => {
           </div>
           <div className="flex gap-2 mt-[18px]">
             <DropdownContainer
-              buttonText="Sort By Recency"
+              buttonText={`Sort By ${sort === 'createdAt' ? 'Recency' : sort === 'numCriteria' ? 'Least Questions' : 'Most Attempted'}`}
               imgSrc="/top-down-arrow.svg"
               className="w-[193.89px]"
             >
@@ -268,7 +274,7 @@ const handleCategoryClick = (categoryLabel: string) => {
 
               </ul>
             </DropdownContainer>
-            <DropdownContainer
+            {/* <DropdownContainer
               buttonText="Filters"
               imgSrc="/filter-funnel.svg"
               count={"+0"}
@@ -281,7 +287,7 @@ const handleCategoryClick = (categoryLabel: string) => {
                   onChange={handleYieldInputChange}
                 />
               </div>
-            </DropdownContainer>
+            </DropdownContainer> */}
           </div>
         </div>
       </div>
@@ -310,9 +316,9 @@ const handleCategoryClick = (categoryLabel: string) => {
               </span>
             </div>
           </div>
-          <div className={`flex items-center gap-[5px] pl-5 ${FontManrope.className} font-bold text-sm text-opacity-75`}>
+          {/* <div className={`flex items-center gap-[5px] pl-5 ${FontManrope.className} font-bold text-sm text-opacity-75`}>
             4.332stTAO
-          </div>
+          </div> */}
           <div className="flex items-center justify-start pl-5 gap-[20px]">
             <TPLXButton
               onClick={handleCopy}

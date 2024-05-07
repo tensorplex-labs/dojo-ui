@@ -26,17 +26,17 @@ import { usePartnerList } from "@/hooks/usePartnerList";
 
 type LayoutProps = {
   children: ReactNode;
+  showFooter?: boolean;
 };
 
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout: React.FC<LayoutProps> = ({ children, showFooter= true }) => {
   const queryClient = new QueryClient();
   const { openModal } = useModal(MODAL.wallet);
   const [showUserCard, setShowUserCard] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [inputValue1, setInputValue1] = useState("");
   const [inputValue2, setInputValue2] = useState("");
-  const { partners, isLoading } = usePartnerList();
 
   const { address, status } = useAccount();
 
@@ -87,7 +87,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <NavigationBar openModal={()=>setShowUserCard(true)}/>
             </div>
             <main className="max-w-[1075px] mx-auto">{children}</main>
-            <hr className=" border-black" />
+            {showFooter && <hr className=" border-black" />}
             {showUserCard && (
       <UserCard closeModal={setShowUserCard}>
         <div className="flex flex-col gap-[5px] w-full p-5  py-3.5 border-b-2">
@@ -193,10 +193,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               </div>
             </div>
           </div>
-          <SubscriptionTable data={partners} />
+          <SubscriptionTable />
         </Modal>
       )}
-            <Footer />
+      {showFooter && <Footer />}
           </ModalProvider>
         </QueryClientProvider>
       </WagmiProvider>

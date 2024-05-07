@@ -55,7 +55,7 @@ const Footer: React.FC<FooterProps> = (props) => {
             <   div className="w-px bg-gray-300 mx-4 my-2"></div>  */}
             {/* Risk & Rewards */}
                 <div className="w-[250px] flex flex-col">
-                    <h1 className={`uppercase ${FontSpaceMono.className} text-base font-bold mb-4`}> Risk & Rewards </h1>
+                    {/* <h1 className={`uppercase ${FontSpaceMono.className} text-base font-bold mb-4`}> Risk & Rewards </h1>
                     <div className="flex justify-between gap-5">
                     <div className="flex flex-col">
                         <h2 className={`${FontManrope.className} text-[13px] font-semibold opacity-50`}>Potential Gains</h2>
@@ -69,7 +69,7 @@ const Footer: React.FC<FooterProps> = (props) => {
                         - 0.28 stTAO
                         </p>
                     </div>
-                </div>
+                </div> */}
             </div>
             </div>
             <div className="flex justify-end items-center space-x-[11px]">
