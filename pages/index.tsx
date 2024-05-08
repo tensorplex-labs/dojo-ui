@@ -22,6 +22,7 @@ import { useModal } from "@/hooks/useModal";
 import { usePartnerList } from "@/hooks/usePartnerList";
 import useRequestTaskByTaskID from "@/hooks/useRequestTaskByTaskID";
 import { MODAL } from "@/providers/modals";
+import { useSubmit } from "@/providers/submitContext";
 import { getFirstFourLastFour } from "@/utils/math_helpers";
 import { FontManrope, FontSpaceMono } from "@/utils/typography";
 import { IconCopy, IconExternalLink } from "@tabler/icons-react";
@@ -60,7 +61,7 @@ export default function Home() {
     setShowUserCard(false);
   }
   const { tasks, pagination, loading, error } = useGetTasks(page, limit, taskTypes, sort, yieldMin, yieldMax);
-
+  
   // useEffect(()=>{
   //   useGetTasks(page, limit, taskTypes, sort, yieldMin, yieldMax);
   // }, [activeCategories])
@@ -152,28 +153,20 @@ const handleCategoryClick = (categoryLabel: string) => {
     return updatedCategories;
   });
 };
+const {triggerTaskPageReload, setTriggerTaskPageReload} = useSubmit();
+  // const handleYieldInputChange = (index: number, value: string) => {
+  //   if (index === 0) {
+  //     setInputValue1(value);
+  //   } else if (index === 1) {
+  //     setInputValue2(value);
+  //   }
+  // };
 
-  const handleYieldInputChange = (index: number, value: string) => {
-    if (index === 0) {
-      setInputValue1(value);
-    } else if (index === 1) {
-      setInputValue2(value);
-    }
-  };
+  useEffect(()=>{
+    handleCategoryClick('All');
+    setTriggerTaskPageReload(false);
+  },[triggerTaskPageReload])  
 
-  const { createSubscriptionKey, response } = useCreateSubscriptionKey();
-  const handleSubmit = async (event: React.FormEvent) => {
-    await createSubscriptionKey({ name: inputValue1, minerSubscriptionKey: inputValue2 });
-    if(response?.success){
-      setInputValue1("");
-      setInputValue2("");
-    }
-  };
-{/* 
-  most attempted -> order=numResults
-  most recent -> order=createdAt
-  least questions -> order=numCriteria 
-*/}
   const updateSorting = (sort: string) => {
     switch (sort) {
       case 'Most Attempted':
@@ -288,7 +281,7 @@ const handleCategoryClick = (categoryLabel: string) => {
         <h1 className={`${FontSpaceMono.className} text-black font-bold text-[22px] mb-[19px]`}>
           SHOWING {tasks.length} RECORDS
         </h1>
-        <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} />
+        <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10}/>
       </div>
       {showUserCard && (
       <UserCard closeModal={setShowUserCard}>

@@ -66,7 +66,7 @@ const useGetTasks = (page: number, limit: number, taskTypes: string[], sort: str
     };
 
     fetchTasks();
-  }, [page, limit, taskTypes, sort, yieldMin, yieldMax]);
+  }, [page, limit, taskTypes, sort, yieldMin, yieldMax, !loading]);
 
   return { tasks, pagination, loading, error };
 };

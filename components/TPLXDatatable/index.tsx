@@ -129,7 +129,6 @@ const TPLXDatatable = ({
   );
 
   const [taskId, setTaskId] = useState<string>("");
-  const { task, loading, error } = useRequestTaskByTaskID(taskId);
   const router = useRouter(); // Initialize useRouter
 
   
