@@ -22,21 +22,22 @@ import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { useEtherScanOpen } from "@/hooks/useEtherScanOpen";
 import { useModal } from "@/hooks/useModal";
 import { usePartnerList } from "@/hooks/usePartnerList";
+import SubscriptionModal from "@/components/SubscriptionModal";
 
 
 type LayoutProps = {
   children: ReactNode;
+  showFooter?: boolean;
 };
 
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout: React.FC<LayoutProps> = ({ children, showFooter= true }) => {
   const queryClient = new QueryClient();
   const { openModal } = useModal(MODAL.wallet);
   const [showUserCard, setShowUserCard] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [inputValue1, setInputValue1] = useState("");
   const [inputValue2, setInputValue2] = useState("");
-  const { partners, isLoading } = usePartnerList();
 
   const { address, status } = useAccount();
 
@@ -87,7 +88,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <NavigationBar openModal={()=>setShowUserCard(true)}/>
             </div>
             <main className="max-w-[1075px] mx-auto">{children}</main>
-            <hr className=" border-black" />
+            {showFooter && <hr className=" border-black" />}
             {showUserCard && (
       <UserCard closeModal={setShowUserCard}>
         <div className="flex flex-col gap-[5px] w-full p-5  py-3.5 border-b-2">
@@ -150,53 +151,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </UserCard>
       )}
       {isModalVisible && (
-        <Modal
-          showModal={isModalVisible}
-          setShowModal={setIsModalVisible}
-          title="SUBSCRIPTION KEYS"
-          btnText="Close"
-        >
-          <div className='bg-[#DBF5E9] w-full px-[22px] py-[15px] text-black'>
-            <div>
-              <h1 className={`${FontSpaceMono.className} font-bold text-base`}>ENTER SUBSCRIPTION KEY</h1>
-              <h2 className={`${FontManrope.className} font-medium text-base opacity-60`}>Obtain subscription key from miners</h2>
-            </div>
-            <div className={` flex-row`}>
-              <div className="flex flex-row justify-between">
-                <div className="flex mr-2">
-                  <LabelledInput
-                    id="name"
-                    label="Name"
-                    type="text"
-                    placeholder="Name"
-                    value={inputValue1}
-                    onChange={handleInputChange1}
-                  />
-                </div>
-                <div className="flex-1 ml-2">
-                  <LabelledInput
-                    id="subscriptionKey"
-                    label="SUBSCRIPTION KEY"
-                    type="text"
-                    placeholder="Enter Subscription Key Here"
-                    value={inputValue2}
-                    onChange={handleInputChange2}
-                  />
-                </div>
-              </div>
-              <div className="flex justify-end">
-                <button
-                  className=" px-[18px] py-[10px] text-base h-auto bg-[#00B6A6] font-spacemono text-white border-2 border-black uppercase cursor-pointer hover:shadow-brut-sm font-bold hover:bg-opacity-80 active:border-b-2"
-                  >
-                  Create
-                </button>
-              </div>
-            </div>
-          </div>
-          <SubscriptionTable data={partners} />
-        </Modal>
+ <SubscriptionModal setIsModalVisible={setIsModalVisible} isModalVisible={isModalVisible} />
       )}
-            <Footer />
+      {showFooter && <Footer />}
           </ModalProvider>
         </QueryClientProvider>
       </WagmiProvider>

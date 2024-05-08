@@ -35,7 +35,7 @@ export const useCreateSubscriptionKey = () => {
         throw new Error(result.error || 'Failed to create subscription key');
       }
 
-      setResponse({ success: true, body: 'Successfully created worker-miner partnership', error: null });
+      setResponse(result);
     } catch (error:any) {
       setError(error.message);
     } finally {
