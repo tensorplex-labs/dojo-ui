@@ -7,10 +7,11 @@ import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
 import { SiweMessage } from 'siwe';
 import { recoverMessageAddress, type Address } from 'viem';
-import { Connector, useAccount, useChainId, useConnect, useSignMessage } from 'wagmi';
+import { Connector, useAccount, useChainId, useConnect, useDisconnect, useSignMessage } from 'wagmi';
 import TPLXModalContainer from '../ModalContainer';
 import TPLXLWalletConnectedCard from './tplx-wallet-connected-card';
 import TPLXWalletNetworkCard from './tplx-walletnetwork-card';
+import { useAuth } from '@/providers/authContext';
 import { useSubmit } from '@/providers/submitContext';
 interface Props {
   open: boolean;
@@ -34,21 +35,26 @@ const TPLXManageWalletConnectModal = ({
   onClose,
   ...props
 }: Props) => {
-  const { connectors, connect, connectAsync } = useConnect();
+  const { connectors, connectAsync } = useConnect();
+  const {disconnectAsync} = useDisconnect();
   const { connector, address, status } = useAccount();
   const [recoveredAddress, setRecoveredAddress] = useState<Address>();
   const [nonce, setNonce] = useState<string>();
   const [siweMessage, setSiweMessage] = useState<string>();
   const { triggerTaskPageReload,setTriggerTaskPageReload } = useSubmit();
   const {
-    data: signature,
+    data: signatureData,
     variables,
     error,
+    isSuccess,
     status:statusSignMessage,
-    signMessageAsync: signMessage,
+    signMessageAsync,
+    reset: resetSignMessage,
   } = useSignMessage();
-  const { workerLoginAuth } = useWorkerLoginAuth();
+  // const { workerLoginAuth } = useWorkerLoginAuth();
+  const {workerLogin: postSignInWithEthereum, isAuthenticated}= useAuth();
   const chainId = useChainId();
+
   const fetchNonce = async (address: string) => {
     const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/${address}`;
     const method = 'GET';
@@ -58,7 +64,6 @@ const TPLXManageWalletConnectModal = ({
         'Content-Type': 'application/json',
       },
     };
-
     try {
       const response = await fetch(url, options);
       if (!response.ok) {
@@ -76,7 +81,6 @@ const TPLXManageWalletConnectModal = ({
     }
   };
 
-
   const createSiweMessage = (address: string, nonce: string, statement: string) => {
     const message = new SiweMessage({
       domain: `${window.location.host}`,
@@ -92,87 +96,56 @@ const TPLXManageWalletConnectModal = ({
     return preparedMessage;
   };
 
-  const postSignInWithEthereum = async (signature: string) => {
-    console.log("This is the signature", signature);
+  const signInWithEthereum = async (address: string) => {
     try {
-      if (!address) {
-        throw new Error('Wallet address is undefined');
-      }
-      if (!siweMessage) {
-        throw new Error('SIWE message has not been prepared');
-      }
+      const nonce = await fetchNonce(address);
+      if (!nonce) throw new Error('Failed to fetch nonce');
 
-      // Create the payload
+      const message = createSiweMessage(address, nonce, 'Sign in with Ethereum to tensorplex');
+      if (!message) throw new Error('Failed to create SIWE message');
+
+      const signature = await signMessageAsync({ message });
+      if (!signature) throw new Error("Failed to get signature");
+
       const payload: LoginAuthPayload = {
         walletAddress: address,
         chainId: chainId.toString(),
-        signature: signature,
-        message: siweMessage,
+        signature,
+        message,
         timestamp: Math.floor(Date.now() / 1000).toString(),
-        nonce: nonce,
+        nonce: nonce
       };
-
-      // Call the workerLoginAuth function with the payload
-      await workerLoginAuth(payload);
+      // send payload to backend
+      await postSignInWithEthereum(payload);
       setTriggerTaskPageReload(true);
       console.log(triggerTaskPageReload)
-      const token = getFromLocalStorage('jwtToken');
-      if (!token) {
-        throw new Error('Token not found in local storage');
-      }
+      onClose?.();
+
     } catch (error) {
-      console.error("Error during worker login authentication", error);
-      onClose?.(); // Close the modal on error
+      console.error('Error signing in with Ethereum:', error);
+      // if something goes wrong, disconnect the wallet, reset sign message
+      disconnectAsync();
+      resetSignMessage();
     }
   };
 
-  
-  const signInWithEthereum = async (address:string) => {
-    if (!address) {
+  const connectWalletHandler = async (connectorId: string) => {
+    const connector = getConnectorById(connectors, connectorId);
+    if (!connector) {
+      console.error('Failed to find connector');
       return;
     }
-    const _nonce = await fetchNonce(address);
-    if (_nonce) {
-      const msg = createSiweMessage(
-        address,
-        _nonce,
-        'Sign in with Ethereum to tensorplex',
-      );
-      await signMessage({ message: msg });
+    try {
+      const { accounts } = await connectAsync({ connector, chainId });
+      if (!accounts.length) throw new Error('No accounts returned');
+
+      await signInWithEthereum(accounts[0]);
+    } catch (error) {
+      console.error('Error connecting wallet:', error);
     }
   };
 
-  const postConnectWallet = async (address:string) => {
-    signInWithEthereum(address).catch((err) => {
-      console.log("Error signing in with ethereum",err)
-    });
-  }
 
-  const conenctWalletHandler = (connectorId: string) => {
-    const connector = getConnectorById(connectors, connectorId);
-    console.log('clicked', connector);
-    if (connector) {
-      connectAsync({
-        connector,
-        chainId,
-      })
-        .then((res) => {
-          postConnectWallet(res.accounts[0]);
-        })
-        .catch((err) => {
-          console.log('Error Connection');
-        });
-    }
-    onClose?.();
-  };
-
-  useEffect(() => {
-    (async () => {
-      if (variables?.message && signature) {
-        postSignInWithEthereum(signature);
-      }
-    })();
-  }, [signature, variables?.message]);
   return (
     <TPLXModalContainer
       header={'MANAGE WALLET'}
@@ -188,7 +161,7 @@ const TPLXManageWalletConnectModal = ({
       bodyClassName="p-0"
     >
       <div className="flex flex-col w-[400px]">
-        {status === 'connected' && connector && (
+        {status === 'connected' && connector && isAuthenticated && (
           <TPLXLWalletConnectedCard
             connector={connector}
             address={address}
@@ -202,7 +175,7 @@ const TPLXManageWalletConnectModal = ({
             <TPLXWalletNetworkCard
               disabled={!getConnectorById(connectors, 'io.metamask') || status === 'connected' }
               onClick={() => {
-                conenctWalletHandler("io.metamask");
+                connectWalletHandler("io.metamask");
               }}
               logo="/wallet_logo/metamask_logo.svg"
               Description="Metamask"
@@ -215,7 +188,7 @@ const TPLXManageWalletConnectModal = ({
             <TPLXWalletNetworkCard
               disabled={!getConnectorById(connectors, 'io.rabby') || status === 'connected' }
               onClick={() => {
-                conenctWalletHandler("io.rabby")
+                connectWalletHandler("io.rabby")
               }}
               logo="/wallet_logo/rabbywallet_logo.svg"
               Description="Rabby"
