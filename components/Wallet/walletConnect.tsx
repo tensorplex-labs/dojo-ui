@@ -22,7 +22,7 @@ const WalletConnect = (props: Props) => {
       <TPLXButton
         className={cn(
           FontSpaceMono.className,
-          'text-xs md:text-sm bg-primary rounded-none border-[2px] border-black text-font-secondary',
+          'text-xs md:text-sm bg-primary rounded-none border-[2px] border-black text-font-secondary hover:shadow-brut-sm',
           className,
         )}
         onClick={openModal}

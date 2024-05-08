@@ -12,6 +12,7 @@ import TPLXModalContainer from '../ModalContainer';
 import TPLXLWalletConnectedCard from './tplx-wallet-connected-card';
 import TPLXWalletNetworkCard from './tplx-walletnetwork-card';
 import { useAuth } from '@/providers/authContext';
+import { useSubmit } from '@/providers/submitContext';
 interface Props {
   open: boolean;
   onSave?: () => void;
@@ -40,6 +41,7 @@ const TPLXManageWalletConnectModal = ({
   const [recoveredAddress, setRecoveredAddress] = useState<Address>();
   const [nonce, setNonce] = useState<string>();
   const [siweMessage, setSiweMessage] = useState<string>();
+  const { triggerTaskPageReload,setTriggerTaskPageReload } = useSubmit();
   const {
     data: signatureData,
     variables,
@@ -115,6 +117,8 @@ const TPLXManageWalletConnectModal = ({
       };
       // send payload to backend
       await postSignInWithEthereum(payload);
+      setTriggerTaskPageReload(true);
+      console.log(triggerTaskPageReload)
       onClose?.();
 
     } catch (error) {
