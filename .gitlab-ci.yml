@@ -18,7 +18,7 @@ default:
   stage: deploy
   script:
     - npm install --global vercel
-    - npm install
+    - npm install --loglevel verbose
     - vercel pull --yes --environment=production --token=$VERCEL_TOKEN
     - NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL vercel build --prod --token=$VERCEL_TOKEN
     - NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
