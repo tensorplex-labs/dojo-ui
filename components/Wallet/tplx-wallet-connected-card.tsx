@@ -31,7 +31,6 @@ const TPLXLWalletConnectedCard = ({ connector, address }: Props) => {
       const result = await disconnectAsync()
       console.log("disconnected: ", result);
       workerLogout();
-      router.push('/')
     } catch(err) {
       console.error("Error in disconnecting", err);
     }

@@ -22,7 +22,6 @@ export const TPLXWalletButton = ({ openModal }: TPLXWalletButtonProps) => {
   // const { openModal } = useModal(MODAL.wallet);
   const { disconnect } = useDisconnect();
 
-  console.log("isAuthenticated", isAuthenticated);
 
   useEffect(() => {
     console.log('chain id', chainId);
