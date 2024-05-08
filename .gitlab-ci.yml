@@ -20,9 +20,9 @@ default:
     - npm install -g vercel
     - npm install --loglevel verbose
     - vercel pull --yes --environment=production --token=$VERCEL_TOKEN
-    - NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL vercel build --prod --token=$VERCEL_TOKEN
-    - NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
-    - NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL vercel --prod --token=$VERCEL_TOKEN
+    - vercel build --prod --token=$VERCEL_TOKEN -e NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL 
+    - vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN -e NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL
+    - vercel --prod --token=$VERCEL_TOKEN -e NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL
   variables:
     NODE_OPTIONS: --max-old-space-size=16384
   cache:
