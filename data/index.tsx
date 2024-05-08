@@ -4,7 +4,59 @@ export const dropdownOptions = [
   // { text: "Highest Potential Yield" },
   { text: "Least Questions" },
 ];
+export interface FrequentlyAccessedProps {
+  title: string;
+  description: string;
+  isLong: boolean;
+  type: string;
+  route: string;
+  isRoutable?: boolean;
+  onClickHandler?: (text: string) => void;
+  delayBy?: number;
+}
+export const TensorplexProducts: FrequentlyAccessedProps[] = [
+  {
+    title: "Tensorplex Stake",
+    description: "Deposit wTAO on Ethereum and receive stTAO which represents your share of TAO staked on the Bittensor Finney Network",
+    isLong: true,
+    isRoutable: true,
+    type: "product",
+    route: 'https://stake.tensorplex.ai/',
+  },
+  {
+    title: "Tensorplex Stream",
+    description: "Discover insights from key opinion leaders in Web3 with content curated from the Tensorplex Team",
+    isLong: true,
+    type: "product",
+    isRoutable: true,
+    route: 'https://stream.tensorplex.ai/',
+  },
+  {
+    title: "Tensorplex Dojo",
+    description: "",
+    isLong: true,
+    type: "product",
+    isRoutable: true,
+    route: '/',
+  },
+];
 
+export const frequentlyAccessedData: FrequentlyAccessedProps[] = [
+  {
+    title: "Tensorplex AI Chatbot",
+    description: "Ask anything and everything about Web3",
+    isLong: false,
+    type: "page",
+    route: 'https://stream.tensorplex.ai/TensorplexAIChatbot',
+  },
+  {
+    title: "Podcasts",
+    description: "Access to our curated list of more than 1900 podcasts",
+    isLong: false,
+    type: "page",
+    route: 'https://stream.tensorplex.ai',
+  },
+];
 // const categoryTypes = [
 //   { label: "Object Detection", isActive: false },
 //   { label: "Content Classification", isActive: false },

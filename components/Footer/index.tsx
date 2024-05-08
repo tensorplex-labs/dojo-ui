@@ -16,8 +16,8 @@ const Footer: React.FC<FooterProps> = (props) => {
 
     const { handleSubmit } = useSubmit();
     return (
-    <div className="max-w-[1075px] mx-auto p-4 mt-[35px]">
-        <div className="mb-2">
+    <div className="max-w-[1075px] mx-auto p-4">
+        {/* <div className="mb-2">
         <h1 className={`uppercase ${FontSpaceMono.className} text-xl font-bold mb-1.5`}>
             Rewards
         </h1>
@@ -25,7 +25,7 @@ const Footer: React.FC<FooterProps> = (props) => {
             A brief explanation on how this works, and what the slider does, and
             how this thing would behave so the user is aware on how to use it.
         </p>
-        </div>
+        </div> */}
         <div className="flex justify-between">
         {/* Stake Amount */}
             <div className=" flex">
@@ -55,7 +55,7 @@ const Footer: React.FC<FooterProps> = (props) => {
             <   div className="w-px bg-gray-300 mx-4 my-2"></div>  */}
             {/* Risk & Rewards */}
                 <div className="w-[250px] flex flex-col">
-                    <h1 className={`uppercase ${FontSpaceMono.className} text-base font-bold mb-4`}> Risk & Rewards </h1>
+                    {/* <h1 className={`uppercase ${FontSpaceMono.className} text-base font-bold mb-4`}> Risk & Rewards </h1>
                     <div className="flex justify-between gap-5">
                     <div className="flex flex-col">
                         <h2 className={`${FontManrope.className} text-[13px] font-semibold opacity-50`}>Potential Gains</h2>
@@ -69,7 +69,7 @@ const Footer: React.FC<FooterProps> = (props) => {
                         - 0.28 stTAO
                         </p>
                     </div>
-                </div>
+                </div> */}
             </div>
             </div>
             <div className="flex justify-end items-center space-x-[11px]">
