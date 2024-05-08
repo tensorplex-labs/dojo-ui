@@ -11,6 +11,7 @@ import { Connector, useAccount, useChainId, useConnect, useSignMessage } from 'w
 import TPLXModalContainer from '../ModalContainer';
 import TPLXLWalletConnectedCard from './tplx-wallet-connected-card';
 import TPLXWalletNetworkCard from './tplx-walletnetwork-card';
+import { useSubmit } from '@/providers/submitContext';
 interface Props {
   open: boolean;
   onSave?: () => void;
@@ -38,6 +39,7 @@ const TPLXManageWalletConnectModal = ({
   const [recoveredAddress, setRecoveredAddress] = useState<Address>();
   const [nonce, setNonce] = useState<string>();
   const [siweMessage, setSiweMessage] = useState<string>();
+  const { triggerTaskPageReload,setTriggerTaskPageReload } = useSubmit();
   const {
     data: signature,
     variables,
@@ -112,6 +114,8 @@ const TPLXManageWalletConnectModal = ({
 
       // Call the workerLoginAuth function with the payload
       await workerLoginAuth(payload);
+      setTriggerTaskPageReload(true);
+      console.log(triggerTaskPageReload)
       const token = getFromLocalStorage('jwtToken');
       if (!token) {
         throw new Error('Token not found in local storage');
@@ -122,7 +126,7 @@ const TPLXManageWalletConnectModal = ({
     }
   };
 
-
+  
   const signInWithEthereum = async (address:string) => {
     if (!address) {
       return;

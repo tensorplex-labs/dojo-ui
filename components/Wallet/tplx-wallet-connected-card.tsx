@@ -61,7 +61,7 @@ const TPLXLWalletConnectedCard = ({ connector, address }: Props) => {
               variant={'secondary'}
               className={cn(
                 FontSpaceMono.className,
-                'hover:bg-primary px-[15px] py-[12px] h-[20px] text-xs text-font-primary font-bold',
+                'hover:bg-primary hover:shadow-brut-sm hover:text-white px-[15px] py-[12px] h-[20px] text-xs text-font-primary font-bold',
               )}
             >
               DISCONNECT
