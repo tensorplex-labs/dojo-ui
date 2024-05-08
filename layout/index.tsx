@@ -108,9 +108,9 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter= true }) => {
               </span>
             </div>
           </div>
-          <div className={`flex items-center gap-[5px] pl-5 ${FontManrope.className} font-bold text-sm text-opacity-75`}>
+          {/* <div className={`flex items-center gap-[5px] pl-5 ${FontManrope.className} font-bold text-sm text-opacity-75`}>
             4.332stTAO
-          </div>
+          </div> */}
           <div className="flex items-center justify-start pl-5 gap-[20px]">
             <TPLXButton
               onClick={handleCopy}

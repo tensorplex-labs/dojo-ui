@@ -6,13 +6,14 @@ import { IconCopy, IconExternalLink } from '@tabler/icons-react';
 
 import React from 'react';
 
-import { Connector, useDisconnect } from 'wagmi';
+import { Connector, useAccount, useDisconnect } from 'wagmi';
 import { TPLXBrutCard } from '../BrutCard';
 import { TPLXButton } from '../TPLXButton';
 import TPLXWeb3Icon from './tplx-web3-icon';
 import { getFirstFourLastFour } from '@/utils/math_helpers';
 import { clearLocalStorage } from '@/utils/general_helpers';
 import { useRouter } from 'next/router';
+import { useAuth } from '@/providers/authContext';
 
 
 interface Props {
@@ -24,12 +25,12 @@ const TPLXLWalletConnectedCard = ({ connector, address }: Props) => {
   const handleCopy = useCopyToClipboard(address ?? '');
   const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
   const router = useRouter()
+  const {workerLogout} = useAuth()
   const disconnectHandler = async () => {
     try {
       const result = await disconnectAsync()
       console.log("disconnected: ", result);
-      clearLocalStorage();
-      router.push('/')
+      workerLogout();
     } catch(err) {
       console.error("Error in disconnecting", err);
     }
@@ -61,7 +62,7 @@ const TPLXLWalletConnectedCard = ({ connector, address }: Props) => {
               variant={'secondary'}
               className={cn(
                 FontSpaceMono.className,
-                'hover:bg-primary px-[15px] py-[12px] h-[20px] text-xs text-font-primary font-bold',
+                'hover:bg-primary hover:shadow-brut-sm hover:text-white px-[15px] py-[12px] h-[20px] text-xs text-font-primary font-bold',
               )}
             >
               DISCONNECT

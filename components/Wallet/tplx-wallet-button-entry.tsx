@@ -9,6 +9,7 @@ import TPLXWalletButtonBadge from './tplx-wallet-button-badge';
 import WalletConnect from './walletConnect';
 import { useModal } from '@/hooks/useModal';
 import { MODAL } from '@/providers/modals';
+import { useAuth } from '@/providers/authContext';
 
 
 type TPLXWalletButtonProps = {
@@ -17,15 +18,17 @@ type TPLXWalletButtonProps = {
 export const TPLXWalletButton = ({ openModal }: TPLXWalletButtonProps) => {
   const chainId = useChainId();
   const { address, status } = useAccount();
+  const {isAuthenticated} = useAuth();
   // const { openModal } = useModal(MODAL.wallet);
   const { disconnect } = useDisconnect();
+
 
   useEffect(() => {
     console.log('chain id', chainId);
   }, [chainId]);
   return (
     <div>
-      {status === 'connected' ? (
+      {status === 'connected' && isAuthenticated ? (
         // eslint-disable-next-line jsx-a11y/click-events-have-key-events
         <div
           onClick={openModal}

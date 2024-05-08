@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from '@/components/Modal';
 import LabelledInput from '@/components/LabelledInput';
 import SubscriptionTable from '@/components/SubscriptionTable';
@@ -9,6 +9,7 @@ import { getFirstSixLastSix } from '@/utils/math_helpers';
 import { IconCheck, IconEdit, IconTrash, IconX } from '@tabler/icons-react';
 import useUpdateWorkerPartner from '@/hooks/useUpdateWorkerPartner';
 import useDisableMinerByWorker from '@/hooks/useDisableMinerByWorker';
+import { useSubmit } from '@/providers/submitContext';
 
 type SubscriptionModalProps = {
   isModalVisible: boolean;
@@ -60,7 +61,11 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
         setErrorMsg("Subscription Key is Required");
       }
   };
+  const {triggerTaskPageReload, setTriggerTaskPageReload} = useSubmit();
 
+  useEffect(()=>{
+    setTriggerTaskPageReload(true);
+  },[refetchTrigger])  
   
   const handleEdit = (item: SubscriptionData) => {
     setEditRowId(item.id);
