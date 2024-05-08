@@ -17,6 +17,7 @@ default:
   image: node:20.12.2
   stage: deploy
   script:
+    - node --max-old-space-size=16384
     - npm install --global vercel
     - npm install --loglevel verbose
     - vercel pull --yes --environment=production --token=$VERCEL_TOKEN
