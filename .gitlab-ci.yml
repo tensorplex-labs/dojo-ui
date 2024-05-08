@@ -14,11 +14,11 @@ default:
     - tensorplex
 
 .deploy:
-  image: node:20.7.0
+  image: node:20.12.2
   stage: deploy
   script:
     - npm install --global vercel
-    - npm install --force
+    - npm install
     - vercel pull --yes --environment=production --token=$VERCEL_TOKEN
     - NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL vercel build --prod --token=$VERCEL_TOKEN
     - NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
