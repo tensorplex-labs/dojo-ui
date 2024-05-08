@@ -37,8 +37,6 @@ const useWorkerLoginAuth = () => {
 
       const data: LoginAuthResponse = await response.json();
 
-      console.log("LoginAuthResponse: ", data);
-
       if (response.ok && data.success) {
         if (data.body?.token) {
             localStorage.setItem('jwtToken', data.body.token);
