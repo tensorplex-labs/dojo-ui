@@ -173,7 +173,7 @@ const TPLXManageWalletConnectModal = ({
           </span>
           <div className="grid grid-cols-3 gap-[10px] pt-[3px]">
             <TPLXWalletNetworkCard
-              disabled={!getConnectorById(connectors, 'io.metamask') || status === 'connected' }
+              // disabled={!getConnectorById(connectors, 'io.metamask') || status === 'connected' }
               onClick={() => {
                 connectWalletHandler("io.metamask");
               }}
