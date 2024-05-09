@@ -35,8 +35,9 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
   const [editableData, setEditableData] = useState<SubscriptionData | null>(null);
   const { updateWorkerPartner } = useUpdateWorkerPartner();
   const { disableMinerByWorker } = useDisableMinerByWorker();
-  const { partners, isLoading } = usePartnerList(refetchTrigger);
+  const { partners } = usePartnerList(refetchTrigger);
   const [errorMsg, setErrorMsg] = useState('');
+  const { isSubscriptionModalLoading, setIsSubscriptionModalLoading } = useSubmit();
   const handleInputChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue1(e.target.value);
   };
@@ -46,13 +47,15 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
-
+    setIsSubscriptionModalLoading(true)
     if(inputValue1 && inputValue2){
       await createSubscriptionKey({ name: inputValue1, minerSubscriptionKey: inputValue2 });
+      setIsSubscriptionModalLoading(false)
+      setInputValue1("");
+      setInputValue2("");
       setRefetchTrigger((prev) => prev+1);
         if(response?.success){
-          setInputValue1("");
-          setInputValue2("");
+
           setErrorMsg("");
         } else {
           setErrorMsg("Invalid Subscription Key Please Retry");
@@ -68,11 +71,13 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
   },[refetchTrigger])  
   
   const handleEdit = (item: SubscriptionData) => {
+    setIsSubscriptionModalLoading(true)
     setEditRowId(item.id);
     setEditableData({ ...item });
     editableData?.subscriptionKey &&
     updateWorkerPartner(item.subscriptionKey, editableData!.subscriptionKey, editableData!.name)
     setRefetchTrigger((prev) => prev + 1);
+    setIsSubscriptionModalLoading(false)
   };
   const handleCancel = () => {
     setEditRowId(null);
@@ -80,9 +85,11 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
   };
 
   const handleSave = async () => {
+    setIsSubscriptionModalLoading(true)
     await updateWorkerPartner(editableData!.subscriptionKey, editableData!.subscriptionKey, editableData!.name);
     setEditRowId(null);
     setRefetchTrigger((prev) => prev + 1);
+    setIsSubscriptionModalLoading(false)
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, field: keyof SubscriptionData) => {
@@ -98,8 +105,10 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
   };
 
   const handleDelete = async (item: SubscriptionData) => {
+    setIsSubscriptionModalLoading(true)
     await disableMinerByWorker(item.subscriptionKey, true);
     setRefetchTrigger((prev) => prev + 1);
+    setIsSubscriptionModalLoading(false)
   };
 
   return (
@@ -168,7 +177,12 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
         </tr>
       </thead>
       <tbody className={`${FontManrope.className} text-opacity-60`}>
-        {partners.map((item) => (
+        {isSubscriptionModalLoading && (
+          <tr>
+            <td colSpan={4} className="text-center py-5">Loading...</td>
+          </tr>
+        )}
+        {!isSubscriptionModalLoading && partners.map((item) => (
           <tr key={item.id} className='opacity-60 font-medium'>
             <td className='px-5 py-3'>
               {editRowId === item.id ? (

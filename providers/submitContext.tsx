@@ -14,6 +14,8 @@ interface SubmitContextType {
   setTriggerTaskPageReload: Function;
   submissionErr: string | null;
   setSubmissionErr: Function;
+  isSubscriptionModalLoading: boolean;
+  setIsSubscriptionModalLoading: Function;
 }
 
 const SubmitContext = createContext<SubmitContextType | undefined>(undefined);
@@ -34,6 +36,7 @@ export const SubmitProvider: React.FC<{children: ReactNode}> = ({ children }) =>
   const [scoreData, setScoreData] = useState<number>(0);
   const [triggerTaskPageReload, setTriggerTaskPageReload] = useState<boolean>(false);
   const [submissionErr, setSubmissionErr] = useState<string | null>(null);
+  const [isSubscriptionModalLoading, setIsSubscriptionModalLoading] = useState<boolean>(false);
   const updateMultiSelect = (data: string[]) => {
     setMultiSelectData(data);
     console.log(multiSelectData)
@@ -81,7 +84,9 @@ export const SubmitProvider: React.FC<{children: ReactNode}> = ({ children }) =>
       handleSubmit,
       setTriggerTaskPageReload,
       submissionErr,
-      setSubmissionErr   }}>
+      setSubmissionErr,
+      isSubscriptionModalLoading,
+      setIsSubscriptionModalLoading   }}>
       {children}
     </SubmitContext.Provider>
   );
