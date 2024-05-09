@@ -1,5 +1,5 @@
 import { getFromLocalStorage } from '@/utils/general_helpers';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 interface Task {
   id: string;
@@ -30,45 +30,50 @@ interface TasksResponse {
   error: string | null;
 }
 
-const useGetTasks = (page: number, limit: number, taskTypes: string[], sort: string, yieldMin?: number, yieldMax?: number) => {
+const useGetTasks = (page: number, limit: number, taskQuery: string, sort: string, yieldMin?: number, yieldMax?: number) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const jwtToken = getFromLocalStorage('jwtToken');
 
-  useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const taskQuery = taskTypes.join(',');
-        const yieldMinQuery = yieldMin ? `&yieldMin=${yieldMin}` : '';
-        const yieldMaxQuery = yieldMax ? `&yieldMax=${yieldMax}` : '';
-        const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/?page=${page}&limit=${limit}&task=${taskQuery}&sort=${sort}&yieldMin=8.41&yieldMax=9`;
+  const fetchTasks = useCallback(async () => {
+    try {
 
-        const response = await fetch(endpoint, {
-          headers: {
-            'Authorization': `Bearer ${jwtToken}`,
-          }
-        });
-        const data: TasksResponse = await response.json();
+      console.log("fetchTasks called", page, limit, taskQuery, sort, yieldMin, yieldMax)
 
-        if (response.ok) {
-          setTasks(data.body.tasks);
-          setPagination(data.body.pagination);
-        } else {
-          throw new Error(data.error || `HTTP error! status: ${response.status}`);
+
+      const yieldMinQuery = yieldMin ? `&yieldMin=${yieldMin}` : '';
+      const yieldMaxQuery = yieldMax ? `&yieldMax=${yieldMax}` : '';
+      const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/?page=${page}&limit=${limit}&task=${taskQuery}&sort=${sort}${yieldMinQuery}${yieldMaxQuery}`;
+
+      setLoading(true);
+
+      const response = await fetch(endpoint, {
+        headers: {
+          'Authorization': `Bearer ${jwtToken}`,
         }
-      } catch (e: any) {
-        setError(e.message);
-      } finally {
-        setLoading(false);
+      });
+      const data: TasksResponse = await response.json();
+
+      if (response.ok) {
+        setTasks(data.body.tasks);
+        setPagination(data.body.pagination);
+      } else {
+        throw new Error(data.error || `HTTP error! status: ${response.status}`);
       }
-    };
+    } catch (e: any) {
+      setError(e.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [page, limit, taskQuery, sort, yieldMin, yieldMax]);
 
+  useEffect(() => {
     fetchTasks();
-  }, [page, limit, taskTypes, sort, yieldMin, yieldMax, !loading]);
+  }, [fetchTasks]);
 
-  return { tasks, pagination, loading, error };
+  return { tasks, pagination, loading, error, refetchTasks: fetchTasks };
 };
 
 export default useGetTasks;
