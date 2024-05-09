@@ -61,6 +61,7 @@ const Page = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [inputValue1, setInputValue1] = useState("");
   const [inputValue2, setInputValue2] = useState("");
+  const [modalHeader, setModalHeader] = useState('');
   const { address, status } = useAccount();
 
   const handleViewClick = () => {
@@ -110,8 +111,10 @@ const Page = () => {
 
     if (response.success) {
       reset();
+      setModalHeader("Application Submitted");
       setModalMessage(response.message);
     } else {
+      setModalHeader("Submission Failed")
       setModalMessage(response?.message || 'Submission failed');
     }
     setOpen(true);
@@ -175,7 +178,7 @@ const Page = () => {
         </form>
       </div>
       <TPLXModalContainer className={'w-[512px] h-[206px]'} headerClassName={'h-12 pl-4'} bodyClassName="p-0"
-        header={"APPLICATION RECEIVED!"} open={open} onClose={() => handleOnClose()} onSave={() => handleOnClose()}>
+        header={modalHeader} open={open} onClose={() => handleOnClose()} onSave={() => handleOnClose()}>
         <div
           className={cn(`${FontManrope.className} py-4 px-6 border-b-2 border-black bg-accent opacity-60 text-[16px] leading-[120%] h-[88px] flex items-center`)}>
           <span>{modalMessage}</span>

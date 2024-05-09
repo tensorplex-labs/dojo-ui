@@ -52,7 +52,8 @@ export const SubmitProvider: React.FC<{children: ReactNode}> = ({ children }) =>
   const {submitTask, response, error} = useSubmitTask();
   const handleSubmit = async() => {
     const taskId = String(router.query.taskId || '')
-    if (rankingData && multiSelectData && scoreData && taskId) {
+    // console.log({rankingData}, {scoreData}, {taskId}, {multiSelectData})
+    if (rankingData && scoreData && taskId) {
       await submitTask(taskId, multiSelectData, rankingData, scoreData);
       if(error){
         console.log('WORKED >>> ',error)
@@ -62,8 +63,6 @@ export const SubmitProvider: React.FC<{children: ReactNode}> = ({ children }) =>
         setSubmissionErr(null)
         router.push('/')
       }
-    } else {
-      alert("Please fill all the data to continue")
     }
   }
   useEffect(() => {

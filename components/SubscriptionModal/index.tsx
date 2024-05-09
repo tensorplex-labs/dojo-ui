@@ -63,7 +63,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
           setErrorMsg(error || "Invalid Subscription Key Please Retry");
         }
       } else {
-        setErrorMsg("Subscription Key is Required");
+        setErrorMsg(inputValue1 ? "Name field is empty" : "Subscription Key is Required");
         setIsSubscriptionModalLoading(false)
       }
   };
