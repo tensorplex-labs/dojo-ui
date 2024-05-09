@@ -6,7 +6,7 @@ import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { useCreateSubscriptionKey } from '@/hooks/useCreateSubscriptionKey';
 import { usePartnerList } from '@/hooks/usePartnerList';
 import { getFirstSixLastSix } from '@/utils/math_helpers';
-import { IconCheck, IconEdit, IconTrash, IconX } from '@tabler/icons-react';
+import { IconCheck, IconEdit, IconLoader, IconTrash, IconX } from '@tabler/icons-react';
 import useUpdateWorkerPartner from '@/hooks/useUpdateWorkerPartner';
 import useDisableMinerByWorker from '@/hooks/useDisableMinerByWorker';
 import { useSubmit } from '@/providers/submitContext';
@@ -30,7 +30,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
   const [inputValue1, setInputValue1] = useState('');
   const [inputValue2, setInputValue2] = useState('');
   const [refetchTrigger, setRefetchTrigger] = useState(0); // Trigger for refetch
-  const { createSubscriptionKey, response } = useCreateSubscriptionKey();
+  const { createSubscriptionKey, response, error } = useCreateSubscriptionKey();
   const [editRowId, setEditRowId] = useState<string | null>(null);
   const [editableData, setEditableData] = useState<SubscriptionData | null>(null);
   const { updateWorkerPartner } = useUpdateWorkerPartner();
@@ -40,10 +40,12 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
   const { isSubscriptionModalLoading, setIsSubscriptionModalLoading } = useSubmit();
   const handleInputChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue1(e.target.value);
+    setErrorMsg("");
   };
 
   const handleInputChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue2(e.target.value);
+    setErrorMsg("");
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -55,17 +57,22 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
       setInputValue2("");
       setRefetchTrigger((prev) => prev+1);
         if(response?.success){
-
           setErrorMsg("");
         } else {
-          setErrorMsg("Invalid Subscription Key Please Retry");
+          console.log("this is working", error)
+          setErrorMsg(error || "Invalid Subscription Key Please Retry");
         }
       } else {
         setErrorMsg("Subscription Key is Required");
+        setIsSubscriptionModalLoading(false)
       }
   };
   const {triggerTaskPageReload, setTriggerTaskPageReload} = useSubmit();
-
+  useEffect(()=>{
+      if(error){
+      setErrorMsg(error);
+    }
+  }, [error])
   useEffect(()=>{
     setTriggerTaskPageReload(true);
   },[refetchTrigger])  
@@ -144,7 +151,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
                 value={inputValue2}
                 onChange={handleInputChange2}
               />
-              {/* {!inputValue2 || errorMsg && <p className=' text-red-500'>{errorMsg}</p>} */}
+              {errorMsg && <p className={` text-red-500 ${FontManrope.className} text-sm font-bold`}>{errorMsg}</p>}
               {/* <p className=' text-red-500'>Invalid Subscription Key Please Retry</p> */}
             </div>
           </div>
@@ -179,7 +186,9 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
       <tbody className={`${FontManrope.className} text-opacity-60`}>
         {isSubscriptionModalLoading && (
           <tr>
-            <td colSpan={4} className="text-center py-5">Loading...</td>
+            <td colSpan={4} className="text-center py-5">
+              <div className='flex justify-center'><span className='animate-spin '><IconLoader /></span>Loading...</div>
+            </td>
           </tr>
         )}
         {!isSubscriptionModalLoading && partners.map((item) => (
