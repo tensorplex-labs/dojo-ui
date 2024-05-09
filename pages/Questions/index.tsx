@@ -12,6 +12,12 @@ import Slider from '@/components/Slider';
 import useRequestTaskByTaskID from '@/hooks/useRequestTaskByTaskID';
 import { useSubmit } from '@/providers/submitContext';
 import ImageComponent from '@/components/ImageComponent';
+import TPLXModalContainer from '@/components/ModalContainer';
+import { cn } from '@/utils/tw';
+import { Button } from '@/components/Button';
+import { useRouter } from 'next/router';
+import { useSubmitApplication } from '@/hooks/useSubmitApplicationByMiner';
+import useSubmitTask from '@/hooks/useSubmitTask';
 
 type QuestionPageProps = {
   children: ReactNode;
@@ -22,7 +28,7 @@ type RankOrder = { [key: string]: string };
 
 
 const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
-  const { updateMultiSelect, updateRanking, updateScore } = useSubmit();
+  const { updateMultiSelect, updateRanking, updateScore, submissionErr, setSubmissionErr } = useSubmit();
   const [rankAnswer, setRankAnswer] = useState<RankOrder>();
   const [isMultiSelectQuestion, setIsMultiSelectQuestion] = useState<boolean>(false);
   const [isRankQuestion, setIsRankQuestion] = useState<boolean>(false);
@@ -42,8 +48,11 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
   const [multiSelectQuestionData, setMultiSelectQuestionData] = useState<string[]>([])
   const [rankQuestionData, setRankQuestionData] = useState<string[]>([])
   const [sliderValue, setSliderValue] = useState<number>(1); // Initial value set to 1, adjust as necessary
+  const [open, setOpen] = useState(false);
 
-  const { task, loading, error } = useRequestTaskByTaskID(taskId);
+  const { task } = useRequestTaskByTaskID(taskId);
+  const { error } = useSubmitTask();
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const taskIdFromUrl = urlParams.get('taskId');
@@ -92,6 +101,24 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
       </React.Fragment>
     ));
   }, [task]);
+  const route = useRouter();
+
+  const handleOnClose = () => {
+    setSubmissionErr(null);
+    setOpen(false);
+    route.push('/')
+  }
+
+  useEffect(()=>{
+    if(submissionErr){
+      setOpen(true)
+    }
+  }, [submissionErr])
+
+  useEffect(()=>{
+    setSubmissionErr(null)
+  }, [])
+
   return (
     <Layout>
       <div className="flex flex-col items-center justify-center mt-4 mb-4 max-w-[1200px] mx-auto">
@@ -181,6 +208,17 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
           </>
         </div>
       }
+            <TPLXModalContainer className={'w-[512px] h-[206px]'} headerClassName={'h-12 pl-4'} bodyClassName="p-0"
+        header={"Error"} open={open} onClose={() => handleOnClose()} onSave={() => handleOnClose()}>
+        <div
+          className={cn(`${FontManrope.className} py-4 px-6 border-b-2 border-black bg-accent opacity-60 text-[16px] leading-[120%] h-[88px] flex items-center`)}>
+          <span>{submissionErr}</span>
+        </div>
+        <div className={'text-right p-1 w-[100%] h-[100%]'}>
+          <Button className={cn('w-[85px] h-[39px] mt-2 mr-4 hover:shadow-brut-sm text-[16px] text-white')}
+            buttonText={"CLOSE"} onClick={() => handleOnClose()} />
+        </div>
+      </TPLXModalContainer>
 
     </Layout>
   );
