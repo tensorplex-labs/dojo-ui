@@ -255,8 +255,9 @@ const TPLXDatatable = ({
                     className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className} flex justify-end`}
                   >
                     <Button
-                      buttonText={ `${row.original.expiry === "Expired" ? "Expired" : "Start"}`}
-                      className={`text-white ${row.original.expiry === "Expired" ? "bg-gray-400" : ""} disabled:bg-gray-400`}
+                      disabled={row.original.expiry === "Expired" || row.original.isCompletedByWorker === true}
+                      buttonText={ `${row.original.expiry === "Expired" ? "Expired" : row.original.isCompletedByWorker ? 'Completed' : "Start"}`}
+                      className={`text-white disabled:bg-gray-400 disabled:cursor-not-allowed`}
                       onClick={() => onStartHandler(row.original.taskId)}
                     />
                   </td>

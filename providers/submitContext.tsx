@@ -12,6 +12,8 @@ interface SubmitContextType {
   handleSubmit: Function;
   triggerTaskPageReload: boolean;
   setTriggerTaskPageReload: Function;
+  submissionErr: string | null;
+  setSubmissionErr: Function;
 }
 
 const SubmitContext = createContext<SubmitContextType | undefined>(undefined);
@@ -31,6 +33,7 @@ export const SubmitProvider: React.FC<{children: ReactNode}> = ({ children }) =>
   const [rankingData, setRankingData] = useState<any>();
   const [scoreData, setScoreData] = useState<number>(0);
   const [triggerTaskPageReload, setTriggerTaskPageReload] = useState<boolean>(false);
+  const [submissionErr, setSubmissionErr] = useState<string | null>(null);
   const updateMultiSelect = (data: string[]) => {
     setMultiSelectData(data);
     console.log(multiSelectData)
@@ -43,18 +46,29 @@ export const SubmitProvider: React.FC<{children: ReactNode}> = ({ children }) =>
   const updateScore = (score: number) => {
     setScoreData(score);
   };
-  const {submitTask, response} = useSubmitTask();
+  const {submitTask, response, error} = useSubmitTask();
   const handleSubmit = async() => {
     const taskId = String(router.query.taskId || '')
     if (rankingData && multiSelectData && scoreData && taskId) {
       await submitTask(taskId, multiSelectData, rankingData, scoreData);
+      if(error){
+        console.log('WORKED >>> ',error)
+        setSubmissionErr(error)
+      }
       if(response){
-          router.push('/')
+        setSubmissionErr(null)
+        router.push('/')
       }
     } else {
       alert("Please fill all the data to continue")
     }
   }
+  useEffect(() => {
+    if(error){
+      setSubmissionErr(error)
+    }
+  }, [error])
+  {console.log(submissionErr)}
   return (
     <SubmitContext.Provider value={{
       multiSelectData,
@@ -65,7 +79,9 @@ export const SubmitProvider: React.FC<{children: ReactNode}> = ({ children }) =>
       updateRanking: (data: string[]) => updateRanking(Object.fromEntries(data.map((item, index) => [item, index.toString()]))),
       updateScore,
       handleSubmit,
-      setTriggerTaskPageReload    }}>
+      setTriggerTaskPageReload,
+      submissionErr,
+      setSubmissionErr   }}>
       {children}
     </SubmitContext.Provider>
   );
