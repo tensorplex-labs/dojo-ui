@@ -114,8 +114,8 @@ const Page = () => {
 
     if (response.success) {
       reset();
-      setModalHeader("Application Submitted");
-      setModalMessage(response.message);
+      setModalHeader("Application Completed");
+      setModalMessage("Please check your email for the miner API key and worker subscription key.");
     } else {
       setModalHeader("Application Failed")
       setModalMessage(response?.message || 'Application failed');
