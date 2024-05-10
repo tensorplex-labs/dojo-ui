@@ -60,19 +60,14 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
           setErrorMsg("");
         } else {
           console.log("this is working", error)
-          setErrorMsg(error || "Invalid Subscription Key Please Retry");
         }
       } else {
-        setErrorMsg(inputValue1 ? "Name field is empty" : "Subscription Key is Required");
+        setErrorMsg(!inputValue1 ? "Name field is empty" : "Subscription Key is Required");
         setIsSubscriptionModalLoading(false)
       }
   };
   const {triggerTaskPageReload, setTriggerTaskPageReload} = useSubmit();
-  useEffect(()=>{
-      if(error){
-      setErrorMsg(error);
-    }
-  }, [error])
+
   useEffect(()=>{
     setTriggerTaskPageReload(true);
   },[refetchTrigger])  
@@ -118,6 +113,13 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
     setIsSubscriptionModalLoading(false)
   };
 
+  useEffect(() => {
+    setIsSubscriptionModalLoading(false);
+  }, [partners]);
+
+  useEffect(() => {
+    setIsSubscriptionModalLoading(true);
+  }, [!partners]);
   return (
     <Modal
       showModal={isModalVisible}
@@ -151,7 +153,9 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
                 value={inputValue2}
                 onChange={handleInputChange2}
               />
+              {error && <p className={` text-red-500 ${FontManrope.className} text-sm font-bold`}>{error}</p>}
               {errorMsg && <p className={` text-red-500 ${FontManrope.className} text-sm font-bold`}>{errorMsg}</p>}
+
               {/* <p className=' text-red-500'>Invalid Subscription Key Please Retry</p> */}
             </div>
           </div>

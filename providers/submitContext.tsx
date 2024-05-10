@@ -36,7 +36,7 @@ export const SubmitProvider: React.FC<{children: ReactNode}> = ({ children }) =>
   const [scoreData, setScoreData] = useState<number>(0);
   const [triggerTaskPageReload, setTriggerTaskPageReload] = useState<boolean>(false);
   const [submissionErr, setSubmissionErr] = useState<string | null>(null);
-  const [isSubscriptionModalLoading, setIsSubscriptionModalLoading] = useState<boolean>(false);
+  const [isSubscriptionModalLoading, setIsSubscriptionModalLoading] = useState<boolean>(true);
   const updateMultiSelect = (data: string[]) => {
     setMultiSelectData(data);
     console.log(multiSelectData)
