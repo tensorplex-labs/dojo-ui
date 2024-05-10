@@ -17,20 +17,14 @@ type TPLXWalletButtonProps = {
 };
 export const TPLXWalletButton = ({ openModal }: TPLXWalletButtonProps) => {
   const chainId = useChainId();
-  const { address, status } = useAccount();
+  const { address, status, isConnected } = useAccount();
   const {isAuthenticated} = useAuth();
   // const { openModal } = useModal(MODAL.wallet);
-  const { disconnect } = useDisconnect();
 
 
-  useEffect(() => {
-    if( status === "connected" && !isAuthenticated){
-      disconnect();
-    }
-  }, []);
   return (
     <div>
-      {status === 'connected' && isAuthenticated ? (
+      {isConnected && isAuthenticated ? (
         // eslint-disable-next-line jsx-a11y/click-events-have-key-events
         <div
           onClick={openModal}
