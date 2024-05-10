@@ -21,6 +21,7 @@ import useGetTasks from "@/hooks/useGetTasks"; // Import the hook
 import { useModal } from "@/hooks/useModal";
 import { usePartnerList } from "@/hooks/usePartnerList";
 import useRequestTaskByTaskID from "@/hooks/useRequestTaskByTaskID";
+import { useAuth } from "@/providers/authContext";
 import { MODAL } from "@/providers/modals";
 import { useSubmit } from "@/providers/submitContext";
 import { useTaskData } from "@/providers/taskContext";
@@ -41,6 +42,7 @@ export default function Home() {
   const [showDemo, setShowDemo] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [showUserCard, setShowUserCard] = useState(false);
+  const {isAuthenticated} = useAuth();
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
@@ -48,7 +50,7 @@ export default function Home() {
   const [sort, setSort] = useState('createdAt');
   const [yieldMin, setYieldMin] = useState(0);
   const [yieldMax, setYieldMax] = useState(10);
-  const { address, status } = useAccount();
+  const { address, status, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const handleCopy = useCopyToClipboard(address ?? '');
   const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
@@ -281,7 +283,7 @@ const {triggerTaskPageReload, setTriggerTaskPageReload} = useSubmit();
           SHOWING {tasks.length} RECORDS
         </h1>
         <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10}/>
-        {!pLoading && partners.length === 0 ? (<div className="text-center">
+        {!pLoading && partners.length === 0 && isConnected && isAuthenticated ? (<div className="text-center">
           <Button onClick={()=>handleViewClick()} buttonText="Enter Subscription Key" className="text-white bg-primary cursor-not-allowed"/>
         </div>) : null}
       </div>
