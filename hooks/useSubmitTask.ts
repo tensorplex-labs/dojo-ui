@@ -8,10 +8,10 @@ interface SubmitTaskResponse {
   };
   error: null | string;
 }
-
+type RankOrder = { [key: string]: string };
 interface ResultDataItem {
   type: string;
-  value: any;
+  value: string | RankOrder | string[];
 }
 
 interface SubmitTaskPayload {
@@ -25,17 +25,23 @@ const useSubmitTask =  () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const jwtToken = getFromLocalStorage('jwtToken');
-  type RankOrder = { [key: string]: string };
-  const submitTask = async ( taskId: string, multiSelectData: string[], rankingData: RankOrder, scoreData: number) => {
+  const submitTask = async (taskId: string, multiSelectData: string[], rankingData: RankOrder, scoreData: number) => {
     setLoading(true);
-    console.log(taskId)
+    const reversedRankingData: RankOrder = Object.fromEntries(Object.entries(rankingData).map(([key, value]) => [parseInt(value) + 1, key]));
+    console.log(taskId);
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/submit-result/${taskId}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${jwtToken}`
         },
-        body: JSON.stringify({  multiSelectData, rankingData, scoreData}),
+        body: JSON.stringify({
+          "resultData": [
+            { type: 'multi-select', value: multiSelectData },
+            { type: 'ranking', value: reversedRankingData },
+            { type: 'score', value: scoreData }
+          ],
+        }),
       });
       const data: SubmitTaskResponse = await response.json();
       if (response.ok) {

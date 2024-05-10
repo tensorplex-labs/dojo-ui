@@ -34,7 +34,7 @@ export const useCreateSubscriptionKey = () => {
       if (!response.ok) {
         throw new Error(result.error || 'Failed to create subscription key');
       }
-
+      setError('');
       setResponse(result);
     } catch (error:any) {
       setError(error.message);

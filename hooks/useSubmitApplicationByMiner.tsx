@@ -1,6 +1,5 @@
 import { getFromLocalStorage } from '@/utils/general_helpers';
-import React, { useState } from 'react';
-import { err } from 'pino-std-serializers';
+import { useState } from 'react';
 
 interface ApplicationData {
   hotkey: string;
@@ -16,18 +15,18 @@ interface SubmissionResponse {
 export const useSubmitApplication = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState<SubmissionResponse | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const submitApplication = async (data: ApplicationData) => {
     setIsLoading(true);
     const jwtToken = getFromLocalStorage('jwtToken');
-
+  
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/miner/miner-application`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${jwtToken}`
-
         },
         body: JSON.stringify({
           hotkey: data.hotkey,
@@ -35,21 +34,21 @@ export const useSubmitApplication = () => {
           email: data.email
         })
       });
-
+  
+      const responseData = await response.json();
       if (!response.ok) {
-        throw new Error('Failed to submit application');
+        setResponse({ success: false, message: responseData.error || 'Failed to submit application'});
+        setError(responseData.message);
+        throw new Error(responseData.error || 'Failed to submit application');
       }
-
+  
       setResponse({ success: true, message: 'Email sent with API and subscription keys.' });
-      // return { success: true, message: 'Email sent with API and subscription keys.' }
-    } catch (error) {
+    } catch (error: any) {
       console.error("error.....", error);
-      setResponse({ success: false, message: 'An error occurred' });
-      // return { success: false, message: 'An error occurred' }
+      setError(error.message);
     } finally {
       setIsLoading(false);
     }
   };
-
   return { submitApplication, response, isLoading };
 };
