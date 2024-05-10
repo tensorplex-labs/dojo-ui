@@ -136,7 +136,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
         <div className=' w-full gap-3 grid grid-cols-2'>
           {task?.taskData?.responses.map((plot: { id: React.Key | null | undefined; htmlContent: string; title: string; showTitle: boolean; completion: { sandbox_url: string } }, index) => (
             <LinkContentVisualizer 
-              title={`${index + 1} ( ${rankQuestionData[index]} )`} 
+              title={rankQuestionData[index]} 
               showTitle={true} 
               url={plot.completion.sandbox_url} 
               key={plot.id}
