@@ -33,17 +33,20 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
   const [isMultiSelectQuestion, setIsMultiSelectQuestion] = useState<boolean>(false);
   const [isRankQuestion, setIsRankQuestion] = useState<boolean>(false);
   const [isSlider, setisSlider] = useState<boolean>(false);
+  const [minValSlider, setMinValSlider] = useState<number>(1); // [1]
+  const [maxValSlider, setMaxValSlider] = useState<number>(10); // [1]
   // State for the selected values in the multi-select radio component
   const [selectedMultiSelectValues, setSelectedMultiSelectValues] = useState<string[]>([]);
   // Handler for changes in the draggable items order
   const handleOrderChange = (newOrder: string[]) => {
     const newRankAnswer: RankOrder = {};
     newOrder.forEach((value, index) => {
-      newRankAnswer[index.toString()] = value;
+      newRankAnswer[value] = index.toString();
     });
     setRankAnswer(newRankAnswer);
     updateRanking(newOrder);
   };
+  
   const [taskId, setTaskId] = useState<string>(''); // [1
   const [multiSelectQuestionData, setMultiSelectQuestionData] = useState<string[]>([])
   const [rankQuestionData, setRankQuestionData] = useState<string[]>([])
@@ -67,13 +70,18 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
         case 'multi-select':
           setIsMultiSelectQuestion(true);
           criterion.options && setMultiSelectQuestionData(criterion.options);
+          setSelectedMultiSelectValues([])
           break;
         case 'ranking':
           setIsRankQuestion(true);
           criterion.options && setRankQuestionData(criterion.options);
+          criterion.options && updateRanking(criterion.options);
           break;
         case 'score':
           setisSlider(true);
+          handleSliderChange(1);
+          criterion.max && setMinValSlider(criterion.max);
+          criterion.min && setMaxValSlider(criterion.min);
           break;
         default:
           console.log(`Unhandled criterion type: ${criterion.type}`);
@@ -84,7 +92,6 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
   const handleSelectionChange = (newValue: string) => {
     setSelectedMultiSelectValues(prevValues => {
       const newValues = prevValues.includes(newValue) ? prevValues.filter(value => value !== newValue) : [...prevValues, newValue];
-
       updateMultiSelect(newValues);  // Move this inside the setState callback
       return newValues;
     });
@@ -127,9 +134,9 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
           {formattedPrompt}
         </div>
         <div className=' w-full gap-3 grid grid-cols-2'>
-          {task?.taskData?.responses.map((plot: { id: React.Key | null | undefined; htmlContent: string; title: string; showTitle: boolean; completion: { sandbox_url: string } }) => (
+          {task?.taskData?.responses.map((plot: { id: React.Key | null | undefined; htmlContent: string; title: string; showTitle: boolean; completion: { sandbox_url: string } }, index) => (
             <LinkContentVisualizer 
-              title={''} 
+              title={rankQuestionData[index]} 
               showTitle={true} 
               url={plot.completion.sandbox_url} 
               key={plot.id}
@@ -143,7 +150,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
             <ImageComponent src={"https://cdn.britannica.com/55/174255-050-526314B6/brown-Guernsey-cow.jpg"}/>
           </div>
           <div className=' p-4'>
-            <ImageComponent src={"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Cow_female_black_white.jpg/1200px-Cow_female_black_white.jpg"}/>
+            <ImageComponent src={"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Cow_fem_black_white.jpg/1200px-Cow_female_black_white.jpg"}/>
           </div>
         </div> */}
         {/* <div className=' flex justify-start items-center text-left self-start mt-[42px]'>
