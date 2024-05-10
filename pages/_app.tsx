@@ -6,6 +6,7 @@ import { WagmiProvider } from "wagmi";
 import ModalProvider from '@/providers/modals';
 import { SubmitProvider } from "@/providers/submitContext";
 import { AuthProvider } from "@/providers/authContext";
+import { TaskProvider } from "@/providers/taskContext";
 
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -18,7 +19,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <AuthProvider>
           <SubmitProvider>
             <ModalProvider>
-              <Component {...pageProps} />
+              <TaskProvider>
+                <Component {...pageProps} />
+              </TaskProvider>
             </ModalProvider>
           </SubmitProvider>
         </AuthProvider>

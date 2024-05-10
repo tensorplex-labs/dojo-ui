@@ -1,18 +1,20 @@
 import { getFromLocalStorage } from '@/utils/general_helpers';
 import { useEffect, useState } from 'react';
 
-interface Task {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
+export interface Task {
+  taskId: string;
   title: string;
   body: string;
-  task: string;
   expireAt: string;
+  type: string;
   taskData: any[];
   status: string;
+  numResults: number;
   maxResults: number;
+  numCriteria: number,
+  isCompletedByWorker: boolean
 }
+
 
 interface Pagination {
   pageNumber: number;
