@@ -18,6 +18,8 @@ import { Button } from '@/components/Button';
 import { useRouter } from 'next/router';
 import { useSubmitApplication } from '@/hooks/useSubmitApplicationByMiner';
 import useSubmitTask from '@/hooks/useSubmitTask';
+import useGetTasks from '@/hooks/useGetTasks';
+import { useTaskData } from '@/providers/taskContext';
 
 type QuestionPageProps = {
   children: ReactNode;
@@ -55,6 +57,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
 
   const { task } = useRequestTaskByTaskID(taskId);
   const { error } = useSubmitTask();
+  const {taskData} = useTaskData();
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -63,6 +66,8 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
       setTaskId(taskIdFromUrl);
     }
   }, []);
+
+  // const { tasks } = useGetTasks(1, 10, ['All'], 'createdAt');
 
   useEffect(() => {
     task?.taskData.criteria.forEach((criterion) => {
