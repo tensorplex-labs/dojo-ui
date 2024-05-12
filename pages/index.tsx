@@ -21,14 +21,15 @@ import useGetTasks from "@/hooks/useGetTasks"; // Import the hook
 import { useModal } from "@/hooks/useModal";
 import { usePartnerList } from "@/hooks/usePartnerList";
 import useRequestTaskByTaskID from "@/hooks/useRequestTaskByTaskID";
+import { useAuth } from "@/providers/authContext";
 import { MODAL } from "@/providers/modals";
 import { useSubmit } from "@/providers/submitContext";
+import { useTaskData } from "@/providers/taskContext";
 import { getFirstFourLastFour } from "@/utils/math_helpers";
 import { FontManrope, FontSpaceMono } from "@/utils/typography";
 import { IconCopy, IconExternalLink } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useAccount, useDisconnect, useSignMessage } from "wagmi";
-
 
 export default function Home() {
   const { openModal } = useModal(MODAL.wallet);
@@ -41,6 +42,7 @@ export default function Home() {
   const [showDemo, setShowDemo] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [showUserCard, setShowUserCard] = useState(false);
+  const {isAuthenticated} = useAuth();
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
@@ -48,7 +50,7 @@ export default function Home() {
   const [sort, setSort] = useState('createdAt');
   const [yieldMin, setYieldMin] = useState(0);
   const [yieldMax, setYieldMax] = useState(10);
-  const { address, status } = useAccount();
+  const { address, status, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const handleCopy = useCopyToClipboard(address ?? '');
   const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
@@ -60,11 +62,12 @@ export default function Home() {
     openModal();
     setShowUserCard(false);
   }
+  const [refetchTrigger, setRefetchTrigger] = useState(false);  
+  const {partners, isLoading: pLoading} = usePartnerList(refetchTrigger)
   const { tasks, pagination, loading, error } = useGetTasks(page, limit, taskTypes, sort, yieldMin, yieldMax);
-  
-  // useEffect(()=>{
-  //   useGetTasks(page, limit, taskTypes, sort, yieldMin, yieldMax);
-  // }, [activeCategories])
+  const { setTaskData } = useTaskData(); 
+  // update the task data in the context
+  setTaskData(tasks);
 
 
   const handleViewClick = () => {
@@ -75,9 +78,6 @@ export default function Home() {
     // Set showDemo to true to bring up the demo
     setIsModalVisible(true);
   };
-
-  
-
 
   // Function to toggle the demo content or modal
   const toggleDemo = () => {
@@ -164,6 +164,7 @@ const {triggerTaskPageReload, setTriggerTaskPageReload} = useSubmit();
 
   useEffect(()=>{
     handleCategoryClick('All');
+    setRefetchTrigger(!refetchTrigger);
     setTriggerTaskPageReload(false);
   },[triggerTaskPageReload])  
 
@@ -191,7 +192,7 @@ const {triggerTaskPageReload, setTriggerTaskPageReload} = useSubmit();
         <h1
           className={`${FontSpaceMono.className} tracking-tight text-4xl mt-9 mb-11 text-black font-bold text-center`}
         >
-          QUESTION BANKS
+          TASK LIST
         </h1>
       </div>
 {/*
@@ -282,6 +283,9 @@ const {triggerTaskPageReload, setTriggerTaskPageReload} = useSubmit();
           SHOWING {tasks.length} RECORDS
         </h1>
         <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10}/>
+        {!pLoading && partners.length === 0 && isConnected && isAuthenticated ? (<div className="text-center">
+          <Button onClick={()=>handleViewClick()} buttonText="Enter Subscription Key" className="text-white bg-primary cursor-not-allowed"/>
+        </div>) : null}
       </div>
       {showUserCard && (
       <UserCard closeModal={setShowUserCard}>
