@@ -12,6 +12,14 @@ import Slider from '@/components/Slider';
 import useRequestTaskByTaskID from '@/hooks/useRequestTaskByTaskID';
 import { useSubmit } from '@/providers/submitContext';
 import ImageComponent from '@/components/ImageComponent';
+import TPLXModalContainer from '@/components/ModalContainer';
+import { cn } from '@/utils/tw';
+import { Button } from '@/components/Button';
+import { useRouter } from 'next/router';
+import { useSubmitApplication } from '@/hooks/useSubmitApplicationByMiner';
+import useSubmitTask from '@/hooks/useSubmitTask';
+import useGetTasks from '@/hooks/useGetTasks';
+import { useTaskData } from '@/providers/taskContext';
 
 type QuestionPageProps = {
   children: ReactNode;
@@ -22,28 +30,35 @@ type RankOrder = { [key: string]: string };
 
 
 const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
-  const { updateMultiSelect, updateRanking, updateScore } = useSubmit();
+  const { updateMultiSelect, updateRanking, updateScore, submissionErr, setSubmissionErr } = useSubmit();
   const [rankAnswer, setRankAnswer] = useState<RankOrder>();
   const [isMultiSelectQuestion, setIsMultiSelectQuestion] = useState<boolean>(false);
   const [isRankQuestion, setIsRankQuestion] = useState<boolean>(false);
   const [isSlider, setisSlider] = useState<boolean>(false);
+  const [minValSlider, setMinValSlider] = useState<number>(1); // [1]
+  const [maxValSlider, setMaxValSlider] = useState<number>(10); // [1]
   // State for the selected values in the multi-select radio component
   const [selectedMultiSelectValues, setSelectedMultiSelectValues] = useState<string[]>([]);
   // Handler for changes in the draggable items order
   const handleOrderChange = (newOrder: string[]) => {
     const newRankAnswer: RankOrder = {};
     newOrder.forEach((value, index) => {
-      newRankAnswer[index.toString()] = value;
+      newRankAnswer[value] = index.toString();
     });
     setRankAnswer(newRankAnswer);
     updateRanking(newOrder);
   };
+  
   const [taskId, setTaskId] = useState<string>(''); // [1
   const [multiSelectQuestionData, setMultiSelectQuestionData] = useState<string[]>([])
   const [rankQuestionData, setRankQuestionData] = useState<string[]>([])
   const [sliderValue, setSliderValue] = useState<number>(1); // Initial value set to 1, adjust as necessary
+  const [open, setOpen] = useState(false);
 
-  const { task, loading, error } = useRequestTaskByTaskID(taskId);
+  const { task } = useRequestTaskByTaskID(taskId);
+  const { error } = useSubmitTask();
+  const {taskData} = useTaskData();
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const taskIdFromUrl = urlParams.get('taskId');
@@ -52,19 +67,26 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
     }
   }, []);
 
+  // const { tasks } = useGetTasks(1, 10, ['All'], 'createdAt');
+
   useEffect(() => {
     task?.taskData.criteria.forEach((criterion) => {
       switch (criterion.type) {
         case 'multi-select':
           setIsMultiSelectQuestion(true);
           criterion.options && setMultiSelectQuestionData(criterion.options);
+          setSelectedMultiSelectValues([])
           break;
         case 'ranking':
           setIsRankQuestion(true);
           criterion.options && setRankQuestionData(criterion.options);
+          criterion.options && updateRanking(criterion.options);
           break;
         case 'score':
           setisSlider(true);
+          handleSliderChange(1);
+          criterion.max && setMinValSlider(criterion.max);
+          criterion.min && setMaxValSlider(criterion.min);
           break;
         default:
           console.log(`Unhandled criterion type: ${criterion.type}`);
@@ -75,7 +97,6 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
   const handleSelectionChange = (newValue: string) => {
     setSelectedMultiSelectValues(prevValues => {
       const newValues = prevValues.includes(newValue) ? prevValues.filter(value => value !== newValue) : [...prevValues, newValue];
-
       updateMultiSelect(newValues);  // Move this inside the setState callback
       return newValues;
     });
@@ -92,6 +113,24 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
       </React.Fragment>
     ));
   }, [task]);
+  const route = useRouter();
+
+  const handleOnClose = () => {
+    setSubmissionErr(null);
+    setOpen(false);
+    route.push('/')
+  }
+
+  useEffect(()=>{
+    if(submissionErr){
+      setOpen(true)
+    }
+  }, [submissionErr])
+
+  useEffect(()=>{
+    setSubmissionErr(null)
+  }, [])
+
   return (
     <Layout>
       <div className="flex flex-col items-center justify-center mt-4 mb-4 max-w-[1200px] mx-auto">
@@ -100,9 +139,9 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
           {formattedPrompt}
         </div>
         <div className=' w-full gap-3 grid grid-cols-2'>
-          {task?.taskData?.responses.map((plot: { id: React.Key | null | undefined; htmlContent: string; title: string; showTitle: boolean; completion: { sandbox_url: string } }) => (
+          {task?.taskData?.responses.map((plot: { id: React.Key | null | undefined; htmlContent: string; title: string; showTitle: boolean; completion: { sandbox_url: string } }, index) => (
             <LinkContentVisualizer 
-              title={''} 
+              title={rankQuestionData[index]} 
               showTitle={true} 
               url={plot.completion.sandbox_url} 
               key={plot.id}
@@ -116,7 +155,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
             <ImageComponent src={"https://cdn.britannica.com/55/174255-050-526314B6/brown-Guernsey-cow.jpg"}/>
           </div>
           <div className=' p-4'>
-            <ImageComponent src={"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Cow_female_black_white.jpg/1200px-Cow_female_black_white.jpg"}/>
+            <ImageComponent src={"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Cow_fem_black_white.jpg/1200px-Cow_female_black_white.jpg"}/>
           </div>
         </div> */}
         {/* <div className=' flex justify-start items-center text-left self-start mt-[42px]'>
@@ -181,6 +220,17 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
           </>
         </div>
       }
+            <TPLXModalContainer className={'w-[512px] h-[206px]'} headerClassName={'h-12 pl-4'} bodyClassName="p-0"
+        header={"Error"} open={open} onClose={() => handleOnClose()} onSave={() => handleOnClose()}>
+        <div
+          className={cn(`${FontManrope.className} py-4 px-6 border-b-2 border-black bg-accent opacity-60 text-[16px] leading-[120%] h-[88px] flex items-center`)}>
+          <span>{submissionErr}</span>
+        </div>
+        <div className={'text-right p-1 w-[100%] h-[100%]'}>
+          <Button className={cn('w-[85px] h-[39px] mt-2 mr-4 hover:shadow-brut-sm text-[16px] text-white')}
+            buttonText={"CLOSE"} onClick={() => handleOnClose()} />
+        </div>
+      </TPLXModalContainer>
 
     </Layout>
   );

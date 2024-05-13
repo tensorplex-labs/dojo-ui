@@ -1,6 +1,7 @@
 // context/AuthContext.js
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import useWorkerLoginAuth, { LoginAuthPayload } from '@/hooks/useWorkerLoginAuth';
+import { useDisconnect } from 'wagmi';
 
 interface AuthContextType {
     isAuthenticated: boolean;
@@ -24,6 +25,7 @@ const AuthContext = createContext<AuthContextType>(defaultContextValue);
 export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
     const { workerLoginAuth, loading, error } = useWorkerLoginAuth();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const {disconnect} = useDisconnect();
 
     // Attempt to retrieve the auth token from localStorage on initial load
     useEffect(() => {
@@ -32,14 +34,23 @@ export const AuthProvider: React.FC<{children: React.ReactNode}> = ({ children }
     }, []);
 
     const workerLogin = async (loginPayload: LoginAuthPayload) => {
-        await workerLoginAuth(loginPayload);
-        const token = localStorage.getItem('jwtToken');
-        setIsAuthenticated(!!token);
+        try {
+            await workerLoginAuth(loginPayload);
+
+            const token = localStorage.getItem('jwtToken');
+            if (!token) disconnect() // means the login failed, so disconnect the user
+
+            setIsAuthenticated(!!token);
+        } catch(err) {
+            console.error("Error while worker login", err);
+            disconnect(); // Disconnect the user if an error occurs
+        }
     };
 
     const workerLogout = () => {
         localStorage.removeItem('jwtToken');  // Remove the token from localStorage
         setIsAuthenticated(false);
+        disconnect();
     };
 
     return (

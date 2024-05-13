@@ -5,6 +5,7 @@ import Slider from '../Slider';
 import { Button } from '../Button';
 import { useRouter } from 'next/router';
 import { useSubmit } from '@/providers/submitContext';
+import { useTaskData } from '@/providers/taskContext';
 
 interface FooterProps {
   // Define any props you need to pass to this component
@@ -13,8 +14,18 @@ interface FooterProps {
 const Footer: React.FC<FooterProps> = (props) => {
   // Destructure props if any, e.g., const { someValue } = props;
     const router = useRouter();
-
+    const { getNextTaskId } = useTaskData();
     const { handleSubmit } = useSubmit();
+
+    const handleSkip = () => {
+        const taskId = getNextTaskId();
+        if (!taskId) {
+            router.push('/')
+            return;
+        }
+        router.push(`/Questions?taskId=${taskId}`) 
+    }
+
     return (
     <div className="max-w-[1075px] mx-auto p-4">
         {/* <div className="mb-2">
@@ -73,7 +84,7 @@ const Footer: React.FC<FooterProps> = (props) => {
             </div>
             </div>
             <div className="flex justify-end items-center space-x-[11px]">
-                <Button buttonText={"SKIP"} className="text-black bg-[#E4E4E4] hover:shadow-brut-sm px-[37px] py-[15px]" onClick={() => router.push('/')}/>
+                <Button buttonText={"SKIP"} className="text-black bg-[#E4E4E4] hover:shadow-brut-sm px-[37px] py-[15px]" onClick={() => handleSkip()}/>
                 <Button buttonText={"PROCEED"} className="text-white bg-[#00B6A6] hover:shadow-brut-sm px-[37px] py-[15px]" onClick={()=>handleSubmit()}/>
             </div>
         </div>

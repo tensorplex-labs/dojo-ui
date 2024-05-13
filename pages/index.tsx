@@ -12,8 +12,12 @@ import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
 import { useEtherScanOpen } from "@/hooks/useEtherScanOpen";
 import useGetTasks from "@/hooks/useGetTasks"; // Import the hook
 import { useModal } from "@/hooks/useModal";
+import { usePartnerList } from "@/hooks/usePartnerList";
+import useRequestTaskByTaskID from "@/hooks/useRequestTaskByTaskID";
+import { useAuth } from "@/providers/authContext";
 import { MODAL } from "@/providers/modals";
 import { useSubmit } from "@/providers/submitContext";
+import { useTaskData } from "@/providers/taskContext";
 import { getFirstFourLastFour } from "@/utils/math_helpers";
 import { FontManrope, FontSpaceMono } from "@/utils/typography";
 import { IconCopy, IconExternalLink } from "@tabler/icons-react";
@@ -21,6 +25,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAccount, useDisconnect, useSignMessage } from "wagmi";
 import {useRouter} from "next/router"
+import { Button } from "@/components/Button";
 
 
 
@@ -37,7 +42,10 @@ export default function Home() {
   const [showDemo, setShowDemo] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [showUserCard, setShowUserCard] = useState(false);
-  const { address, status } = useAccount();
+  const {isAuthenticated} = useAuth();
+
+  const { address, status, isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
   const handleCopy = useCopyToClipboard(address ?? '');
   const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
   const walletManagementHandler = () => {
@@ -67,6 +75,11 @@ export default function Home() {
     yieldMin ? parseInt(yieldMin as string) : undefined,
     yieldMax ? parseInt(yieldMax as string) : undefined
   );
+
+  const [refetchTrigger, setRefetchTrigger] = useState(false);  
+  const {partners, isLoading: pLoading} = usePartnerList(refetchTrigger)
+  const { setTaskData } = useTaskData(); 
+  // update the task data in the context
 
 
   console.log("tasks.....", tasks);
@@ -183,9 +196,9 @@ export default function Home() {
       console.log("Router is ready: ", router.query)
       refetchTasks()
     }
-    // refetchTasks()
-    setTriggerTaskPageReload(false);
 
+    // setRefetchTrigger(prev => !prev);
+    setTriggerTaskPageReload(false);
   },[triggerTaskPageReload, setTriggerTaskPageReload, refetchTasks, router])  
 
 
@@ -225,7 +238,7 @@ export default function Home() {
         <h1
           className={`${FontSpaceMono.className} tracking-tight text-4xl mt-9 mb-11 text-black font-bold text-center`}
         >
-          QUESTION BANKS
+          TASK LIST
         </h1>
       </div>
 {/*
@@ -316,6 +329,9 @@ export default function Home() {
           SHOWING {tasks.length} RECORDS
         </h1>
         <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10}/>
+        {!pLoading && partners.length === 0 && isConnected && isAuthenticated ? (<div className="text-center">
+          <Button onClick={()=>handleViewClick()} buttonText="Enter Subscription Key" className="text-white bg-primary cursor-not-allowed"/>
+        </div>) : null}
       </div>
       {showUserCard && (
       <UserCard closeModal={setShowUserCard}>

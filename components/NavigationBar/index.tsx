@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { FontManrope, FontSpaceMono } from "@/utils/typography";
 import Link from "next/link";
 import { TPLXWalletButton } from "../Wallet/tplx-wallet-button-entry";
+import { useSIWE } from "@/hooks/useSIWE";
 const WalletConnect = ({
   handleWalletConnect,
 }: {
@@ -86,6 +87,10 @@ const NavigationBar = ({ openModal }: NavigationBarProps) => {
     setIsWalletModalOpen(true);
   };
 
+  useSIWE(()=>{
+    console.log("Successfully signed in")
+  });
+
   const handleWalletModalClose = () => {
     setIsWalletModalOpen(false);
   };
@@ -100,7 +105,7 @@ const NavigationBar = ({ openModal }: NavigationBarProps) => {
   const headerItems = [
     // { title: "Home", url: "/" },
     // { title: "Dashboard", url: "/quest" },
-    { title: "Apply", url: "/apply" },
+    // { title: "Apply", url: "/apply" },
     { title: "FAQ", url: "/faq" },
   ];
 

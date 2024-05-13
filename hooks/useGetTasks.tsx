@@ -1,18 +1,20 @@
 import { getFromLocalStorage } from '@/utils/general_helpers';
 import { useCallback, useEffect, useState } from 'react';
 
-interface Task {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
+export interface Task {
+  taskId: string;
   title: string;
   body: string;
-  task: string;
   expireAt: string;
+  type: string;
   taskData: any[];
   status: string;
+  numResults: number;
   maxResults: number;
+  numCriteria: number,
+  isCompletedByWorker: boolean
 }
+
 
 interface Pagination {
   pageNumber: number;
@@ -67,7 +69,7 @@ const useGetTasks = (page: number, limit: number, taskQuery: string, sort: strin
     } finally {
       setLoading(false);
     }
-  }, [page, limit, taskQuery, sort, yieldMin, yieldMax]);
+  }, [page, limit, taskQuery, sort, yieldMin, yieldMax, jwtToken]);
 
   useEffect(() => {
     fetchTasks();
