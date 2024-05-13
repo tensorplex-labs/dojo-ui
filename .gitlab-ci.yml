@@ -38,6 +38,7 @@ stages:
 
 build:
   stage: build
+  image: node:21.7.3
   script:
     - npm run build
   cache:
