@@ -2,16 +2,16 @@ image: docker:20.10.16
 services:
   - name: docker:20.10.16-dind
     alias: docker
-    command: ['--tls=false']
-
+    command: ["--tls=false"]
 variables:
   DOCKER_DRIVER: overlay2
-  DOCKER_TLS_CERTDIR: ''
-  DOCEKR_HOST: tcp://127.0.0.1:2375
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_HOST: tcp://127.0.0.1:2375
 
 default:
   tags:
     - tensorplex
+
 
 .deploy:
   image: node:21.7.3
