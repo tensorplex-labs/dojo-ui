@@ -45,7 +45,7 @@ export default function Home() {
   const {isAuthenticated} = useAuth();
 
   const { address, status, isConnected } = useAccount();
-  const { disconnect } = useDisconnect();
+  // const { disconnect } = useDisconnect();
   const handleCopy = useCopyToClipboard(address ?? '');
   const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
   const walletManagementHandler = () => {
@@ -226,7 +226,6 @@ export default function Home() {
       pathname: router.pathname,
       query: newQuery,
     }, undefined, { shallow: true });
-
   }, [router])
 
 
