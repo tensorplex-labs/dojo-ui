@@ -4,6 +4,4 @@ WORKDIR /dojo-ui
 
 COPY . .
 
-RUN npm run build
-
 CMD ["npm", "run", "start"]
