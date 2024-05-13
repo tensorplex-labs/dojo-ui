@@ -75,11 +75,11 @@ export default function Home() {
     yieldMin ? parseInt(yieldMin as string) : undefined,
     yieldMax ? parseInt(yieldMax as string) : undefined
   );
-
   const [refetchTrigger, setRefetchTrigger] = useState(false);  
   const {partners, isLoading: pLoading} = usePartnerList(refetchTrigger)
   const { setTaskData } = useTaskData(); 
   // update the task data in the context
+  setTaskData(tasks);
 
 
   console.log("tasks.....", tasks);
