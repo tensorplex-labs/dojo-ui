@@ -12,9 +12,6 @@ default:
   tags:
     - tensorplex
 
-.build:
-
-
 .deploy:
   image: node:21.7.3
   stage: deploy
@@ -46,6 +43,10 @@ build:
   cache:
     paths:
       - node_modules
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "dev"' # || $CI_COMMIT_BRANCH == "staging" || $CI_COMMIT_BRANCH == "prod"'
+      changes:
+        - "**/*"
 
 build_image:
   stage: build-image
