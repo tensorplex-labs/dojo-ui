@@ -57,7 +57,7 @@ const useSubmitTask =  () => {
     }
   };
 
-  return { submitTask, response, loading, error };
+  return { submitTask, response, loading, error, jwtToken};
 };
 
 export default useSubmitTask;
