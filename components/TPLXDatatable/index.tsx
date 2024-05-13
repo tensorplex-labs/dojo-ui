@@ -136,6 +136,9 @@ const TPLXDatatable = ({
     setTaskId(id);
     router.push(`/Questions?taskId=${id}`);
   }
+
+  const tableRows = table.getRowModel().rows
+
   // Render the UI for your table
   return (
     <div {...props} ref={tableContainerRef} className="flex flex-col gap-4">
@@ -160,7 +163,7 @@ const TPLXDatatable = ({
                     }`}
                   >
                     {flexRender(
-                      header.column.columnDef.header,
+                      header.column.columnDef.header !== "Operations" ? header.column.columnDef.header : " " ,
                       header.getContext()
                     )}
                   </th>
@@ -169,7 +172,7 @@ const TPLXDatatable = ({
             ))}
           </thead>
           <tbody>
-            {table.getRowModel().rows.map((row) => (
+            {tableRows.map((row) => (
               <tr key={row.id} className={`${row.original.bodyRowClassName || ""} border-b-2`}>
                 {row.getVisibleCells().map((cell) =>
                   cell.column.columnDef.header === "Name" ? (
