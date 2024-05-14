@@ -1,7 +1,9 @@
 'use client';
+import { Button } from '@/components/Button';
 import { CategoryItem } from '@/components/CategoryItem';
 import { DropdownContainer } from '@/components/DropDown';
 import NavigationBar from '@/components/NavigationBar';
+import { Pagination } from '@/components/Pagination';
 import SubscriptionModal from '@/components/SubscriptionModal';
 import { TPLXButton } from '@/components/TPLXButton';
 import TPLXDatatable from '@/components/TPLXDatatable';
@@ -13,7 +15,6 @@ import { useEtherScanOpen } from '@/hooks/useEtherScanOpen';
 import useGetTasks from '@/hooks/useGetTasks'; // Import the hook
 import { useModal } from '@/hooks/useModal';
 import { usePartnerList } from '@/hooks/usePartnerList';
-import useRequestTaskByTaskID from '@/hooks/useRequestTaskByTaskID';
 import { useAuth } from '@/providers/authContext';
 import { MODAL } from '@/providers/modals';
 import { useSubmit } from '@/providers/submitContext';
@@ -21,12 +22,10 @@ import { useTaskData } from '@/providers/taskContext';
 import { getFirstFourLastFour } from '@/utils/math_helpers';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { IconCopy, IconExternalLink } from '@tabler/icons-react';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useAccount, useDisconnect, useSignMessage } from 'wagmi';
+import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
-import { Button } from '@/components/Button';
-import { Pagination } from '@/components/Pagination';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useAccount } from 'wagmi';
 
 const ALL_CATEGORY = 'All';
 export default function Home() {
@@ -73,10 +72,11 @@ export default function Home() {
     yieldMax ? parseInt(yieldMax as string) : undefined
   );
   const [refetchTrigger, setRefetchTrigger] = useState(false);
-  const { partners, isLoading: pLoading } = usePartnerList(refetchTrigger);
-  const { setTaskData } = useTaskData();
+  const { partners, isLoading: pLoading } = usePartnerList(triggerTaskPageReload);
+  const { setTaskData, setPagination } = useTaskData();
   // update the task data in the context
   setTaskData(tasks);
+  setPagination(pagination);
 
   console.log('tasks.....', tasks);
 

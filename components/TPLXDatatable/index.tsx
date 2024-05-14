@@ -1,17 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
-import {
-  useReactTable,
-  getCoreRowModel,
-  flexRender,
-  getPaginationRowModel,
-  getFilteredRowModel,
-  ColumnDef,
-} from '@tanstack/react-table';
-import { IconChevronsLeft, IconChevronsRight, IconX } from '@tabler/icons-react';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
-import { Button } from '../Button';
-import useRequestTaskByTaskID from '@/hooks/useRequestTaskByTaskID';
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 import { useRouter } from 'next/router';
+import React, { useRef, useState } from 'react';
+import { Button } from '../Button';
 
 export interface FilterDef {
   filterType: 'global' | 'column';
@@ -254,7 +252,10 @@ const TPLXDatatable = ({
                         className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className} flex justify-end`}
                       >
                         <Button
-                          // disabled={new Date(row.original.expireAt).getTime() < Date.now() || row.original.isCompletedByWorker === true}
+                          disabled={
+                            new Date(row.original.expireAt).getTime() < Date.now() ||
+                            row.original.isCompletedByWorker === true
+                          }
                           buttonText={`${new Date(row.original.expireAt).getTime() < Date.now() ? 'Expired' : row.original.isCompletedByWorker ? 'Completed' : 'Start'}`}
                           className={`text-white disabled:cursor-not-allowed disabled:bg-gray-400`}
                           onClick={() => onStartHandler(row.original.taskId)}
