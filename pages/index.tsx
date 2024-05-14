@@ -26,6 +26,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAccount, useDisconnect, useSignMessage } from "wagmi";
 import {useRouter} from "next/router"
 import { Button } from "@/components/Button";
+import { Pagination } from "@/components/Pagination";
 
 
 
@@ -56,9 +57,9 @@ export default function Home() {
   const searchParams = useSearchParams();
   const params = useMemo(() => new URLSearchParams(searchParams),[searchParams]);
   const router = useRouter();
-
+  const [currentPage, setCurrentPage] = useState<string>('1');
   const {
-    page = 1,
+    page = currentPage,
     limit = 10,
     tasks: taskTypes = 'All',
     sort = 'createdAt',
@@ -68,7 +69,7 @@ export default function Home() {
 
 
   const { tasks, pagination, loading, error, refetchTasks} = useGetTasks(
-    parseInt(page as string),
+    parseInt(currentPage as string),
     parseInt(limit as string),
     taskTypes as string,
     sort as string,
@@ -228,6 +229,9 @@ export default function Home() {
     }, undefined, { shallow: true });
   }, [router])
 
+  const handlePageChange = (pageIndex: number | string) =>{
+    setCurrentPage(pageIndex.toString());
+  }
 
   return (
     <div className="bg-[#FFFFF4] min-h-screen">
@@ -327,7 +331,9 @@ export default function Home() {
         <h1 className={`${FontSpaceMono.className} text-black font-bold text-[22px] mb-[19px]`}>
           SHOWING {tasks.length} RECORDS
         </h1>
-        <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10}/>
+        <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} isLoading={loading}/>
+        <div className=" mt-3"></div>
+        <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange}/>
         {!pLoading && partners.length === 0 && isConnected && isAuthenticated ? (<div className="text-center">
           <Button onClick={()=>handleViewClick()} buttonText="Enter Subscription Key" className="text-white bg-primary cursor-not-allowed"/>
         </div>) : null}
