@@ -182,7 +182,7 @@ const Page = () => {
             </div>
 
           </div></div>
-        <div className='mt-[18px] w-[1075px] mx-auto flex'>
+        <div className='mt-[18px] w-[1075px] mx-auto flex mb-3'>
           <div
             className={cn(
               brutCardVariants(),
@@ -195,7 +195,7 @@ const Page = () => {
                 {/* <div className="text-gray-500">
                   {faq.content}</div> */}
                   <div
-                className="text-gray-500"
+                className="text-gray-800"
                 dangerouslySetInnerHTML={{ __html: faq.content }}
               />
               </TPLXAccordion>
