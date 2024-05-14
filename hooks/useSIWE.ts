@@ -8,7 +8,7 @@ import { useSubmit } from "@/providers/submitContext";
 export const useSIWE = (postSignin: ()=>void) => {
 const chainId = useChainId();
     const { address, isConnected } = useAccount();
-    const { disconnect,disconnectAsync } = useDisconnect();
+    const { disconnectAsync } = useDisconnect();
     const { triggerTaskPageReload,setTriggerTaskPageReload } = useSubmit();
     const {
         signMessageAsync,
