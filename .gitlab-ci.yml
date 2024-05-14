@@ -2,20 +2,25 @@ image: docker:20.10.16
 services:
   - name: docker:20.10.16-dind
     alias: docker
-    command: ['--tls=false']
-
+    command: ["--tls=false"]
 variables:
   DOCKER_DRIVER: overlay2
-  DOCKER_TLS_CERTDIR: ''
-  DOCEKR_HOST: tcp://127.0.0.1:2375
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_HOST: tcp://127.0.0.1:2375
 
 default:
   tags:
     - tensorplex
 
+.build_defaults:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "staging" || $CI_COMMIT_BRANCH == "prod"'
+      changes:
+        - "**/*"
+
 .deploy:
-  image: node:21.7.3
   stage: deploy
+  image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/node:21.7.3
   script:
     - npm install -g vercel
     - npm install --loglevel verbose
@@ -29,9 +34,35 @@ default:
       - node_modules
 
 stages:
+  - build
+  - build-image
   - deploy
 
 # ========================================================================================
+
+
+build:
+  extends: .build_defaults
+  stage: build
+  image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/node:21.7.3
+  script:
+    - npm run build
+  artifacts:
+    untracked: true
+  cache:
+    paths:
+      - node_modules
+
+build_image:
+  extends: .build_defaults
+  stage: build-image
+  script:
+    - docker login -u $CI_DEPENDENCY_PROXY_USER -p $CI_DEPENDENCY_PROXY_PASSWORD $CI_DEPENDENCY_PROXY_SERVER
+    - docker build -t $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/\//-}-${CI_COMMIT_SHORT_SHA/\//-}-$(date +%s) -t $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/\//-}-latest . --no-cache
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker push -a $CI_REGISTRY_IMAGE
+  needs:
+    - build
 
 deploy_preview:
   only:

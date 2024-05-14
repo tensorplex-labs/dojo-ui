@@ -1,21 +1,14 @@
-import { Button } from "@/components/Button";
+'use client';
 import { CategoryItem } from "@/components/CategoryItem";
 import { DropdownContainer } from "@/components/DropDown";
-import LabelledInput from "@/components/LabelledInput";
-import Modal from "@/components/Modal";
 import NavigationBar from "@/components/NavigationBar";
-import Slider from "@/components/Slider";
 import SubscriptionModal from "@/components/SubscriptionModal";
-import SubscriptionTable from "@/components/SubscriptionTable";
 import { TPLXButton } from "@/components/TPLXButton";
 import TPLXDatatable from "@/components/TPLXDatatable";
 import UserCard from "@/components/UserCard";
 import TPLXWeb3Icon from "@/components/Wallet/tplx-web3-icon";
-import YieldInput from "@/components/YieldInput";
-import YieldInputGroup from "@/components/YieldInputGroup";
 import { categories, columnDef, dropdownOptions, mockData } from "@/data";
 import { useCopyToClipboard } from "@/hooks/useCopyToClipboard";
-import { useCreateSubscriptionKey } from "@/hooks/useCreateSubscriptionKey";
 import { useEtherScanOpen } from "@/hooks/useEtherScanOpen";
 import useGetTasks from "@/hooks/useGetTasks"; // Import the hook
 import { useModal } from "@/hooks/useModal";
@@ -28,10 +21,18 @@ import { useTaskData } from "@/providers/taskContext";
 import { getFirstFourLastFour } from "@/utils/math_helpers";
 import { FontManrope, FontSpaceMono } from "@/utils/typography";
 import { IconCopy, IconExternalLink } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAccount, useDisconnect, useSignMessage } from "wagmi";
+import {useRouter} from "next/router"
+import { Button } from "@/components/Button";
+import { Pagination } from "@/components/Pagination";
 
+
+
+const ALL_CATEGORY = "All"
 export default function Home() {
+
   const { openModal } = useModal(MODAL.wallet);
   // const [activeCategory, setActiveCategory] = useState("All");
   const [activeCategories, setActiveCategories] = useState<string[]>(["All"]);
@@ -44,31 +45,45 @@ export default function Home() {
   const [showUserCard, setShowUserCard] = useState(false);
   const {isAuthenticated} = useAuth();
 
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const [taskTypes, setTaskTypes] = useState(['CODE_GENERATION', 'DIALOGUE', 'TEXT_TO_IMAGE']);
-  const [sort, setSort] = useState('createdAt');
-  const [yieldMin, setYieldMin] = useState(0);
-  const [yieldMax, setYieldMax] = useState(10);
   const { address, status, isConnected } = useAccount();
-  const { disconnect } = useDisconnect();
+  // const { disconnect } = useDisconnect();
   const handleCopy = useCopyToClipboard(address ?? '');
   const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
-  const disconnectHandler = () => {
-    disconnect();
-    //Do disconenct to your backend here as well.
-  }
   const walletManagementHandler = () => {
     openModal();
     setShowUserCard(false);
   }
+  const {triggerTaskPageReload, setTriggerTaskPageReload} = useSubmit();
+  const searchParams = useSearchParams();
+  const params = useMemo(() => new URLSearchParams(searchParams),[searchParams]);
+  const router = useRouter();
+  const [currentPage, setCurrentPage] = useState<string>('1');
+  const {
+    page = currentPage,
+    limit = 10,
+    tasks: taskTypes = 'All',
+    sort = 'createdAt',
+    yieldMin,
+    yieldMax
+  } = router.query; 
+
+
+  const { tasks, pagination, loading, error, refetchTasks} = useGetTasks(
+    parseInt(currentPage as string),
+    parseInt(limit as string),
+    taskTypes as string,
+    sort as string,
+    yieldMin ? parseInt(yieldMin as string) : undefined,
+    yieldMax ? parseInt(yieldMax as string) : undefined
+  );
   const [refetchTrigger, setRefetchTrigger] = useState(false);  
   const {partners, isLoading: pLoading} = usePartnerList(refetchTrigger)
-  const { tasks, pagination, loading, error } = useGetTasks(page, limit, taskTypes, sort, yieldMin, yieldMax);
   const { setTaskData } = useTaskData(); 
   // update the task data in the context
   setTaskData(tasks);
 
+
+  console.log("tasks.....", tasks);
 
   const handleViewClick = () => {
     // Logic to close Wallet & API (if any)
@@ -84,14 +99,14 @@ export default function Home() {
     setShowDemo(!showDemo);
   };
 
-  useEffect(() => {
-    if (activeCategories.length == 1 && activeCategories.includes("All")) {
-      setFilteredData(mockData);
-    } else {
-      const filtered = mockData.filter((dataItem) => activeCategories.includes(dataItem.type));
-      setFilteredData(filtered);
-    }
-  }, [activeCategories]); // Run this effect when activeCategory changes
+  // useEffect(() => {
+  //   if (activeCategories.length == 1 && activeCategories.includes("All")) {
+  //     setFilteredData(mockData);
+  //   } else {
+  //     const filtered = mockData.filter((dataItem) => activeCategories.includes(dataItem.type));
+  //     setFilteredData(filtered);
+  //   }
+  // }, [activeCategories]); // Run this effect when activeCategory changes
 
   const clearInputs = () => {
     setInputValue1("");
@@ -105,55 +120,70 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
+  const handleCategoryClick = useCallback((categoryLabel: string) => {
+    console.log("handleCategoryClick called", categoryLabel)
 
-  }, [showUserCard]);
-
-const handleCategoryClick = (categoryLabel: string) => {
-  setActiveCategories(prevCategories => {
-    let updatedCategories: string[];
-    const ALL_CATEGORY: string = 'All';
+    /**
+     * This part for computing categories
+     */
+  
+    let updatedCategories: string[] = [];
     if (categoryLabel === ALL_CATEGORY) {
-      // handle 'All' case
-      updatedCategories = [ALL_CATEGORY];
+      // Directly set to all if "All" is clicked
+      setActiveCategories([ALL_CATEGORY]);
     } else {
-      // handle all other cases
-      if (prevCategories.includes(categoryLabel)) {
-        // If it is, remove it from the array
-        updatedCategories = prevCategories.filter(category => category !== categoryLabel);
-        // Remove 'All' if other categories are selected
-        if (updatedCategories.length > 0) {
-          updatedCategories = updatedCategories.filter(category => category !== ALL_CATEGORY);
-        }
-      } else {
-        // If it's not, add it to the array
-        updatedCategories = [...prevCategories.filter(category => category !== ALL_CATEGORY), categoryLabel];
-      }
-
-      // if none selected, default back to All
+      // Compute new categories list outside the setter
+      updatedCategories = activeCategories.includes(categoryLabel)
+        ? activeCategories.filter(cat => cat !== categoryLabel && cat !== ALL_CATEGORY) // Remove the category
+        : [...activeCategories.filter(cat => cat !== ALL_CATEGORY), categoryLabel]; // Add the category, remove "All"
+  
+      // Check if the list is empty and reset to "All"
       if (updatedCategories.length === 0) {
         updatedCategories = [ALL_CATEGORY];
       }
+      setActiveCategories(updatedCategories);
     }
 
-    // Set the task types based on the updated categories
-    const updatedTaskTypes = categories
-      .filter(category => updatedCategories.includes(category.label))
-      .map(category => category.taskType)
-      .filter((taskType): taskType is string => typeof taskType === 'string');
+    /**
+     * This part is for updating the URL, and params
+     */
 
-    // If no specific categories are selected, reset taskTypes to include all types
     if (updatedCategories.length === 0 || updatedCategories.includes(ALL_CATEGORY)) {
-      // TODO remove hardcoding here
-      setTaskTypes(['CODE_GENERATION', 'DIALOGUE', 'TEXT_TO_IMAGE']);
-    } else {
-      setTaskTypes(updatedTaskTypes);
-    }
+      // setTaskTypes(categories.map(cat => cat.taskType).filter( type => type !== undefined));
+      const taskFilter= categories.map(cat => cat.taskType).filter( type => type !== undefined).join(',')
 
-    return updatedCategories;
-  });
-};
-const {triggerTaskPageReload, setTriggerTaskPageReload} = useSubmit();
+      const newQuery = {
+        ...router.query,
+        tasks: taskFilter
+      };
+    
+      // Replace the current entry in the history (or use router.push for a new history entry)
+      router.replace({
+        pathname: router.pathname,
+        query: newQuery,
+      }, undefined, { shallow: true });
+      return;
+    } 
+
+    const updatedTaskTypes = categories
+    .filter(cat => updatedCategories.includes(cat.label))
+    .map(category => category.taskType)
+    .filter(type => type !== undefined);
+
+    const newQuery = {
+      ...router.query,
+      tasks: updatedTaskTypes.join(',')
+    };
+  
+    // Replace the current entry in the history (or use router.push for a new history entry)
+    router.replace({
+      pathname: router.pathname,
+      query: newQuery,
+    }, undefined, { shallow: true });
+
+  }, [activeCategories, router]);
+    
+ 
   // const handleYieldInputChange = (index: number, value: string) => {
   //   if (index === 0) {
   //     setInputValue1(value);
@@ -163,26 +193,45 @@ const {triggerTaskPageReload, setTriggerTaskPageReload} = useSubmit();
   // };
 
   useEffect(()=>{
-    handleCategoryClick('All');
-    setRefetchTrigger(!refetchTrigger);
-    setTriggerTaskPageReload(false);
-  },[triggerTaskPageReload])  
+    if (router.isReady) {
+      console.log("Router is ready: ", router.query)
+      refetchTasks()
+    }
 
-  const updateSorting = (sort: string) => {
+    // setRefetchTrigger(prev => !prev);
+    setTriggerTaskPageReload(false);
+  },[triggerTaskPageReload, setTriggerTaskPageReload, refetchTasks, router])  
+
+
+  const updateSorting = useCallback((sort: string) => {
+    let sortQuery: string; 
     switch (sort) {
       case 'Most Attempted':
-        setSort('numResults');
+        sortQuery = "numResults"
         break;
       case 'Most Recent':
-        setSort('createdAt');
+        sortQuery = "createdAt"
         break;
       case 'Least Questions':
-        setSort('numCriteria');
+        sortQuery = "numCriteria"
         break;
       default:
-        setSort('createdAt');
+        sortQuery = "createdAt"
     }
-  };
+    const newQuery = {
+      ...router.query,
+      sort: sortQuery
+    };
+
+    router.replace({
+      pathname: router.pathname,
+      query: newQuery,
+    }, undefined, { shallow: true });
+  }, [router])
+
+  const handlePageChange = (pageIndex: number | string) =>{
+    setCurrentPage(pageIndex.toString());
+  }
 
   return (
     <div className="bg-[#FFFFF4] min-h-screen">
@@ -244,7 +293,7 @@ const {triggerTaskPageReload, setTriggerTaskPageReload} = useSubmit();
           </div>
           <div className="flex gap-2 mt-[18px]">
             <DropdownContainer
-              buttonText={`Sort By ${sort === 'createdAt' ? 'Recency' : sort === 'numCriteria' ? 'Least Questions' : 'Most Attempted'}`}
+              buttonText={`Sort By ${params.get('sort') === 'createdAt' ? 'Recency' : params.get('sort')=== 'numCriteria' ? 'Least Questions' : 'Most Attempted'}`}
               imgSrc="/top-down-arrow.svg"
               className="w-[193.89px]"
             >
@@ -282,7 +331,9 @@ const {triggerTaskPageReload, setTriggerTaskPageReload} = useSubmit();
         <h1 className={`${FontSpaceMono.className} text-black font-bold text-[22px] mb-[19px]`}>
           SHOWING {tasks.length} RECORDS
         </h1>
-        <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10}/>
+        <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} isLoading={loading}/>
+        <div className=" mt-3"></div>
+        <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange}/>
         {!pLoading && partners.length === 0 && isConnected && isAuthenticated ? (<div className="text-center">
           <Button onClick={()=>handleViewClick()} buttonText="Enter Subscription Key" className="text-white bg-primary cursor-not-allowed"/>
         </div>) : null}

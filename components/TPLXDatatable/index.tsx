@@ -40,6 +40,7 @@ interface Props {
   tableClassName?: string;
   defaultColumnSize?: number;
   columnVisibility?: Record<string, boolean>;
+  isLoading?: boolean;
   cellRenderer?: (
     cell: any,
     cellIndex: number,
@@ -55,6 +56,7 @@ type ColumnFilter = {
 };
 
 const TPLXDatatable = ({
+  isLoading,
   canLoad,
   loadingState,
   data,
@@ -96,6 +98,7 @@ const TPLXDatatable = ({
     initialState: {
       pagination: {
         pageSize: pageSize,
+        // pageIndex: 0,
       },
     },
   });
@@ -171,6 +174,36 @@ const TPLXDatatable = ({
               </tr>
             ))}
           </thead>
+          {isLoading ? (
+            <tbody>
+            {[...Array(10)].map((_, i) => (
+              <tr key={i}>
+                <td className="px-4 py-2">
+                  <div className="h-4 bg-gray-300 rounded w-1/2 animate-pulse"></div>
+                </td>
+                <td className="px-4 py-2">
+                  <div className="h-4 bg-gray-300 rounded animate-pulse"></div>
+                </td>
+                <td className="px-4 py-2">
+                  <div className="h-4 bg-gray-300 rounded w-1/3 animate-pulse"></div>
+                </td>
+                <td className="px-4 py-2">
+                  <div className="h-4 bg-gray-300 rounded w-1/4 animate-pulse"></div>
+                </td>
+                <td className="px-4 py-2">
+  <div className="relative flex right-0">
+    <div className="w-20 h-8 bg-gray-300 rounded animate-pulse"></div>
+    <div className="absolute inset-0 flex items-center justify-right">
+      {/* <div className="w-4 h-4 bg-white rounded-full animate-bounce"></div> */}
+    </div>
+  </div>
+</td>
+              </tr>
+            ))}
+
+            </tbody>
+          
+          ):
           <tbody>
             {tableRows.map((row) => (
               <tr key={row.id} className={`${row.original.bodyRowClassName || ""} border-b-2`}>
@@ -218,14 +251,15 @@ const TPLXDatatable = ({
                       key={cell.id}
                       className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
                     >
-                      {cell.getValue() === "Expired" ? (
+                      {new Date(row.original.expireAt).getTime() < Date.now() ? (
                         <div
                           className={`px-0.5 text-center rounded-full ${FontManrope.className} text-base bg-red-500 bg-opacity-50 text-white font-bold`}
                         >
-                          {flexRender(
+                          {/* {flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext()
-                          )}
+                          )} */}
+                          Expired
                         </div>
                       ) : (
                         <div
@@ -258,8 +292,8 @@ const TPLXDatatable = ({
                     className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className} flex justify-end`}
                   >
                     <Button
-                      disabled={row.original.expiry === "Expired" || row.original.isCompletedByWorker === true}
-                      buttonText={ `${row.original.expiry === "Expired" ? "Expired" : row.original.isCompletedByWorker ? 'Completed' : "Start"}`}
+                      disabled={new Date(row.original.expireAt).getTime() < Date.now() || row.original.isCompletedByWorker === true}
+                      buttonText={ `${new Date(row.original.expireAt).getTime() < Date.now() ? "Expired" : row.original.isCompletedByWorker ? 'Completed' : "Start"}`}
                       className={`text-white disabled:bg-gray-400 disabled:cursor-not-allowed`}
                       onClick={() => onStartHandler(row.original.taskId)}
                     />
@@ -269,11 +303,12 @@ const TPLXDatatable = ({
               </tr>
             ))}
           </tbody>
+        }
         </table>
       </div>
 
       {/* Pagination */}
-      <div className={`flex justify-end items-center gap-2 ${FontSpaceMono.className}`}>
+      {/* <div className={`flex justify-end items-center gap-2 ${FontSpaceMono.className}`}>
         <button
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
@@ -305,7 +340,7 @@ const TPLXDatatable = ({
           Next
         </button>
 
-      </div>
+      </div> */}
     </div>
   );
 };

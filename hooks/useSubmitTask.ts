@@ -46,7 +46,7 @@ const useSubmitTask =  () => {
       const data: SubmitTaskResponse = await response.json();
       if (response.ok) {
         setResponse(data);
-        window.location.href = '/';
+        // window.location.href = '/';
       } else {
         setError(data.error || `HTTP error! status: ${response.status}`);
       }
@@ -57,7 +57,7 @@ const useSubmitTask =  () => {
     }
   };
 
-  return { submitTask, response, loading, error };
+  return { submitTask, response, loading, error, jwtToken};
 };
 
 export default useSubmitTask;

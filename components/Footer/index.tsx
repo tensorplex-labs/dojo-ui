@@ -26,6 +26,7 @@ const Footer: React.FC<FooterProps> = (props) => {
         router.push(`/Questions?taskId=${taskId}`) 
     }
 
+
     return (
     <div className="max-w-[1075px] mx-auto p-4">
         {/* <div className="mb-2">
@@ -85,7 +86,7 @@ const Footer: React.FC<FooterProps> = (props) => {
             </div>
             <div className="flex justify-end items-center space-x-[11px]">
                 <Button buttonText={"SKIP"} className="text-black bg-[#E4E4E4] hover:shadow-brut-sm px-[37px] py-[15px]" onClick={() => handleSkip()}/>
-                <Button buttonText={"PROCEED"} className="text-white bg-[#00B6A6] hover:shadow-brut-sm px-[37px] py-[15px]" onClick={()=>handleSubmit()}/>
+                <Button buttonText={"PROCEED"} className="text-white bg-[#00B6A6] hover:shadow-brut-sm px-[37px] py-[15px]" onClick={()=> handleSubmit()}/>
             </div>
         </div>
     </div>
