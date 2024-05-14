@@ -150,7 +150,7 @@ const Page = () => {
             <h1
               className={`${FontManrope.className} text-lg font-extrabold text-black`}
             >
-              Not what you're looking for?
+              {`Not what you're looking for?`}
             </h1>
             <p
               className={`${FontManrope.className} text-base text-black mt-3 font-medium`}
