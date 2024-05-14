@@ -251,7 +251,7 @@ const TPLXDatatable = ({
                       key={cell.id}
                       className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
                     >
-                      {cell.getValue().includes('-') ? (
+                      {new Date(row.original.expireAt).getTime() < Date.now() ? (
                         <div
                           className={`px-0.5 text-center rounded-full ${FontManrope.className} text-base bg-red-500 bg-opacity-50 text-white font-bold`}
                         >
