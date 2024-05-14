@@ -45,7 +45,7 @@ stages:
 build:
   extends: .build_defaults
   stage: build
-  image: node:21.7.3
+  image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/node:21.7.3
   script:
     - npm run build
   artifacts:
