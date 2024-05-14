@@ -1,3 +1,5 @@
+import { CellContext } from "@tanstack/react-table";
+
 export const dropdownOptions = [
   { text: "Most Attempted" },
   { text: "Most Recent" },
@@ -499,6 +501,7 @@ export const columnDef = [
   {
     accessorKey: "type",
     header: "Type",
+    cell: (info: CellContext<any, any>) => info.getValue().replace(/_/g, ' ')
   },
   // {
   //   accessorKey: "yield",

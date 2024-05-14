@@ -54,7 +54,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
   const [rankQuestionData, setRankQuestionData] = useState<string[]>([])
   const [sliderValue, setSliderValue] = useState<number>(1); // Initial value set to 1, adjust as necessary
   const [open, setOpen] = useState(false);
-
+  const [percentage, setPercentage] = useState(0);
   const { task } = useRequestTaskByTaskID(taskId);
   const { error } = useSubmitTask();
   const {taskData} = useTaskData();
@@ -105,6 +105,9 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
     setSliderValue(value);
     updateScore(value);
   };
+  const handleSliderPercentage = (value: number) => {
+    setPercentage(value);
+  }
   const formattedPrompt = useMemo(() => {
     return task?.taskData?.prompt?.split('\\n').map((line, index) => (
       <React.Fragment key={index}>
@@ -151,12 +154,23 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
 
         {/* <ChatComponent /> */}
         {/* <div className='grid grid-cols-2 gap-4'>
-          <div className=' p-4'>
-            <ImageComponent src={"https://cdn.britannica.com/55/174255-050-526314B6/brown-Guernsey-cow.jpg"}/>
-          </div>
-          <div className=' p-4'>
-            <ImageComponent src={"https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Cow_fem_black_white.jpg/1200px-Cow_female_black_white.jpg"}/>
-          </div>
+          {[1, 2, 3, 4].map((index) => (
+            <div key={index} className='shadow-brut-sm border-2 border-black bg-[#F6F6E6]'>
+              <ImageComponent src={"https://cdn.britannica.com/55/174255-050-526314B6/brown-Guernsey-cow.jpg"}/>
+              <div className={` text-base inline-flex w-full justify-between px-4 ${FontSpaceMono.className} uppercase font-bold py-2`}><span>Prompt Similarities</span><span>{percentage}%</span></div>
+              <div className=' p-2'>
+              <Slider
+                  min={1}
+                  max={100}
+                  step={1} // Changed step from 5 to 1 to allow values between 1 and 5
+                  initialValue={1}
+                  // onChange={handleSliderChange}
+                  onChange={handleSliderPercentage}
+                  // showSections
+                />
+                </div>
+            </div>
+          ))}
         </div> */}
         {/* <div className=' flex justify-start items-center text-left self-start mt-[42px]'>
           <h1 className={`text-2xl font-bold ${FontManrope.className} mr-[17px]`}>Ranking Question </h1>
