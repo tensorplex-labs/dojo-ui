@@ -1,24 +1,17 @@
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import Layout from '@/layout';
-import HTMLContentVisualizer from '@/components/HTMLContentVisualizer';
-import { multiSelectOptions, questionDataPY, questionMultiSelectData } from '@/data';
 import DragnDrop from '@/components/DragnDrop';
 import LinkContentVisualizer from '@/components/LinkContentVisualizer';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
-import MultiSelectRadio from '@/components/MultileSelect';
 import MultiSelect from '@/components/MultileSelect';
-import ChatComponent from '@/components/ChatComponent.tsx';
 import Slider from '@/components/Slider';
 import useRequestTaskByTaskID from '@/hooks/useRequestTaskByTaskID';
 import { useSubmit } from '@/providers/submitContext';
-import ImageComponent from '@/components/ImageComponent';
 import TPLXModalContainer from '@/components/ModalContainer';
 import { cn } from '@/utils/tw';
 import { Button } from '@/components/Button';
 import { useRouter } from 'next/router';
-import { useSubmitApplication } from '@/hooks/useSubmitApplicationByMiner';
 import useSubmitTask from '@/hooks/useSubmitTask';
-import useGetTasks from '@/hooks/useGetTasks';
 import { useTaskData } from '@/providers/taskContext';
 
 type QuestionPageProps = {
@@ -27,6 +20,13 @@ type QuestionPageProps = {
 
 type RankOrder = { [key: string]: string };
 
+export const taskCriteria = {
+  multiSelect: "multi-select",
+  ranking: "ranking",
+  score: "score"
+} as const
+
+export type TaskCriteria = typeof taskCriteria[keyof typeof taskCriteria];
 
 
 const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
@@ -55,34 +55,33 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
   const [sliderValue, setSliderValue] = useState<number>(1); // Initial value set to 1, adjust as necessary
   const [open, setOpen] = useState(false);
 
-  const { task } = useRequestTaskByTaskID(taskId);
+  const { task, loading: isTaskLoading } = useRequestTaskByTaskID(taskId);
   const { error } = useSubmitTask();
   const {taskData} = useTaskData();
+  const router = useRouter();
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const taskIdFromUrl = urlParams.get('taskId');
-    if (taskIdFromUrl) {
-      setTaskId(taskIdFromUrl);
+    const { taskId } = router.query;
+    if (router.isReady && taskId && typeof taskId === 'string') {
+      setTaskId(taskId);
     }
-  }, []);
+  }, [router]);
 
-  // const { tasks } = useGetTasks(1, 10, ['All'], 'createdAt');
 
   useEffect(() => {
     task?.taskData.criteria.forEach((criterion) => {
       switch (criterion.type) {
-        case 'multi-select':
+        case taskCriteria.multiSelect:
           setIsMultiSelectQuestion(true);
           criterion.options && setMultiSelectQuestionData(criterion.options);
           setSelectedMultiSelectValues([])
           break;
-        case 'ranking':
+        case taskCriteria.ranking:
           setIsRankQuestion(true);
           criterion.options && setRankQuestionData(criterion.options);
           criterion.options && updateRanking(criterion.options);
           break;
-        case 'score':
+        case taskCriteria.score:
           setisSlider(true);
           handleSliderChange(1);
           criterion.max && setMinValSlider(criterion.max);
@@ -163,7 +162,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
           <span className={`${FontSpaceMono.className} bg-[#D0A215] text-white px-2.5 py-[5px] rounded-[20px] border border-black font-bold`}>{task?.type} PROMPT</span>
         </div> */}
         {/* <p className="text-center flex self-start font-semibold opacity-60 mb-4">{task?.taskData?.prompt}</p> */}
-        {isSlider && <>
+        {!isTaskLoading && isSlider && <>
           {/* <ChatComponent /> */}
           <div className=' flex justify-start items-center text-left self-start mt-[42px]'>
             <h1 className={`text-2xl font-bold ${FontManrope.className} mr-[17px]`}>Rate Question</h1>
@@ -185,7 +184,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
         </>}
       </div>
       {/* Multiselect Question */}
-      {isMultiSelectQuestion &&
+      {!isTaskLoading && isMultiSelectQuestion &&
         <div className="flex flex-col items-center justify-center mt-4 mb-4 max-w-[1200px] mx-auto">
           <div className=' flex justify-start items-center text-left self-start mt-[42px]'>
             <h1 className={`text-2xl font-bold ${FontManrope.className} mr-[17px]`}>Multi-Select Question</h1>
@@ -203,7 +202,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
         </div>
       }
       {/* Rank Question */}
-      {isRankQuestion &&
+      {!isTaskLoading && isRankQuestion &&
         <div className="flex flex-col items-center justify-center mt-4 mb-4 max-w-[1200px] mx-auto">
           <div className='flex justify-start items-center text-left self-start mt-[42px]'>
             <h1 className={`text-2xl font-bold ${FontManrope.className} mr-[17px]`}>Rank Question</h1>
@@ -220,7 +219,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
           </>
         </div>
       }
-            <TPLXModalContainer className={'w-[512px] h-[206px]'} headerClassName={'h-12 pl-4'} bodyClassName="p-0"
+      <TPLXModalContainer className={'w-[512px] h-[206px]'} headerClassName={'h-12 pl-4'} bodyClassName="p-0"
         header={"Error"} open={open} onClose={() => handleOnClose()} onSave={() => handleOnClose()}>
         <div
           className={cn(`${FontManrope.className} py-4 px-6 border-b-2 border-black bg-accent opacity-60 text-[16px] leading-[120%] h-[88px] flex items-center`)}>
