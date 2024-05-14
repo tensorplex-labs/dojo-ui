@@ -19,8 +19,8 @@ default:
         - "**/*"
 
 .deploy:
-  image: node:21.7.3
   stage: deploy
+  image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/node:21.7.3
   script:
     - npm install -g vercel
     - npm install --loglevel verbose
@@ -43,7 +43,7 @@ stages:
 
 
 build:
-#  extends: .build_defaults
+  extends: .build_defaults
   stage: build
   image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/node:21.7.3
   script:
