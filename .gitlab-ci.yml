@@ -12,6 +12,12 @@ default:
   tags:
     - tensorplex
 
+.build_defaults:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "staging" || $CI_COMMIT_BRANCH == "prod"'
+      changes:
+        - "**/*"
+
 .deploy:
   image: node:21.7.3
   stage: deploy
@@ -37,6 +43,7 @@ stages:
 
 
 build:
+  extends: .build_defaults
   stage: build
   image: node:21.7.3
   script:
@@ -46,22 +53,15 @@ build:
   cache:
     paths:
       - node_modules
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "dev"' # || $CI_COMMIT_BRANCH == "staging" || $CI_COMMIT_BRANCH == "prod"'
-      changes:
-        - "**/*"
 
 build_image:
+  extends: .build_defaults
   stage: build-image
   script:
     - docker login -u $CI_DEPENDENCY_PROXY_USER -p $CI_DEPENDENCY_PROXY_PASSWORD $CI_DEPENDENCY_PROXY_SERVER
     - docker build -t $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/\//-}-${CI_COMMIT_SHORT_SHA/\//-}-$(date +%s) -t $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_NAME/\//-}-latest . --no-cache
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker push -a $CI_REGISTRY_IMAGE
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "dev"' # || $CI_COMMIT_BRANCH == "staging" || $CI_COMMIT_BRANCH == "prod"'
-      changes:
-        - "**/*"
   needs:
     - build
 

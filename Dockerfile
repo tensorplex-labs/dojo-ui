@@ -4,4 +4,4 @@ WORKDIR /dojo-ui
 
 COPY . .
 
-CMD ["npm", "run", "start"]
+ENTRYPOINT ["entrypoint.sh"]
