@@ -47,8 +47,6 @@ const useGetTasks = (
 
   const fetchTasks = useCallback(async () => {
     try {
-      console.log('fetchTasks called', page, limit, taskQuery, sort, yieldMin, yieldMax);
-
       const yieldMinQuery = yieldMin ? `&yieldMin=${yieldMin}` : '';
       const yieldMaxQuery = yieldMax ? `&yieldMax=${yieldMax}` : '';
       const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/?page=${page}&limit=${limit}&task=${taskQuery}&sort=${sort}${yieldMinQuery}${yieldMaxQuery}`;

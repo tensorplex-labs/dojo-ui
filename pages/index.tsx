@@ -78,8 +78,6 @@ export default function Home() {
   setTaskData(tasks);
   setPagination(pagination);
 
-  console.log('tasks.....', tasks);
-
   const handleViewClick = () => {
     // Logic to close Wallet & API (if any)
     // For example, if you have a function to close the wallet, call it here
@@ -117,8 +115,6 @@ export default function Home() {
 
   const handleCategoryClick = useCallback(
     (categoryLabel: string) => {
-      console.log('handleCategoryClick called', categoryLabel);
-
       /**
        * This part for computing categories
        */
@@ -201,7 +197,6 @@ export default function Home() {
 
   useEffect(() => {
     if (router.isReady) {
-      console.log('Router is ready: ', router.query);
       refetchTasks();
     }
 

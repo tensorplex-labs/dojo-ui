@@ -16,7 +16,6 @@ const Footer: React.FC<FooterProps> = props => {
 
   const handleSkip = async () => {
     const taskId = await getNextTaskId();
-    console.log('next taskId', taskId);
     if (!taskId) {
       router.push('/');
       return;

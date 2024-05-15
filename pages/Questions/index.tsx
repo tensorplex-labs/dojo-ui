@@ -1,20 +1,20 @@
 /* eslint-disable tailwindcss/migration-from-tailwind-2 */
-import React, { ReactNode, useEffect, useMemo, useState } from 'react';
-import Layout from '@/layout';
+import { Button } from '@/components/Button';
 import DragnDrop from '@/components/DragnDrop';
 import LinkContentVisualizer from '@/components/LinkContentVisualizer';
-import { FontManrope, FontSpaceMono } from '@/utils/typography';
+import TPLXModalContainer from '@/components/ModalContainer';
 import MultiSelect from '@/components/MultileSelect';
+import TPLXShimmers from '@/components/Shimmers';
 import Slider from '@/components/Slider';
 import useRequestTaskByTaskID from '@/hooks/useRequestTaskByTaskID';
-import { useSubmit } from '@/providers/submitContext';
-import TPLXModalContainer from '@/components/ModalContainer';
-import { cn } from '@/utils/tw';
-import { Button } from '@/components/Button';
-import { useRouter } from 'next/router';
 import useSubmitTask from '@/hooks/useSubmitTask';
+import Layout from '@/layout';
+import { useSubmit } from '@/providers/submitContext';
 import { useTaskData } from '@/providers/taskContext';
-import TPLXShimmers from '@/components/Shimmers';
+import { cn } from '@/utils/tw';
+import { FontManrope, FontSpaceMono } from '@/utils/typography';
+import { useRouter } from 'next/router';
+import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 
 type QuestionPageProps = {
   children: ReactNode;
@@ -89,7 +89,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
           criterion.min && setMaxValSlider(criterion.min);
           break;
         default:
-          console.log(`Unhandled criterion type: ${criterion.type}`);
+          console.error(`Unhandled criterion type: ${criterion.type}`);
       }
     });
   }, [task]);
