@@ -38,8 +38,12 @@ const useGetTasks = (page: number, limit: number, taskQuery: string, sort: strin
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const jwtToken = getFromLocalStorage('jwtToken');
-
   const fetchTasks = useCallback(async () => {
+    if(!jwtToken) {
+      setTasks([]);
+      setPagination(null);
+      setError('No JWT token found');
+    }
     try {
 
       console.log("fetchTasks called", page, limit, taskQuery, sort, yieldMin, yieldMax)
