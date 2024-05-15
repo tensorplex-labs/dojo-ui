@@ -2,7 +2,7 @@ import { CellContext } from "@tanstack/react-table";
 
 export const dropdownOptions = [
   { text: "Most Attempted" },
-  { text: "Most Recent" },
+  { text: "Recency" },
   // { text: "Highest Potential Yield" },
   { text: "Least Questions" },
 ];

@@ -208,7 +208,7 @@ export default function Home() {
       case 'Most Attempted':
         sortQuery = "numResults"
         break;
-      case 'Most Recent':
+      case 'Recency':
         sortQuery = "createdAt"
         break;
       case 'Least Questions':
