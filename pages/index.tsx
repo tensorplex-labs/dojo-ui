@@ -82,7 +82,6 @@ export default function Home() {
   // update the task data in the context
   setTaskData(tasks);
 
-
   console.log("tasks.....", tasks);
 
   const handleViewClick = () => {
@@ -293,7 +292,8 @@ export default function Home() {
           </div>
           <div className="flex gap-2 mt-[18px]">
             <DropdownContainer
-              buttonText={`Sort By ${params.get('sort') === 'createdAt' ? 'Recency' : params.get('sort')=== 'numCriteria' ? 'Least Questions' : 'Most Attempted'}`}
+              // buttonText={`Sort By ${params.get('sort') === 'createdAt' ? 'Recency' : params.get('sort')=== 'numCriteria' ? 'Least Questions' : 'Most Attempted'}`}
+              buttonText={`Sort By ${params.get('sort') === 'numCriteria' ? 'Least Questions' : params.get('sort')=== 'numResults' ? 'Most Attempted' : 'Recency'}`}
               imgSrc="/top-down-arrow.svg"
               className="w-[193.89px]"
             >
