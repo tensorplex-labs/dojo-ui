@@ -53,7 +53,7 @@ export default function Home() {
     openModal();
     setShowUserCard(false);
   }
-  const {triggerTaskPageReload, setTriggerTaskPageReload} = useSubmit();
+  const {triggerTaskPageReload, setTriggerTaskPageReload, partnerCount} = useSubmit();
   const searchParams = useSearchParams();
   const params = useMemo(() => new URLSearchParams(searchParams),[searchParams]);
   const router = useRouter();
@@ -334,9 +334,14 @@ export default function Home() {
         <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} isLoading={loading}/>
         <div className=" mt-3"></div>
         <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange}/>
-        {!pLoading && partners.length === 0 && isConnected && isAuthenticated ? (<div className="text-center">
+        {/* {!pLoading && partners.length === 0 && isConnected && isAuthenticated ? (<div className="text-center">
           <Button onClick={()=>handleViewClick()} buttonText="Enter Subscription Key" className="text-white bg-primary cursor-not-allowed"/>
-        </div>) : null}
+        </div>) : null} */}
+        {partnerCount === 0 && 
+          <div className="text-center">
+            <Button onClick={()=>handleViewClick()} buttonText="Enter Subscription Key" className="text-white bg-primary cursor-not-allowed"/>
+          </div>
+        }
       </div>
       {showUserCard && (
       <UserCard closeModal={setShowUserCard}>
