@@ -12,6 +12,10 @@ interface ApplicationData {
 interface SubmissionResponse {
   success: boolean;
   message: string;
+  body: {
+    apiKey: string;
+    subscriptionKey: string;
+  }
 }
 
 export const useSubmitApplication = () => {
@@ -41,12 +45,12 @@ export const useSubmitApplication = () => {
   
       const responseData = await response.json();
       if (!response.ok) {
-        setResponse({ success: false, message: responseData.error || 'Failed to submit application'});
+        setResponse({ success: false, message: responseData.error || 'Failed to submit application', body: { apiKey: '', subscriptionKey: '' } });
         setError(responseData.message);
         throw new Error(responseData.error || 'Failed to submit application');
       }
   
-      setResponse({ success: true, message: 'Email sent with API and subscription keys.' });
+      setResponse({ success: true, message: 'Email sent with API and subscription keys.', body: { apiKey: '', subscriptionKey: '' } });
     } catch (error: any) {
       console.error("error.....", error);
       setError(error.message);

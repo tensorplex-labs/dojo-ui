@@ -19,7 +19,7 @@ const InputField = forwardRef<HTMLInputElement, InputProps>(
           <input
             type={type}
             className={cn(
-              ` font-medium text-sm w-full h-[40px] bg-foreground p-[10px] border-2 border-black shadow-brut-sm text-black outline-0 mb-2`,
+              ` font-medium disabled:bg-gray-300 text-sm w-full h-[40px] bg-foreground p-[10px] border-2 border-black shadow-brut-sm text-black outline-0 mb-2`,
             )}
             ref={ref}
             {...props}

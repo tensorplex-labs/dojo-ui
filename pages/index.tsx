@@ -338,7 +338,7 @@ export default function Home() {
         {/* {!pLoading && partners.length === 0 && isConnected && isAuthenticated ? (<div className="text-center">
           <Button onClick={()=>handleViewClick()} buttonText="Enter Subscription Key" className="text-white bg-primary cursor-not-allowed"/>
         </div>) : null} */}
-        {partnerCount === 0 && 
+        {partnerCount === 0 || tasks.length > 0 && 
           <div className="text-center">
             <Button onClick={()=>handleViewClick()} buttonText="Enter Subscription Key" className="text-white bg-primary cursor-not-allowed"/>
           </div>

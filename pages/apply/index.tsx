@@ -68,8 +68,21 @@ const Page = () => {
       hotkey: "",
       organizationalKey: "",
       email: "",
-    },
+    }
   });
+
+  const {
+    register: register2,
+    setValue: setValue2,
+    getValues: getValues2,
+  } = useForm({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      apiKey: "",
+      subscriptionKey: ""
+    }
+  });
+  
   const { submitApplication, response, isLoading } = useSubmitApplication();
   const { openModal } = useModal(MODAL.wallet);
   const [showUserCard, setShowUserCard] = useState(false);
@@ -245,6 +258,8 @@ const router = useRouter();
       setShowSucceedScreen(true);
       setModalHeader("Application Completed");
       setModalMessage("Please check your email for the miner API key and worker subscription key.");
+      setValue2('apiKey', response.body.apiKey);
+      setValue2('subscriptionKey', response.body.subscriptionKey);
     } else {
       setModalHeader("Application Failed")
       setModalMessage(response?.message || 'Application failed');
@@ -262,6 +277,7 @@ const router = useRouter();
     console.log('called')
     setSelectedAccount(account);
     setIsOpen(false);
+    setValue('hotkey', '');
     handleSignIn(account);
     handleFormMessage();
   }
@@ -288,13 +304,13 @@ const router = useRouter();
             <div className={`flex flex-col  px-5 py-2 border-b-2 border-black pb-[41px] ${!getValues('hotkey') && "bg-[#00B6A6]"} bg-opacity-10`}>
               <div className={`font-bold text-base opacity-80 mb-4 mt-[20px]`}><span className={`text-sm opacity-100 px-2 py-1 rounded-3xl bg-[#00B6A6] text-white uppercase shadow-brut-sm border-black border-2`}>Step 1</span> CONNECT YOUR BITTENSOR WALLET</div>
               
-              <div className='bg-[#F8F8F8] w-full h-[99px] border-2 border-black px-2 cursor-pointer' onClick={() => setIsOpen(!isOpen)}>
+              <div className=' w-full p-2 cursor-pointer' onClick={() => setIsOpen(!isOpen)}>
                   {/* <Button buttonText={"CONNECT"} className=' bg-opacity-15' onClick={setAccounts} /> */}
                   {signedInWith && !!jwtToken ? (
                     <Profile account={signedInWith} jwtToken={jwtToken} onSignOut={handleSignOut} />
                   ) : accounts ? (
                   <>
-                    <div className='flex flex-col py-2 bg-opacity-10 '>
+                    <div className='flex flex-col py-1 px-2 bg-[#F8F8F8] border-2 border-black shadow-brut-sm'>
                       <div className='flex justify-between items-center'>
                         <div className='flex items-center py-2'>
                           <div className='w-[25px] h-[25px] mr-2 bg-[#D9D9D9] rounded-full'/>
@@ -304,14 +320,15 @@ const router = useRouter();
                           className={`w-5 h-5 transition-transform ${isOpen ? 'transform rotate-180' : ''}`}
                         />
                       </div>
-                      <div className='flex items-center'>
-                        <TPLXWeb3Icon size={20} address={selectedAccount?.address ?? ''} />
-                        <span className={`${FontManrope.className} opacity-50 text-sm font-medium ml-4`}>{getFirstFourLastFour(selectedAccount?.address ?? '')}</span>
-                      </div>
                     </div>
-                    <div className="relative z-10 inline-block text-left">
+                    <div className='flex items-center mt-4'>
+                      <TPLXWeb3Icon size={20} address={selectedAccount?.address ?? ''} />
+                      <span className={`${FontManrope.className} opacity-50 text-sm font-medium ml-4`}>{getFirstFourLastFour(selectedAccount?.address ?? '')}</span>
+                    </div>
+
+                    <div className="absolute z-10 mt-[-30px] inline-block text-left">
                     {isOpen && (
-                      <div className="bottom-0 border-2 mt-4 w-[536px] rounded-md shadow-lg bg-white cursor-pointer">
+                      <div className="bottom-0 border-2 shadow-brut-sm w-[536px] border-black bg-white cursor-pointer">
                         <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                           {accounts.map((account) => (
                             <a href="#" className="block w-full px-4 py-2 text-sm text-gray-700 hover:text-gray-900 hover:bg-[#00B6A6] hover:border-[#00B6A6]" role="menuitem" onClick={()=>popupHandler({account})}>
@@ -333,11 +350,22 @@ const router = useRouter();
                     // </div>
                   ) : (
                     <>
-                    <div className='flex justify-between py-2'>
+                    {/* <div className='flex justify-between py-2'>
                       <h1 className={`${FontManrope.className} text-xl font-bold`}>Please Connect your wallet</h1>
                       <ConnectWallet onAccounts={setAccounts} />
+                    </div> */}
+                    {/* <div className={`${FontManrope.className} flex`}>No Wallet Address</div> */}
+                    <div className='flex flex-col py-1 px-2 bg-[#F8F8F8] border-2 border-black shadow-brut-sm'>
+                      <div className='flex justify-between items-center '>
+                        <div className='flex items-center py-2'>
+                          <span className={`${FontManrope.className} font-bold text-xl`}>Please Connect your wallet</span>
+                        </div>
+                        <ConnectWallet onAccounts={setAccounts} />
+                      </div>
                     </div>
-                    <div className={`${FontManrope.className} flex`}>No Wallet Address</div>
+                    <div className='flex items-center mt-4'>
+                      <span className={`${FontManrope.className} opacity-50 text-sm font-medium ml-4`}>No Wallet Address</span>
+                    </div>
                     </>
                   )}         
               </div>
@@ -348,7 +376,7 @@ const router = useRouter();
                 <label htmlFor="hotkey" className={cn('block font-bold text-sm text-font-accent')}>HOTKEY<span
                   className="text-red-500 align-text-top">*</span></label>
                 <InputField
-                  className={cn('mt-3 text-opacity-60')}
+                  className={'mt-3 '}
                   id="hotkey"
                   {...register('hotkey')}
                   placeholder="Enter Hot Key Here"
@@ -394,22 +422,22 @@ const router = useRouter();
                   <p className={`w-[380px] opacity-50 text-center font-semibold text-base ${FontManrope.className}`}>We’ve sent it to {`${getValues('email')}`} It should take up to five minutes to arrive</p>
                 </div>
                 <div className='px-5 py-4 flex flex-col gap-y-5'>
-                <label htmlFor="hotkey" className={cn('block font-bold text-sm text-font-accent uppercase')}>API KEY<span
+                <label htmlFor="apiKey" className={cn('block font-bold text-sm text-font-accent uppercase')}>API KEY<span
                   className="text-red-500 align-text-top">*</span></label>
                   <InputField
                     className={cn('mt-3')}
-                    id="hotkey"
-                    {...register('hotkey')}
+                    id="apiKey"
+                    {...register2('apiKey')}
                     placeholder="Enter Hot Key Here"
                     disabled={true}
                     isCopy
                   />
-                <label htmlFor="hotkey" className={cn('block font-bold text-sm text-font-accent uppercase')}>Secret Key<span
+                <label htmlFor="subscriptionKey" className={cn('block font-bold text-sm text-font-accent uppercase')}>Secret Key<span
                   className="text-red-500 align-text-top">*</span></label>
                   <InputField
                     className={cn('mt-3')}
-                    id="hotkey"
-                    {...register('hotkey')}
+                    id="subscriptionKey"
+                    {...register2('subscriptionKey')}
                     placeholder="Enter Hot Key Here"
                     disabled={true}
                     isCopy

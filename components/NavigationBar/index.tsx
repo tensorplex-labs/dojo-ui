@@ -5,6 +5,9 @@ import Link from "next/link";
 import { TPLXWalletButton } from "../Wallet/tplx-wallet-button-entry";
 import { useSIWE } from "@/hooks/useSIWE";
 import { useRouter } from "next/router";
+import { Button } from '@/components/Button';
+import { TPLXButton } from "../TPLXButton";
+import { cn } from "@/utils/tw";
 const WalletConnect = ({
   handleWalletConnect,
 }: {
@@ -137,17 +140,20 @@ const NavigationBar = ({ openModal }: NavigationBarProps) => {
                 ))}
               </div>
             </div>
-            <div className="flex">
+            <div className="flex gap-3">
               <div className="flex items-center justify-center gap-[8px]">
                 <TPLXWalletButton openModal={openModal}></TPLXWalletButton>
               </div>
               <div className="flex items-center justify-center gap-[8px]">
-                <div
+                <TPLXButton
+                  className={cn(
+                    FontSpaceMono.className,
+                    'text-xs md:text-sm bg-primary rounded-none border-[2px] border-black text-font-secondary hover:shadow-brut-sm',
+                  )}
                   onClick={() => router.push('/apply')}
-                  className="w-fit hover:cursor-pointer hover:bg-muted p-[10px] rounded-full overflow-hidden flex justify-start items-center text-black"
                 >
                   I'm a miner
-                </div>
+                </TPLXButton>
               </div>
             </div>
           </div>
