@@ -5,6 +5,8 @@ interface ApplicationData {
   hotkey: string;
   organisationName?: string;
   email: string;
+  signature: string; // Add this property
+  message: string;
 }
 
 interface SubmissionResponse {
@@ -22,7 +24,7 @@ export const useSubmitApplication = () => {
     const jwtToken = getFromLocalStorage('jwtToken');
   
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/miner/miner-application`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/miner/login/auth`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -31,7 +33,9 @@ export const useSubmitApplication = () => {
         body: JSON.stringify({
           hotkey: data.hotkey,
           organisationName: data.organisationName,
-          email: data.email
+          email: data.email, 
+          signature: data.signature,
+          message: data.message
         })
       });
   

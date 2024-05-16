@@ -231,6 +231,7 @@ export default function Home() {
   const handlePageChange = (pageIndex: number | string) =>{
     setCurrentPage(pageIndex.toString());
   }
+  
 
   return (
     <div className="bg-[#FFFFF4] min-h-screen">
