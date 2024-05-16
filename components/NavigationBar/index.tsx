@@ -4,6 +4,7 @@ import { FontManrope, FontSpaceMono } from "@/utils/typography";
 import Link from "next/link";
 import { TPLXWalletButton } from "../Wallet/tplx-wallet-button-entry";
 import { useSIWE } from "@/hooks/useSIWE";
+import { useRouter } from "next/router";
 const WalletConnect = ({
   handleWalletConnect,
 }: {
@@ -82,6 +83,7 @@ const NavigationBar = ({ openModal }: NavigationBarProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
+  const router = useRouter();
 
   const handleWalletModalOpen = () => {
     setIsWalletModalOpen(true);
@@ -135,8 +137,18 @@ const NavigationBar = ({ openModal }: NavigationBarProps) => {
                 ))}
               </div>
             </div>
-            <div className="flex items-center justify-center gap-[8px]">
-              <TPLXWalletButton openModal={openModal}></TPLXWalletButton>
+            <div className="flex">
+              <div className="flex items-center justify-center gap-[8px]">
+                <TPLXWalletButton openModal={openModal}></TPLXWalletButton>
+              </div>
+              <div className="flex items-center justify-center gap-[8px]">
+                <div
+                  onClick={() => router.push('/apply')}
+                  className="w-fit hover:cursor-pointer hover:bg-muted p-[10px] rounded-full overflow-hidden flex justify-start items-center text-black"
+                >
+                  I'm a miner
+                </div>
+              </div>
             </div>
           </div>
         </div>
