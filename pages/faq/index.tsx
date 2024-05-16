@@ -99,15 +99,6 @@ const Page = () => {
   const [open, setOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   // TODO: Refactor with proper type and hook
-  const onSubmit = async (formData: z.infer<typeof FormSchema>) => {
-    setIsLoadingSubmit(true);
-    await submitApplication({
-      hotkey: formData.hotkey,
-      organisationName: formData.organizationalKey, // Note the API expects "organisationName"
-      email: formData.email
-    });
-    setIsLoadingSubmit(false);
-  };
 
   const handleFormMessage = () => {
 

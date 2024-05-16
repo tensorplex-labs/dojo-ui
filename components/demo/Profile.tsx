@@ -9,7 +9,7 @@ import { Skeleton } from "./ui/skeleton"
 import { useToast } from "./ui/use-toast"
 import { useAzeroID } from "./AzeroIDResolver"
 import { useMemo } from "react"
-import { useCopyToClipboard } from "@/hooks/useCopyToClipboard"
+// import { useCopyToClipboard } from "@/hooks/useCopyToClipboard"
 
 type Props = {
   account: InjectedAccountWithMeta
@@ -21,7 +21,7 @@ export const Profile: React.FC<Props> = ({ account, jwtToken, onSignOut }) => {
   const { toast } = useToast()
   const { resolve } = useAzeroID()
   const handleCopy = () => {
-    useCopyToClipboard(randomText ?? "")
+    // useCopyToClipboard(randomText ?? "")
     toast({
       title: "Copied!",
       description: `Copied ${randomText} to clipboard.`,

@@ -152,7 +152,7 @@ const NavigationBar = ({ openModal }: NavigationBarProps) => {
                   )}
                   onClick={() => router.push('/apply')}
                 >
-                  I'm a miner
+                  {`I'm a miner`}
                 </TPLXButton>
               </div>
             </div>

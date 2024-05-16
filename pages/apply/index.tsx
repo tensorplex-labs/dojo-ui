@@ -331,7 +331,7 @@ const router = useRouter();
                       <div className="bottom-0 border-2 shadow-brut-sm w-[536px] border-black bg-white cursor-pointer">
                         <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                           {accounts.map((account) => (
-                            <a href="#" className="block w-full px-4 py-2 text-sm text-gray-700 hover:text-gray-900 hover:bg-[#00B6A6] hover:border-[#00B6A6]" role="menuitem" onClick={()=>popupHandler({account})}>
+                            <a href="#" key={account.address} className="block w-full px-4 py-2 text-sm text-gray-700 hover:text-gray-900 hover:bg-[#00B6A6] hover:border-[#00B6A6]" role="menuitem" onClick={()=>popupHandler({account})}>
                               <div className='flex items-center'>
                                 <div className='w-[25px] h-[25px] mr-2 bg-[#D9D9D9] rounded-full'/>
                                 <span className={`${FontManrope.className} font-bold text-base`}>{account?.meta.name}</span>
@@ -418,8 +418,8 @@ const router = useRouter();
                 </div>
                 <div className={`h-[215px] bg-[#DBF5E9] flex flex-col items-center border-t-2 border-black`}>
                   <img src='./check-mark.svg' alt='check-mark' className='w-12 h-12 mx-auto mt-4 mb-4'/>
-                  <h1 className={`uppercase text-2xl font-bold mb-4 ${FontSpaceMono.className}`}>We've emailed your key</h1>
-                  <p className={`w-[380px] opacity-50 text-center font-semibold text-base ${FontManrope.className}`}>We’ve sent it to {`${getValues('email')}`} It should take up to five minutes to arrive</p>
+                  <h1 className={`uppercase text-2xl font-bold mb-4 ${FontSpaceMono.className}`}>{`We've emailed your key`}</h1>
+                  <p className={`w-[380px] opacity-50 text-center font-semibold text-base ${FontManrope.className}`}>{`We’ve sent it to ${getValues('email')} It should take up to five minutes to arrive`}</p>
                 </div>
                 <div className='px-5 py-4 flex flex-col gap-y-5'>
                 <label htmlFor="apiKey" className={cn('block font-bold text-sm text-font-accent uppercase')}>API KEY<span
