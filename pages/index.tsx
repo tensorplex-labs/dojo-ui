@@ -53,7 +53,7 @@ export default function Home() {
     openModal();
     setShowUserCard(false);
   }
-  const {triggerTaskPageReload, setTriggerTaskPageReload, partnerCount} = useSubmit();
+  const {triggerTaskPageReload, setTriggerTaskPageReload} = useSubmit();
   const searchParams = useSearchParams();
   const params = useMemo(() => new URLSearchParams(searchParams),[searchParams]);
   const router = useRouter();
@@ -81,6 +81,7 @@ export default function Home() {
   const { setTaskData } = useTaskData(); 
   // update the task data in the context
   setTaskData(tasks);
+
 
   console.log("tasks.....", tasks);
 
@@ -208,7 +209,7 @@ export default function Home() {
       case 'Most Attempted':
         sortQuery = "numResults"
         break;
-      case 'Recency':
+      case 'Most Recent':
         sortQuery = "createdAt"
         break;
       case 'Least Questions':
@@ -231,7 +232,6 @@ export default function Home() {
   const handlePageChange = (pageIndex: number | string) =>{
     setCurrentPage(pageIndex.toString());
   }
-  
 
   return (
     <div className="bg-[#FFFFF4] min-h-screen">
@@ -293,8 +293,7 @@ export default function Home() {
           </div>
           <div className="flex gap-2 mt-[18px]">
             <DropdownContainer
-              // buttonText={`Sort By ${params.get('sort') === 'createdAt' ? 'Recency' : params.get('sort')=== 'numCriteria' ? 'Least Questions' : 'Most Attempted'}`}
-              buttonText={`Sort By ${params.get('sort') === 'numCriteria' ? 'Least Questions' : params.get('sort')=== 'numResults' ? 'Most Attempted' : 'Recency'}`}
+              buttonText={`Sort By ${params.get('sort') === 'createdAt' ? 'Most Recent' : params.get('sort')=== 'numCriteria' ? 'Least Questions' : 'Most Attempted'}`}
               imgSrc="/top-down-arrow.svg"
               className="w-[193.89px]"
             >
@@ -335,14 +334,9 @@ export default function Home() {
         <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} isLoading={loading}/>
         <div className=" mt-3"></div>
         <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange}/>
-        {/* {!pLoading && partners.length === 0 && isConnected && isAuthenticated ? (<div className="text-center">
+        {partners.length === 0 || tasks.length <= 0 ? (<div className="text-center">
           <Button onClick={()=>handleViewClick()} buttonText="Enter Subscription Key" className="text-white bg-primary cursor-not-allowed"/>
-        </div>) : null} */}
-        {partnerCount === 0 || tasks.length > 0 && 
-          <div className="text-center">
-            <Button onClick={()=>handleViewClick()} buttonText="Enter Subscription Key" className="text-white bg-primary cursor-not-allowed"/>
-          </div>
-        }
+        </div>) : null}
       </div>
       {showUserCard && (
       <UserCard closeModal={setShowUserCard}>
