@@ -1,5 +1,5 @@
 import { getFromLocalStorage } from '@/utils/general_helpers';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Partner {
   createdAt: any;
@@ -25,12 +25,12 @@ export const usePartnerList = (refetchDependency: any): UsePartnerListResult => 
     const fetchPartners = async () => {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/worker/partner/list`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${jwtToken}`
-            },
-          });
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        });
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
