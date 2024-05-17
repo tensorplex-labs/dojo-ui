@@ -48,8 +48,8 @@ export default function Home() {
   const walletManagementHandler = () => {
     openModal();
     setShowUserCard(false);
-  }
-  const {triggerTaskPageReload, setTriggerTaskPageReload, partnerCount} = useSubmit();
+  };
+  const { triggerTaskPageReload, setTriggerTaskPageReload } = useSubmit();
   const searchParams = useSearchParams();
   const params = useMemo(() => new URLSearchParams(searchParams), [searchParams]);
   const router = useRouter();
@@ -76,8 +76,6 @@ export default function Home() {
   const { setTaskData, setPagination } = useTaskData();
   // update the task data in the context
   setTaskData(tasks);
-
-  console.log("tasks.....", tasks);
   setPagination(pagination);
 
   const handleViewClick = () => {
@@ -206,26 +204,27 @@ export default function Home() {
     setTriggerTaskPageReload(false);
   }, [triggerTaskPageReload, setTriggerTaskPageReload, refetchTasks, router]);
 
+  const updateSorting = useCallback(
+    (sort: string) => {
+      let sortQuery: string;
+      switch (sort) {
+        case 'Most Attempted':
+          sortQuery = 'numResults';
+          break;
+        case 'Most Recent':
+          sortQuery = 'createdAt';
+          break;
+        case 'Least Questions':
+          sortQuery = 'numCriteria';
+          break;
+        default:
+          sortQuery = 'createdAt';
+      }
+      const newQuery = {
+        ...router.query,
+        sort: sortQuery,
+      };
 
-  const updateSorting = useCallback((sort: string) => {
-    let sortQuery: string; 
-    switch (sort) {
-      case 'Most Attempted':
-        sortQuery = "numResults"
-        break;
-      case 'Recency':
-        sortQuery = "createdAt"
-        break;
-      case 'Least Questions':
-        sortQuery = "numCriteria"
-        break;
-      default:
-        sortQuery = "createdAt"
-    }
-    const newQuery = {
-      ...router.query,
-      sort: sortQuery
-    };
       router.replace(
         {
           pathname: router.pathname,
@@ -302,8 +301,7 @@ export default function Home() {
           </div>
           <div className="mt-[18px] flex gap-2">
             <DropdownContainer
-              // buttonText={`Sort By ${params.get('sort') === 'createdAt' ? 'Recency' : params.get('sort')=== 'numCriteria' ? 'Least Questions' : 'Most Attempted'}`}
-              buttonText={`Sort By ${params.get('sort') === 'numCriteria' ? 'Least Questions' : params.get('sort')=== 'numResults' ? 'Most Attempted' : 'Recency'}`}
+              buttonText={`Sort By ${params.get('sort') === 'createdAt' ? 'Recency' : params.get('sort') === 'numCriteria' ? 'Least Questions' : 'Most Attempted'}`}
               imgSrc="/top-down-arrow.svg"
               className="w-[193.89px]"
             >
