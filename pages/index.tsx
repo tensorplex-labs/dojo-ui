@@ -301,7 +301,7 @@ export default function Home() {
           </div>
           <div className="mt-[18px] flex gap-2">
             <DropdownContainer
-              buttonText={`Sort By ${params.get('sort') === 'createdAt' ? 'Recency' : params.get('sort') === 'numCriteria' ? 'Least Questions' : 'Most Attempted'}`}
+              buttonText={`Sort By ${params.get('sort') === 'numCriteria' ? 'Least Questions' : params.get('sort') === 'numResults' ? 'Most Attempted'  : 'Most Recent'}`}
               imgSrc="/top-down-arrow.svg"
               className="w-[193.89px]"
             >
