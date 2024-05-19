@@ -209,13 +209,14 @@ const router = useRouter();
 
       setSigningIn(true)
       // request nonce from server
-      const nonceRes = await fetch(`https://dojo-api.tensorplex.dev/api/v1/auth/${account.address}`)
-      const data = await nonceRes.json()
-      const { nonce } = data["body"]
+      // TODO use the fetchNonce method
+      const nonceRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/${account.address}`);
+      const data = await nonceRes.json();
+      const { nonce } = data["body"];
 
       const siwsMessage = new SiwsMessage({
-        domain: SIWS_DOMAIN,
-        uri: `https://${SIWS_DOMAIN}`,
+        domain: window.location.host,
+        uri: window.location.origin,
         // use prefix of chain your dapp is on:
         // address: address.toSs58(0),
         address: account.address,
