@@ -1,6 +1,6 @@
 import { FontManrope } from '@/utils/typography';
-import React, { useState } from 'react';
-import { DndProvider, useDrag, useDrop, DragPreviewImage } from 'react-dnd';
+import React, { useEffect, useState } from 'react';
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 type DragnDropProps = {
     options: string[];
@@ -17,6 +17,12 @@ interface Item {
 
 const DragnDrop: React.FC<DragnDropProps> = ({ options, onOrderChange }) => {
   const [items, setItems] = useState(options.map((option, index) => ({ id: `item-${index}`, content: option, type: 'ITEM' })));
+
+  useEffect(() => {
+    // Update the items state whenever the options prop changes
+    setItems(options.map((option, index) => ({ id: `item-${index}`, content: option, type: 'ITEM' })));
+  }, [options]);
+
   const moveItem = (dragIndex: number, hoverIndex: number) => {
     const dragItem = items[dragIndex];
     const newItems = [...items];
