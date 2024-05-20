@@ -55,7 +55,7 @@ import { FontManrope } from '@/utils/typography';
           <h1 className="truncate">{title}</h1>
           <button
             className={cn(
-              isOpen ? 'scale-y-[-1]' : 'scale-y-[1]',
+              isOpen ? 'scale-y-[1]' : 'scale-y-[-1]',
               'duration-300 transition-all bg-primary border-[2px] border-font-primary',
             )}
             onClick={(e) => setIsOpen((prev) => !prev)}

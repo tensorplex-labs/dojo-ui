@@ -44,8 +44,12 @@ const useGetTasks = (
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const jwtToken = getFromLocalStorage('jwtToken');
-
   const fetchTasks = useCallback(async () => {
+    if(!jwtToken) {
+      setTasks([]);
+      setPagination(null);
+      setError('No JWT token found');
+    }
     try {
       const yieldMinQuery = yieldMin ? `&yieldMin=${yieldMin}` : '';
       const yieldMaxQuery = yieldMax ? `&yieldMax=${yieldMax}` : '';

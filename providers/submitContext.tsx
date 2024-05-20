@@ -16,6 +16,8 @@ interface SubmitContextType {
   setSubmissionErr: Function;
   isSubscriptionModalLoading: boolean;
   setIsSubscriptionModalLoading: Function;
+  partnerCount: number;
+  setPartnerCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const SubmitContext = createContext<SubmitContextType | undefined>(undefined);
@@ -37,6 +39,7 @@ export const SubmitProvider: React.FC<{children: ReactNode}> = ({ children }) =>
   const [triggerTaskPageReload, setTriggerTaskPageReload] = useState<boolean>(false);
   const [submissionErr, setSubmissionErr] = useState<string | null>(null);
   const [isSubscriptionModalLoading, setIsSubscriptionModalLoading] = useState<boolean>(true);
+  const [partnerCount, setPartnerCount] = useState(0);
   const updateMultiSelect = (data: string[]) => {
     setMultiSelectData(data);
     console.log(multiSelectData)
@@ -89,7 +92,9 @@ export const SubmitProvider: React.FC<{children: ReactNode}> = ({ children }) =>
       submissionErr,
       setSubmissionErr,
       isSubscriptionModalLoading,
-      setIsSubscriptionModalLoading   }}>
+      setIsSubscriptionModalLoading,
+      partnerCount,
+      setPartnerCount   }}>
       {children}
     </SubmitContext.Provider>
   );

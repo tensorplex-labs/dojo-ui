@@ -4,16 +4,15 @@ import { cn } from '@/utils/tw';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { IconCopy, IconExternalLink } from '@tabler/icons-react';
 
-import React from 'react';
 
-import { Connector, useAccount, useDisconnect } from 'wagmi';
+import { useAuth } from '@/providers/authContext';
+import { clearLocalStorage } from '@/utils/general_helpers';
+import { getFirstFourLastFour } from '@/utils/math_helpers';
+import { useRouter } from 'next/router';
+import { Connector, useDisconnect } from 'wagmi';
 import { TPLXBrutCard } from '../BrutCard';
 import { TPLXButton } from '../TPLXButton';
 import TPLXWeb3Icon from './tplx-web3-icon';
-import { getFirstFourLastFour } from '@/utils/math_helpers';
-import { clearLocalStorage } from '@/utils/general_helpers';
-import { useRouter } from 'next/router';
-import { useAuth } from '@/providers/authContext';
 
 
 interface Props {
@@ -30,6 +29,7 @@ const TPLXLWalletConnectedCard = ({ connector, address }: Props) => {
     try {
       const result = await disconnectAsync()
       console.log("disconnected: ", result);
+      clearLocalStorage();
       workerLogout();
     } catch(err) {
       console.error("Error in disconnecting", err);
