@@ -37,7 +37,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
   const { disableMinerByWorker } = useDisableMinerByWorker();
   const { partners } = usePartnerList(refetchTrigger);
   const [errorMsg, setErrorMsg] = useState('');
-  const { isSubscriptionModalLoading, setIsSubscriptionModalLoading } = useSubmit();
+  const { isSubscriptionModalLoading, setIsSubscriptionModalLoading, setPartnerCount } = useSubmit();
   const handleInputChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue1(e.target.value);
     setErrorMsg("");
@@ -115,7 +115,8 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
 
   useEffect(() => {
     setIsSubscriptionModalLoading(false);
-  }, [partners]);
+    setPartnerCount(partners.length);
+  }, [partners, setPartnerCount]);
 
   useEffect(() => {
     setIsSubscriptionModalLoading(true);
