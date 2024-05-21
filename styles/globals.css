@@ -70,3 +70,12 @@ body {
     text-wrap: balance;
   }
 }
+
+.moving-background {
+ animation: slide 30s linear infinite;
+}
+
+@keyframes slide {
+  from { background-position: 0 0; }
+  to { background-position: -512px -512px; }
+}
