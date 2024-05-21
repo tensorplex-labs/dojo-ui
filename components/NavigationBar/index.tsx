@@ -16,7 +16,8 @@ const WalletConnect = ({
   return (
     <button
       onClick={handleWalletConnect}
-      className={`hover:cursor-pointer inline-flex items-center justify-center whitespace-nowrap font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none visited:text-font-secondary hover:bg-primary px-4 py-2 text-xs md:text-sm bg-primary rounded-none border-[2px] border-black text-font-secondary h-[40px] bg-[#00b8a8] ${FontSpaceMono.className} uppercase`}
+      // eslint-disable-next-line tailwindcss/no-contradicting-classname
+      className={`focus-visible:ring-ring inline-flex h-[40px] items-center justify-center whitespace-nowrap rounded-none border-2 border-black bg-[#00b8a8] bg-primary px-4 py-2 text-xs font-medium text-font-secondary ring-offset-background transition-colors visited:text-font-secondary hover:cursor-pointer hover:bg-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none md:text-sm ${FontSpaceMono.className} uppercase`}
     >
       Connect Wallet
     </button>
@@ -40,12 +41,9 @@ const TPLXMobileMenu = ({
 }) => {
   return (
     <div className="md:hidden">
-      <button
-        onClick={toggleMenu}
-        className="p-4 focus:outline-none focus:bg-gray-700"
-      >
+      <button onClick={toggleMenu} className="p-4 focus:bg-gray-700 focus:outline-none">
         {/* Icon for mobile menu button */}
-        <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <svg className="size-5" viewBox="0 0 20 20" fill="currentColor">
           {isOpen ? (
             // 'X' icon for open menu
             <path
@@ -63,13 +61,9 @@ const TPLXMobileMenu = ({
           )}
         </svg>
       </button>
-      <div className={`${isOpen ? "block" : "hidden"} mobile-menu`}>
+      <div className={`${isOpen ? 'block' : 'hidden'} mobile-menu`}>
         {menuItems.map((item, index) => (
-          <a
-            key={index}
-            href={item.url}
-            className="block text-sm px-2 py-4 text-white bg-gray-900 hover:bg-gray-700"
-          >
+          <a key={index} href={item.url} className="block bg-gray-900 px-2 py-4 text-sm text-white hover:bg-gray-700">
             {item.title}
           </a>
         ))}
@@ -92,8 +86,8 @@ const NavigationBar = ({ openModal }: NavigationBarProps) => {
     setIsWalletModalOpen(true);
   };
 
-  useSIWE(()=>{
-    console.log("Successfully signed in")
+  useSIWE(() => {
+    console.log('Successfully signed in');
   });
 
   const handleWalletModalClose = () => {
@@ -111,29 +105,26 @@ const NavigationBar = ({ openModal }: NavigationBarProps) => {
     // { title: "Home", url: "/" },
     // { title: "Dashboard", url: "/quest" },
     // { title: "Apply", url: "/apply" },
-    { title: "FAQ", url: "/faq" },
+    { title: 'FAQ', url: '/faq' },
   ];
 
   return (
-    <div className="justify-center items-center flex py-[1rem]">
-      <nav className="bg-[#fffff5] border border-black rounded-[16px] max-w-[1075px] justify-center w-full h-[75px]">
-        <div className="max-w-6xl mx-auto px-4">
+    <div className="flex items-center justify-center py-4">
+      <nav className="h-[75px] w-full max-w-[1075px] justify-center rounded-[16px] border border-black bg-[#fffff5]">
+        <div className="mx-auto max-w-6xl px-4">
           <div className="flex justify-between">
-            <div className="flex space-x-4 items-center">
+            <div className="flex items-center space-x-4">
               <div>
-                <Link
-                  href="/"
-                  className="flex items-center py-5 px-2 text-gray-700 hover:text-gray-900"
-                >
+                <Link href="/" className="flex items-center px-2 py-5 text-gray-700 hover:text-gray-900">
                   <img src="./logo.svg" alt="logo" className="h-[20px]" />
                 </Link>
               </div>
-              <div className="hidden md:flex items-center space-x-3">
+              <div className="hidden items-center space-x-3 md:flex">
                 {headerItems.map((item, index) => (
                   <Link
                     key={index}
                     href={item.url}
-                    className={`py-5 px-4 hover:opacity-100 hover:underline-offset-2 hover:underline text-black hover:text-black opacity-75 font-bold text-xl ${FontManrope.className} tracking-tight	`}
+                    className={`px-4 py-5 text-xl font-bold text-black opacity-75 hover:text-black hover:underline hover:underline-offset-2 hover:opacity-100 ${FontManrope.className} tracking-tight	`}
                   >
                     {item.title}
                   </Link>

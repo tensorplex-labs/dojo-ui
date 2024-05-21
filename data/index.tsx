@@ -544,7 +544,7 @@ export const faqList = [
   {
     id: '0',
     content:
-      'To begin, you’ll need to set up a Bittensor Miner, ideally hosted on a server, to generate an API key. A small amount of TAO is required to enter the Dojo Subnet. Currently, this process requires some technical skills, but we are working towards simplifying it in the future. How do I get started?',
+      'To begin, you’ll need to set up a Bittensor Miner, ideally hosted on a server, to generate an API key. A small amount of TAO is required to enter the Dojo Subnet. Currently, this process requires some technical skills, but we are working towards simplifying it in the future.',
     title: 'What are the requirements for getting started?',
   },
   {

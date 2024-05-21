@@ -2,10 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import NavigationBar from '@/components/NavigationBar';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { Button } from '@/components/Button';
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { cn } from '@/utils/tw';
 import { InputField } from '@/components/Fields/InputField';
 import TPLXModalContainer from '@/components/ModalContainer';
 import { useSubmitApplication } from '@/hooks/useSubmitApplicationByMiner';
@@ -16,8 +12,9 @@ import { usePartnerList } from '@/hooks/usePartnerList';
 import { useAccount } from 'wagmi';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import { useEtherScanOpen } from '@/hooks/useEtherScanOpen';
-import UserCard from '@/components/UserCard';
-import TPLXWeb3Icon from '@/components/Wallet/tplx-web3-icon';
+import { useModal } from '@/hooks/useModal';
+import { useSubmitApplication } from '@/hooks/useSubmitApplicationByMiner';
+import { MODAL } from '@/providers/modals';
 import { getFirstFourLastFour } from '@/utils/math_helpers';
 import { TPLXButton } from '@/components/TPLXButton';
 import { IconChevronDown, IconCopy, IconExternalLink, IconLoader } from '@tabler/icons-react';
@@ -38,7 +35,7 @@ import { useRouter } from 'next/router';
 
 const FormSchema = z.object({
   hotkey: z.string().min(1, {
-    message: "Invalid Hotkey. Please input a valid Hotkey.",
+    message: 'Invalid Hotkey. Please input a valid Hotkey.',
   }),
   email: z.string()
     .min(1, { message: "Missing Email. Please input an email" })
@@ -52,7 +49,8 @@ const FormSchema = z.object({
     message: string;
   }
 
-const successMessage = "We are currently reviewing your application. Once approved, we will send you a miner API key and subscription key via the email you provided."
+const successMessage =
+  'We are currently reviewing your application. Once approved, we will send you a miner API key and subscription key via the email you provided.';
 
 const Page = () => {
   const {
@@ -87,8 +85,8 @@ const Page = () => {
   const { openModal } = useModal(MODAL.wallet);
   const [showUserCard, setShowUserCard] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [inputValue1, setInputValue1] = useState("");
-  const [inputValue2, setInputValue2] = useState("");
+  const [inputValue1, setInputValue1] = useState('');
+  const [inputValue2, setInputValue2] = useState('');
   const [modalHeader, setModalHeader] = useState('');
   const { address, status } = useAccount();
   const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
@@ -156,7 +154,7 @@ const Page = () => {
   const walletManagementHandler = () => {
     openModal();
     setShowUserCard(false);
-  }
+  };
 
   // Define the handler functions
   const handleCopy = useCopyToClipboard(address ?? '');
@@ -173,7 +171,7 @@ const router = useRouter();
   };
 
   const [open, setOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
+  const [modalMessage, setModalMessage] = useState('');
   // TODO: Refactor with proper type and hook
   const onSubmit = async (formData: z.infer<typeof FormSchema>) => {
     setIsLoadingSubmit(true);
@@ -262,7 +260,7 @@ const router = useRouter();
       setValue2('apiKey', response.body.apiKey);
       setValue2('subscriptionKey', response.body.subscriptionKey);
     } else {
-      setModalHeader("Application Failed")
+      setModalHeader('Application Failed');
       setModalMessage(response?.message || 'Application failed');
     }
     setOpen(true);
@@ -271,8 +269,8 @@ const router = useRouter();
 
   const handleOnClose = () => {
     setOpen(false);
-    setModalMessage("");
-  }
+    setModalMessage('');
+  };
 
   const popupHandler = ({ account }: { account: InjectedAccountWithMeta }) => {
     console.log('called')
@@ -390,9 +388,9 @@ const router = useRouter();
                 <label htmlFor="organizationalName" className={cn("block font-bold text-sm text-font-accent")}>ORGANISATION
                   NAME</label>
                 <InputField
-                  className={cn("mt-3")}
+                  className={cn('mt-3')}
                   id="organizationalKey"
-                  {...register("organizationalKey")}
+                  {...register('organizationalKey')}
                   placeholder="Enter Organisation Name Here"
                 />
               </div>
@@ -400,9 +398,9 @@ const router = useRouter();
                 <label htmlFor="email" className={cn("block font-bold text-sm text-font-accent")}>EMAIL<span
                   className="text-red-500 align-text-top">*</span></label>
                 <InputField
-                  className={cn("mt-3")}
+                  className={cn('mt-3')}
                   id="email"
-                  {...register("email")}
+                  {...register('email')}
                   placeholder="Enter Email Here"
                   hasError={!!errors.email}
                   errorMessage={errors.email?.message}

@@ -79,8 +79,11 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
           break;
         case taskCriteria.ranking:
           setIsRankQuestion(true);
-          criterion.options && setRankQuestionData(criterion.options);
-          criterion.options && updateRanking(criterion.options);
+          setRankQuestionData([])
+          if (criterion.options) {
+            setRankQuestionData(criterion.options);
+            updateRanking(criterion.options);
+          }
           break;
         case taskCriteria.score:
           setisSlider(true);
