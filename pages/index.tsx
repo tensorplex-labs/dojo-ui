@@ -364,7 +364,7 @@ export default function Home() {
             <TPLXButton
               onClick={handleCopy}
               className="text-[#24837B] p-0 h-fit font-bold"
-              // variant={'link'}
+              variant={'link'}
             >
               <span className=" text-xs mr-[3px] underline-offset-2 underline">
                 COPY ADDRESS
@@ -374,7 +374,7 @@ export default function Home() {
             <TPLXButton
               onClick={handleEtherscan}
               className="text-[#24837B] p-0 h-fit font-bold"
-              // variant={'link'}
+              variant={'link'}
             >
               <span className="text-xs mr-[3px] underline-offset-2 underline">
                 VIEW ON ETHERSCAN

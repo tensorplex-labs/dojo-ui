@@ -1,37 +1,29 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import NavigationBar from '@/components/NavigationBar';
-import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { Button } from '@/components/Button';
 import { InputField } from '@/components/Fields/InputField';
 import TPLXModalContainer from '@/components/ModalContainer';
-import { useAccount } from 'wagmi';
+import NavigationBar from '@/components/NavigationBar';
+import SubscriptionModal from '@/components/SubscriptionModal';
+import { TPLXButton } from '@/components/TPLXButton';
+import UserCard from '@/components/UserCard';
+import TPLXWeb3Icon from '@/components/Wallet/tplx-web3-icon';
+import { ConnectWallet } from '@/components/demo/ConnectWallet';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import { useEtherScanOpen } from '@/hooks/useEtherScanOpen';
 import { useModal } from '@/hooks/useModal';
 import { useSubmitApplication } from '@/hooks/useSubmitApplicationByMiner';
 import { MODAL } from '@/providers/modals';
 import { getFirstFourLastFour } from '@/utils/math_helpers';
-import { TPLXButton } from '@/components/TPLXButton';
-import { IconChevronDown, IconCopy, IconExternalLink, IconLoader } from '@tabler/icons-react';
-import Modal from '@/components/Modal';
-import LabelledInput from '@/components/LabelledInput';
-import SubscriptionTable from '@/components/SubscriptionTable';
-import { DefaultApiResponse } from '@/utils/model';
-import SubscriptionModal from '@/components/SubscriptionModal';
-import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
-import { ConnectWallet } from '@/components/demo/ConnectWallet';
-import { Profile } from '@/components/demo/Profile';
-import { SignIn } from '@/components/demo/SignIn';
-import { AvatarIcon } from '@radix-ui/react-icons';
-import { DropdownContainer } from '@/components/DropDown';
-import { Address, SiwsMessage } from "@talismn/siws";
-import {useRouter} from 'next/router';
-import { z } from 'zod';
+import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
+import { IconChevronDown, IconCopy, IconExternalLink, IconLoader } from '@tabler/icons-react';
+import { Address, SiwsMessage } from "@talismn/siws";
 import cn from 'classnames';
-import TPLXWeb3Icon from '@/components/Wallet/tplx-web3-icon';
-import UserCard from '@/components/UserCard';
+import { useRouter } from 'next/router';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useAccount } from 'wagmi';
+import { z } from 'zod';
 
 const FormSchema = z.object({
   hotkey: z.string().min(1, {
@@ -44,10 +36,10 @@ const FormSchema = z.object({
     }),
   organizationalKey: z.string()
 })
-  interface SignedData {
-    signature: string;
-    message: string;
-  }
+interface SignedData {
+  signature: string;
+  message: string;
+}
 
 const successMessage =
   'We are currently reviewing your application. Once approved, we will send you a miner API key and subscription key via the email you provided.';
@@ -80,7 +72,7 @@ const Page = () => {
       subscriptionKey: ""
     }
   });
-  
+
   const { submitApplication, response, isLoading } = useSubmitApplication();
   const { openModal } = useModal(MODAL.wallet);
   const [showUserCard, setShowUserCard] = useState(false);
@@ -101,7 +93,7 @@ const Page = () => {
   const [signedData, setSignedData] = useState<SignedData>({
     signature: '',
     message: '',
-  });  const [signingIn, setSigningIn] = useState(false)
+  }); const [signingIn, setSigningIn] = useState(false)
   const handleSignedIn = (selectedAccount: InjectedAccountWithMeta, jwtToken: string) => {
     setJwtToken(jwtToken)
     setSignedInWith(selectedAccount)
@@ -159,7 +151,7 @@ const Page = () => {
   // Define the handler functions
   const handleCopy = useCopyToClipboard(address ?? '');
   const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
-const router = useRouter();
+  const router = useRouter();
 
   const handleInputChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue1(e.target.value);
@@ -205,7 +197,7 @@ const router = useRouter();
         //   description: "Your address is not a valid Substrate address.",
         // })
 
-      setSigningIn(true)
+        setSigningIn(true)
       // request nonce from server
       // TODO use the fetchNonce method
       const nonceRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/${account.address}`);
@@ -293,161 +285,161 @@ const router = useRouter();
               <p><span className='animate-spin inline-flex text-center'><IconLoader /></span> Processing. Please wait ...</p>
             </div>
           ) : (
-          <div className={cn(`${FontSpaceMono.className} flex flex-col justify-center mt-10 w-[593px] border-2 border-black mx-auto shadow-brut-sm mb-5`)}>
-            {!showSucceedScreen ? (
-              <>
-            <div className="flex flex-col px-5 py-2 border-b-2 border-black bg-[#F8F8F8]">
-              <h1 className={`${FontSpaceMono.className} text-font-primary tracking-wide text-black font-bold text-xl`}>MINER APPLICATION </h1>
-              <p className={`${FontManrope.className} text-base font-medium opacity-60`}>Connect and verify your bittensor wallet to receive API and subscription key via email</p>
-            </div>
-            <div className={`flex flex-col  px-5 py-2 border-b-2 border-black pb-[41px] ${!getValues('hotkey') && "bg-[#00B6A6]"} bg-opacity-10`}>
-              <div className={`font-bold text-base opacity-80 mb-4 mt-[20px]`}><span className={`text-sm opacity-100 px-2 py-1 rounded-3xl bg-[#00B6A6] text-white uppercase shadow-brut-sm border-black border-2`}>Step 1</span> CONNECT YOUR BITTENSOR WALLET</div>
-              
-              <div className=' w-full p-2 cursor-pointer' onClick={() => setIsOpen(!isOpen)}>
-                  {/* <Button buttonText={"CONNECT"} className=' bg-opacity-15' onClick={setAccounts} /> */}
-                  {signedInWith && !!jwtToken ? (
-                    <Profile account={signedInWith} jwtToken={jwtToken} onSignOut={handleSignOut} />
-                  ) : accounts ? (
-                  <>
-                    <div className='flex flex-col py-1 px-2 bg-[#F8F8F8] border-2 border-black shadow-brut-sm'>
-                      <div className='flex justify-between items-center'>
-                        <div className='flex items-center py-2'>
-                          <div className='w-[25px] h-[25px] mr-2 bg-[#D9D9D9] rounded-full'/>
-                          <span className={`${FontManrope.className} font-bold text-xl`}>{selectedAccount?.meta.name}</span>
-                        </div>
-                        <IconChevronDown
-                          className={`w-5 h-5 transition-transform ${isOpen ? 'transform rotate-180' : ''}`}
-                        />
-                      </div>
-                    </div>
-                    <div className='flex items-center mt-4'>
-                      <TPLXWeb3Icon size={20} address={selectedAccount?.address ?? ''} />
-                      <span className={`${FontManrope.className} opacity-50 text-sm font-medium ml-4`}>{getFirstFourLastFour(selectedAccount?.address ?? '')}</span>
-                    </div>
-
-                    <div className="absolute z-10 mt-[-30px] inline-block text-left">
-                    {isOpen && (
-                      <div className="bottom-0 border-2 shadow-brut-sm w-[536px] border-black bg-white cursor-pointer">
-                        <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                          {accounts.map((account) => (
-                            <a href="#" key={account.address} className="block w-full px-4 py-2 text-sm text-gray-700 hover:text-gray-900 hover:bg-[#00B6A6] hover:border-[#00B6A6]" role="menuitem" onClick={()=>popupHandler({account})}>
-                              <div className='flex items-center'>
-                                <div className='w-[25px] h-[25px] mr-2 bg-[#D9D9D9] rounded-full'/>
-                                <span className={`${FontManrope.className} font-bold text-base`}>{account?.meta.name}</span>
-                              </div>
-                              <div className='flex items-center mt-1'>
-                                <TPLXWeb3Icon size={16} address={account.address} />
-                                <span className={`${FontManrope.className} opacity-50 text-xs font-medium ml-2`}>{getFirstFourLastFour(account.address)}</span>  
-                              </div>
-                            </a>
-                          ))}
-                        </div>
-                      </div>
-                    )}
+            <div className={cn(`${FontSpaceMono.className} flex flex-col justify-center mt-10 w-[593px] border-2 border-black mx-auto shadow-brut-sm mb-5`)}>
+              {!showSucceedScreen ? (
+                <>
+                  <div className="flex flex-col px-5 py-2 border-b-2 border-black bg-[#F8F8F8]">
+                    <h1 className={`${FontSpaceMono.className} text-font-primary tracking-wide text-black font-bold text-xl`}>MINER APPLICATION </h1>
+                    <p className={`${FontManrope.className} text-base font-medium opacity-60`}>Connect and verify your bittensor wallet to receive API and subscription key via email</p>
                   </div>
-                  </>
-                    // </div>
-                  ) : (
-                    <>
-                    {/* <div className='flex justify-between py-2'>
+                  <div className={`flex flex-col  px-5 py-2 border-b-2 border-black pb-[41px] ${!getValues('hotkey') && "bg-[#00B6A6]"} bg-opacity-10`}>
+                    <div className={`font-bold text-base opacity-80 mb-4 mt-[20px]`}><span className={`text-sm opacity-100 px-2 py-1 rounded-3xl bg-[#00B6A6] text-white uppercase shadow-brut-sm border-black border-2`}>Step 1</span> CONNECT YOUR BITTENSOR WALLET</div>
+
+                    <div className=' w-full p-2 cursor-pointer' onClick={() => setIsOpen(!isOpen)}>
+                      {/* <Button buttonText={"CONNECT"} className=' bg-opacity-15' onClick={setAccounts} /> */}
+                      {signedInWith && !!jwtToken ? (
+                        <></>
+                      ) : accounts ? (
+                        <>
+                          <div className='flex flex-col py-1 px-2 bg-[#F8F8F8] border-2 border-black shadow-brut-sm'>
+                            <div className='flex justify-between items-center'>
+                              <div className='flex items-center py-2'>
+                                <div className='w-[25px] h-[25px] mr-2 bg-[#D9D9D9] rounded-full' />
+                                <span className={`${FontManrope.className} font-bold text-xl`}>{selectedAccount?.meta.name}</span>
+                              </div>
+                              <IconChevronDown
+                                className={`w-5 h-5 transition-transform ${isOpen ? 'transform rotate-180' : ''}`}
+                              />
+                            </div>
+                          </div>
+                          <div className='flex items-center mt-4'>
+                            <TPLXWeb3Icon size={20} address={selectedAccount?.address ?? ''} />
+                            <span className={`${FontManrope.className} opacity-50 text-sm font-medium ml-4`}>{getFirstFourLastFour(selectedAccount?.address ?? '')}</span>
+                          </div>
+
+                          <div className="absolute z-10 mt-[-30px] inline-block text-left">
+                            {isOpen && (
+                              <div className="bottom-0 border-2 shadow-brut-sm w-[536px] border-black bg-white cursor-pointer">
+                                <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                                  {accounts.map((account) => (
+                                    <a href="#" key={account.address} className="block w-full px-4 py-2 text-sm text-gray-700 hover:text-gray-900 hover:bg-[#00B6A6] hover:border-[#00B6A6]" role="menuitem" onClick={() => popupHandler({ account })}>
+                                      <div className='flex items-center'>
+                                        <div className='w-[25px] h-[25px] mr-2 bg-[#D9D9D9] rounded-full' />
+                                        <span className={`${FontManrope.className} font-bold text-base`}>{account?.meta.name}</span>
+                                      </div>
+                                      <div className='flex items-center mt-1'>
+                                        <TPLXWeb3Icon size={16} address={account.address} />
+                                        <span className={`${FontManrope.className} opacity-50 text-xs font-medium ml-2`}>{getFirstFourLastFour(account.address)}</span>
+                                      </div>
+                                    </a>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </>
+                        // </div>
+                      ) : (
+                        <>
+                          {/* <div className='flex justify-between py-2'>
                       <h1 className={`${FontManrope.className} text-xl font-bold`}>Please Connect your wallet</h1>
                       <ConnectWallet onAccounts={setAccounts} />
                     </div> */}
-                    {/* <div className={`${FontManrope.className} flex`}>No Wallet Address</div> */}
-                    <div className='flex flex-col py-1 px-2 bg-[#F8F8F8] border-2 border-black shadow-brut-sm'>
-                      <div className='flex justify-between items-center '>
-                        <div className='flex items-center py-2'>
-                          <span className={`${FontManrope.className} font-bold text-xl`}>Please Connect your wallet</span>
-                        </div>
-                        <ConnectWallet onAccounts={setAccounts} />
-                      </div>
+                          {/* <div className={`${FontManrope.className} flex`}>No Wallet Address</div> */}
+                          <div className='flex flex-col py-1 px-2 bg-[#F8F8F8] border-2 border-black shadow-brut-sm'>
+                            <div className='flex justify-between items-center '>
+                              <div className='flex items-center py-2'>
+                                <span className={`${FontManrope.className} font-bold text-xl`}>Please Connect your wallet</span>
+                              </div>
+                              <ConnectWallet onAccounts={setAccounts} />
+                            </div>
+                          </div>
+                          <div className='flex items-center mt-4'>
+                            <span className={`${FontManrope.className} opacity-50 text-sm font-medium ml-4`}>No Wallet Address</span>
+                          </div>
+                        </>
+                      )}
                     </div>
-                    <div className='flex items-center mt-4'>
-                      <span className={`${FontManrope.className} opacity-50 text-sm font-medium ml-4`}>No Wallet Address</span>
-                    </div>
-                    </>
-                  )}         
-              </div>
-            </div>
-            <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col w-full self-center  px-5 py-2 ${getValues('hotkey') && "bg-[#00B6A6]"} bg-opacity-10`}>
-              <div className={`font-bold text-base opacity-80 mb-4 mt-[20px]`}><span className={`text-sm opacity-100 px-2 py-1 rounded-3xl  uppercase shadow-brut-sm border-black border-2 ${getValues('hotkey') ? "bg-[#00B6A6] text-white" : "bg-[#DADADA]"}`}>Step 2</span> VERIFY HOTKEY</div>
-              <div className={cn('mb-3')}>
-                <label htmlFor="hotkey" className={cn('block font-bold text-sm text-font-accent')}>HOTKEY<span
-                  className="text-red-500 align-text-top">*</span></label>
-                <InputField
-                  className={'mt-3 '}
-                  id="hotkey"
-                  {...register('hotkey')}
-                  placeholder="Enter Hot Key Here"
-                  hasError={!!errors.hotkey}
-                  errorMessage={errors.hotkey?.message}
-                  disabled={true}
-                />
-              </div>
-              <div className={cn('mb-3')}>
-                <label htmlFor="organizationalName" className={cn("block font-bold text-sm text-font-accent")}>ORGANISATION
-                  NAME</label>
-                <InputField
-                  className={cn('mt-3')}
-                  id="organizationalKey"
-                  {...register('organizationalKey')}
-                  placeholder="Enter Organisation Name Here"
-                />
-              </div>
-              <div className={cn("mb-3")}>
-                <label htmlFor="email" className={cn("block font-bold text-sm text-font-accent")}>EMAIL<span
-                  className="text-red-500 align-text-top">*</span></label>
-                <InputField
-                  className={cn('mt-3')}
-                  id="email"
-                  {...register('email')}
-                  placeholder="Enter Email Here"
-                  hasError={!!errors.email}
-                  errorMessage={errors.email?.message}
-                />
-              </div>
-              <div className={cn('text-right text-white mb-4')}>
-                <Button buttonText={"VERIFY HOTKEY"} type="submit"/>
-              </div>
-            </form>
-            </>) : (
-              <>
-                <div className="flex flex-col justify-center my-2">
-                  <h1 className={`${FontSpaceMono.className} text-xl font-bold uppercase ml-5`}>Application Successful!</h1>
-                </div>
-                <div className={`h-[215px] bg-[#DBF5E9] flex flex-col items-center border-t-2 border-black`}>
-                  <img src='./check-mark.svg' alt='check-mark' className='w-12 h-12 mx-auto mt-4 mb-4'/>
-                  <h1 className={`uppercase text-2xl font-bold mb-4 ${FontSpaceMono.className}`}>{`We've emailed your key`}</h1>
-                  <p className={`w-[380px] opacity-50 text-center font-semibold text-base ${FontManrope.className}`}>{`We’ve sent it to ${getValues('email')} It should take up to five minutes to arrive`}</p>
-                </div>
-                <div className='px-5 py-4 flex flex-col gap-y-5'>
-                <label htmlFor="apiKey" className={cn('block font-bold text-sm text-font-accent uppercase')}>API KEY<span
-                  className="text-red-500 align-text-top">*</span></label>
-                  <InputField
-                    className={cn('mt-3')}
-                    id="apiKey"
-                    {...register2('apiKey')}
-                    placeholder="Enter Hot Key Here"
-                    disabled={true}
-                    isCopy
-                  />
-                <label htmlFor="subscriptionKey" className={cn('block font-bold text-sm text-font-accent uppercase')}>Secret Key<span
-                  className="text-red-500 align-text-top">*</span></label>
-                  <InputField
-                    className={cn('mt-3')}
-                    id="subscriptionKey"
-                    {...register2('subscriptionKey')}
-                    placeholder="Enter Hot Key Here"
-                    disabled={true}
-                    isCopy
-                  />
-                  <div className={cn('text-right text-white mb-4')}>
-                    <Button buttonText={"Home"} onClick={() => router.push('/')}/>
                   </div>
-                </div>
-              </>
-            )}
-          </div>
+                  <form onSubmit={handleSubmit(onSubmit)} className={`flex flex-col w-full self-center  px-5 py-2 ${getValues('hotkey') && "bg-[#00B6A6]"} bg-opacity-10`}>
+                    <div className={`font-bold text-base opacity-80 mb-4 mt-[20px]`}><span className={`text-sm opacity-100 px-2 py-1 rounded-3xl  uppercase shadow-brut-sm border-black border-2 ${getValues('hotkey') ? "bg-[#00B6A6] text-white" : "bg-[#DADADA]"}`}>Step 2</span> VERIFY HOTKEY</div>
+                    <div className={cn('mb-3')}>
+                      <label htmlFor="hotkey" className={cn('block font-bold text-sm text-font-accent')}>HOTKEY<span
+                        className="text-red-500 align-text-top">*</span></label>
+                      <InputField
+                        className={'mt-3 '}
+                        id="hotkey"
+                        {...register('hotkey')}
+                        placeholder="Enter Hot Key Here"
+                        hasError={!!errors.hotkey}
+                        errorMessage={errors.hotkey?.message}
+                        disabled={true}
+                      />
+                    </div>
+                    <div className={cn('mb-3')}>
+                      <label htmlFor="organizationalName" className={cn("block font-bold text-sm text-font-accent")}>ORGANISATION
+                        NAME</label>
+                      <InputField
+                        className={cn('mt-3')}
+                        id="organizationalKey"
+                        {...register('organizationalKey')}
+                        placeholder="Enter Organisation Name Here"
+                      />
+                    </div>
+                    <div className={cn("mb-3")}>
+                      <label htmlFor="email" className={cn("block font-bold text-sm text-font-accent")}>EMAIL<span
+                        className="text-red-500 align-text-top">*</span></label>
+                      <InputField
+                        className={cn('mt-3')}
+                        id="email"
+                        {...register('email')}
+                        placeholder="Enter Email Here"
+                        hasError={!!errors.email}
+                        errorMessage={errors.email?.message}
+                      />
+                    </div>
+                    <div className={cn('text-right text-white mb-4')}>
+                      <Button buttonText={"VERIFY HOTKEY"} type="submit" />
+                    </div>
+                  </form>
+                </>) : (
+                <>
+                  <div className="flex flex-col justify-center my-2">
+                    <h1 className={`${FontSpaceMono.className} text-xl font-bold uppercase ml-5`}>Application Successful!</h1>
+                  </div>
+                  <div className={`h-[215px] bg-[#DBF5E9] flex flex-col items-center border-t-2 border-black`}>
+                    <img src='./check-mark.svg' alt='check-mark' className='w-12 h-12 mx-auto mt-4 mb-4' />
+                    <h1 className={`uppercase text-2xl font-bold mb-4 ${FontSpaceMono.className}`}>{`We've emailed your key`}</h1>
+                    <p className={`w-[380px] opacity-50 text-center font-semibold text-base ${FontManrope.className}`}>{`We’ve sent it to ${getValues('email')} It should take up to five minutes to arrive`}</p>
+                  </div>
+                  <div className='px-5 py-4 flex flex-col gap-y-5'>
+                    <label htmlFor="apiKey" className={cn('block font-bold text-sm text-font-accent uppercase')}>API KEY<span
+                      className="text-red-500 align-text-top">*</span></label>
+                    <InputField
+                      className={cn('mt-3')}
+                      id="apiKey"
+                      {...register2('apiKey')}
+                      placeholder="Enter Hot Key Here"
+                      disabled={true}
+                      isCopy
+                    />
+                    <label htmlFor="subscriptionKey" className={cn('block font-bold text-sm text-font-accent uppercase')}>Secret Key<span
+                      className="text-red-500 align-text-top">*</span></label>
+                    <InputField
+                      className={cn('mt-3')}
+                      id="subscriptionKey"
+                      {...register2('subscriptionKey')}
+                      placeholder="Enter Hot Key Here"
+                      disabled={true}
+                      isCopy
+                    />
+                    <div className={cn('text-right text-white mb-4')}>
+                      <Button buttonText={"Home"} onClick={() => router.push('/')} />
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
           )}
         </div>
         <TPLXModalContainer className={'w-[512px] h-[206px]'} headerClassName={'h-12 pl-4'} bodyClassName="p-0"
@@ -484,7 +476,7 @@ const router = useRouter();
                 <TPLXButton
                   onClick={handleCopy}
                   className="text-[#24837B] p-0 h-fit font-bold"
-                  // variant={'link'}
+                variant={'link'}
                 >
                   <span className=" text-xs mr-[3px] underline-offset-2 underline">
                     COPY ADDRESS
@@ -494,7 +486,7 @@ const router = useRouter();
                 <TPLXButton
                   onClick={handleEtherscan}
                   className="text-[#24837B] p-0 h-fit font-bold"
-                  // variant={'link'}
+                variant={'link'}
                 >
                   <span className="text-xs mr-[3px] underline-offset-2 underline">
                     VIEW ON ETHERSCAN
