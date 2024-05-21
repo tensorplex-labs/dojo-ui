@@ -8,7 +8,7 @@ type Props = {};
 
 const Index = (props: Props) => {
   const [clientHeight, setClientHeight] = useState(0);
-
+  const [currentSection, setCurrentSection] = useState(0);
   useEffect(() => {
     setClientHeight(window.innerHeight); // Use window.innerHeight for correct height
   }, []);
@@ -29,7 +29,15 @@ const Index = (props: Props) => {
     setClientHeight(window.innerHeight);
     setScrollRange(window.innerHeight * 4); // Set the scroll range to 4 times the viewport height
   }, []);
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.onChange(value => {
+      setCurrentSection(value * scrollRange);
+    });
 
+    return () => {
+      unsubscribe();
+    };
+  }, [scrollYProgress]);
   return (
     <LandingPageLayout>
       <section id="first" className="mx-auto grid h-screen w-fit max-w-[1075px] grid-cols-[50%_1fr] gap-8">
@@ -42,10 +50,31 @@ const Index = (props: Props) => {
             build the world's most powerful multimodal AI models.
           </p>
           <button
-            className={`border-0 bg-[#00B6A6] px-4 py-2 uppercase text-white hover:opacity-75 hover:shadow-brut-sm ${FontSpaceMono.className} mt-[13px] rounded-xl border text-lg font-bold`}
+            className={`mb-5 border-0 bg-[#00B6A6] px-4 py-2 uppercase text-white hover:opacity-75 hover:shadow-brut-sm ${FontSpaceMono.className} mt-[13px] rounded-xl border text-lg font-bold`}
           >
-            Let's Start
+            Get Started
           </button>
+          <hr className={'border-black'} />
+          <div className={`mt-[22px] flex flex-row gap-3`}>
+            <div>
+              <h3 className={`uppercase ${FontSpaceMono.className} text-lg font-bold opacity-50`}>
+                Rewards paid out (usd)
+              </h3>
+              <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}>789K</h3>
+            </div>
+            <div>
+              <h3 className={`uppercase ${FontSpaceMono.className} text-lg font-bold opacity-50`}>
+                HUMAN TASKS COMPLETED
+              </h3>
+              <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}>12M</h3>
+            </div>
+            <div>
+              <h3 className={`uppercase ${FontSpaceMono.className} text-lg font-bold opacity-50`}>
+                NO.OF HUMAN PARTICIPANTS
+              </h3>
+              <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}>123,456</h3>
+            </div>
+          </div>
         </div>
         <div>
           <div
@@ -59,16 +88,16 @@ const Index = (props: Props) => {
           </div>
         </div>
       </section>
-      <motion.section
+      {/* <motion.section
         ref={scrollRef}
         id="second"
         className="relative flex h-screen w-full flex-col items-center justify-center"
         style={{
-          background: 'linear-gradient(to bottom, #FFFFF4, #E1F5F4)',
+          background: 'linear-gradient(to bottom, #FFFFF4, #E1F5F4) ',
         }}
-      >
-        <div
-          className="moving-background absolute left-0 top-0 h-full w-full"
+      > */}
+      {/* <div
+          className="moving-background absolute left-0 top-0 flex h-full w-full items-center justify-center"
           style={{
             backgroundImage: 'url("./world-1.png")',
             backgroundSize: 'cover',
@@ -93,8 +122,8 @@ const Index = (props: Props) => {
             <p className={`${FontManrope.className} text-lg font-bold`}>
               Enjoy the freedom to work on tasks at your convenience from any location
             </p>
-          </motion.div>
-          {/* <motion.div
+          </motion.div> */}
+      {/* <motion.div
             initial={{ scale: 0.1, y: 200 }}
             transition={{ duration: 0.8 }}
             className={`mx-auto mb-8 flex h-[167px] w-[1000px] -translate-y-20 -rotate-12 transform flex-col items-center justify-center gap-4 rounded-lg border-4 border-black shadow-brut-sm`}
@@ -111,6 +140,156 @@ const Index = (props: Props) => {
               Enjoy the freedom to work on tasks at your convenience from any location
             </p>
           </motion.div> */}
+      {/* </div> */}
+      {/* </motion.section> */}
+      {/* <motion.section
+        ref={scrollRef}
+        id="second"
+        className="relative flex h-screen w-full flex-col items-center justify-center"
+        style={{
+          background: 'linear-gradient(to bottom, #FFFFF4, #E1F5F4) ',
+        }}
+      >
+        <div
+          className="moving-background absolute left-0 top-0 flex h-full w-full items-center justify-center"
+          style={{
+            backgroundImage: 'url("./world-1.png")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+        >
+          {scrollYProgress.get() < 0.5 && (
+            <motion.div
+              initial={{ scale: 0.1, y: 200 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.1, y: 200 }}
+              transition={{ duration: 0.8 }}
+              className={`mx-auto mb-8 flex h-[167px] w-[1000px] -translate-y-20 -rotate-12 transform flex-col items-center justify-center gap-4 rounded-lg border-4 border-black shadow-brut-sm`}
+              style={{
+                background: 'linear-gradient(to bottom, #D7F9F6, #F9FFFE)',
+                filter: `blur(${blur}px)`,
+              }}
+            >
+              <h1 className={`text-center text-3xl font-bold ${FontManrope.className}`}>Work anytime from anywhere</h1>
+              <p className={`${FontManrope.className} text-lg font-bold`}>
+                Enjoy the freedom to work on tasks at your convenience from any location
+              </p>
+            </motion.div>
+          )}
+          {scrollYProgress.get() >= 0.5 && (
+            <motion.div
+              initial={{ scale: 0.1, y: 200 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.1, y: 200 }}
+              transition={{ duration: 0.8 }}
+              className={`mx-auto mb-8 flex h-[167px] w-[1000px] -translate-y-20 -rotate-12 transform flex-col items-center justify-center gap-4 rounded-lg border-4 border-black shadow-brut-sm`}
+              style={{
+                background: 'linear-gradient(to bottom, #D7F9F6, #F9FFFE)',
+                filter: `blur(${blur}px)`,
+              }}
+            >
+              <h1 className={`text-center text-3xl font-bold ${FontManrope.className}`}>New Content</h1>
+              <p className={`${FontManrope.className} text-lg font-bold`}>
+                This is the new content that appears when scrolling past the midpoint
+              </p>
+            </motion.div>
+          )}
+          {scrollYProgress.get() >= 0.66 && (
+            <motion.div
+              initial={{ scale: 0.1, y: 200 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.1, y: 200 }}
+              transition={{ duration: 0.8 }}
+              className={`mx-auto mb-8 flex h-[167px] w-[1000px] -translate-y-20 -rotate-12 transform flex-col items-center justify-center gap-4 rounded-lg border-4 border-black shadow-brut-sm`}
+              style={{
+                background: 'linear-gradient(to bottom, #D7F9F6, #F9FFFE)',
+                filter: `blur(${blur}px)`,
+              }}
+            >
+              <h1 className={`text-center text-3xl font-bold ${FontManrope.className}`}>Another Content</h1>
+              <p className={`${FontManrope.className} text-lg font-bold`}>
+                This content appears when scrolling past the second third
+              </p>
+            </motion.div>
+          )}
+        </div>
+      </motion.section> */}
+      <motion.section
+        ref={scrollRef}
+        id="second"
+        className="relative flex h-screen w-full flex-col items-center justify-center"
+        style={{
+          background: 'linear-gradient(to bottom, #FFFFF4, #E1F5F4) ',
+        }}
+      >
+        <div
+          className="moving-background absolute left-0 top-0 flex h-full w-full items-center justify-center"
+          style={{
+            backgroundImage: `url("./${scrollYProgress.get() <= 0.33 ? 'world-1' : scrollYProgress.get() <= 0.5 ? 'currency-2' : 'posts-3'}.png")`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            transition: 'background-image 0.8s',
+          }}
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.1 }}
+            animate={{
+              opacity: scrollYProgress.get() < 0.33 && 0.5 ? 1 : 0,
+              scale: scrollYProgress.get() < 0.33 && 0.5 ? 1 : 0.1,
+              filter: `blur(${blur}px)`,
+            }}
+            transition={{ duration: 0.8 }}
+            className={`mx-auto mb-8 flex h-[167px] w-[1000px] -translate-y-20 -rotate-12 transform flex-col items-center justify-center gap-4 rounded-lg border-4 border-black shadow-brut-sm`}
+            style={{
+              background: 'linear-gradient(to bottom, #D7F9F6, #F9FFFE)',
+              filter: `blur(${blur}px)`,
+            }}
+          >
+            <h1 className={`text-center text-3xl font-bold ${FontManrope.className}`}>Work anytime from anywhere</h1>
+            <p className={`${FontManrope.className} text-lg font-bold`}>
+              Enjoy the freedom to work on tasks at your convenience from any location
+            </p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.4 }}
+            animate={{
+              opacity: scrollYProgress.get() >= 0.33 && scrollYProgress.get() < 0.5 ? 1 : 0,
+              scale: scrollYProgress.get() >= 0.33 && scrollYProgress.get() < 0.5 ? 1 : 0.1,
+              filter: `blur(${blur}px)`,
+            }}
+            transition={{ duration: 0.8 }}
+            className={`mx-auto mb-8 flex h-[167px] w-[1000px] -translate-y-20 -rotate-12 transform flex-col items-center justify-center gap-4 rounded-lg border-4 border-black shadow-brut-sm`}
+            style={{
+              background: 'linear-gradient(to bottom, #D7F9F6, #F9FFFE)',
+              filter: `blur(${blur}px)`,
+            }}
+          >
+            <h1 className={`text-center text-3xl font-bold ${FontManrope.className}`}>Work anytime from anywhere</h1>
+            <p className={`${FontManrope.className} text-lg font-bold`}>
+              Enjoy the freedom to work on tasks at your convenience from any location
+            </p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 2 }}
+            animate={{
+              opacity: scrollYProgress.get() >= 0.5 && scrollYProgress.get() < 0.9 ? 1 : 0,
+              scale: scrollYProgress.get() >= 0.5 && scrollYProgress.get() < 0.9 ? 1 : 0.1,
+              filter: `blur(${blur}px)`,
+            }}
+            transition={{ duration: 0.8 }}
+            className={`mx-auto mb-8 flex h-[167px] w-[1000px] -translate-y-20 -rotate-12 transform flex-col items-center justify-center gap-4 rounded-lg border-4 border-black shadow-brut-sm`}
+            style={{
+              background: 'linear-gradient(to bottom, #D7F9F6, #F9FFFE)',
+              filter: `blur(${blur}px)`,
+            }}
+          >
+            <h1 className={`text-center text-3xl font-bold ${FontManrope.className}`}>Work anytime from anywhere</h1>
+            <p className={`${FontManrope.className} text-lg font-bold`}>
+              Enjoy the freedom to work on tasks at your convenience from any location
+            </p>
+          </motion.div>
         </div>
       </motion.section>
       <section id="third" className="mx-auto max-w-[1075px]">
@@ -118,8 +297,169 @@ const Index = (props: Props) => {
         <p className={`${FontManrope.className} text-2xl font-bold opacity-60`}>
           Five simple steps to get you started!
         </p>
-        <div className="flex gap-2">
-          <div className="mr-[49px] rounded-2xl border-2 border-black bg-white p-2 shadow-brut-sm">
+
+        <div className="mb-3 mt-6 flex justify-between pt-6 ">
+          <div className=" w-[36%] rounded-2xl border-2 border-black bg-white p-2 shadow-brut-sm">
+            <div className="relative">
+              <div
+                className="absolute left-0 top-0 flex h-[54px] w-[95px] rounded-tl-2xl pl-[8px] pt-[6px]"
+                style={{
+                  backgroundImage: "url('./steps-bg.png')",
+                  backgroundSize: 'contain',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                }}
+              >
+                <h1 className={`text-center font-bold uppercase ${FontManrope.className} text-xl`}>Step 1</h1>
+              </div>
+              <div
+                className="rounded-2xl px-3 pb-4 pt-[54px]"
+                style={{
+                  background: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
+                }}
+              >
+                <img src="./step1.png" className="w-full" />
+              </div>
+              <div
+                className="absolute bottom-0 left-0 flex h-[145px] w-full flex-col justify-end rounded-2xl px-3 py-4"
+                style={{
+                  background: 'linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0))',
+                }}
+              >
+                <h1 className={`font-bold ${FontManrope.className} text-md mb-2 text-white`}>
+                  Sign up for a Dojo Subnet Miner
+                </h1>
+                <span className={`font-thin ${FontManrope.className} text-sm text-white`}>
+                  Click here to open the link to{' '}
+                  <a href="#" className="font-bold underline">
+                    GitHub
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className=" w-[58%] rounded-2xl border-2 border-black bg-white p-2 shadow-brut-sm">
+            <div className="relative">
+              <div
+                className="absolute left-0 top-0 flex h-[54px] w-[95px] rounded-tl-2xl pl-[8px] pt-[6px]"
+                style={{
+                  backgroundImage: "url('./steps-bg.png')",
+                  backgroundSize: 'contain',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                }}
+              >
+                <h1 className={`text-center font-bold uppercase ${FontManrope.className} text-xl`}>Step 1</h1>
+              </div>
+              <div
+                className="rounded-2xl px-3 pb-4 pt-[54px]"
+                style={{
+                  background: 'linear-gradient(to bottom, #00B6A6, #005049)',
+                }}
+              >
+                <img src="./step2.png" className="w-full" />
+              </div>
+              <div
+                className="absolute bottom-0 left-0 flex h-[145px] w-full flex-col justify-end rounded-2xl px-3 py-4"
+                style={{
+                  background: 'linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0))',
+                }}
+              >
+                <h1 className={`font-bold ${FontManrope.className} text-md mb-2 text-white`}>
+                  Sign up for a Dojo Subnet Miner
+                </h1>
+                <span className={`font-thin ${FontManrope.className} text-sm text-white`}>
+                  Click here to open the link to{' '}
+                  <a href="#" className="font-bold underline">
+                    GitHub
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-3 mt-6 flex justify-between ">
+          <div className=" w-[31.5%] rounded-2xl border-2 border-black bg-white p-2 shadow-brut-sm">
+            <div className="relative">
+              <div
+                className="absolute left-0 top-0 flex h-[54px] w-[95px] rounded-tl-2xl pl-[8px] pt-[6px]"
+                style={{
+                  backgroundImage: "url('./steps-bg.png')",
+                  backgroundSize: 'contain',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                }}
+              >
+                <h1 className={`text-center font-bold uppercase ${FontManrope.className} text-xl`}>Step 1</h1>
+              </div>
+              <div
+                className="rounded-2xl px-3 pb-4 pt-[54px]"
+                style={{
+                  background: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
+                }}
+              >
+                <img src="./step1.png" className="w-full" />
+              </div>
+              <div
+                className="absolute bottom-0 left-0 flex h-[145px] w-full flex-col justify-end rounded-2xl px-3 py-4"
+                style={{
+                  background: 'linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0))',
+                }}
+              >
+                <h1 className={`font-bold ${FontManrope.className} text-md mb-2 text-white`}>
+                  Sign up for a Dojo Subnet Miner
+                </h1>
+                <span className={`font-thin ${FontManrope.className} text-sm text-white`}>
+                  Click here to open the link to{' '}
+                  <a href="#" className="font-bold underline">
+                    GitHub
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className=" w-[31.5%] rounded-2xl border-2 border-black bg-white p-2 shadow-brut-sm">
+            <div className="relative">
+              <div
+                className="absolute left-0 top-0 flex h-[54px] w-[95px] rounded-tl-2xl pl-[8px] pt-[6px]"
+                style={{
+                  backgroundImage: "url('./steps-bg.png')",
+                  backgroundSize: 'contain',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat',
+                }}
+              >
+                <h1 className={`text-center font-bold uppercase ${FontManrope.className} text-xl`}>Step 1</h1>
+              </div>
+              <div
+                className="rounded-2xl px-3 pb-4 pt-[54px]"
+                style={{
+                  background: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
+                }}
+              >
+                <img src="./step1.png" className="w-full" />
+              </div>
+              <div
+                className="absolute bottom-0 left-0 flex h-[145px] w-full flex-col justify-end rounded-2xl px-3 py-4"
+                style={{
+                  background: 'linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0))',
+                }}
+              >
+                <h1 className={`font-bold ${FontManrope.className} text-md mb-2 text-white`}>
+                  Sign up for a Dojo Subnet Miner
+                </h1>
+                <span className={`font-thin ${FontManrope.className} text-sm text-white`}>
+                  Click here to open the link to{' '}
+                  <a href="#" className="font-bold underline">
+                    GitHub
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className=" w-[31.5%] rounded-2xl border-2 border-black bg-white p-2 shadow-brut-sm">
             <div className="relative">
               <div
                 className="absolute left-0 top-0 flex h-[54px] w-[95px] rounded-tl-2xl pl-[8px] pt-[6px]"
