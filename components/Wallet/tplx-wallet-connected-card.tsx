@@ -1,13 +1,11 @@
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import { useEtherScanOpen } from '@/hooks/useEtherScanOpen';
-import { cn } from '@/utils/tw';
-import { FontManrope, FontSpaceMono } from '@/utils/typography';
-import { IconCopy, IconExternalLink } from '@tabler/icons-react';
-
-
 import { useAuth } from '@/providers/authContext';
 import { clearLocalStorage } from '@/utils/general_helpers';
 import { getFirstFourLastFour } from '@/utils/math_helpers';
+import { cn } from '@/utils/tw';
+import { FontManrope, FontSpaceMono } from '@/utils/typography';
+import { IconCopy, IconExternalLink } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import { Connector, useDisconnect } from 'wagmi';
 import { TPLXBrutCard } from '../BrutCard';
