@@ -52,8 +52,6 @@ export default function Home() {
   const walletManagementHandler = () => {
     openModal();
     setShowUserCard(false);
-  };
-  const { triggerTaskPageReload, setTriggerTaskPageReload } = useSubmit();
   }
   const {triggerTaskPageReload, setTriggerTaskPageReload} = useSubmit();
   const searchParams = useSearchParams();
@@ -335,16 +333,6 @@ export default function Home() {
         </h1>
         <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} isLoading={loading}/>
         <div className=" mt-3"></div>
-        <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange} />
-        {!pLoading && partners.length === 0 && isConnected && isAuthenticated ? (
-          <div className="text-center">
-            <Button
-              onClick={() => handleViewClick()}
-              buttonText="Enter Subscription Key"
-              className="cursor-not-allowed bg-primary text-white"
-            />
-          </div>
-        ) : null}
         <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange}/>
         {partners.length === 0 || tasks.length <= 0 ? (<div className="text-center">
           <Button onClick={()=>handleViewClick()} buttonText="Enter Subscription Key" className="text-white bg-primary cursor-not-allowed"/>
@@ -376,7 +364,7 @@ export default function Home() {
             <TPLXButton
               onClick={handleCopy}
               className="text-[#24837B] p-0 h-fit font-bold"
-              variant={'link'}
+              // variant={'link'}
             >
               <span className=" text-xs mr-[3px] underline-offset-2 underline">
                 COPY ADDRESS
@@ -386,7 +374,7 @@ export default function Home() {
             <TPLXButton
               onClick={handleEtherscan}
               className="text-[#24837B] p-0 h-fit font-bold"
-              variant={'link'}
+              // variant={'link'}
             >
               <span className="text-xs mr-[3px] underline-offset-2 underline">
                 VIEW ON ETHERSCAN

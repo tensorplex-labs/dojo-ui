@@ -4,7 +4,7 @@ import { FontManrope, FontSpaceMono } from "@/utils/typography";
 import Link from "next/link";
 import { TPLXWalletButton } from "../Wallet/tplx-wallet-button-entry";
 import { useSIWE } from "@/hooks/useSIWE";
-import { useRouter } from "next/router";
+import {useRouter} from "next/router";
 import { Button } from '@/components/Button';
 import { TPLXButton } from "../TPLXButton";
 import { cn } from "@/utils/tw";

@@ -4,11 +4,6 @@ import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { Button } from '@/components/Button';
 import { InputField } from '@/components/Fields/InputField';
 import TPLXModalContainer from '@/components/ModalContainer';
-import { useSubmitApplication } from '@/hooks/useSubmitApplicationByMiner';
-import { QueryClient } from '@tanstack/react-query';
-import { useModal } from '@/hooks/useModal';
-import { MODAL } from '@/providers/modals';
-import { usePartnerList } from '@/hooks/usePartnerList';
 import { useAccount } from 'wagmi';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import { useEtherScanOpen } from '@/hooks/useEtherScanOpen';
@@ -23,15 +18,20 @@ import LabelledInput from '@/components/LabelledInput';
 import SubscriptionTable from '@/components/SubscriptionTable';
 import { DefaultApiResponse } from '@/utils/model';
 import SubscriptionModal from '@/components/SubscriptionModal';
-import { Demo } from '@/components/demo';
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { ConnectWallet } from '@/components/demo/ConnectWallet';
 import { Profile } from '@/components/demo/Profile';
 import { SignIn } from '@/components/demo/SignIn';
 import { AvatarIcon } from '@radix-ui/react-icons';
 import { DropdownContainer } from '@/components/DropDown';
-import { Address, SiwsMessage } from "@talismn/siws"
-import { useRouter } from 'next/router';
+import { Address, SiwsMessage } from "@talismn/siws";
+import {useRouter} from 'next/router';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import cn from 'classnames';
+import TPLXWeb3Icon from '@/components/Wallet/tplx-web3-icon';
+import UserCard from '@/components/UserCard';
 
 const FormSchema = z.object({
   hotkey: z.string().min(1, {
@@ -450,7 +450,6 @@ const router = useRouter();
           </div>
           )}
         </div>
-        {/* <Demo /> */}
         <TPLXModalContainer className={'w-[512px] h-[206px]'} headerClassName={'h-12 pl-4'} bodyClassName="p-0"
           header={modalHeader} open={open} onClose={() => handleOnClose()} onSave={() => handleOnClose()}>
           <div
@@ -485,7 +484,7 @@ const router = useRouter();
                 <TPLXButton
                   onClick={handleCopy}
                   className="text-[#24837B] p-0 h-fit font-bold"
-                  variant={'link'}
+                  // variant={'link'}
                 >
                   <span className=" text-xs mr-[3px] underline-offset-2 underline">
                     COPY ADDRESS
@@ -495,7 +494,7 @@ const router = useRouter();
                 <TPLXButton
                   onClick={handleEtherscan}
                   className="text-[#24837B] p-0 h-fit font-bold"
-                  variant={'link'}
+                  // variant={'link'}
                 >
                   <span className="text-xs mr-[3px] underline-offset-2 underline">
                     VIEW ON ETHERSCAN
