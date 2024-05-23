@@ -1,5 +1,6 @@
 import NavigationBar from '@/components/NavigationBar';
 // import useIntersectionObserver from '@/components/track';
+import MainFooter from '@/components/Footer/MainFooter';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ReactNode, useEffect, useRef, useState } from 'react';
@@ -500,6 +501,50 @@ const Index = (props: Props) => {
           </div>
         </div>
       </section>
+      <section id="fourth"
+        style={{
+          background: 'linear-gradient(to bottom, #FFFFF4, #E1F5F4)',
+        }}
+      >
+        <div className='mx-auto max-w-[1075px] h-[500px] flex flex-row'>
+          <div className='mt-[170px] w-[50%]'>
+            <h1 className={`${FontSpaceMono.className} text-[46px] font-bold uppercase`}>Dojo roadmap</h1>
+            <p className={`${FontManrope.className} text-xl font-bold opacity-50`}>Our journey to revolutionize AI development</p>
+          </div>
+          <div className='w-[50%] mt-[100px]'>
+            <div className="flex items-center mb-8 h-auto">
+              <div>
+                <div className=" border-2 border-black shadow-brut-sm rounded-full h-[67px] w-[67px] flex items-center justify-center mr-4">
+                  {/* <div className="bg-white rounded-full h-[67px] w-[67px]"></div> */}
+                  <p className={`${FontManrope.className} text-[32px] font-bold`}>v0</p>
+                </div>
+                <div className="h-[50px] w-[1px] border-l-[3px] mt-3 pb5 border-opacity-50 border-dashed border-black ml-[32px]"></div></div>
+              <div>
+                <h3 className={`${FontSpaceMono.className} text-xl font-bold mb-4 uppercase`}>Testnet launch</h3>
+                <p className={`${FontManrope.className} text-lg opacity-70 font-bold`}>Synthetic Task Generation</p>
+                <p className={`${FontManrope.className} text-lg opacity-70 font-bold`}>Worker API Model</p>
+                <p className={`${FontManrope.className} text-lg opacity-70 font-bold`}>Task Completion Interface</p>
+              </div>
+            </div>
+            <div className="flex items-center mb-8 h-auto">
+              <div>
+                <div className=" border-2 border-black shadow-brut-sm rounded-full h-[67px] w-[67px] flex items-center justify-center mr-4">
+                  {/* <div className="bg-white rounded-full h-[67px] w-[67px]"></div> */}
+                  <p className={`${FontManrope.className} text-[32px] font-bold`}>v0</p>
+                </div>
+                <div className="h-[50px] w-[1px] border-l-[3px] mt-3 pb5 border-opacity-50 border-dashed border-black ml-[32px]"></div></div>
+              <div>
+                <h3 className={`${FontSpaceMono.className} text-xl font-bold mb-4 uppercase`}>Testnet launch</h3>
+                <p className={`${FontManrope.className} text-lg opacity-70 font-bold`}>Synthetic Task Generation</p>
+                <p className={`${FontManrope.className} text-lg opacity-70 font-bold`}>Worker API Model</p>
+                <p className={`${FontManrope.className} text-lg opacity-70 font-bold`}>Task Completion Interface</p>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+      </section>
     </LandingPageLayout>
   );
 };
@@ -507,9 +552,10 @@ const Index = (props: Props) => {
 const LandingPageLayout = ({ children }: { children: ReactNode }) => (
   <div className="min-h-screen bg-[#FFFFF4] text-black">
     <div className="border-b-2 border-black bg-[#F6F6E6] text-white">
-      <NavigationBar openModal={() => {}} />
+      <NavigationBar openModal={() => { }} />
     </div>
     <main className="mx-auto">{children}</main>
+    <MainFooter />
   </div>
 );
 

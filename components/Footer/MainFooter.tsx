@@ -2,10 +2,10 @@ import { headerItems } from '@/data';
 import { cn } from '@/utils/tw';
 import Link from 'next/link';
 import React, { HTMLAttributes } from 'react';
-import TPLXFooterDiscordLogo from './tplx-footer-discord-logo.svg';
-import TPLXFooterGitbookLogo from './tplx-footer-gitbook-logo.svg';
-import TPLXFooterTelegramLogo from './tplx-footer-telegram-logo.svg';
-import TPLXFooterXLogo from './tplx-footer-x-logo.svg';
+// import TPLXFooterGitbookLogo from './tplx-footer-gitbook-logo.svg';
+// import TPLXFooterDiscordLogo from '/tplx-footer-discord-logo.svg';
+// import TPLXFooterTelegramLogo from '/tplx-footer-telegram-logo.svg';
+// import TPLXFooterXLogo from '/tplx-footer-x-logo.svg';
 
 type FooterLink = {
   url: string;
@@ -17,28 +17,23 @@ const footerLinks: Array<FooterLink> = [
   {
     url: 'https://twitter.com/TensorplexLabs',
     alt: 'Twitter',
-    image: <TPLXFooterXLogo className="size-[36px]"></TPLXFooterXLogo>,
+    image: <img src='/tplx_footer_x_logo.svg' className="size-[36px]" />,
   },
   {
     url: 'https://t.me/+ug7C1J7Apf8wNzc1/',
     alt: 'Telegram',
-    image: (
-      <TPLXFooterTelegramLogo className="size-[36px]"></TPLXFooterTelegramLogo>
-    ),
+    image: <img src='/tplx_footer_telegram_logo.svg' className="size-[36px]" />,
   },
   {
     url: 'https://discord.com/invite/zVZbRdt6U4',
     alt: 'Discord',
-    image: (
-      <TPLXFooterDiscordLogo className="size-[36px]"></TPLXFooterDiscordLogo>
-    ),
+    image: <img src='/tplx_footer_discord.svg' className="size-[36px]" />,
   },
   {
     url: 'https://tensorplex.gitbook.io/tensorplex-docs/',
     alt: 'Gitbook',
-    image: (
-      <TPLXFooterGitbookLogo className="size-[36px]"></TPLXFooterGitbookLogo>
-    ),
+    image: <img src='/tplx_footer_gitbook_logo' className="size-[36px]" />,
+
   },
 ];
 
