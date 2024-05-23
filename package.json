@@ -18,7 +18,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "ethers": "^6.12.1",
-    "framer-motion": "^11.2.4",
+    "framer-motion": "^11.2.6",
     "gray-matter": "^4.0.3",
     "jazzicon-ts": "^4.0.0",
     "moment": "^2.30.1",

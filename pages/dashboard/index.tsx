@@ -4,6 +4,7 @@ import MainFooter from '@/components/Footer/MainFooter';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ReactNode, useEffect, useRef, useState } from 'react';
+// import './index.css';
 
 type Props = {};
 
@@ -89,133 +90,6 @@ const Index = (props: Props) => {
           </div>
         </div>
       </section>
-      {/* <motion.section
-        ref={scrollRef}
-        id="second"
-        className="relative flex h-screen w-full flex-col items-center justify-center"
-        style={{
-          background: 'linear-gradient(to bottom, #FFFFF4, #E1F5F4) ',
-        }}
-      > */}
-      {/* <div
-          className="moving-background absolute left-0 top-0 flex h-full w-full items-center justify-center"
-          style={{
-            backgroundImage: 'url("./world-1.png")',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-          }}
-        >
-          <motion.div
-            initial={{ scale: 0.1, y: 200 }}
-            transition={{ duration: 0.8 }}
-            exit={{ scale: 0.1, y: 200 }}
-            className={`mx-auto mb-8 flex h-[167px] w-[1000px] -translate-y-20 -rotate-12 transform flex-col items-center justify-center gap-4 rounded-lg border-4 border-black shadow-brut-sm`}
-            style={{
-              background: 'linear-gradient(to bottom, #D7F9F6, #F9FFFE)',
-              opacity,
-              scale,
-              y,
-              filter: `blur(${blur}px)`,
-            }}
-          >
-            <h1 className={`text-center text-3xl font-bold ${FontManrope.className}`}>Work anytime from anywhere</h1>
-            <p className={`${FontManrope.className} text-lg font-bold`}>
-              Enjoy the freedom to work on tasks at your convenience from any location
-            </p>
-          </motion.div> */}
-      {/* <motion.div
-            initial={{ scale: 0.1, y: 200 }}
-            transition={{ duration: 0.8 }}
-            className={`mx-auto mb-8 flex h-[167px] w-[1000px] -translate-y-20 -rotate-12 transform flex-col items-center justify-center gap-4 rounded-lg border-4 border-black shadow-brut-sm`}
-            style={{
-              background: 'linear-gradient(to bottom, #D7F9F6, #F9FFFE)',
-              opacity,
-              scale,
-              y,
-              filter: `blur(${blur}px)`,
-            }}
-          >
-            <h1 className={`text-center text-3xl font-bold ${FontManrope.className}`}>Work anytime from anywhere</h1>
-            <p className={`${FontManrope.className} text-lg font-bold`}>
-              Enjoy the freedom to work on tasks at your convenience from any location
-            </p>
-          </motion.div> */}
-      {/* </div> */}
-      {/* </motion.section> */}
-      {/* <motion.section
-        ref={scrollRef}
-        id="second"
-        className="relative flex h-screen w-full flex-col items-center justify-center"
-        style={{
-          background: 'linear-gradient(to bottom, #FFFFF4, #E1F5F4) ',
-        }}
-      >
-        <div
-          className="moving-background absolute left-0 top-0 flex h-full w-full items-center justify-center"
-          style={{
-            backgroundImage: 'url("./world-1.png")',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-          }}
-        >
-          {scrollYProgress.get() < 0.5 && (
-            <motion.div
-              initial={{ scale: 0.1, y: 200 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.1, y: 200 }}
-              transition={{ duration: 0.8 }}
-              className={`mx-auto mb-8 flex h-[167px] w-[1000px] -translate-y-20 -rotate-12 transform flex-col items-center justify-center gap-4 rounded-lg border-4 border-black shadow-brut-sm`}
-              style={{
-                background: 'linear-gradient(to bottom, #D7F9F6, #F9FFFE)',
-                filter: `blur(${blur}px)`,
-              }}
-            >
-              <h1 className={`text-center text-3xl font-bold ${FontManrope.className}`}>Work anytime from anywhere</h1>
-              <p className={`${FontManrope.className} text-lg font-bold`}>
-                Enjoy the freedom to work on tasks at your convenience from any location
-              </p>
-            </motion.div>
-          )}
-          {scrollYProgress.get() >= 0.5 && (
-            <motion.div
-              initial={{ scale: 0.1, y: 200 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.1, y: 200 }}
-              transition={{ duration: 0.8 }}
-              className={`mx-auto mb-8 flex h-[167px] w-[1000px] -translate-y-20 -rotate-12 transform flex-col items-center justify-center gap-4 rounded-lg border-4 border-black shadow-brut-sm`}
-              style={{
-                background: 'linear-gradient(to bottom, #D7F9F6, #F9FFFE)',
-                filter: `blur(${blur}px)`,
-              }}
-            >
-              <h1 className={`text-center text-3xl font-bold ${FontManrope.className}`}>New Content</h1>
-              <p className={`${FontManrope.className} text-lg font-bold`}>
-                This is the new content that appears when scrolling past the midpoint
-              </p>
-            </motion.div>
-          )}
-          {scrollYProgress.get() >= 0.66 && (
-            <motion.div
-              initial={{ scale: 0.1, y: 200 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.1, y: 200 }}
-              transition={{ duration: 0.8 }}
-              className={`mx-auto mb-8 flex h-[167px] w-[1000px] -translate-y-20 -rotate-12 transform flex-col items-center justify-center gap-4 rounded-lg border-4 border-black shadow-brut-sm`}
-              style={{
-                background: 'linear-gradient(to bottom, #D7F9F6, #F9FFFE)',
-                filter: `blur(${blur}px)`,
-              }}
-            >
-              <h1 className={`text-center text-3xl font-bold ${FontManrope.className}`}>Another Content</h1>
-              <p className={`${FontManrope.className} text-lg font-bold`}>
-                This content appears when scrolling past the second third
-              </p>
-            </motion.div>
-          )}
-        </div>
-      </motion.section> */}
       <motion.section
         ref={scrollRef}
         id="second"
@@ -224,7 +98,7 @@ const Index = (props: Props) => {
           background: 'linear-gradient(to bottom, #FFFFF4, #E1F5F4) ',
         }}
       >
-        <div
+        <motion.div
           className="moving-background absolute left-0 top-0 flex h-full w-full items-center justify-center"
           style={{
             backgroundImage: `url("./${scrollYProgress.get() <= 0.33 ? 'world-1' : scrollYProgress.get() <= 0.5 ? 'currency-2' : 'posts-3'}.png")`,
@@ -233,6 +107,9 @@ const Index = (props: Props) => {
             backgroundRepeat: 'no-repeat',
             transition: 'background-image 0.8s',
           }}
+          initial={{ y: 0 }}
+          animate={{ y: scrollYProgress.get() * -500 }}
+          transition={{ duration: 0.8 }}
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.1 }}
@@ -240,6 +117,7 @@ const Index = (props: Props) => {
               opacity: scrollYProgress.get() < 0.33 && 0.5 ? 1 : 0,
               scale: scrollYProgress.get() < 0.33 && 0.5 ? 1 : 0.1,
               filter: `blur(${blur}px)`,
+              y: scrollYProgress.get() * -300,
             }}
             transition={{ duration: 0.8 }}
             className={`mx-auto mb-8 flex h-[167px] w-[1000px] -translate-y-20 -rotate-12 transform flex-col items-center justify-center gap-4 rounded-lg border-4 border-black shadow-brut-sm`}
@@ -248,10 +126,7 @@ const Index = (props: Props) => {
               filter: `blur(${blur}px)`,
             }}
           >
-            <h1 className={`text-center text-3xl font-bold ${FontManrope.className}`}>Work anytime from anywhere</h1>
-            <p className={`${FontManrope.className} text-lg font-bold`}>
-              Enjoy the freedom to work on tasks at your convenience from any location
-            </p>
+            {/* ... */}
           </motion.div>
           <motion.div
             initial={{ opacity: 0, scale: 0.4 }}
@@ -259,6 +134,7 @@ const Index = (props: Props) => {
               opacity: scrollYProgress.get() >= 0.33 && scrollYProgress.get() < 0.5 ? 1 : 0,
               scale: scrollYProgress.get() >= 0.33 && scrollYProgress.get() < 0.5 ? 1 : 0.1,
               filter: `blur(${blur}px)`,
+              y: scrollYProgress.get() * -600,
             }}
             transition={{ duration: 0.8 }}
             className={`mx-auto mb-8 flex h-[167px] w-[1000px] -translate-y-20 -rotate-12 transform flex-col items-center justify-center gap-4 rounded-lg border-4 border-black shadow-brut-sm`}
@@ -267,10 +143,7 @@ const Index = (props: Props) => {
               filter: `blur(${blur}px)`,
             }}
           >
-            <h1 className={`text-center text-3xl font-bold ${FontManrope.className}`}>Work anytime from anywhere</h1>
-            <p className={`${FontManrope.className} text-lg font-bold`}>
-              Enjoy the freedom to work on tasks at your convenience from any location
-            </p>
+            {/* ... */}
           </motion.div>
           <motion.div
             initial={{ opacity: 0, scale: 2 }}
@@ -278,21 +151,11 @@ const Index = (props: Props) => {
               opacity: scrollYProgress.get() >= 0.5 && scrollYProgress.get() < 0.9 ? 1 : 0,
               scale: scrollYProgress.get() >= 0.5 && scrollYProgress.get() < 0.9 ? 1 : 0.1,
               filter: `blur(${blur}px)`,
+              y: scrollYProgress.get() * -100,
             }}
-            transition={{ duration: 0.8 }}
-            className={`mx-auto mb-8 flex h-[167px] w-[1000px] -translate-y-20 -rotate-12 transform flex-col items-center justify-center gap-4 rounded-lg border-4 border-black shadow-brut-sm`}
-            style={{
-              background: 'linear-gradient(to bottom, #D7F9F6, #F9FFFE)',
-              filter: `blur(${blur}px)`,
-            }}
-          >
-            <h1 className={`text-center text-3xl font-bold ${FontManrope.className}`}>Work anytime from anywhere</h1>
-            <p className={`${FontManrope.className} text-lg font-bold`}>
-              Enjoy the freedom to work on tasks at your convenience from any location
-            </p>
-          </motion.div>
-        </div>
-      </motion.section>
+            ></motion.div>
+            </motion.div>
+            </motion.section>
       <section id="third" className="mx-auto max-w-[1075px]">
         <h1 className={`${FontSpaceMono.className} text-5xl font-bold uppercase`}>How does it work?</h1>
         <p className={`${FontManrope.className} text-2xl font-bold opacity-60`}>
