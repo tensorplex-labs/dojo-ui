@@ -1,7 +1,6 @@
-import { useState } from "react"
-// import { Button } from "./ui/button"
-import { InjectedAccountWithMeta } from "@polkadot/extension-inject/types"
 import { Button } from '@/components/Button';
+import { InjectedAccountWithMeta } from "@polkadot/extension-inject/types";
+import { useState } from "react";
 type Props = {
   onAccounts: (accounts: InjectedAccountWithMeta[]) => void
 }

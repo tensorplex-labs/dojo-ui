@@ -1,12 +1,12 @@
 import { Button } from '@/components/Button';
 import { InputField } from '@/components/Fields/InputField';
+import { ConnectWallet } from '@/components/MinerConnect/ConnectWallet';
 import TPLXModalContainer from '@/components/ModalContainer';
 import NavigationBar from '@/components/NavigationBar';
 import SubscriptionModal from '@/components/SubscriptionModal';
 import { TPLXButton } from '@/components/TPLXButton';
 import UserCard from '@/components/UserCard';
 import TPLXWeb3Icon from '@/components/Wallet/tplx-web3-icon';
-import { ConnectWallet } from '@/components/demo/ConnectWallet';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import { useEtherScanOpen } from '@/hooks/useEtherScanOpen';
 import { useModal } from '@/hooks/useModal';
