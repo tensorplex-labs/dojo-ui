@@ -13,6 +13,7 @@ import { useModal } from '@/hooks/useModal';
 import { useSubmitApplication } from '@/hooks/useSubmitApplicationByMiner';
 import { MODAL } from '@/providers/modals';
 import { getFirstFourLastFour } from '@/utils/math_helpers';
+import { fetchNonce } from '@/utils/siwe';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
@@ -199,11 +200,11 @@ const Page = () => {
 
         setSigningIn(true)
       // request nonce from server
-      // TODO use the fetchNonce method
-      const nonceRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/${account.address}`);
-      const data = await nonceRes.json();
-      const { nonce } = data["body"];
-
+      // const nonceRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/${account.address}`);
+      // const data = await nonceRes.json();
+      // const { nonce } = data["body"];
+      const nonceRes = fetchNonce(account.address);
+      const nonce = await nonceRes;
       const siwsMessage = new SiwsMessage({
         domain: window.location.host,
         uri: window.location.origin,
