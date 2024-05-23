@@ -211,7 +211,7 @@ const Page = () => {
         // address: address.toSs58(0),
         address: account.address,
         nonce,
-        statement: "Welcome to SIWS! Sign in to see how it works.",
+        statement: "Sign in with Substrate to Tensorplex",
         chainName: "Substrate",
         // expires in 2 mins
         expirationTime: new Date().getTime() + 2 * 60 * 1000,

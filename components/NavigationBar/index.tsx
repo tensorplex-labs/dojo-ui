@@ -1,13 +1,12 @@
 'use client'
-import React, { useState } from "react";
+import { useSIWE } from "@/hooks/useSIWE";
+import { cn } from "@/utils/tw";
 import { FontManrope, FontSpaceMono } from "@/utils/typography";
 import Link from "next/link";
-import { TPLXWalletButton } from "../Wallet/tplx-wallet-button-entry";
-import { useSIWE } from "@/hooks/useSIWE";
-import {useRouter} from "next/router";
-import { Button } from '@/components/Button';
+import { useRouter } from "next/router";
+import { useState } from "react";
 import { TPLXButton } from "../TPLXButton";
-import { cn } from "@/utils/tw";
+import { TPLXWalletButton } from "../Wallet/tplx-wallet-button-entry";
 const WalletConnect = ({
   handleWalletConnect,
 }: {
@@ -139,7 +138,7 @@ const NavigationBar = ({ openModal }: NavigationBarProps) => {
                 <TPLXButton
                   className={cn(
                     FontSpaceMono.className,
-                    'text-xs md:text-sm bg-primary rounded-none border-[2px] border-black text-font-secondary hover:shadow-brut-sm',
+                    'text-xs uppercase md:text-sm bg-primary rounded-none border-[2px] border-black text-font-secondary hover:shadow-brut-sm',
                   )}
                   onClick={() => router.push('/apply')}
                 >
