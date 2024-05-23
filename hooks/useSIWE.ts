@@ -34,7 +34,7 @@ export const useSIWE = (postSignin: () => void) => {
       };
       // send payload to backend
       await postSignInWithEthereum(payload);
-      setTriggerTaskPageReload(true);
+      setTriggerTaskPageReload(prev => !prev);
 
       postSignin();
     } catch (error) {

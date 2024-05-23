@@ -1,5 +1,5 @@
 'use client';
-import { Pagination, Task, TasksResponse } from '@/hooks/useGetTasks';
+import { Pagination, Task, TasksResponse, taskStatus } from '@/hooks/useGetTasks';
 import { getFromLocalStorage } from '@/utils/general_helpers';
 import { useRouter } from 'next/router';
 import React, { createContext, useCallback, useContext, useState } from 'react';
@@ -29,6 +29,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const fetchTasks = useCallback(
     async (page: number): Promise<TasksResponse | null> => {
+      console.log('Fetching tasks for page:', page, 'cache', cache);
       if (cache.has(page)) {
         const cachedData = cache.get(page) as TasksResponse;
         setTaskData(cachedData.body.tasks);
@@ -63,7 +64,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const findNextUncompletedTask = (tasks: Task[], startIdx: number = 0): string | null => {
     for (let i = startIdx; i < tasks.length; i++) {
-      if (!tasks[i].isCompletedByWorker) {
+      if (!tasks[i].isCompletedByWorker && !(tasks[i].status === taskStatus.EXPIRED)) {
         return tasks[i].taskId;
       }
     }

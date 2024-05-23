@@ -54,29 +54,19 @@ export default function Home() {
   const params = useMemo(() => new URLSearchParams(searchParams), [searchParams]);
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState<string>('1');
-  const {
-    page = currentPage,
-    limit = 10,
-    tasks: taskTypes = 'All',
-    sort = 'createdAt',
-    yieldMin,
-    yieldMax,
-  } = router.query;
+  const { page, limit, tasks: taskTypes, sort, yieldMin, yieldMax } = router.query;
 
-  const { tasks, pagination, loading, error, refetchTasks } = useGetTasks(
-    parseInt(currentPage as string),
-    parseInt(limit as string),
-    taskTypes as string,
-    sort as string,
+  const { tasks, pagination, loading } = useGetTasks(
+    page ? parseInt(page as string) : 1,
+    limit ? parseInt(limit as string) : 10,
+    taskTypes ? (taskTypes as string) : 'All', // 'All' as default task type if not provided
+    sort ? (sort as string) : 'createdAt',
     yieldMin ? parseInt(yieldMin as string) : undefined,
     yieldMax ? parseInt(yieldMax as string) : undefined
   );
-  const [refetchTrigger, setRefetchTrigger] = useState(false);
   const { partners, isLoading: pLoading } = usePartnerList(triggerTaskPageReload);
   const { setTaskData, setPagination } = useTaskData();
   // update the task data in the context
-  setTaskData(tasks);
-  setPagination(pagination);
 
   const handleViewClick = () => {
     // Logic to close Wallet & API (if any)
@@ -196,13 +186,9 @@ export default function Home() {
   // };
 
   useEffect(() => {
-    if (router.isReady) {
-      refetchTasks();
-    }
-
-    // setRefetchTrigger(prev => !prev);
-    setTriggerTaskPageReload(false);
-  }, [triggerTaskPageReload, setTriggerTaskPageReload, refetchTasks, router]);
+    if (tasks && tasks.length > 0) setTaskData(tasks);
+    if (pagination) setPagination(pagination);
+  }, [tasks, pagination, setTaskData, setPagination]);
 
   const updateSorting = useCallback(
     (sort: string) => {
@@ -301,7 +287,7 @@ export default function Home() {
           </div>
           <div className="mt-[18px] flex gap-2">
             <DropdownContainer
-              buttonText={`Sort By ${params.get('sort') === 'numCriteria' ? 'Least Questions' : params.get('sort') === 'numResults' ? 'Most Attempted'  : 'Most Recent'}`}
+              buttonText={`Sort By ${params.get('sort') === 'numCriteria' ? 'Least Questions' : params.get('sort') === 'numResults' ? 'Most Attempted' : 'Most Recent'}`}
               imgSrc="/top-down-arrow.svg"
               className="w-[193.89px]"
             >
