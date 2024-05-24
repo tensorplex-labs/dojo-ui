@@ -234,12 +234,12 @@ export default function Home() {
   }
 
   return (
-    <div className="bg-[#FFFFF4] min-h-screen">
-      <div className="bg-[#F6F6E6] border-b-2 border-black">
+    <div className="min-h-screen bg-[#FFFFF4]">
+      <div className="border-b-2 border-black bg-[#F6F6E6]">
         {/* enable pb-116 if the commented section is alive again*/}
         <NavigationBar openModal={()=>setShowUserCard(true)}/>
         <h1
-          className={`${FontSpaceMono.className} tracking-tight text-4xl mt-9 mb-11 text-black font-bold text-center`}
+          className={`${FontSpaceMono.className} mb-11 mt-9 text-center text-4xl font-bold tracking-tight text-black`}
         >
           TASK LIST
         </h1>
@@ -279,8 +279,8 @@ export default function Home() {
           />
         </div>
       </div> */}
-      <div className="mt-[18px] w-[1075px] mx-auto flex">
-        <div className="flex justify-between  gap-2 w-full">
+      <div className="mx-auto mt-[18px] flex w-[1075px]">
+        <div className="flex w-full  justify-between gap-2">
           <div className="mt-[18px] flex flex-wrap gap-2">
             {categories.map((category) => (
               <CategoryItem
@@ -291,7 +291,7 @@ export default function Home() {
               />
             ))}
           </div>
-          <div className="flex gap-2 mt-[18px]">
+          <div className="mt-[18px] flex gap-2">
             <DropdownContainer
               buttonText={`Sort By ${params.get('sort') === 'createdAt' ? 'Most Recent' : params.get('sort')=== 'numCriteria' ? 'Least Questions' : 'Most Attempted'}`}
               imgSrc="/top-down-arrow.svg"
@@ -301,7 +301,7 @@ export default function Home() {
                 {dropdownOptions.map((option, index) => (
                   <li
                     key={index}
-                    className={`px-2 py-[6px] text-black opacity-75 font-semibold text-base ${FontManrope.className} hover:bg-[#dbf5e9] hover:opacity-100 cursor-pointer`}
+                    className={`px-2 py-[6px] text-base font-semibold text-black opacity-75 ${FontManrope.className} cursor-pointer hover:bg-[#dbf5e9] hover:opacity-100`}
                     onClick={() => updateSorting(option.text)}
                   >
                     {option.text}
@@ -327,31 +327,31 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="w-[1075px] mx-auto flex flex-col mt-[19px] mb-[40px]">
-        <h1 className={`${FontSpaceMono.className} text-black font-bold text-[22px] mb-[19px]`}>
+      <div className="mx-auto mb-[40px] mt-[19px] flex w-[1075px] flex-col">
+        <h1 className={`${FontSpaceMono.className} mb-[19px] text-[22px] font-bold text-black`}>
           SHOWING {tasks.length} RECORDS
         </h1>
         <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} isLoading={loading}/>
         <div className=" mt-3"></div>
         <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange}/>
         {partners.length === 0 || tasks.length <= 0 ? (<div className="text-center">
-          <Button onClick={()=>handleViewClick()} buttonText="Enter Subscription Key" className="text-white bg-primary cursor-not-allowed"/>
+          <Button onClick={()=>handleViewClick()} buttonText="Enter Subscription Key" className="cursor-not-allowed bg-primary text-white"/>
         </div>) : null}
       </div>
       {showUserCard && (
       <UserCard closeModal={setShowUserCard}>
-        <div className="flex flex-col gap-[5px] w-full p-5  py-3.5 border-b-2">
+        <div className="flex w-full flex-col gap-[5px] border-b-2  p-5 py-3.5">
           <div className="flex items-center justify-between ">
             <div className="flex items-center justify-start gap-[5px]">
               <img
-                className="w-5 aspect-square"
+                className="aspect-square w-5"
                 alt="i"
                 src={"/wallet_logo/metamask_logo.svg"}
               ></img>
               <p className={`${FontManrope.className} font-bold`}>Metamask</p>
             </div>
             <div className=" inline-flex gap-2" onClick={walletManagementHandler}>
-              <span className={`${FontManrope.className} gap-2 w-fit hover:cursor-pointer hover:bg-muted p-[10px] rounded-full overflow-hidden flex justify-start items-center text-black `}>
+              <span className={`${FontManrope.className} flex w-fit items-center justify-start gap-2 overflow-hidden rounded-full p-[10px] text-black hover:cursor-pointer hover:bg-muted `}>
               <TPLXWeb3Icon size={20} address={address ?? ''}></TPLXWeb3Icon>
                 {getFirstFourLastFour(address ?? '')}
               </span>
@@ -360,39 +360,39 @@ export default function Home() {
           {/* <div className={`flex items-center gap-[5px] pl-5 ${FontManrope.className} font-bold text-sm text-opacity-75`}>
             4.332stTAO
           </div> */}
-          <div className="flex items-center justify-start pl-5 gap-[20px]">
+          <div className="flex items-center justify-start gap-[20px] pl-5">
             <TPLXButton
               onClick={handleCopy}
-              className="text-[#24837B] p-0 h-fit font-bold"
+              className="h-fit p-0 font-bold text-[#24837B]"
               variant={'link'}
             >
-              <span className=" text-xs mr-[3px] underline-offset-2 underline">
+              <span className=" mr-[3px] text-xs underline underline-offset-2">
                 COPY ADDRESS
               </span>{' '}
-              <IconCopy className="w-4 h-4" />
+              <IconCopy className="size-4" />
             </TPLXButton>
             <TPLXButton
               onClick={handleEtherscan}
-              className="text-[#24837B] p-0 h-fit font-bold"
+              className="h-fit p-0 font-bold text-[#24837B]"
               variant={'link'}
             >
-              <span className="text-xs mr-[3px] underline-offset-2 underline">
+              <span className="mr-[3px] text-xs underline underline-offset-2">
                 VIEW ON ETHERSCAN
               </span>{' '}
-              <IconExternalLink className="w-4 h-4" />
+              <IconExternalLink className="size-4" />
             </TPLXButton>
           </div>
         </div>
-        <div className="text-sm  flex justify-between w-full items-center p-4 border-b-2">
+        <div className="flex  w-full items-center justify-between border-b-2 p-4 text-sm">
           <h1 className={`${FontSpaceMono.className} font-bold uppercase`}>Subscription Keys</h1>
         
-          <button className={`${FontSpaceMono.className} text-[#24837B] underline font-bold`} onClick={handleViewClick}>VIEW</button>
+          <button className={`${FontSpaceMono.className} font-bold text-[#24837B] underline`} onClick={handleViewClick}>VIEW</button>
           
         </div>
         <div className=" w-full px-4 py-5">
           <button
             onClick={walletManagementHandler}
-            className={` text-white hover:shadow-brut-sm hover:cursor-pointer hover:bg-opacity-75 inline-flex items-center justify-center whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none px-4 py-2 text-xs md:text-sm rounded-none border-2 border-black h-[40px] w-full bg-[#00B6A6] ${FontSpaceMono.className} font-bold text-base uppercase`}
+            className={` focus-visible:ring-ring inline-flex h-[40px] w-full items-center justify-center whitespace-nowrap rounded-none border-2 border-black bg-[#00B6A6] px-4 py-2 text-xs text-white ring-offset-background transition-colors hover:cursor-pointer hover:bg-opacity-75 hover:shadow-brut-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none md:text-sm ${FontSpaceMono.className} text-base font-bold uppercase`}
           >
             Manage Wallet
           </button>

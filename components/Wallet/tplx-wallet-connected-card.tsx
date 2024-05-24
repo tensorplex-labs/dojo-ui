@@ -47,13 +47,13 @@ const TPLXLWalletConnectedCard = ({ connector, address }: Props) => {
             <div className="flex items-center justify-start gap-[5px]">
               {connector && (
                 <img
-                  className="w-5 aspect-square"
+                  className="aspect-square w-5"
                   alt="i"
                   src={connector.icon}
                 ></img>
               )}
               {connector && connector.name}{' '}
-              <div className="w-2 h-2 bg-[#00B6A6] rounded-full translate-y-[2px]"></div>
+              <div className="size-2 translate-y-[2px] rounded-full bg-[#00B6A6]"></div>
             </div>
             <TPLXButton
               onClick={disconnectHandler}
@@ -75,23 +75,23 @@ const TPLXLWalletConnectedCard = ({ connector, address }: Props) => {
           <div className="flex items-center justify-start gap-[20px]">
             <TPLXButton
               onClick={handleCopy}
-              className="text-[#24837B] p-0 h-fit font-bold"
+              className="h-fit p-0 font-bold text-[#24837B]"
               variant={'link'}
             >
-              <span className=" text-xs mr-[3px] underline-offset-2 underline">
+              <span className=" mr-[3px] text-xs underline underline-offset-2">
                 COPY ADDRESS
               </span>{' '}
-              <IconCopy className="w-4 h-4" />
+              <IconCopy className="size-4" />
             </TPLXButton>
             <TPLXButton
               onClick={handleEtherscan}
-              className="text-[#24837B] p-0 h-fit font-bold"
+              className="h-fit p-0 font-bold text-[#24837B]"
               variant={'link'}
             >
-              <span className="text-xs mr-[3px] underline-offset-2 underline">
+              <span className="mr-[3px] text-xs underline underline-offset-2">
                 VIEW ON ETHERSCAN
               </span>{' '}
-              <IconExternalLink className="w-4 h-4" />
+              <IconExternalLink className="size-4" />
             </TPLXButton>
           </div>
         </div>

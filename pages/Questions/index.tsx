@@ -139,12 +139,12 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
 
   return (
     <Layout>
-      <div className="flex flex-col items-center justify-center mt-4 mb-4 max-w-[1200px] mx-auto">
-      <span className={`${FontSpaceMono.className} bg-[#D0A215] text-white self-start px-2.5 py-[5px] rounded-[20px] border border-black font-bold`}>{task?.type} PROMPT</span>
-        <div className="text-left flex self-start font-semibold opacity-60 my-5 whitespace-pre-wrap">
+      <div className="mx-auto my-4 flex max-w-[1200px] flex-col items-center justify-center">
+      <span className={`${FontSpaceMono.className} self-start rounded-[20px] border border-black bg-[#D0A215] px-2.5 py-[5px] font-bold text-white`}>{task?.type} PROMPT</span>
+        <div className="my-5 flex self-start whitespace-pre-wrap text-left font-semibold opacity-60">
           {formattedPrompt}
         </div>
-        <div className=' w-full gap-3 grid grid-cols-2'>
+        <div className=' grid w-full grid-cols-2 gap-3'>
           {task?.taskData?.responses.map((plot: { id: React.Key | null | undefined; htmlContent: string; title: string; showTitle: boolean; completion: { sandbox_url: string } }, index) => (
             <LinkContentVisualizer 
               title={rankQuestionData[index]} 
@@ -182,13 +182,13 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
         {/* <p className="text-center flex self-start font-semibold opacity-60 mb-4">{task?.taskData?.prompt}</p> */}
         {!isTaskLoading && isSlider && <>
           {/* <ChatComponent /> */}
-          <div className=' flex justify-start items-center text-left self-start mt-[42px]'>
+          <div className=' mt-[42px] flex items-center justify-start self-start text-left'>
             <h1 className={`text-2xl font-bold ${FontManrope.className} mr-[17px]`}>Rate Question</h1>
           </div>
-          <div className="space-y-2 w-[541px] bg-[#F6F6E6] border-2 border-[#000] border-opacity-10 rounded-xl mt-4">
-            <div className="row-start-2 h-[160px] px-[57px] py-[30px] rounded-br-lg">
-              <h1 className={`${FontSpaceMono.className} text-base font-bold mb-[5px]`}>LINEAR SCALE<span className=' text-red-500'>*</span></h1>
-              <p className={`${FontManrope.className} text-base font-bold opacity-60 mb-[16px]`}>Rate from 1 (negative) to 10 (positive)</p>
+          <div className="mt-4 w-[541px] space-y-2 rounded-xl border-2 border-black border-opacity-10 bg-[#F6F6E6]">
+            <div className="row-start-2 h-[160px] rounded-br-lg px-[57px] py-[30px]">
+              <h1 className={`${FontSpaceMono.className} mb-[5px] text-base font-bold`}>LINEAR SCALE<span className=' text-red-500'>*</span></h1>
+              <p className={`${FontManrope.className} mb-[16px] text-base font-bold opacity-60`}>Rate from 1 (negative) to 10 (positive)</p>
               <Slider
                 min={1}
                 max={10}
@@ -203,12 +203,12 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
       </div>
       {/* Multiselect Question */}
       {!isTaskLoading && isMultiSelectQuestion &&
-        <div className="flex flex-col items-center justify-center mt-4 mb-4 max-w-[1200px] mx-auto">
-          <div className=' flex justify-start items-center text-left self-start mt-[42px]'>
+        <div className="mx-auto my-4 flex max-w-[1200px] flex-col items-center justify-center">
+          <div className=' mt-[42px] flex items-center justify-start self-start text-left'>
             <h1 className={`text-2xl font-bold ${FontManrope.className} mr-[17px]`}>Multi-Select Question</h1>
           </div>
           {/* <p className="text-center flex self-start font-semibold opacity-60 mb-4">Please evaluate the coding question, and answer accordingly.</p> */}
-          <div className="flex flex-col items-center justify-center mt-4 mb-4 mx-auto w-[610px] border-2 border-opacity-10 border-black rounded-b-xl">
+          <div className="mx-auto my-4 flex w-[610px] flex-col items-center justify-center rounded-b-xl border-2 border-black border-opacity-10">
             <div className="p-[34px] pt-[10px]">
               <MultiSelect
                 options={multiSelectQuestionData}
@@ -221,14 +221,14 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
       }
       {/* Rank Question */}
       {!isTaskLoading && isRankQuestion &&
-        <div className="flex flex-col items-center justify-center mt-4 mb-4 max-w-[1200px] mx-auto">
-          <div className='flex justify-start items-center text-left self-start mt-[42px]'>
+        <div className="mx-auto my-4 flex max-w-[1200px] flex-col items-center justify-center">
+          <div className='mt-[42px] flex items-center justify-start self-start text-left'>
             <h1 className={`text-2xl font-bold ${FontManrope.className} mr-[17px]`}>Rank Question</h1>
             {/* <span className={`${FontSpaceMono.className} bg-[#D0A215] text-white px-2.5 py-[5px] rounded-[20px] border border-black font-bold`}>{task?.type} PROMPT</span> */}
           </div>
           <>
             {/* <p className="text-center flex self-start font-semibold opacity-60 mb-4">Which animation best represent an animated solar system? The slider should speed up the animation.</p> */}
-            <div className="flex justify-center w-full mt-4">
+            <div className="mt-4 flex w-full justify-center">
               <div className="w-[780px] bg-[#FFFFF4] pl-[48px]">
                 <p>Please rank the following output in accordance with the shown frames and the described prompt as much as possible, considering any interactions included</p>
                 <DragnDrop options={rankQuestionData} onOrderChange={handleOrderChange} />
@@ -237,13 +237,13 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
           </>
         </div>
       }
-      <TPLXModalContainer className={'w-[512px] h-[206px]'} headerClassName={'h-12 pl-4'} bodyClassName="p-0"
+      <TPLXModalContainer className={'h-[206px] w-[512px]'} headerClassName={'h-12 pl-4'} bodyClassName="p-0"
         header={"Error"} open={open} onClose={() => handleOnClose()} onSave={() => handleOnClose()}>
         <div
           className={cn(`${FontManrope.className} py-4 px-6 border-b-2 border-black bg-accent opacity-60 text-[16px] leading-[120%] h-[88px] flex items-center`)}>
           <span>{submissionErr}</span>
         </div>
-        <div className={'text-right p-1 w-[100%] h-[100%]'}>
+        <div className={'size-full p-1 text-right'}>
           <Button className={cn('w-[85px] h-[39px] mt-2 mr-4 hover:shadow-brut-sm text-[16px] text-white')}
             buttonText={"CLOSE"} onClick={() => handleOnClose()} />
         </div>

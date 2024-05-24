@@ -9,10 +9,10 @@ interface LinkContentVisualizerProps {
   const LinkContentVisualizer: React.FC<LinkContentVisualizerProps> = ({ title, showTitle, url }) => {
     console.log(url);
     return (
-      <div className="flex flex-col justify-center w-full h-full">
+      <div className="flex size-full flex-col justify-center">
         {showTitle && <p className={`text-start font-bold ${FontSpaceMono.className}`}>{title}</p>}
           <iframe src={url}  
-            className="w-full aspect-[3/4] px-[10px]"
+            className="aspect-[3/4] w-full px-[10px]"
             title="elastic-newton-69zqqk"
             allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
             sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"

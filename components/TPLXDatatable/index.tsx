@@ -146,7 +146,7 @@ const TPLXDatatable = ({
   return (
     <div {...props} ref={tableContainerRef} className="flex flex-col gap-4">
       <div
-        className={`overflow-x-auto bg-[#F8F8F8] border-2 border-black shadow-brut-sm`}
+        className={`overflow-x-auto border-2 border-black bg-[#F8F8F8] shadow-brut-sm`}
       >
         <table className={`min-w-full ${tableClassName}`}>
           <thead
@@ -157,7 +157,7 @@ const TPLXDatatable = ({
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className={`px-4 py-2 text-black text-start ${headerCellClassName} ${
+                    className={`px-4 py-2 text-start text-black ${headerCellClassName} ${
                       header.column.columnDef.header === "Name"
                         ? "font-bold"
                         : header.column.columnDef.header === "Operations"
@@ -179,21 +179,21 @@ const TPLXDatatable = ({
             {[...Array(10)].map((_, i) => (
               <tr key={i}>
                 <td className="px-4 py-2">
-                  <div className="h-4 bg-gray-300 rounded w-1/2 animate-pulse"></div>
+                  <div className="h-4 w-1/2 animate-pulse rounded bg-gray-300"></div>
                 </td>
                 <td className="px-4 py-2">
-                  <div className="h-4 bg-gray-300 rounded animate-pulse"></div>
+                  <div className="h-4 animate-pulse rounded bg-gray-300"></div>
                 </td>
                 <td className="px-4 py-2">
-                  <div className="h-4 bg-gray-300 rounded w-1/3 animate-pulse"></div>
+                  <div className="h-4 w-1/3 animate-pulse rounded bg-gray-300"></div>
                 </td>
                 <td className="px-4 py-2">
-                  <div className="h-4 bg-gray-300 rounded w-1/4 animate-pulse"></div>
+                  <div className="h-4 w-1/4 animate-pulse rounded bg-gray-300"></div>
                 </td>
                 <td className="px-4 py-2">
-  <div className="relative flex right-0">
-    <div className="w-20 h-8 bg-gray-300 rounded animate-pulse"></div>
-    <div className="absolute inset-0 flex items-center justify-right">
+  <div className="relative right-0 flex">
+    <div className="h-8 w-20 animate-pulse rounded bg-gray-300"></div>
+    <div className="justify-right absolute inset-0 flex items-center">
       {/* <div className="w-4 h-4 bg-white rounded-full animate-bounce"></div> */}
     </div>
   </div>
@@ -253,7 +253,7 @@ const TPLXDatatable = ({
                     >
                       {new Date(row.original.expireAt).getTime() < Date.now() ? (
                         <div
-                          className={`px-0.5 text-center rounded-full ${FontManrope.className} text-base bg-red-500 bg-opacity-50 text-white font-bold`}
+                          className={`rounded-full px-0.5 text-center ${FontManrope.className} bg-red-500 bg-opacity-50 text-base font-bold text-white`}
                         >
                           {/* {flexRender(
                             cell.column.columnDef.cell,
@@ -263,7 +263,7 @@ const TPLXDatatable = ({
                         </div>
                       ) : (
                         <div
-                          className={`${FontManrope.className} text-lg text-black opacity-60 font-bold`}
+                          className={`${FontManrope.className} text-lg font-bold text-black opacity-60`}
                         >
                           {flexRender(
                             cell.column.columnDef.cell,
@@ -278,7 +278,7 @@ const TPLXDatatable = ({
                       className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
                     >
                       <div
-                        className={`${FontManrope.className} text-lg text-black opacity-60 font-bold`}
+                        className={`${FontManrope.className} text-lg font-bold text-black opacity-60`}
                       >
                         {flexRender(
                           cell.column.columnDef.cell,
@@ -294,7 +294,7 @@ const TPLXDatatable = ({
                     <Button
                       disabled={new Date(row.original.expireAt).getTime() < Date.now() || row.original.isCompletedByWorker === true}
                       buttonText={ `${new Date(row.original.expireAt).getTime() < Date.now() ? "Expired" : row.original.isCompletedByWorker ? 'Completed' : "Start"}`}
-                      className={`text-white disabled:bg-gray-400 disabled:cursor-not-allowed`}
+                      className={`text-white disabled:cursor-not-allowed disabled:bg-gray-400`}
                       onClick={() => onStartHandler(row.original.taskId)}
                     />
                   </td>
