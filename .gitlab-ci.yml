@@ -47,7 +47,7 @@ build:
   stage: build
   image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/node:21.7.3
   script:
-    - npm install -g
+    - npm install
     - npm run build
   artifacts:
     untracked: true
