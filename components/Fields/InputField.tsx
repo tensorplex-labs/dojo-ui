@@ -27,14 +27,14 @@ const InputField = forwardRef<HTMLInputElement, InputProps>(
           {isCopy && (
             <button
               type="button"
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-2 rounded"
+              className="absolute right-2 top-1/2 -translate-y-1/2 rounded bg-gray-200 px-2 py-1 font-bold text-gray-800 hover:bg-gray-300"
               onClick={handleCopy}
             >
-              <img src="./copy.svg" alt="copy" className="w-4 h-4" />
+              <img src="./copy.svg" alt="copy" className="size-4" />
             </button>
           )}
         </div>
-        {hasError && <p className="text-red-500 text-sm font-medium">{errorMessage}</p>}
+        {hasError && <p className="text-sm font-medium text-red-500">{errorMessage}</p>}
       </div>
     )
   }

@@ -72,7 +72,7 @@ const TPLXManageWalletConnectModal = ({
       }}
       bodyClassName="p-0"
     >
-      <div className="flex flex-col w-[400px]">
+      <div className="flex w-[400px] flex-col">
         {status === 'connected' && connector && isAuthenticated && (
           <TPLXLWalletConnectedCard
             connector={connector}

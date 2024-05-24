@@ -120,7 +120,7 @@ const Page = () => {
           <NavigationBar openModal={() => setShowUserCard(true)} />
           <h1
             // eslint-disable-next-line tailwindcss/no-contradicting-classname
-            className={`${FontSpaceMono.className} mb-4 mt-9 text-center text-4xl font-bold tracking-wide text-black text-font-primary`}
+            className={`${FontSpaceMono.className} mb-4 mt-9 text-center text-4xl font-bold tracking-wide text-font-primary`}
           >
             FREQUENTLY ASKED QUESTIONS
           </h1>

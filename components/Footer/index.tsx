@@ -28,7 +28,7 @@ const Footer: React.FC<FooterProps> = (props) => {
 
 
     return (
-    <div className="max-w-[1075px] mx-auto p-4">
+    <div className="mx-auto max-w-[1075px] p-4">
         {/* <div className="mb-2">
         <h1 className={`uppercase ${FontSpaceMono.className} text-xl font-bold mb-1.5`}>
             Rewards
@@ -66,7 +66,7 @@ const Footer: React.FC<FooterProps> = (props) => {
                 </div>
             <   div className="w-px bg-gray-300 mx-4 my-2"></div>  */}
             {/* Risk & Rewards */}
-                <div className="w-[250px] flex flex-col">
+                <div className="flex w-[250px] flex-col">
                     {/* <h1 className={`uppercase ${FontSpaceMono.className} text-base font-bold mb-4`}> Risk & Rewards </h1>
                     <div className="flex justify-between gap-5">
                     <div className="flex flex-col">
@@ -84,9 +84,9 @@ const Footer: React.FC<FooterProps> = (props) => {
                 </div> */}
             </div>
             </div>
-            <div className="flex justify-end items-center space-x-[11px]">
-                <Button buttonText={"SKIP"} className="text-black bg-[#E4E4E4] hover:shadow-brut-sm px-[37px] py-[15px]" onClick={() => handleSkip()}/>
-                <Button buttonText={"PROCEED"} className="text-white bg-[#00B6A6] hover:shadow-brut-sm px-[37px] py-[15px]" onClick={()=> handleSubmit()}/>
+            <div className="flex items-center justify-end space-x-[11px]">
+                <Button buttonText={"SKIP"} className="bg-[#E4E4E4] px-[37px] py-[15px] text-black hover:shadow-brut-sm" onClick={() => handleSkip()}/>
+                <Button buttonText={"PROCEED"} className="bg-[#00B6A6] px-[37px] py-[15px] text-white hover:shadow-brut-sm" onClick={()=> handleSubmit()}/>
             </div>
         </div>
     </div>

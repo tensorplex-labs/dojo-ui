@@ -129,27 +129,26 @@ const stepsArray = Array.from({ length: numberOfSteps }, (_, i) => min + i * ste
         step={step}
         value={value}
         onChange={handleSliderChange}
-        className={`w-full h-1.5 bg-transparent cursor-pointer appearance-none disabled:opacity-50 disabled:pointer-events-none focus:outline-none border border-black
-        [&::-webkit-slider-thumb]:w-3
-        [&::-webkit-slider-thumb]:h-3
+        className={`h-1.5 w-full cursor-pointer appearance-none border border-black bg-transparent focus:outline-none disabled:pointer-events-none disabled:opacity-50
+        [&::-webkit-slider-thumb]:z-50
         [&::-webkit-slider-thumb]:-mt-0.5
+        [&::-webkit-slider-thumb]:size-3
         [&::-webkit-slider-thumb]:appearance-none
-        [&::-webkit-slider-thumb]:shadow-[0_0_0_1px_rgba(0,0,0,1)]
         [&::-webkit-slider-thumb]:rounded-full
+        [&::-webkit-slider-thumb]:bg-[#D9D9D9]
+        [&::-webkit-slider-thumb]:shadow-[0_0_0_1px_rgba(0,0,0,1)]
         [&::-webkit-slider-thumb]:transition-all
         [&::-webkit-slider-thumb]:duration-150
-        [&::-webkit-slider-thumb]:z-50
         [&::-webkit-slider-thumb]:ease-in-out
-        [&::-webkit-slider-thumb]:bg-[#D9D9D9]
        `}
         style={sliderStyle}
       />
     {showSections && (
-      <div className="absolute top-0 left-0 right-0 h-full pointer-events-none flex justify-between w-full">
+      <div className="pointer-events-none absolute inset-x-0 top-0 flex size-full justify-between">
       {stepsArray.map((stepValue, index) => (
         <div className={`ml-[10px] mt-[10px] `} key={index}>
           <span
-            className={`bg-[#00B6A6] ${stepValue === value && "opacity-0 bg-transparent"} border-black border block h-[11px] w-[5px] dark:text-gray-400`}
+            className={`bg-[#00B6A6] ${stepValue === value && "bg-transparent opacity-0"} block h-[11px] w-[5px] border border-black dark:text-gray-400`}
           />
           <p className={`${FontManrope.className} font-semibold`}>{stepValue}</p>
         </div>
@@ -160,12 +159,12 @@ const stepsArray = Array.from({ length: numberOfSteps }, (_, i) => min + i * ste
       </div>
     )}
       {minLabel && (
-        <span className="text-sm text-gray-500 dark:text-gray-400 absolute start-0 -bottom-6">
+        <span className="absolute -bottom-6 start-0 text-sm text-gray-500 dark:text-gray-400">
           {minLabel}
         </span>
       )}
       {maxLabel && (
-        <span className="text-sm text-gray-500 dark:text-gray-400 absolute end-0 -bottom-6">
+        <span className="absolute -bottom-6 end-0 text-sm text-gray-500 dark:text-gray-400">
           {maxLabel}
         </span>
       )}

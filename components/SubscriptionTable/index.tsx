@@ -68,30 +68,30 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({refetch}) => {
     setRefetchTrigger((prev) => !prev);
   };
   return (
-    <table className="w-full leading-normal text-black table-fixed">
+    <table className="w-full table-fixed leading-normal text-black">
       <thead>
         <tr className={`${FontSpaceMono.className}`}>
-          <th className="px-5 py-3 border-b-2  text-left text-sm opacity-75 font-bold uppercase tracking-wider">
+          <th className="border-b-2 px-5 py-3  text-left text-sm font-bold uppercase tracking-wider opacity-75">
             Name
           </th>
-          <th className="px-5 py-3 border-b-2  text-left text-sm opacity-75 font-bold uppercase tracking-wider w-1/2">
+          <th className="w-1/2 border-b-2 px-5  py-3 text-left text-sm font-bold uppercase tracking-wider opacity-75">
             Subscription Key
           </th>
-          <th className="px-5 py-3 border-b-2 text-left text-sm opacity-75 font-bold uppercase tracking-wider">
+          <th className="border-b-2 px-5 py-3 text-left text-sm font-bold uppercase tracking-wider opacity-75">
             Created
           </th>
-          <th className="px-5 py-3 border-b-2 text-left text-sm opacity-75 font-bold uppercase tracking-wider">
+          <th className="border-b-2 px-5 py-3 text-left text-sm font-bold uppercase tracking-wider opacity-75">
             Operations
           </th>
         </tr>
       </thead>
       <tbody className={`${FontManrope.className} text-opacity-60`}>
         {partners.map((item) => (
-          <tr key={item.id} className='opacity-60 font-medium'>
+          <tr key={item.id} className='font-medium opacity-60'>
             <td className='px-5 py-3'>
               {editRowId === item.id ? (
                 <input
-                className='block w-full p-2 border-black border-2'
+                className='block w-full border-2 border-black p-2'
                   type="text"
                   value={editableData?.name}
                   onChange={(e) => handleChange(e, 'name')}
@@ -103,7 +103,7 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({refetch}) => {
             <td className='px-5 py-3'>
               {editRowId === item.id ? (
                 <input
-                  className='block w-full p-2 border-black border-2'
+                  className='block w-full border-2 border-black p-2'
                   type="text"
                   value={editableData?.subscriptionKey}
                   onChange={(e) => handleChange(e, 'subscriptionKey')}
@@ -114,7 +114,7 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({refetch}) => {
             </td>
             <td className='px-5 py-3'>{formatDate(item.createdAt)}</td>
             <td className='px-5 py-3'>
-             <div className='flex w-full h-full justify-start items-center'>
+             <div className='flex size-full items-center justify-start'>
              {editRowId === item.id ? (
                 <>
                   <button onClick={handleSave}><IconCheck /></button>
