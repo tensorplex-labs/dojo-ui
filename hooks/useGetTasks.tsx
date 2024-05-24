@@ -11,18 +11,19 @@ export interface Task {
   status: string;
   numResults: number;
   maxResults: number;
-  numCriteria: number;
-  isCompletedByWorker: boolean;
+  numCriteria: number,
+  isCompletedByWorker: boolean
 }
 
-export interface Pagination {
+
+interface Pagination {
   pageNumber: number;
   pageSize: number;
   totalPages: number;
   totalItems: number;
 }
 
-export interface TasksResponse {
+interface TasksResponse {
   success: boolean;
   body: {
     tasks: Task[];
@@ -31,14 +32,7 @@ export interface TasksResponse {
   error: string | null;
 }
 
-const useGetTasks = (
-  page: number,
-  limit: number,
-  taskQuery: string,
-  sort: string,
-  yieldMin?: number,
-  yieldMax?: number
-) => {
+const useGetTasks = (page: number, limit: number, taskQuery: string, sort: string, yieldMin?: number, yieldMax?: number) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -51,6 +45,10 @@ const useGetTasks = (
       setError('No JWT token found');
     }
     try {
+
+      console.log("fetchTasks called", page, limit, taskQuery, sort, yieldMin, yieldMax)
+
+
       const yieldMinQuery = yieldMin ? `&yieldMin=${yieldMin}` : '';
       const yieldMaxQuery = yieldMax ? `&yieldMax=${yieldMax}` : '';
       const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/?page=${page}&limit=${limit}&task=${taskQuery}&sort=${sort}${yieldMinQuery}${yieldMaxQuery}`;
@@ -59,8 +57,8 @@ const useGetTasks = (
 
       const response = await fetch(endpoint, {
         headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
+          'Authorization': `Bearer ${jwtToken}`,
+        }
       });
       const data: TasksResponse = await response.json();
 

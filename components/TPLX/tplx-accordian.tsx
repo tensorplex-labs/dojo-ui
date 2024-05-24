@@ -1,16 +1,14 @@
-import React, {
-    Children,
-    HTMLAttributes,
-    ReactNode,
-    useRef,
-    useState,
-  } from 'react';
+import {
+  HTMLAttributes,
+  ReactNode,
+  useRef,
+  useState
+} from 'react';
 
 
-  import { brutCardVariants } from './tplx-brut-card';
-  import { IconChevronCompactUp, IconChevronUp } from '@tabler/icons-react';
-import { cn } from '@/utils/tw';
+  import { cn } from '@/utils/tw';
 import { FontManrope } from '@/utils/typography';
+import { IconChevronUp } from '@tabler/icons-react';
   interface Props extends HTMLAttributes<HTMLDivElement> {
     children: ReactNode;
   }
