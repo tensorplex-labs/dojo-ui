@@ -67,6 +67,13 @@ build_image:
 
 deploy_preview:
   only:
+    - dev 
+  extends: .deploy
+  environment:
+    name: dev 
+
+deploy_preview:
+  only:
     - staging
   extends: .deploy
   environment:
