@@ -48,7 +48,7 @@ build:
   image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/node:21.7.3
   script:
     - npm install --force
-    - npm run build
+    - NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL npm run build
   artifacts:
     untracked: true
   cache:
@@ -65,6 +65,8 @@ build_image:
     - docker push -a $CI_REGISTRY_IMAGE
   needs:
     - build
+  environment:
+    name: $CI_COMMIT_BRANCH
 
 deploy_preview:
   only:
