@@ -28,7 +28,7 @@ export const TPLXWalletButton = ({ openModal }: TPLXWalletButtonProps) => {
         // eslint-disable-next-line jsx-a11y/click-events-have-key-events
         <div
           onClick={openModal}
-          className="w-fit hover:cursor-pointer hover:bg-muted p-[10px] rounded-full overflow-hidden flex justify-start items-center text-black"
+          className="flex w-fit items-center justify-start overflow-hidden rounded-full p-[10px] text-black hover:cursor-pointer hover:bg-muted"
         >
           <TPLXWalletButtonBadge account={address} />
         </div>

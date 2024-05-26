@@ -128,14 +128,14 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
       title="SUBSCRIPTION KEYS"
       btnText="Close"
     >
-      <div className='bg-[#DBF5E9] w-full px-[22px] py-[15px] text-black'>
+      <div className='w-full bg-[#DBF5E9] px-[22px] py-[15px] text-black'>
         <div>
-          <h1 className={`${FontSpaceMono.className} font-bold text-base`}>ENTER SUBSCRIPTION KEY</h1>
-          <h2 className={`${FontManrope.className} font-medium text-base opacity-60`}>Obtain subscription key from miners</h2>
+          <h1 className={`${FontSpaceMono.className} text-base font-bold`}>ENTER SUBSCRIPTION KEY</h1>
+          <h2 className={`${FontManrope.className} text-base font-medium opacity-60`}>Obtain subscription key from miners</h2>
         </div>
         <div className={` flex-row`}>
           <div className="flex flex-row justify-between">
-            <div className="flex mr-2">
+            <div className="mr-2 flex">
               <LabelledInput
                 id="name"
                 label="Name"
@@ -145,7 +145,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
                 onChange={handleInputChange1}
               />
             </div>
-            <div className="flex-1 ml-2">
+            <div className="ml-2 flex-1">
               <LabelledInput
                 id="subscriptionKey"
                 label="SUBSCRIPTION KEY"
@@ -162,7 +162,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
           </div>
           <div className="flex justify-end">
             <button
-              className=" px-[18px] py-[10px] text-base h-auto bg-[#00B6A6] font-spacemono text-white border-2 border-black uppercase cursor-pointer hover:shadow-brut-sm font-bold hover:bg-opacity-80 active:border-b-2"
+              className=" font-spacemono h-auto cursor-pointer border-2 border-black bg-[#00B6A6] px-[18px] py-[10px] text-base font-bold uppercase text-white hover:bg-opacity-80 hover:shadow-brut-sm active:border-b-2"
               onClick={handleSubmit}
             >
               Create
@@ -171,19 +171,19 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
         </div>
       </div>
       {/* <SubscriptionTable/> */}
-      <table className="w-full leading-normal text-black table-fixed">
+      <table className="w-full table-fixed leading-normal text-black">
       <thead>
         <tr className={`${FontSpaceMono.className}`}>
-          <th className="px-5 py-3 border-b-2  text-left text-sm opacity-75 font-bold uppercase tracking-wider">
+          <th className="border-b-2 px-5 py-3  text-left text-sm font-bold uppercase tracking-wider opacity-75">
             Name
           </th>
-          <th className="px-5 py-3 border-b-2  text-left text-sm opacity-75 font-bold uppercase tracking-wider w-1/2">
+          <th className="w-1/2 border-b-2 px-5  py-3 text-left text-sm font-bold uppercase tracking-wider opacity-75">
             Subscription Key
           </th>
-          <th className="px-5 py-3 border-b-2 text-left text-sm opacity-75 font-bold uppercase tracking-wider">
+          <th className="border-b-2 px-5 py-3 text-left text-sm font-bold uppercase tracking-wider opacity-75">
             Created
           </th>
-          <th className="px-5 py-3 border-b-2 text-left text-sm opacity-75 font-bold uppercase tracking-wider">
+          <th className="border-b-2 px-5 py-3 text-left text-sm font-bold uppercase tracking-wider opacity-75">
             Operations
           </th>
         </tr>
@@ -191,17 +191,17 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
       <tbody className={`${FontManrope.className} text-opacity-60`}>
         {isSubscriptionModalLoading && (
           <tr>
-            <td colSpan={4} className="text-center py-5">
+            <td colSpan={4} className="py-5 text-center">
               <div className='flex justify-center'><span className='animate-spin '><IconLoader /></span>Loading...</div>
             </td>
           </tr>
         )}
         {!isSubscriptionModalLoading && partners.map((item) => (
-          <tr key={item.id} className='opacity-60 font-medium'>
+          <tr key={item.id} className='font-medium opacity-60'>
             <td className='px-5 py-3'>
               {editRowId === item.id ? (
                 <input
-                className='block w-full p-2 border-black border-2'
+                className='block w-full border-2 border-black p-2'
                   type="text"
                   value={editableData?.name}
                   onChange={(e) => handleChange(e, 'name')}
@@ -213,7 +213,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
             <td className='px-5 py-3'>
               {editRowId === item.id ? (
                 <input
-                  className='block w-full p-2 border-black border-2'
+                  className='block w-full border-2 border-black p-2'
                   type="text"
                   value={editableData?.subscriptionKey}
                   onChange={(e) => handleChange(e, 'subscriptionKey')}
@@ -224,7 +224,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
             </td>
             <td className='px-5 py-3'>{formatDate(item.createdAt)}</td>
             <td className='px-5 py-3'>
-             <div className='flex w-full h-full justify-start items-center'>
+             <div className='flex size-full items-center justify-start'>
              {editRowId === item.id ? (
                 <>
                   <button onClick={handleSave}><IconCheck /></button>

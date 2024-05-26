@@ -33,8 +33,8 @@ const TPLXWalletNetworkCard = ({
       )}
       {...props}
     >
-      <div className="flex flex-col gap-[3px] items-center justify-center w-full h-full">
-        <img className="w-[25px] aspect-square" src={logo ?? ''} alt="L"></img>
+      <div className="flex size-full flex-col items-center justify-center gap-[3px]">
+        <img className="aspect-square w-[25px]" src={logo ?? ''} alt="L"></img>
         <span>{Description}</span>
       </div>
     </TPLXBrutCard>

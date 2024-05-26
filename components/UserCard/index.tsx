@@ -17,15 +17,15 @@ const UserCard: React.FC<UserCardProps> = ({ closeModal, children }) => {
       <div className="fixed inset-0 z-40" onClick={handleCloseModal}></div>
 
       {/* Modal Container */}
-      <div className="fixed w-[1115px] mt-[90px] m-auto inset-0 z-50 flex items-start justify-end p-4">
+      <div className="fixed inset-0 z-50 m-auto mt-[90px] flex w-[1115px] items-start justify-end p-4">
         {/* Modal */}
-        <div className="relative max-w-[401px] w-full h-auto overflow-auto shadow-brut-sm bg-[#F8F8F8] border-2 border-black text-black">
-        <div className="flex items-start justify-between border-solid border-blueGray-200">
-            <div className="w-[90%] h-[46px] border border-gray-900 flex items-center justify-left pl-[22px]">
-              <h1 className={`${FontSpaceMono.className} font-bold text-base uppercase`}>Wallet & API Key</h1>
+        <div className="relative h-auto w-full max-w-[401px] overflow-auto border-2 border-black bg-[#F8F8F8] text-black shadow-brut-sm">
+        <div className="border-blueGray-200 flex items-start justify-between border-solid">
+            <div className="justify-left flex h-[46px] w-[90%] items-center border border-gray-900 pl-[22px]">
+              <h1 className={`${FontSpaceMono.className} text-base font-bold uppercase`}>Wallet & API Key</h1>
             </div>
             <div
-              className="w-[10%] h-[46px] cursor-pointer border border-gray-900 flex justify-center items-center hover:opacity-60"
+              className="flex h-[46px] w-[10%] cursor-pointer items-center justify-center border border-gray-900 hover:opacity-60"
               onClick={handleCloseModal}
             >
               <IconX />
