@@ -23,7 +23,7 @@ default:
   image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/node:21.7.3
   script:
     - npm install -g vercel
-    - npm install --loglevel verbose
+    - npm install --force --loglevel verbose
     - vercel pull --yes --environment=production --token=$VERCEL_TOKEN
     - vercel build --prod --token=$VERCEL_TOKEN -e NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL 
     - vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN -e NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL
