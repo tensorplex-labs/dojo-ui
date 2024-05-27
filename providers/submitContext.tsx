@@ -1,6 +1,6 @@
 import useSubmitTask from '@/hooks/useSubmitTask';
 import { useRouter } from 'next/router';
-import React, { createContext, useContext, ReactNode, useState, useCallback, useEffect } from 'react';
+import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
 interface SubmitContextType {
   multiSelectData: string[];
@@ -11,7 +11,7 @@ interface SubmitContextType {
   updateScore: (score: number) => void;
   handleSubmit: Function;
   triggerTaskPageReload: boolean;
-  setTriggerTaskPageReload: Function;
+  setTriggerTaskPageReload: React.Dispatch<React.SetStateAction<boolean>>;
   submissionErr: string | null;
   setSubmissionErr: Function;
   isSubscriptionModalLoading: boolean;
@@ -32,7 +32,7 @@ export const useSubmit = () => {
 
 type RankOrder = { [key: string]: string };
 
-export const SubmitProvider: React.FC<{children: ReactNode}> = ({ children }) => {
+export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [multiSelectData, setMultiSelectData] = useState<string[]>([]);
   const [rankingData, setRankingData] = useState<any>();
   const [scoreData, setScoreData] = useState<number>(0);
@@ -42,7 +42,7 @@ export const SubmitProvider: React.FC<{children: ReactNode}> = ({ children }) =>
   const [partnerCount, setPartnerCount] = useState(0);
   const updateMultiSelect = (data: string[]) => {
     setMultiSelectData(data);
-    console.log(multiSelectData)
+    console.log(multiSelectData);
   };
 
   const updateRanking = (data: RankOrder) => {
@@ -52,49 +52,55 @@ export const SubmitProvider: React.FC<{children: ReactNode}> = ({ children }) =>
   const updateScore = (score: number) => {
     setScoreData(score);
   };
-  const {submitTask, response, error} = useSubmitTask();
-  const handleSubmit = async() => {
-    if (!router.isReady) return
+  const { submitTask, response, error } = useSubmitTask();
+  const handleSubmit = async () => {
+    if (!router.isReady) return;
 
-    const taskId = String(router.query.taskId || '')
-    console.log("TaskResult: ", rankingData, scoreData, multiSelectData)
+    const taskId = String(router.query.taskId || '');
+    console.log('TaskResult: ', rankingData, scoreData, multiSelectData);
 
     if (rankingData || scoreData || multiSelectData.length > 0) {
-      console.log("submitting task")
+      console.log('submitting task');
       await submitTask(taskId, multiSelectData, rankingData, scoreData);
-      if(error){
-        console.log('WORKED >>> ',error)
-        setSubmissionErr(error)
+      if (error) {
+        console.log('WORKED >>> ', error);
+        setSubmissionErr(error);
         return;
       }
-      setSubmissionErr(null)
-      router.push('/')
+      setSubmissionErr(null);
+      router.push('/');
     }
-  }
+  };
 
   useEffect(() => {
-    if(error){
-      setSubmissionErr(error)
+    if (error) {
+      setSubmissionErr(error);
     }
-  }, [error])
-  {console.log(submissionErr)}
+  }, [error]);
+  {
+    console.log(submissionErr);
+  }
   return (
-    <SubmitContext.Provider value={{
-      multiSelectData,
-      rankingData: rankingData || {},
-      scoreData,
-      triggerTaskPageReload,
-      updateMultiSelect,
-      updateRanking: (data: string[]) => updateRanking(Object.fromEntries(data.map((item, index) => [item, index.toString()]))),
-      updateScore,
-      handleSubmit,
-      setTriggerTaskPageReload,
-      submissionErr,
-      setSubmissionErr,
-      isSubscriptionModalLoading,
-      setIsSubscriptionModalLoading,
-      partnerCount,
-      setPartnerCount   }}>
+    <SubmitContext.Provider
+      value={{
+        multiSelectData,
+        rankingData: rankingData || {},
+        scoreData,
+        triggerTaskPageReload,
+        updateMultiSelect,
+        updateRanking: (data: string[]) =>
+          updateRanking(Object.fromEntries(data.map((item, index) => [item, index.toString()]))),
+        updateScore,
+        handleSubmit,
+        setTriggerTaskPageReload,
+        submissionErr,
+        setSubmissionErr,
+        isSubscriptionModalLoading,
+        setIsSubscriptionModalLoading,
+        partnerCount,
+        setPartnerCount,
+      }}
+    >
       {children}
     </SubmitContext.Provider>
   );

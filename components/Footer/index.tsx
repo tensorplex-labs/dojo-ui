@@ -1,11 +1,8 @@
-import { FontManrope, FontSpaceMono } from '@/utils/typography';
-import React from 'react';
-import YieldInput from '../YieldInput';
-import Slider from '../Slider';
-import { Button } from '../Button';
-import { useRouter } from 'next/router';
 import { useSubmit } from '@/providers/submitContext';
 import { useTaskData } from '@/providers/taskContext';
+import { useRouter } from 'next/router';
+import React from 'react';
+import { Button } from '../Button';
 
 interface FooterProps {
   // Define any props you need to pass to this component
@@ -17,8 +14,8 @@ const Footer: React.FC<FooterProps> = (props) => {
     const { getNextTaskId } = useTaskData();
     const { handleSubmit } = useSubmit();
 
-    const handleSkip = () => {
-        const taskId = getNextTaskId();
+    const handleSkip = async() => {
+        const taskId = await getNextTaskId();
         if (!taskId) {
             router.push('/')
             return;
@@ -85,7 +82,7 @@ const Footer: React.FC<FooterProps> = (props) => {
             </div>
             </div>
             <div className="flex items-center justify-end space-x-[11px]">
-                <Button buttonText={"SKIP"} className="bg-[#E4E4E4] px-[37px] py-[15px] text-black hover:shadow-brut-sm" onClick={() => handleSkip()}/>
+                <Button buttonText={"SKIP"} className="bg-[#E4E4E4] px-[37px] py-[15px] text-black hover:shadow-brut-sm" onClick={async() => handleSkip()}/>
                 <Button buttonText={"PROCEED"} className="bg-[#00B6A6] px-[37px] py-[15px] text-white hover:shadow-brut-sm" onClick={()=> handleSubmit()}/>
             </div>
         </div>

@@ -37,7 +37,7 @@ const chainId = useChainId();
       };
       // send payload to backend
       await postSignInWithEthereum(payload);
-      setTriggerTaskPageReload(true);
+      setTriggerTaskPageReload(prev => !prev);
 
       postSignin()
 

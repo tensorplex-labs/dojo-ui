@@ -46,6 +46,7 @@
     "remark-html": "^16.0.1",
     "siwe": "^2.3.2",
     "tailwind-merge": "^2.3.0",
+    "use-debounce": "^10.0.0",
     "truncate-middle": "^1.0.6",
     "viem": "^2.9.28",
     "wagmi": "^2.9.3",
