@@ -1,18 +1,18 @@
-import React, { ReactNode, useEffect, useMemo, useState } from 'react';
-import Layout from '@/layout';
+import { Button } from '@/components/Button';
 import DragnDrop from '@/components/DragnDrop';
 import LinkContentVisualizer from '@/components/LinkContentVisualizer';
-import { FontManrope, FontSpaceMono } from '@/utils/typography';
+import TPLXModalContainer from '@/components/ModalContainer';
 import MultiSelect from '@/components/MultileSelect';
 import Slider from '@/components/Slider';
 import useRequestTaskByTaskID from '@/hooks/useRequestTaskByTaskID';
-import { useSubmit } from '@/providers/submitContext';
-import TPLXModalContainer from '@/components/ModalContainer';
-import { cn } from '@/utils/tw';
-import { Button } from '@/components/Button';
-import { useRouter } from 'next/router';
 import useSubmitTask from '@/hooks/useSubmitTask';
+import Layout from '@/layout';
+import { useSubmit } from '@/providers/submitContext';
 import { useTaskData } from '@/providers/taskContext';
+import { cn } from '@/utils/tw';
+import { FontManrope, FontSpaceMono } from '@/utils/typography';
+import { useRouter } from 'next/router';
+import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 
 type QuestionPageProps = {
   children: ReactNode;
@@ -70,6 +70,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
 
 
   useEffect(() => {
+    console.log("Task Title", task?.title)
     task?.taskData.criteria.forEach((criterion) => {
       switch (criterion.type) {
         case taskCriteria.multiSelect:

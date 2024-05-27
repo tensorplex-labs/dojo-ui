@@ -26,14 +26,14 @@ export interface Task {
 }
 
 
-interface Pagination {
+export interface Pagination {
   pageNumber: number;
   pageSize: number;
   totalPages: number;
   totalItems: number;
 }
 
-interface TasksResponse {
+export interface TasksResponse {
   success: boolean;
   body: {
     tasks: Task[];

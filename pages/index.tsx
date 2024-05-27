@@ -1,7 +1,9 @@
 'use client';
+import { Button } from "@/components/Button";
 import { CategoryItem } from "@/components/CategoryItem";
 import { DropdownContainer } from "@/components/DropDown";
 import NavigationBar from "@/components/NavigationBar";
+import { Pagination } from "@/components/Pagination";
 import SubscriptionModal from "@/components/SubscriptionModal";
 import { TPLXButton } from "@/components/TPLXButton";
 import TPLXDatatable from "@/components/TPLXDatatable";
@@ -13,7 +15,6 @@ import { useEtherScanOpen } from "@/hooks/useEtherScanOpen";
 import useGetTasks from "@/hooks/useGetTasks"; // Import the hook
 import { useModal } from "@/hooks/useModal";
 import { usePartnerList } from "@/hooks/usePartnerList";
-import useRequestTaskByTaskID from "@/hooks/useRequestTaskByTaskID";
 import { useAuth } from "@/providers/authContext";
 import { MODAL } from "@/providers/modals";
 import { useSubmit } from "@/providers/submitContext";
@@ -21,12 +22,10 @@ import { useTaskData } from "@/providers/taskContext";
 import { getFirstFourLastFour } from "@/utils/math_helpers";
 import { FontManrope, FontSpaceMono } from "@/utils/typography";
 import { IconCopy, IconExternalLink } from "@tabler/icons-react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useAccount, useDisconnect, useSignMessage } from "wagmi";
-import {useRouter} from "next/router"
-import { Button } from "@/components/Button";
-import { Pagination } from "@/components/Pagination";
+import { useAccount } from "wagmi";
 
 
 
@@ -61,7 +60,7 @@ export default function Home() {
   const { page, limit, tasks: taskTypes, sort, yieldMin, yieldMax } = router.query;
 
   const { tasks, pagination, loading } = useGetTasks(
-    page ? parseInt(page as string) : 1,
+    page ? parseInt(page as string) : parseInt(currentPage),
     limit ? parseInt(limit as string) : 10,
     taskTypes ? (taskTypes as string) : 'All', // 'All' as default task type if not provided
     sort ? (sort as string) : 'createdAt',
@@ -317,7 +316,7 @@ export default function Home() {
         <div className=" mt-3"></div>
         <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange}/>
         {partners.length === 0 || tasks.length <= 0 ? (<div className="text-center">
-          <Button onClick={()=>handleViewClick()} buttonText="Enter Subscription Key" className="bg-primary cursor-not-allowed text-white"/>
+          <Button onClick={()=>handleViewClick()} buttonText="Enter Subscription Key" className="cursor-not-allowed bg-primary text-white"/>
         </div>) : null}
       </div>
       {showUserCard && (
@@ -333,7 +332,7 @@ export default function Home() {
               <p className={`${FontManrope.className} font-bold`}>Metamask</p>
             </div>
             <div className=" inline-flex gap-2" onClick={walletManagementHandler}>
-              <span className={`${FontManrope.className} hover:bg-muted flex w-fit items-center justify-start gap-2 overflow-hidden rounded-full p-[10px] text-black hover:cursor-pointer `}>
+              <span className={`${FontManrope.className} flex w-fit items-center justify-start gap-2 overflow-hidden rounded-full p-[10px] text-black hover:cursor-pointer hover:bg-muted `}>
               <TPLXWeb3Icon size={20} address={address ?? ''}></TPLXWeb3Icon>
                 {getFirstFourLastFour(address ?? '')}
               </span>
@@ -374,7 +373,7 @@ export default function Home() {
         <div className=" w-full px-4 py-5">
           <button
             onClick={walletManagementHandler}
-            className={` focus-visible:ring-ring ring-offset-background hover:shadow-brut-sm inline-flex h-[40px] w-full items-center justify-center whitespace-nowrap rounded-none border-2 border-black bg-[#00B6A6] px-4 py-2 text-xs text-white transition-colors hover:cursor-pointer hover:bg-opacity-75 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none md:text-sm ${FontSpaceMono.className} text-base font-bold uppercase`}
+            className={` focus-visible:ring-ring inline-flex h-[40px] w-full items-center justify-center whitespace-nowrap rounded-none border-2 border-black bg-[#00B6A6] px-4 py-2 text-xs text-white ring-offset-background transition-colors hover:cursor-pointer hover:bg-opacity-75 hover:shadow-brut-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none md:text-sm ${FontSpaceMono.className} text-base font-bold uppercase`}
           >
             Manage Wallet
           </button>
