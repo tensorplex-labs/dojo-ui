@@ -54,6 +54,8 @@ build:
   cache:
     paths:
       - node_modules
+  environment:
+    name: $CI_COMMIT_BRANCH
 
 build_image:
   extends: .build_defaults
