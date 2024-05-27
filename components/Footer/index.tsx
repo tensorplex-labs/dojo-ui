@@ -92,3 +92,41 @@ const Footer: React.FC<FooterProps> = (props) => {
 };
 
 export default Footer;
+
+
+    //     {/* {taskType && taskType === 'CODE_GENERATION ' ?  */}
+    //     <div className=' grid w-full grid-cols-2 gap-3'>
+    //     {task?.taskData?.responses.map((plot: { id: React.Key | null | undefined; htmlContent: string; title: string; showTitle: boolean; completion: { sandbox_url: string } }, index) => (
+    //       <div key={index} className='shadow-brut-sm border-2 border-black bg-[#F6F6E6]'>
+    //         <LinkContentVisualizer 
+    //           title={rankQuestionData[index]} 
+    //           showTitle={true} 
+    //           url={plot.completion.sandbox_url} 
+    //           key={plot.id}
+    //         />              
+    //     </div>
+    //     ))}
+    //   </div>
+    //   {/* : 
+    //   <div className='grid w-full grid-cols-2 gap-3'>
+    //     {task?.taskData?.responses.map((plot: { id: React.Key | null | undefined; htmlContent: string; title: string; showTitle: boolean; completion:  string }, index) => (
+    //         <div key={index} className='shadow-brut-sm border-2 border-black bg-[#F6F6E6]'>
+    //           <ImageComponent src={plot.completion} fallbackSrc={'../default-fallback-image.png'}/>
+    //           <div className={` text-base inline-flex w-full justify-between px-4 ${FontSpaceMono.className} uppercase font-bold py-2`}><span>Prompt Similarities</span><span>{percentage}%</span></div>
+    //           <div className=' p-2'>
+    //           <Slider
+    //               min={minScoreSlider * 10}
+    //               max={maxScoreSlider * 10}
+    //               step={1} // Changed step from 5 to 1 to allow values between 1 and 5
+    //               initialValue={1}
+    //               // onChange={handleSliderChange}
+    //               onChange={handleSliderPercentage}
+    //               // showSections
+    //             />
+    //             </div>
+    //         </div>
+    //       )
+    //     )
+    //   }
+    //   </div>
+    // } */}

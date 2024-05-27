@@ -30,13 +30,15 @@ export type TaskCriteria = typeof taskCriteria[keyof typeof taskCriteria];
 
 
 const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
-  const { updateMultiSelect, updateRanking, updateScore, submissionErr, setSubmissionErr } = useSubmit();
+  const { updateMultiSelect, updateRanking, updateScore, updateMultiValues, submissionErr, setSubmissionErr } = useSubmit();
   const [rankAnswer, setRankAnswer] = useState<RankOrder>();
   const [isMultiSelectQuestion, setIsMultiSelectQuestion] = useState<boolean>(false);
   const [isRankQuestion, setIsRankQuestion] = useState<boolean>(false);
   const [isSlider, setisSlider] = useState<boolean>(false);
   const [minValSlider, setMinValSlider] = useState<number>(1); // [1]
   const [maxValSlider, setMaxValSlider] = useState<number>(10); // [1]
+  const [taskType, setTaskType] = useState<string>('');
+  const [ratings, setRatings] = useState<{ [key: string]: number }>({});
   // State for the selected values in the multi-select radio component
   const [selectedMultiSelectValues, setSelectedMultiSelectValues] = useState<string[]>([]);
   // Handler for changes in the draggable items order
@@ -48,17 +50,18 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
     setRankAnswer(newRankAnswer);
     updateRanking(newOrder);
   };
-  
+
   const [taskId, setTaskId] = useState<string>(''); // [1
   const [multiSelectQuestionData, setMultiSelectQuestionData] = useState<string[]>([])
   const [rankQuestionData, setRankQuestionData] = useState<string[]>([])
   const [sliderValue, setSliderValue] = useState<number>(1); // Initial value set to 1, adjust as necessary
   const [open, setOpen] = useState(false);
-
+  const [minScoreSlider, setMinScoreSlider] = useState<number>(0);
+  const [maxScoreSlider, setMaxScoreSlider] = useState<number>(0);
   const { task, loading: isTaskLoading } = useRequestTaskByTaskID(taskId);
   const [percentage, setPercentage] = useState(0);
   const { error } = useSubmitTask();
-  const {taskData} = useTaskData();
+  const { taskData } = useTaskData();
   const router = useRouter();
 
   useEffect(() => {
@@ -70,7 +73,10 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
 
 
   useEffect(() => {
-    console.log("Task Title", task?.title)
+    console.log("Task Title", task)
+    if (task) {
+      setTaskType(task.type)
+    }
     task?.taskData.criteria.forEach((criterion) => {
       switch (criterion.type) {
         case taskCriteria.multiSelect:
@@ -85,6 +91,10 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
             setRankQuestionData(criterion.options);
             updateRanking(criterion.options);
           }
+          break;
+        case "multi-score": // Handling new case
+          criterion.min && setMinScoreSlider(criterion.min);
+          criterion.max && setMaxScoreSlider(criterion.max);
           break;
         case taskCriteria.score:
           setisSlider(true);
@@ -127,32 +137,49 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
     setOpen(false);
     route.push('/')
   }
+  const handleRatingChange = (model: string, newRating: number) => {
+    setRatings(prevRatings => ({
+        ...prevRatings,
+        [model]: newRating
+    }));
 
-  useEffect(()=>{
-    if(submissionErr){
+    ratings && updateMultiValues(ratings);
+    console.log(ratings)
+  };
+  useEffect(() => {
+    if (submissionErr) {
       setOpen(true)
     }
   }, [submissionErr])
 
-  useEffect(()=>{
+  useEffect(() => {
     setSubmissionErr(null)
   }, [])
 
   return (
     <Layout>
       <div className="mx-auto my-4 flex max-w-[1200px] flex-col items-center justify-center">
-      <span className={`${FontSpaceMono.className} self-start rounded-[20px] border border-black bg-[#D0A215] px-2.5 py-[5px] font-bold text-white`}>{task?.type} PROMPT</span>
+        <span className={`${FontSpaceMono.className} self-start rounded-[20px] border border-black bg-[#D0A215] px-2.5 py-[5px] font-bold text-white`}>{task?.type} PROMPT</span>
         <div className="my-5 flex self-start whitespace-pre-wrap text-left font-semibold opacity-60">
           {formattedPrompt}
         </div>
+        {/* {taskType === 'CODE_GENERATION ' ?  */}
         <div className=' grid w-full grid-cols-2 gap-3'>
-          {task?.taskData?.responses.map((plot: { id: React.Key | null | undefined; htmlContent: string; title: string; showTitle: boolean; completion: { sandbox_url: string } }, index) => (
-            <LinkContentVisualizer 
-              title={rankQuestionData[index]} 
-              showTitle={true} 
-              url={plot.completion.sandbox_url} 
-              key={plot.id}
-            />
+          {task?.taskData?.responses.map((plot: { id: React.Key | null | undefined; model: string; htmlContent: string; title: string; showTitle: boolean; completion: { sandbox_url: string } }, index) => (
+              <LinkContentVisualizer
+                key={plot.id}
+                title={rankQuestionData[index]}
+                showTitle={true}
+                url={plot.completion.sandbox_url}
+                sliderSettings={{
+                  min: 0,
+                  max: 100,
+                  step: 10,
+                  initialValue: 50
+                }}
+                onRatingChange={(rating) => handleRatingChange(`Code ${index}`, rating)}
+                showSlider
+              />
           ))}
         </div>
 

@@ -6,9 +6,11 @@ interface SubmitContextType {
   multiSelectData: string[];
   rankingData: any;
   scoreData: number;
+  multiValues: { [key: string]: number };
   updateMultiSelect: (data: string[]) => void;
   updateRanking: (data: string[]) => void;
   updateScore: (score: number) => void;
+  updateMultiValues: (data: { [key: string]: number }) => void;
   handleSubmit: Function;
   triggerTaskPageReload: boolean;
   setTriggerTaskPageReload: React.Dispatch<React.SetStateAction<boolean>>;
@@ -36,6 +38,7 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [multiSelectData, setMultiSelectData] = useState<string[]>([]);
   const [rankingData, setRankingData] = useState<any>();
   const [scoreData, setScoreData] = useState<number>(0);
+  const [multiValues, setMultiValues] = useState<{ [key: string]: number }>({});
   const [triggerTaskPageReload, setTriggerTaskPageReload] = useState<boolean>(false);
   const [submissionErr, setSubmissionErr] = useState<string | null>(null);
   const [isSubscriptionModalLoading, setIsSubscriptionModalLoading] = useState<boolean>(true);
@@ -48,6 +51,11 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const updateRanking = (data: RankOrder) => {
     setRankingData(data);
   };
+
+  const updateMultiValues = (data: { [key: string]: number }) => {
+    setMultiValues(data);
+  }
+
   const router = useRouter();
   const updateScore = (score: number) => {
     setScoreData(score);
@@ -86,6 +94,7 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         multiSelectData,
         rankingData: rankingData || {},
         scoreData,
+        multiValues,
         triggerTaskPageReload,
         updateMultiSelect,
         updateRanking: (data: string[]) =>
@@ -99,6 +108,7 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         setIsSubscriptionModalLoading,
         partnerCount,
         setPartnerCount,
+        updateMultiValues
       }}
     >
       {children}

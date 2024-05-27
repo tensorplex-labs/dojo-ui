@@ -1,5 +1,5 @@
 import { getFromLocalStorage } from '@/utils/general_helpers';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface SubmitTaskResponse {
   success: string;
@@ -27,7 +27,7 @@ const useSubmitTask =  () => {
   const jwtToken = getFromLocalStorage('jwtToken');
   const submitTask = async (taskId: string, multiSelectData: string[], rankingData: RankOrder, scoreData: number) => {
     setLoading(true);
-    const reversedRankingData: RankOrder = Object.fromEntries(Object.entries(rankingData).map(([key, value]) => [parseInt(value) + 1, key]));
+    const reversedRankingData: RankOrder = rankingData ? Object.fromEntries(Object.entries(rankingData).map(([key, value]) => [parseInt(value) + 1, key])) : {};
     console.log(taskId);
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/submit-result/${taskId}`, {
