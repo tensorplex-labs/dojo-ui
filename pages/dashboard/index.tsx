@@ -48,12 +48,13 @@ const Index = (props: Props) => {
   }, [scrollYProgress]);
   return (
     <LandingPageLayout>
-      <section id="first" className="mx-auto mb-40 grid h-auto w-fit max-w-[1075px] grid-cols-[50%_1fr] gap-8">
-        <div className="pt-8">
-          <h1 className={`${FontSpaceMono.className} text-[46px] font-bold uppercase text-black`}>
+      <section id="first" className="mx-auto mb-40 grid h-[calc(100vh-134px)]
+        w-fit max-w-[1075px] grid-cols-[50%_1fr] gap-8">
+        <div className="flex flex-col justify-center">
+          <h1 className={`${FontSpaceMono.className} text-5xl font-bold uppercase text-black`}>
             Get paid to shape the future of AI
           </h1>
-          <p className={`${FontManrope.className} pr-2 text-xl font-semibold text-black text-opacity-50`}>
+          <p className={`${FontManrope.className} pr-2 mt-[13px] text-2xl font-semibold text-black text-opacity-50`}>
             Earn TAO through responding to AI-generated tasks across various domains. Join the crowd-sourced effort to
             build the world's most powerful multimodal AI models.
           </p>
@@ -66,19 +67,19 @@ const Index = (props: Props) => {
               <h3 className={`uppercase ${FontSpaceMono.className} text-lg font-bold opacity-50`}>
                 Rewards paid out (usd)
               </h3>
-              <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}><CountUp start={0} end={789} duration={3}/>k </h3>
+              <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}><CountUp start={0} end={789} duration={3} startOnMount/>k </h3>
             </div>
             <div>
               <h3 className={`uppercase ${FontSpaceMono.className} text-lg font-bold opacity-50`}>
                 HUMAN TASKS COMPLETED
               </h3>
-              <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}><CountUp start={0} end={12} duration={3}/>M</h3>
+              <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}><CountUp start={0} end={12} duration={3} startOnMount/>M</h3>
             </div>
             <div>
               <h3 className={`uppercase ${FontSpaceMono.className} text-lg font-bold opacity-50`}>
                 NO.OF HUMAN PARTICIPANTS
               </h3>
-              <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}><CountUp start={0} end={123456} duration={3}/></h3>
+              <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}><CountUp start={0} end={123456} duration={3} startOnMount/></h3>
             </div>
           </div>
         </div>
@@ -112,7 +113,7 @@ const Index = (props: Props) => {
       <section id="second" className="overflow-hidden">
         <ScrollEffect />
       </section>
-      <section id="third" className="z-10 bg-gradient-to-t from-[#FFFFF4] to-[#E1F5F4]">
+      <section id="third" className="z-[10000] bg-gradient-to-t from-[#FFFFF4] to-[#E1F5F4]">
         <div className="mx-auto max-w-[1075px]">
           <h1 className={`${FontSpaceMono.className} text-5xl font-bold uppercase`}>How does it work?</h1>
           <p className={`${FontManrope.className} text-2xl font-bold opacity-60`}>
@@ -343,7 +344,7 @@ const Index = (props: Props) => {
                   {/* <div className="bg-white rounded-full h-[67px] w-[67px]"></div> */}
                   <p className={`${FontManrope.className} text-[32px] font-bold`}>v0</p>
                 </div>
-                <div className="pb5 ml-[32px] mt-3 h-[98px] w-[1px] border-l-[3px] border-dashed border-black border-opacity-50"></div>
+                <div className="pb5 ml-[32px] mt-3 h-[110px] w-[1px] border-l-[3px] border-dashed border-black border-opacity-50"></div>
               </div>
               <div className='flex flex-col justify-items-start'>
                 <h3 className={`${FontSpaceMono.className} mb-4 text-xl font-bold uppercase`}>Testnet launch</h3>

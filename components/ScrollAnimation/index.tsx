@@ -19,11 +19,11 @@ const ScrollAnimation = () => {
       if (value > 0.15) {
         setHidden(false);
         console.log(value);
-        if (value > 0.2 && value <= 0.35) {
+        if (value > 0.18 && value < 0.35) {
           setBackgroundImage('url("./world-1.png")');
-        } else if (value > 0.35 && value <= 0.54) {
+        } else if (value > 0.35 && value < 0.45) {
           setBackgroundImage('url("./currency-2.png")');
-        } else if (value > 0.45 && value <= 0.5) {
+        } else if (value > 0.45 && value <= 0.58) {
           setBackgroundImage('url("./posts-3.png")');
         } else if (value > 0.6) {
           setBackgroundImage('');
@@ -81,7 +81,7 @@ const ScrollAnimation = () => {
       }}
     >
       <AnimatePresence>
-        {!hidden ? (
+        {/* {!hidden ? ( */}
           <motion.div
             style={{
               height: '100vh',
@@ -90,14 +90,17 @@ const ScrollAnimation = () => {
               backgroundSize: 'cover',
               backgroundRepeat: 'repeat-y',
               backgroundPosition: 'center top',
+              // position: 'sticky',
               position: 'fixed',
-              top: 0,
+              top: 0, 
               left: 0,
               margin: '0 auto',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               overflow: 'hidden',
+              paddingTop: '10vh',
+              // zIndex: 1000 // Ensure it's above other content
             }}
             animate={{ backgroundPosition: 'center -100vh' }}
             exit={{ opacity: 0, backgroundPosition: 'center -200vh', transition: { duration: 0.5 } }}
@@ -110,7 +113,7 @@ const ScrollAnimation = () => {
                   title={texts[0].title}
                   subtitle={texts[0].subtitle}
                   scrollYPosition={scrollYPosition}
-                  style={{ rotate: '-6deg' }}
+                  style={{ rotate: '-2deg' }}
                 />
               )}
             </AnimatePresence>
@@ -137,9 +140,9 @@ const ScrollAnimation = () => {
               )}
             </AnimatePresence>
           </motion.div>
-        ) : (
+        {/* ) : (
           <></>
-        )}
+        )} */}
       </AnimatePresence>
     </div>
   );
