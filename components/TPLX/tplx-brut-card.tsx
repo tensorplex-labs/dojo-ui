@@ -3,14 +3,14 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import TPLXShimmers from './tplx-shimmers';
 import { cn } from '@/utils/tw';
 
-const brutCardVariants = cva('shadow-brut-sm border-[2px] border-black', {
+const brutCardVariants = cva('border-2 border-black shadow-brut-sm', {
   variants: {
     variant: {
       cta: 'bg-primary',
       default: 'bg-foreground text-card-foreground',
       danger: 'bg-danger-400 text-white',
       muted: 'bg-muted text-muted-foreground',
-      none: 'shadow-brut-none bg-foreground text-card-foreground border-[0px]',
+      none: 'shadow-brut-none border-0 bg-foreground text-card-foreground',
     },
     size: {
       default: 'px-4 py-[8px]',

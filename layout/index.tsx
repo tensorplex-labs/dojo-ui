@@ -1,4 +1,3 @@
-/* eslint-disable tailwindcss/migration-from-tailwind-2 */
 'use client';
 import Footer from '@/components/Footer';
 import SubscriptionModal from '@/components/SubscriptionModal';
@@ -102,7 +101,7 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true }) => {
                   <div className="flex items-center justify-start gap-[20px] pl-5">
                     <TPLXButton onClick={handleCopy} className="h-fit p-0 font-bold text-[#24837B]" variant={'link'}>
                       <span className=" mr-[3px] text-xs underline underline-offset-2">COPY ADDRESS</span>{' '}
-                      <IconCopy className="size-4" />
+                      <IconCopy className="h-4 w-4" />
                     </TPLXButton>
                     <TPLXButton
                       onClick={handleEtherscan}
@@ -110,7 +109,7 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true }) => {
                       variant={'link'}
                     >
                       <span className="mr-[3px] text-xs underline underline-offset-2">VIEW ON ETHERSCAN</span>{' '}
-                      <IconExternalLink className="size-4" />
+                      <IconExternalLink className="h-4 w-4" />
                     </TPLXButton>
                   </div>
                 </div>

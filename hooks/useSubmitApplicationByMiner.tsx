@@ -5,11 +5,17 @@ interface ApplicationData {
   hotkey: string;
   organisationName?: string;
   email: string;
+  signature: string; // Add this property
+  message: string;
 }
 
 interface SubmissionResponse {
   success: boolean;
   message: string;
+  body: {
+    apiKey: string;
+    subscriptionKey: string;
+  }
 }
 
 export const useSubmitApplication = () => {
@@ -22,7 +28,7 @@ export const useSubmitApplication = () => {
     const jwtToken = getFromLocalStorage('jwtToken');
   
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/miner/miner-application`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/miner/login/auth`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -31,18 +37,20 @@ export const useSubmitApplication = () => {
         body: JSON.stringify({
           hotkey: data.hotkey,
           organisationName: data.organisationName,
-          email: data.email
+          email: data.email, 
+          signature: data.signature,
+          message: data.message
         })
       });
   
       const responseData = await response.json();
       if (!response.ok) {
-        setResponse({ success: false, message: responseData.error || 'Failed to submit application'});
+        setResponse({ success: false, message: responseData.error || 'Failed to submit application', body: { apiKey: '', subscriptionKey: '' } });
         setError(responseData.message);
         throw new Error(responseData.error || 'Failed to submit application');
       }
   
-      setResponse({ success: true, message: 'Email sent with API and subscription keys.' });
+      setResponse({ success: true, message: 'Email sent with API and subscription keys.', body: { apiKey: '', subscriptionKey: '' } });
     } catch (error: any) {
       console.error("error.....", error);
       setError(error.message);

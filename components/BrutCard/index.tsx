@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/tw';
 import TPLXShimmers from '../Shimmers';
 
-const brutCardVariants = cva('shadow-brut-sm border-[2px] border-black', {
+const brutCardVariants = cva('border-2 border-black shadow-brut-sm', {
   variants: {
     variant: {
       cta: 'bg-primary',

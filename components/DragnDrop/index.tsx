@@ -1,6 +1,6 @@
 import { FontManrope } from '@/utils/typography';
-import React, { useState } from 'react';
-import { DndProvider, useDrag, useDrop, DragPreviewImage } from 'react-dnd';
+import React, { useEffect, useState } from 'react';
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 type DragnDropProps = {
     options: string[];
@@ -17,6 +17,12 @@ interface Item {
 
 const DragnDrop: React.FC<DragnDropProps> = ({ options, onOrderChange }) => {
   const [items, setItems] = useState(options.map((option, index) => ({ id: `item-${index}`, content: option, type: 'ITEM' })));
+
+  useEffect(() => {
+    // Update the items state whenever the options prop changes
+    setItems(options.map((option, index) => ({ id: `item-${index}`, content: option, type: 'ITEM' })));
+  }, [options]);
+
   const moveItem = (dragIndex: number, hoverIndex: number) => {
     const dragItem = items[dragIndex];
     const newItems = [...items];
@@ -82,10 +88,10 @@ const DraggableItem: React.FC<{ id: string; content: string; index: number; move
             width: '100%', 
             height: '45px' 
           }} 
-          className="flex items-center border-2 border-black bg-[#F6F6E6] p-2 mb-2 cursor-grab"
+          className="mb-2 flex cursor-grab items-center border-2 border-black bg-[#F6F6E6] p-2"
         >
           <img src="./draggable-icon.svg"/> {/* Drag icon */}
-          <p className={`${FontManrope.className} font-bold text-base`}>{content}</p>
+          <p className={`${FontManrope.className} text-base font-bold`}>{content}</p>
           <div style={{ 
             marginLeft: 'auto', 
             background: 'white', 
@@ -93,7 +99,7 @@ const DraggableItem: React.FC<{ id: string; content: string; index: number; move
             border: '2px solid black', 
             padding: '0 4px',
           }}
-          className=" w-[38px] h-[32px] text-center font-bold text-sm flex items-center justify-center cursor-pointer"
+          className=" flex h-[32px] w-[38px] cursor-pointer items-center justify-center text-center text-sm font-bold"
           >
             {index + 1}
           </div>

@@ -25,21 +25,21 @@ function Modal({
   };
 
   return (
-    <div className="backdrop-brightness-50 backdrop-blur-sm justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none text-black">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden text-black outline-none backdrop-blur-sm backdrop-brightness-50 focus:outline-none">
       <div className="relative">
-        <div className="relative flex flex-col ouline-none focus:outline-none bg-[#F8F8F8] border-1 border-neutral-950 border-collapse border-[1px] shadow-brut-sm min-w-[300px] w-[900px] m-2 top-0 md:m-0">
-          <div className="flex items-start justify-between border-solid border-blueGray-200">
-            <div className="w-[90%] h-[46px] border border-gray-900 flex items-center justify-left pl-[22px]">
-              <h1 className={`${FontSpaceMono.className} font-bold text-base`}>{title}</h1>
+        <div className="ouline-none border-1 relative top-0 m-2 flex w-[900px] min-w-[300px] border-collapse flex-col border border-neutral-950 bg-[#F8F8F8] shadow-brut-sm focus:outline-none md:m-0">
+          <div className="border-blueGray-200 flex items-start justify-between border-solid">
+            <div className="justify-left flex h-[46px] w-[90%] items-center border border-gray-900 pl-[22px]">
+              <h1 className={`${FontSpaceMono.className} text-base font-bold`}>{title}</h1>
             </div>
             <div
-              className="w-[10%] h-[46px] cursor-pointer border border-gray-900 flex justify-center items-center hover:opacity-60"
+              className="flex h-[46px] w-[10%] cursor-pointer items-center justify-center border border-gray-900 hover:opacity-60"
               onClick={handleCloseModal}
             >
               <IconX />
             </div>
           </div>
-          <div className="flex flex-col items-center justify-end border-gray-900  border bg-[#F8F8F8]">
+          <div className="flex flex-col items-center justify-end border  border-gray-900 bg-[#F8F8F8]">
             {children}
           </div>
         </div>

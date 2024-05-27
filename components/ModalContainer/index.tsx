@@ -35,7 +35,7 @@ const TPLXModalContainer = React.forwardRef<HTMLInputElement, Props>(
         {open && (
           <div
             onClick={(e) => onClose()}
-            className="fixed bg-black/40 backdrop-blur-sm z-10 w-[10000px] h-[10000px] top-0 left-0"
+            className="fixed left-0 top-0 z-10 size-[10000px] bg-black/40 backdrop-blur-sm"
           ></div>
         )}
         {open && (
@@ -62,9 +62,9 @@ const TPLXModalContainer = React.forwardRef<HTMLInputElement, Props>(
                 </span>
                 <div
                   onClick={(e) => onClose()}
-                  className="hover:cursor-pointer px-4 py-1  flex items-center justify-center border-l-[2px] border-black"
+                  className="flex items-center justify-center  border-l-2 border-black px-4 py-1 hover:cursor-pointer"
                 >
-                  <IconX className="w-6 h-6"></IconX>
+                  <IconX className="size-6"></IconX>
                 </div>
               </div>
               <div className={cn('p-2', bodyClassName)}>{children}</div>

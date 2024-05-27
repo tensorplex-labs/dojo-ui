@@ -21,21 +21,21 @@ const FrequentlyAccessedItem: React.FC<FrequentlyAccessedProps> = ({
   return (
     <Link href={route}>
       <div
-        className={`p-1 border-2 border-black w-full flex flex-row gap-1 cursor-pointer hover:bg-[#DBF5E9] bg-[#F8F8F8] } h-full`}
+        className={`} flex size-full cursor-pointer flex-row gap-1 border-2 border-black bg-[#F8F8F8] p-1 hover:bg-[#DBF5E9]`}
         onClick={handleClick}
       >
         <div
-          className={` ${type === "product" ? "self-center min-w-[41px]" : "pt-1 min-w-[14px] pl-2 pr-2"}  `}
+          className={` ${type === "product" ? "min-w-[41px] self-center" : "min-w-[14px] px-2 pt-1"}  `}
         >
           {type === "product" ? (
-            <img src="/not-found-icon-2.png" className="min-w-[41px] min-h-[34px]" alt="product icon"/>
+            <img src="/not-found-icon-2.png" className="min-h-[34px] min-w-[41px]" alt="product icon"/>
           ) : (
-            <img src="/not-found-icon-1.png" className="min-w-[14px] min-h-[16px]" alt="icon"/>
+            <img src="/not-found-icon-1.png" className="min-h-[16px] min-w-[14px]" alt="icon"/>
           )}
         </div>
         <div>
-          <h1 className="font-bold text-black md:text-sm text-xs opacity-70">{title}</h1>
-          <p className="text-black font-medium opacity-60 md:text-sm text-xs">{description}</p>
+          <h1 className="text-xs font-bold text-black opacity-70 md:text-sm">{title}</h1>
+          <p className="text-xs font-medium text-black opacity-60 md:text-sm">{description}</p>
         </div>
       </div>
     </Link>

@@ -21,12 +21,12 @@ function ComingSoon({
 }: Props) {
   return (
     <Layout showFooter={false}>
-    <div className=" max-w-screen-xl h-full flex flex-col items-center justify-center m-auto mb-8">
-        <div className="text-center mb-10 w-full h-[22.5vh] flex flex-col justify-center">
-          <h1 className="font-spacemono md:text-4xl text-2xl font-bold leading-tight pb-4">
+    <div className=" m-auto mb-8 flex h-full max-w-screen-xl flex-col items-center justify-center">
+        <div className="mb-10 flex h-[22.5vh] w-full flex-col justify-center text-center">
+          <h1 className="font-spacemono pb-4 text-2xl font-bold leading-tight md:text-4xl">
             {mainTitle}
           </h1>
-          <p className="font-manrope font-medium md:text-xl text-md">
+          <p className="font-manrope text-md font-medium md:text-xl">
             {mainSubTitle}
           </p>
         </div>
@@ -47,12 +47,12 @@ function ComingSoon({
           </div>
         ))}
       </div> */}
-      <div className="w-4/5 pl-2 md:w-3/5 mt-4">
-        <h1 className="uppercase text-start font-spacemono text-base md:text-lg font-bold">
+      <div className="mt-4 w-4/5 pl-2 md:w-3/5">
+        <h1 className="font-spacemono text-start text-base font-bold uppercase md:text-lg">
           {subtitle2}
         </h1>
       </div>
-      <div className="w-4/5 md:w-3/5 flex justify-center flex-wrap ">
+      <div className="flex w-4/5 flex-wrap justify-center md:w-3/5 ">
         {TensorplexProducts.map((data, index) => (
           <div key={index} className={`w-full  p-2`}>
             <FrequentlyAccessedItem {...data} />

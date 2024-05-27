@@ -13,8 +13,8 @@ const MultiSelectItem: React.FC<MultiSelectItemProps> = ({ option, isSelected, o
       : 'border-2 border-gray-300 bg-[#F6F6E6] opacity-[14]';
   
     return (
-      <div className="w-full my-2.5 ">
-          <label className={`flex items-center space-x-2 cursor-pointer w-full ${selectedStyles} p-[9px]`}>
+      <div className="my-2.5 w-full ">
+          <label className={`flex w-full cursor-pointer items-center space-x-2 ${selectedStyles} p-[9px]`}>
               <span className="relative">
                   <input
                   type="checkbox"
@@ -23,13 +23,13 @@ const MultiSelectItem: React.FC<MultiSelectItemProps> = ({ option, isSelected, o
                   onChange={() => onSelectionChange(option)}
                   className="sr-only" // Hide the default checkbox
                   />
-                   <span className={`block w-4 h-4 bg-white ${selectedStyles}`}></span>
+                   <span className={`block size-4 bg-white ${selectedStyles}`}></span>
                   {isSelected && (
                   <span
-                      className="absolute top-1/2 left-1/2 block rounded-full"
+                      className="absolute left-1/2 top-1/2 block rounded-full"
                       style={{ transform: 'translate(-50%, -50%)' }}
                   >
-                    <IconCheck className="w-3 h-3 text-white bg-[#00B6A6] text-lg" />
+                    <IconCheck className="size-3 bg-[#00B6A6] text-lg text-white" />
                   </span>
                   )}
               </span>

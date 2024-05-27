@@ -18,13 +18,13 @@ const YieldInputGroup: React.FC<YieldInputGroupProps> = ({ label, values, otherV
           {label}
         </p>
         <a
-          className={`text-[#00B6A6] ${FontSpaceMono.className} text-base uppercase underline font-bold cursor-not-allowed`}
+          className={`text-[#00B6A6] ${FontSpaceMono.className} cursor-not-allowed text-base font-bold uppercase underline`}
           onClick={onClear}       
         >
           CLEAR
         </a>
       </div>
-      <div className="flex justify-between mt-6 mb-[14px]">
+      <div className="mb-[14px] mt-6 flex justify-between">
         {values.map((value, index) => (
           <YieldInput
             key={index}
