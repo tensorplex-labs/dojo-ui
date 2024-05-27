@@ -19,7 +19,7 @@ const LabelledInput: React.FC<LabelledInputProps> = ({
   onChange,
 }) => {
   return (
-    <div className="flex flex-col mb-4">
+    <div className="mb-4 flex flex-col">
       <label htmlFor={id} className={`font-bold ${FontSpaceMono.className} text-sm opacity-75`}>
         {label}
       </label>

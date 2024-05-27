@@ -15,9 +15,9 @@ const YieldInput: React.FC<YieldInputProps> = ({ value, onChange }) => {
   };
 
   return (
-    <div className="inline-flex items-center text-black border-black border-2 w-[35%]">
+    <div className="inline-flex w-[35%] items-center border-2 border-black text-black">
       <input
-        className="text-black disabled:text-opacity-50 w-full font-bold text-center focus:outline-none px-1 disabled:bg-gray-100  disabled:cursor-not-allowed"
+        className="w-full px-1 text-center font-bold text-black focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-100  disabled:text-opacity-50"
         type="text"
         inputMode="numeric"
         pattern="^[0-9]{0,4}$"
@@ -25,9 +25,9 @@ const YieldInput: React.FC<YieldInputProps> = ({ value, onChange }) => {
         onChange={handleInputChange}
         disabled={true}
       />
-      <div className="flex items-center justify-center h-full bg-[#E4E4E4] px-2">
+      <div className="flex h-full items-center justify-center bg-[#E4E4E4] px-2">
         <p
-          className={`text-black text-opacity-40 text-center text-[11px] font-extrabold ${FontManrope.className}`}
+          className={`text-center text-[11px] font-extrabold text-black text-opacity-40 ${FontManrope.className}`}
         >
           stTAO
         </p>

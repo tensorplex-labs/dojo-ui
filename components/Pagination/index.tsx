@@ -47,17 +47,17 @@ export function Pagination({ totalPages, handlePageChange }: PaginationProps) {
         setDisplayedPages(getPageNumbers());
     }, [currentPage, totalPages]);
     return (
-        <div className={`flex justify-end items-center gap-2 ${FontSpaceMono.className}`}>
+        <div className={`flex items-center justify-end gap-2 ${FontSpaceMono.className}`}>
             <button
                 onClick={() => { handlePageChange(1); setCurrentPage(1); }}
                 disabled={currentPage === 1}
-                className="px-2 py-1 text-base font-bold rounded-md text-opacity-75 text-black disabled:text-opacity-25"
+                className="rounded-md px-2 py-1 text-base font-bold text-black text-opacity-75 disabled:text-opacity-25"
             >
                 First
             </button>
             {displayedPages.map((pageNumber, index) => {
                 if (pageNumber === "...") {
-                    return <span key={`ellipsis_${index}`} className="mx-1 text-black font-bold">...</span>;
+                    return <span key={`ellipsis_${index}`} className="mx-1 font-bold text-black">...</span>;
                 }
                 const isActive = currentPage === pageNumber;
                 return (
@@ -67,7 +67,7 @@ export function Pagination({ totalPages, handlePageChange }: PaginationProps) {
                             handlePageChange(pageNumber as number);
                             setCurrentPage(pageNumber as number);
                         }}
-                        className={`flex items-center justify-center h-7 w-7 border-2 font-bold bg-[#00B6A6] border-black ${isActive ? "text-white" : "bg-opacity-[14%] text-black"}`}
+                        className={`flex size-7 items-center justify-center border-2 border-black bg-[#00B6A6] font-bold ${isActive ? "text-white" : "bg-opacity-[14%] text-black"}`}
                     >
                         {pageNumber}
                     </button>
@@ -76,7 +76,7 @@ export function Pagination({ totalPages, handlePageChange }: PaginationProps) {
              <button
                 onClick={() => { handlePageChange(totalPages); setCurrentPage(totalPages); }}
                 disabled={currentPage === totalPages}
-                className="px-2 py-1 text-base font-bold rounded-md text-opacity-75 text-black disabled:text-opacity-25"
+                className="rounded-md px-2 py-1 text-base font-bold text-black text-opacity-75 disabled:text-opacity-25"
             >
                 Last
             </button>
