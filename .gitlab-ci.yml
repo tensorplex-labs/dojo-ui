@@ -25,7 +25,7 @@ default:
     - npm install -g vercel
     - npm install --force --loglevel verbose
     - vercel pull --yes --environment=production --token=$VERCEL_TOKEN
-    - vercel build --prod --token=$VERCEL_TOKEN -e NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL 
+    - NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL vercel build --prod --token=$VERCEL_TOKEN
     - vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN -e NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL
     - vercel --prod --token=$VERCEL_TOKEN -e NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL
   variables:
@@ -70,10 +70,10 @@ build_image:
 
 deploy_preview:
   only:
-    - dev 
+    - dev
   extends: .deploy
   environment:
-    name: dev 
+    name: dev
 
 deploy_preview:
   only:
