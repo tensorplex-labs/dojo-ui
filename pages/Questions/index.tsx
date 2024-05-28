@@ -30,7 +30,7 @@ export type TaskCriteria = typeof taskCriteria[keyof typeof taskCriteria];
 
 
 const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
-  const { updateMultiSelect, updateRanking, updateScore, updateMultiScore, submissionErr, setSubmissionErr, handleSetIsMultiSelectQuestion, handleSetIsRankQuestion, handleSetIsMultiScore, handleSetIsSlider  } = useSubmit();
+  const { updateMultiSelect, updateRanking, updateScore, updateMultiScore, submissionErr, setSubmissionErr, handleSetIsMultiSelectQuestion, handleSetIsRankQuestion, handleSetIsMultiScore, handleSetIsSlider, handleMaxMultiScore, handleMinMultiScore } = useSubmit();
   const [rankAnswer, setRankAnswer] = useState<RankOrder>();
   const [isMultiSelectQuestion, setIsMultiSelectQuestion] = useState<boolean>(false);
   const [isRankQuestion, setIsRankQuestion] = useState<boolean>(false);
@@ -101,6 +101,8 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
           handleSetIsMultiScore(true);
           criterion.min && setMinScoreSlider(criterion.min);
           criterion.max && setMaxScoreSlider(criterion.max);
+          criterion.min && handleMinMultiScore(criterion.min);
+          criterion.max && handleMaxMultiScore(criterion.max);
           criterion.options && setMultiScoreOptions(criterion.options);
           break;
         case taskCriteria.score:
@@ -120,10 +122,10 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
     if (task) {
       const defaultRatings = task.taskData.responses.reduce((acc, _, index) => {
         const modelKey = multiScoreOptions[index]; // Get the model key
-        acc[modelKey] = Math.floor(maxValSlider/2); // Set default rating to 50 for each option
+        acc[modelKey] = Math.floor(maxValSlider * 10 / 2); // Set default rating to 50 for each option
         return acc;
       }, {});
-  
+
       setRatings(prevRatings => ({
         ...prevRatings,
         ...defaultRatings,
@@ -135,7 +137,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
   useEffect(() => {
     return () => {
       updateMultiScore({});
-      setRatings({}); 
+      setRatings({});
       handleSetIsMultiSelectQuestion(false);
       handleSetIsRankQuestion(false);
       handleSetIsMultiScore(false);
@@ -147,7 +149,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
   const handleSelectionChange = (newValue: string) => {
     setSelectedMultiSelectValues(prevValues => {
       const newValues = prevValues.includes(newValue) ? prevValues.filter(value => value !== newValue) : [...prevValues, newValue];
-      updateMultiSelect(newValues); 
+      updateMultiSelect(newValues);
       return newValues;
     });
   };
@@ -215,9 +217,9 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
               url={plot.completion.sandbox_url}
               sliderSettings={{
                 min: minValSlider,
-                max: maxValSlider,
+                max: maxValSlider * 10,
                 step: 1,
-                initialValue: Math.floor(maxValSlider/2)
+                initialValue: maxValSlider * 10 / 2
               }}
               onRatingChange={(rating) => handleRatingChange(multiScoreOptions[index], rating)}
               showSlider={isMultiScore}

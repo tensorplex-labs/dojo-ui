@@ -42,7 +42,7 @@ const LinkContentVisualizer: React.FC<LinkContentVisualizerProps> = ({ title, sh
                 min={sliderSettings.min}
                 max={sliderSettings.max}
                 step={sliderSettings.step}
-                initialValue={sliderSettings.initialValue || 50}
+                initialValue={sliderSettings.initialValue}
                 onChange={handleRatingChange}
               />
             }

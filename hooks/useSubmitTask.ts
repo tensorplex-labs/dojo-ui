@@ -25,7 +25,10 @@ const useSubmitTask =  () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const jwtToken = getFromLocalStorage('jwtToken');
-  const submitTask = async (taskId: string, multiSelectData: string[], rankingData: RankOrder, scoreData: number, multiValues: string[], isMultiSelectQuestion: boolean, isRankQuestion: boolean, isMultiScore: boolean, isSlider: boolean) => {
+  const convertPercentageToRange = (percentage: number, min: number, max: number): number => {
+    return parseFloat((min + (percentage / 100) * (max - min)).toFixed(3));
+  };
+  const submitTask = async (taskId: string, multiSelectData: string[], rankingData: RankOrder, scoreData: number, multiValues: number[], isMultiSelectQuestion: boolean, isRankQuestion: boolean, isMultiScore: boolean, isSlider: boolean, maxMultiScore: number, minMultiScore: number) => {
     setLoading(true);
     const reversedRankingData: RankOrder = rankingData ? Object.fromEntries(Object.entries(rankingData).map(([key, value]) => [parseInt(value) + 1, key])) : {};
     console.log(taskId);
@@ -34,7 +37,16 @@ const useSubmitTask =  () => {
       isMultiSelectQuestion && resultData.push({ type: 'multi-select', value: multiSelectData });
       isRankQuestion && resultData.push({ type: 'ranking', value: reversedRankingData });
       isSlider && resultData.push({ type: 'score', value: scoreData });
-      isMultiScore && resultData.push({ type: 'multi-score', value: multiValues }); 
+      
+    if (isMultiScore) {
+      const convertedMultiValues = Object.fromEntries(
+        Object.entries(multiValues).map(([key, value]) => [
+          key,
+          convertPercentageToRange(value, minMultiScore, maxMultiScore),
+        ])
+      );
+      resultData.push({ type: 'multi-score', value: convertedMultiValues });
+    }
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/submit-result/${taskId}`, {
         method: 'PUT',
         headers: {
