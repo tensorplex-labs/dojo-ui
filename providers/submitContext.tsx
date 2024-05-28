@@ -38,7 +38,7 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [multiSelectData, setMultiSelectData] = useState<string[]>([]);
   const [rankingData, setRankingData] = useState<any>();
   const [scoreData, setScoreData] = useState<number>(0);
-  const [multiValues, setMultiValues] = useState<{ [key: string]: number }>({});
+  const [multiValues, setMultiValues] = useState<any>();
   const [triggerTaskPageReload, setTriggerTaskPageReload] = useState<boolean>(false);
   const [submissionErr, setSubmissionErr] = useState<string | null>(null);
   const [isSubscriptionModalLoading, setIsSubscriptionModalLoading] = useState<boolean>(true);
@@ -53,8 +53,11 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   };
 
   const updateMultiValues = (data: { [key: string]: number }) => {
-    setMultiValues(data);
-  }
+    setMultiValues((prevMultiValues: any) => {
+      const updatedMultiValues = { ...prevMultiValues, ...data };
+      return updatedMultiValues;
+    });
+  };
 
   const router = useRouter();
   const updateScore = (score: number) => {
@@ -65,11 +68,10 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     if (!router.isReady) return;
 
     const taskId = String(router.query.taskId || '');
-    console.log('TaskResult: ', rankingData, scoreData, multiSelectData);
 
-    if (rankingData || scoreData || multiSelectData.length > 0) {
+    if (rankingData || scoreData || multiSelectData.length > 0 || multiValues) {
       console.log('submitting task');
-      await submitTask(taskId, multiSelectData, rankingData, scoreData);
+      await submitTask(taskId, multiSelectData, rankingData, scoreData, multiValues);
       if (error) {
         console.log('WORKED >>> ', error);
         setSubmissionErr(error);
@@ -85,9 +87,7 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       setSubmissionErr(error);
     }
   }, [error]);
-  {
-    console.log(submissionErr);
-  }
+
   return (
     <SubmitContext.Provider
       value={{

@@ -25,7 +25,7 @@ const useSubmitTask =  () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const jwtToken = getFromLocalStorage('jwtToken');
-  const submitTask = async (taskId: string, multiSelectData: string[], rankingData: RankOrder, scoreData: number) => {
+  const submitTask = async (taskId: string, multiSelectData: string[], rankingData: RankOrder, scoreData: number, multiValues: string[]) => {
     setLoading(true);
     const reversedRankingData: RankOrder = rankingData ? Object.fromEntries(Object.entries(rankingData).map(([key, value]) => [parseInt(value) + 1, key])) : {};
     console.log(taskId);
@@ -39,7 +39,8 @@ const useSubmitTask =  () => {
           "resultData": [
             { type: 'multi-select', value: multiSelectData },
             { type: 'ranking', value: reversedRankingData },
-            { type: 'score', value: scoreData }
+            { type: 'score', value: scoreData },
+            { type: 'multi-score', value: multiValues }
           ],
         }),
       });

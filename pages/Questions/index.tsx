@@ -35,6 +35,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
   const [isMultiSelectQuestion, setIsMultiSelectQuestion] = useState<boolean>(false);
   const [isRankQuestion, setIsRankQuestion] = useState<boolean>(false);
   const [isSlider, setisSlider] = useState<boolean>(false);
+  const [isMultiScore, setIsMultiScore] = useState<boolean>(false);
   const [minValSlider, setMinValSlider] = useState<number>(1); // [1]
   const [maxValSlider, setMaxValSlider] = useState<number>(10); // [1]
   const [taskType, setTaskType] = useState<string>('');
@@ -93,6 +94,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
           }
           break;
         case "multi-score": // Handling new case
+          setIsMultiScore(true);
           criterion.min && setMinScoreSlider(criterion.min);
           criterion.max && setMaxScoreSlider(criterion.max);
           break;
@@ -107,11 +109,34 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
       }
     })
   }, [task]);
-  // Handler for changes in the multi-select radio buttons
+
+  useEffect(() => {
+    if (task) {
+      const defaultRatings = task.taskData.responses.reduce((acc, _, index) => {
+        const modelKey = `Code ${index + 1}`;
+        acc[modelKey] = 50; // Set default rating to 50 for each option
+        return acc;
+      }, {});
+  
+      setRatings(prevRatings => ({
+        ...prevRatings,
+        ...defaultRatings,
+      }));
+      updateMultiValues(defaultRatings); // Update the ratings in the context
+    }
+  }, [minScoreSlider]);
+
+  useEffect(() => {
+    return () => {
+      updateMultiValues({});
+      setRatings({}); 
+    };
+  }, []);
+
   const handleSelectionChange = (newValue: string) => {
     setSelectedMultiSelectValues(prevValues => {
       const newValues = prevValues.includes(newValue) ? prevValues.filter(value => value !== newValue) : [...prevValues, newValue];
-      updateMultiSelect(newValues);  // Move this inside the setState callback
+      updateMultiSelect(newValues); 
       return newValues;
     });
   };
@@ -138,14 +163,18 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
     route.push('/')
   }
   const handleRatingChange = (model: string, newRating: number) => {
-    setRatings(prevRatings => ({
+    console.log('Received new rating:', newRating, '>>>', model); // Log the received new rating
+
+    setRatings(prevRatings => {
+      const updatedRatings = {
         ...prevRatings,
         [model]: newRating
-    }));
-
-    ratings && updateMultiValues(ratings);
-    console.log(ratings)
+      };
+      updateMultiValues(updatedRatings);
+      return updatedRatings;
+    });
   };
+
   useEffect(() => {
     if (submissionErr) {
       setOpen(true)
@@ -154,6 +183,8 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
 
   useEffect(() => {
     setSubmissionErr(null)
+    updateMultiValues({})
+    setRatings({});
   }, [])
 
   return (
@@ -164,22 +195,23 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
           {formattedPrompt}
         </div>
         {/* {taskType === 'CODE_GENERATION ' ?  */}
-        <div className=' grid w-full grid-cols-2 gap-3'>
-          {task?.taskData?.responses.map((plot: { id: React.Key | null | undefined; model: string; htmlContent: string; title: string; showTitle: boolean; completion: { sandbox_url: string } }, index) => (
-              <LinkContentVisualizer
-                key={plot.id}
-                title={rankQuestionData[index]}
-                showTitle={true}
-                url={plot.completion.sandbox_url}
-                sliderSettings={{
-                  min: 0,
-                  max: 100,
-                  step: 10,
-                  initialValue: 50
-                }}
-                onRatingChange={(rating) => handleRatingChange(`Code ${index}`, rating)}
-                showSlider
-              />
+        <div className=' grid w-full grid-cols-2 gap-3 '>
+          {task?.taskData?.responses?.map((plot: { id: React.Key | null | undefined; model: string; htmlContent: string; title: string; showTitle: boolean; completion: { sandbox_url: string } }, index) => (
+            <LinkContentVisualizer
+              key={plot.id}
+              title={plot.model}
+              showTitle={true}
+              url={plot.completion.sandbox_url}
+              sliderSettings={{
+                min: 0,
+                max: 100,
+                step: 10,
+                initialValue: 50
+              }}
+              onRatingChange={(rating) => handleRatingChange(`Code ${index + 1}`, rating)}
+              showSlider={isMultiScore}
+              ratingData={ratings[`Code ${index + 1}`]}
+            />
           ))}
         </div>
 
@@ -213,7 +245,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
           <div className=' mt-[42px] flex items-center justify-start self-start text-left'>
             <h1 className={`text-2xl font-bold ${FontManrope.className} mr-[17px]`}>Rate Question</h1>
           </div>
-          <div className="mt-4 w-[541px] space-y-2 rounded-xl border-2 border-black border-opacity-10 bg-[#F6F6E6]">
+          <div className="mt-4 w-[541px] space-y-2 rounded-xl border-2 border-black border-opacity-10">
             <div className="row-start-2 h-[160px] rounded-br-lg px-[57px] py-[30px]">
               <h1 className={`${FontSpaceMono.className} mb-[5px] text-base font-bold`}>LINEAR SCALE<span className=' text-red-500'>*</span></h1>
               <p className={`${FontManrope.className} mb-[16px] text-base font-bold opacity-60`}>Rate from 1 (negative) to 10 (positive)</p>
