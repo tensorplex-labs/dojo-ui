@@ -6,11 +6,11 @@ interface SubmitContextType {
   multiSelectData: string[];
   rankingData: any;
   scoreData: number;
-  multiValues: { [key: string]: number };
+  multiScore: { [key: string]: number };
   updateMultiSelect: (data: string[]) => void;
   updateRanking: (data: string[]) => void;
   updateScore: (score: number) => void;
-  updateMultiValues: (data: { [key: string]: number }) => void;
+  updateMultiScore: (data: { [key: string]: number }) => void;
   handleSubmit: Function;
   triggerTaskPageReload: boolean;
   setTriggerTaskPageReload: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,6 +20,14 @@ interface SubmitContextType {
   setIsSubscriptionModalLoading: Function;
   partnerCount: number;
   setPartnerCount: React.Dispatch<React.SetStateAction<number>>;
+  isMultiSelectQuestion: boolean;
+  isRankQuestion: boolean;
+  isMultiScore: boolean;
+  isSlider: boolean;
+  handleSetIsMultiSelectQuestion: (value: boolean) => void;
+  handleSetIsRankQuestion: (value: boolean) => void;
+  handleSetIsMultiScore: (value: boolean) => void;
+  handleSetIsSlider: (value: boolean) => void;
 }
 
 const SubmitContext = createContext<SubmitContextType | undefined>(undefined);
@@ -38,11 +46,17 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [multiSelectData, setMultiSelectData] = useState<string[]>([]);
   const [rankingData, setRankingData] = useState<any>();
   const [scoreData, setScoreData] = useState<number>(0);
-  const [multiValues, setMultiValues] = useState<any>();
+  const [multiScore, setMultiScore] = useState<any>();
   const [triggerTaskPageReload, setTriggerTaskPageReload] = useState<boolean>(false);
   const [submissionErr, setSubmissionErr] = useState<string | null>(null);
   const [isSubscriptionModalLoading, setIsSubscriptionModalLoading] = useState<boolean>(true);
   const [partnerCount, setPartnerCount] = useState(0);
+
+  const [isMultiSelectQuestion, setIsMultiSelectQuestion] = useState<boolean>(false);
+  const [isRankQuestion, setIsRankQuestion] = useState<boolean>(false);
+  const [isMultiScore, setIsMultiScore] = useState<boolean>(false);
+  const [isSlider, setIsSlider] = useState<boolean>(false);
+
   const updateMultiSelect = (data: string[]) => {
     setMultiSelectData(data);
     console.log(multiSelectData);
@@ -52,10 +66,10 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     setRankingData(data);
   };
 
-  const updateMultiValues = (data: { [key: string]: number }) => {
-    setMultiValues((prevMultiValues: any) => {
-      const updatedMultiValues = { ...prevMultiValues, ...data };
-      return updatedMultiValues;
+  const updateMultiScore = (data: { [key: string]: number }) => {
+    setMultiScore((prevMultiScore: any) => {
+      const updatedMultiScore = { ...prevMultiScore, ...data };
+      return updatedMultiScore;
     });
   };
 
@@ -69,9 +83,9 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
     const taskId = String(router.query.taskId || '');
 
-    if (rankingData || scoreData || multiSelectData.length > 0 || multiValues) {
-      console.log('submitting task');
-      await submitTask(taskId, multiSelectData, rankingData, scoreData, multiValues);
+    if (rankingData || scoreData || multiSelectData.length > 0 || multiScore) {
+      console.log('submitting task');      
+      await submitTask(taskId, multiSelectData, rankingData, scoreData, multiScore, isMultiSelectQuestion, isRankQuestion, isMultiScore, isSlider);
       if (error) {
         console.log('WORKED >>> ', error);
         setSubmissionErr(error);
@@ -80,6 +94,22 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       setSubmissionErr(null);
       router.push('/');
     }
+  };
+
+  const handleSetIsMultiSelectQuestion = (value: boolean) => {
+    setIsMultiSelectQuestion(value);
+  };
+
+  const handleSetIsRankQuestion = (value: boolean) => {
+    setIsRankQuestion(value);
+  };
+
+  const handleSetIsMultiScore = (value: boolean) => {
+    setIsMultiScore(value);
+  };
+
+  const handleSetIsSlider = (value: boolean) => {
+    setIsSlider(value);
   };
 
   useEffect(() => {
@@ -94,7 +124,7 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         multiSelectData,
         rankingData: rankingData || {},
         scoreData,
-        multiValues,
+        multiScore,
         triggerTaskPageReload,
         updateMultiSelect,
         updateRanking: (data: string[]) =>
@@ -108,7 +138,15 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         setIsSubscriptionModalLoading,
         partnerCount,
         setPartnerCount,
-        updateMultiValues
+        updateMultiScore,
+        isMultiSelectQuestion,
+        isRankQuestion,
+        isMultiScore,
+        isSlider,
+        handleSetIsMultiSelectQuestion,
+        handleSetIsRankQuestion,
+        handleSetIsMultiScore,
+        handleSetIsSlider,
       }}
     >
       {children}

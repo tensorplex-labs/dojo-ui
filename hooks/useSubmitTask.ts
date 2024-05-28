@@ -25,23 +25,23 @@ const useSubmitTask =  () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const jwtToken = getFromLocalStorage('jwtToken');
-  const submitTask = async (taskId: string, multiSelectData: string[], rankingData: RankOrder, scoreData: number, multiValues: string[]) => {
+  const submitTask = async (taskId: string, multiSelectData: string[], rankingData: RankOrder, scoreData: number, multiValues: string[], isMultiSelectQuestion: boolean, isRankQuestion: boolean, isMultiScore: boolean, isSlider: boolean) => {
     setLoading(true);
     const reversedRankingData: RankOrder = rankingData ? Object.fromEntries(Object.entries(rankingData).map(([key, value]) => [parseInt(value) + 1, key])) : {};
     console.log(taskId);
     try {
+      const resultData = [];
+      isMultiSelectQuestion && resultData.push({ type: 'multi-select', value: multiSelectData });
+      isRankQuestion && resultData.push({ type: 'ranking', value: reversedRankingData });
+      isSlider && resultData.push({ type: 'score', value: scoreData });
+      isMultiScore && resultData.push({ type: 'multi-score', value: multiValues }); 
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/submit-result/${taskId}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${jwtToken}`
         },
         body: JSON.stringify({
-          "resultData": [
-            { type: 'multi-select', value: multiSelectData },
-            { type: 'ranking', value: reversedRankingData },
-            { type: 'score', value: scoreData },
-            { type: 'multi-score', value: multiValues }
-          ],
+          resultData
         }),
       });
       const data: SubmitTaskResponse = await response.json();
