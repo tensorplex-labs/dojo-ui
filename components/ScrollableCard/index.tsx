@@ -16,7 +16,6 @@ const ScrollableCard: React.FC<ScrollableCardProps> = ({ y, title, subtitle, sty
         y: y,
         borderRadius: '20px',
         position: 'absolute',
-        zIndex: 1000, // Ensure it's above other content
         ...style,
       }}
       initial={{ opacity: 0.2, scale: 20, filter: 'blur(5px)' }}

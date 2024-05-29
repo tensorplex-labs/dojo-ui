@@ -16,16 +16,15 @@ const ScrollAnimation = () => {
       setScrollYPosition(value);
       console.log('Scroll position:', value);
       // Change background image based on scroll position
-      if (value > 0.15) {
+      if (value > 0.17) {
         setHidden(false);
-        console.log(value);
-        if (value > 0.18 && value < 0.35) {
+        if (value > 0.23 && value < 0.46) {
           setBackgroundImage('url("./world-1.png")');
-        } else if (value > 0.35 && value < 0.45) {
+        } else if (value > 0.46 && value < 0.55) {
           setBackgroundImage('url("./currency-2.png")');
-        } else if (value > 0.45 && value <= 0.58) {
+        } else if (value > 0.55 && value < 0.65) {
           setBackgroundImage('url("./posts-3.png")');
-        } else if (value > 0.6) {
+        } else if (value > 0.65) {
           setBackgroundImage('');
           setHidden(true);
         }
@@ -81,16 +80,13 @@ const ScrollAnimation = () => {
       }}
     >
       <AnimatePresence>
-        {/* {!hidden ? ( */}
+        {!hidden ? (
           <motion.div
             style={{
-              height: '100vh',
-              width: '100vw',
               backgroundImage: `${backgroundImage}`,
               backgroundSize: 'cover',
               backgroundRepeat: 'repeat-y',
               backgroundPosition: 'center top',
-              // position: 'sticky',
               position: 'fixed',
               top: 0, 
               left: 0,
@@ -100,6 +96,9 @@ const ScrollAnimation = () => {
               alignItems: 'center',
               overflow: 'hidden',
               paddingTop: '10vh',
+              width: hidden ? 'auto' : '100vw',  // Conditionally set width
+              height: hidden ? '0vh' : '100vh', // Conditionally set height`
+              background: `linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1)), url(${backgroundImage})`,
               // zIndex: 1000 // Ensure it's above other content
             }}
             animate={{ backgroundPosition: 'center -100vh' }}
@@ -107,18 +106,21 @@ const ScrollAnimation = () => {
             transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
           >
             <AnimatePresence>
-              {scrollYPosition >= 0.2 && !hidden && (
+              {scrollYPosition > 0.23 && !hidden && (
                 <ScrollableCard
                   y={y}
                   title={texts[0].title}
                   subtitle={texts[0].subtitle}
                   scrollYPosition={scrollYPosition}
-                  style={{ rotate: '-2deg' }}
+                  // style={{ 
+                  //   rotate: '-2deg', 
+                  //   scale: scrollYPosition < 0.275 ? 1 + (scrollYPosition - 0.2) * (1 / 0.75) : 1 
+                  // }}
                 />
               )}
             </AnimatePresence>
             <AnimatePresence>
-              {scrollYPosition >= 0.35 && !hidden && (
+              {scrollYPosition >= 0.46 && !hidden && (
                 <ScrollableCard
                   y={y}
                   title={texts[1].title}
@@ -129,7 +131,7 @@ const ScrollAnimation = () => {
               )}
             </AnimatePresence>
             <AnimatePresence>
-              {scrollYPosition >= 0.45 && !hidden && (
+              {scrollYPosition >= 0.55 && !hidden && (
                 <ScrollableCard
                   y={y}
                   title={texts[2].title}
@@ -140,9 +142,9 @@ const ScrollAnimation = () => {
               )}
             </AnimatePresence>
           </motion.div>
-        {/* ) : (
+        ) : (
           <></>
-        )} */}
+        )} 
       </AnimatePresence>
     </div>
   );
