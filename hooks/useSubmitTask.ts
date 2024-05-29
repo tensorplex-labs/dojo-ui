@@ -28,7 +28,7 @@ const useSubmitTask =  () => {
   const convertPercentageToRange = (percentage: number, min: number, max: number): number => {
     return parseFloat((min + (percentage / 100) * (max - min)).toFixed(3));
   };
-  const submitTask = async (taskId: string, multiSelectData: string[], rankingData: RankOrder, scoreData: number, multiValues: number[], isMultiSelectQuestion: boolean, isRankQuestion: boolean, isMultiScore: boolean, isSlider: boolean, maxMultiScore: number, minMultiScore: number) => {
+  const submitTask = async (taskId: string, multiSelectData: string[], rankingData: RankOrder, scoreData: number, multiScore: number[], isMultiSelectQuestion: boolean, isRankQuestion: boolean, isMultiScore: boolean, isSlider: boolean, maxMultiScore: number, minMultiScore: number) => {
     setLoading(true);
     const reversedRankingData: RankOrder = rankingData ? Object.fromEntries(Object.entries(rankingData).map(([key, value]) => [parseInt(value) + 1, key])) : {};
     console.log(taskId);
@@ -39,13 +39,13 @@ const useSubmitTask =  () => {
       isSlider && resultData.push({ type: 'score', value: scoreData });
       
     if (isMultiScore) {
-      const convertedMultiValues = Object.fromEntries(
-        Object.entries(multiValues).map(([key, value]) => [
+      const convertedMultiScores = Object.fromEntries(
+        Object.entries(multiScore).map(([key, value]) => [
           key,
           convertPercentageToRange(value, minMultiScore, maxMultiScore),
         ])
       );
-      resultData.push({ type: 'multi-score', value: convertedMultiValues });
+      resultData.push({ type: 'multi-score', value: convertedMultiScores });
     }
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/submit-result/${taskId}`, {
         method: 'PUT',
