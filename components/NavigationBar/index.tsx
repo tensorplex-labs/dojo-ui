@@ -1,11 +1,9 @@
 'use client'
 import { useSIWE } from "@/hooks/useSIWE";
-import { cn } from "@/utils/tw";
 import { FontManrope, FontSpaceMono } from "@/utils/typography";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { TPLXButton } from "../TPLXButton";
 import { TPLXWalletButton } from "../Wallet/tplx-wallet-button-entry";
 const WalletConnect = ({
   handleWalletConnect,
@@ -134,7 +132,7 @@ const NavigationBar = ({ openModal }: NavigationBarProps) => {
               <div className="flex items-center justify-center gap-[8px]">
                 <TPLXWalletButton openModal={openModal}></TPLXWalletButton>
               </div>
-              <div className="flex items-center justify-center gap-[8px]">
+              {/* <div className="flex items-center justify-center gap-[8px]">
                 <TPLXButton
                   className={cn(
                     FontSpaceMono.className,
@@ -144,7 +142,7 @@ const NavigationBar = ({ openModal }: NavigationBarProps) => {
                 >
                   {`I'm a miner`}
                 </TPLXButton>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
