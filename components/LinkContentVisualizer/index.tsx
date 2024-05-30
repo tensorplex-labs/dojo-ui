@@ -39,7 +39,7 @@ const LinkContentVisualizer: React.FC<LinkContentVisualizerProps> = ({ title, sh
           <div className={`px-4`}>
             {sliderSettings && onRatingChange &&
               <Slider
-                min={sliderSettings.min}
+                min={0}
                 max={sliderSettings.max}
                 step={sliderSettings.step}
                 initialValue={sliderSettings.initialValue}
