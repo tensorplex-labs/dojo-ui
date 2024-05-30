@@ -75,7 +75,6 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
 
 
   useEffect(() => {
-    console.log("Task Title", task)
     if (task) {
       setTaskType(task.type)
     }
@@ -119,21 +118,22 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
   }, [task]);
 
   useEffect(() => {
-    if (task) {
+    if (task && multiScoreOptions) {
       const defaultRatings = task.taskData.responses.reduce((acc, _, index) => {
-        const modelKey = multiScoreOptions[index]; // Get the model key
-        acc[modelKey] = Math.floor(maxValSlider * 10 / 2); // Set default rating to 50 for each option
+        if (index < multiScoreOptions.length) {
+          const modelKey = multiScoreOptions[index];
+          acc[modelKey] = Math.floor(maxValSlider * 10 / 2);
+        }
         return acc;
       }, {});
-
-      setRatings(prevRatings => ({
-        ...prevRatings,
-        ...defaultRatings,
-      }));
-      updateMultiScore(defaultRatings); // Update the ratings in the context
+      console.log('defaultRatings', defaultRatings);
+      setRatings(defaultRatings);
+      updateMultiScore(defaultRatings);
+    } else {
+      setRatings({});
+      updateMultiScore({});
     }
-  }, [minScoreSlider]);
-
+  }, [task, multiScoreOptions, maxValSlider]);
   useEffect(() => {
     return () => {
       updateMultiScore({});
@@ -219,7 +219,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
                 min: minValSlider,
                 max: maxValSlider * 10,
                 step: 1,
-                initialValue: maxValSlider * 10 / 2
+                initialValue: ratings[multiScoreOptions[index]]
               }}
               onRatingChange={(rating) => handleRatingChange(multiScoreOptions[index], rating)}
               showSlider={isMultiScore}

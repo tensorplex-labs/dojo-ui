@@ -83,10 +83,7 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   };
 
   const updateMultiScore = (data: { [key: string]: number }) => {
-    setMultiScore((prevMultiScore: any) => {
-      const updatedMultiScore = { ...prevMultiScore, ...data };
-      return updatedMultiScore;
-    });
+    setMultiScore(data);
   };
 
   const router = useRouter();
