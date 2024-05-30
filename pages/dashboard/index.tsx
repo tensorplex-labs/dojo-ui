@@ -10,6 +10,9 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
 import StepCard from '@/components/HomePageCard/StepCard';
+import useAverageTaskCompletionTime from '@/hooks/useAverageTaskCompletionTime';
+import useCompletedTasksCount from '@/hooks/useCompletedTasksCount';
+import useDojoWorkerCount from '@/hooks/useDojoWorkerCount';
 import CountUp from 'react-countup';
 // import './index.css';
 const steps = [
@@ -56,6 +59,10 @@ const Index = (props: Props) => {
   const [scrollYPosition, setScrollYPosition] = useState(0);
   const [mouseX, setMouseX] = useState(0);
   const [mouseY, setMouseY] = useState(0);
+  const { numDojoWorkers } = useDojoWorkerCount();
+  const { numCompletedTasks } = useCompletedTasksCount();
+  const { averageTaskCompletionTime } = useAverageTaskCompletionTime();
+  
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
       setMouseX(event.clientX);
@@ -143,10 +150,26 @@ const Index = (props: Props) => {
           <div className={`mt-[22px] flex flex-row gap-3`}>
             <div>
               <h3 className={`uppercase ${FontSpaceMono.className} text-lg font-bold opacity-50`}>
-                Rewards paid out (usd)
+                {/* Rewards paid out (usd) */}
+                Average Task Completion Time
               </h3>
               <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}>
-                <CountUp start={0} end={789} duration={3} startOnMount />k
+                { averageTaskCompletionTime && averageTaskCompletionTime > 60 && 
+                  <>
+                    <CountUp 
+                      start={0} 
+                      end={Math.floor(averageTaskCompletionTime / 60)} 
+                      duration={3} 
+                      startOnMount 
+                    />:
+                  </>
+                }
+                <CountUp 
+                  start={0} 
+                  end={averageTaskCompletionTime ? averageTaskCompletionTime % 60 : 30} 
+                  duration={3} 
+                  startOnMount 
+                /><span className='lowercase'>{`${averageTaskCompletionTime && averageTaskCompletionTime >= 60 ? 'min':'sec'}`}</span>
               </h3>
             </div>
             <div>
@@ -154,7 +177,7 @@ const Index = (props: Props) => {
                 HUMAN TASKS COMPLETED
               </h3>
               <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}>
-                <CountUp start={0} end={12} duration={3} startOnMount />M
+                <CountUp start={0} end={numCompletedTasks ? numCompletedTasks : 12} duration={3} startOnMount />
               </h3>
             </div>
             <div>
@@ -162,7 +185,7 @@ const Index = (props: Props) => {
                 NO.OF HUMAN PARTICIPANTS
               </h3>
               <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}>
-                <CountUp start={0} end={123456} duration={3} startOnMount />
+                <CountUp start={0} end={numDojoWorkers ? numDojoWorkers : 123512} duration={3} startOnMount />
               </h3>
             </div>
           </div>
