@@ -80,7 +80,7 @@ const Index = (props: Props) => {
     offset: ['start end', 'end start'],
   });
 
-  const opacity = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [0, 1, 1, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.15, 0.3], [1, 1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [2, 1, 1, 2]);
   const y = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [200, 0, 0, -200]);
   const blur = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [10, 0, 0, 10]);
@@ -120,14 +120,18 @@ const Index = (props: Props) => {
   const isSectionVisible = (threshold: number) => {
     return scrollYPosition >= threshold && scrollYPosition < threshold + 0.2;
   };
+
+
   return (
     <LandingPageLayout>
-      <motion.section id="first" className="mx-auto mb-40 grid h-[calc(100vh-134px)]
-        w-fit max-w-[1075px] grid-cols-[50%_1fr] gap-8"
-        initial={{ y: '100vh' }} // Start off-screen at the bottom
-        animate={scrollYPosition >= 0 ? { y: 0 } : { y: '100vh' }} // Slide up to the original position
-        transition={{ type: 'spring', stiffness: 100 }} // Smooth slide-in effect
-        exit={{ y: '100vh' }} // Slide back down off-screen
+      <motion.section
+        id="first"
+        className="mx-auto mb-40 grid h-[calc(100vh-134px)] w-fit max-w-[1075px] grid-cols-[50%_1fr] gap-8"
+        initial={{ y: '100vh' }}
+        animate={scrollYPosition >= 0 ? { y: 0 } : { y: '100vh' }}
+        transition={{ type: 'spring', stiffness: 100 }}
+        exit={{ y: '100vh' }}
+        style={{ opacity }}
       >
         <div className="flex flex-col justify-center">
           <h1 className={`${FontSpaceMono.className} text-5xl font-bold uppercase text-black`}>
@@ -146,19 +150,25 @@ const Index = (props: Props) => {
               <h3 className={`uppercase ${FontSpaceMono.className} text-lg font-bold opacity-50`}>
                 Rewards paid out (usd)
               </h3>
-              <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}><CountUp start={0} end={789} duration={3} startOnMount />k </h3>
+              <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}>
+                <CountUp start={0} end={789} duration={3} startOnMount />k
+              </h3>
             </div>
             <div>
               <h3 className={`uppercase ${FontSpaceMono.className} text-lg font-bold opacity-50`}>
                 HUMAN TASKS COMPLETED
               </h3>
-              <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}><CountUp start={0} end={12} duration={3} startOnMount />M</h3>
+              <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}>
+                <CountUp start={0} end={12} duration={3} startOnMount />M
+              </h3>
             </div>
             <div>
               <h3 className={`uppercase ${FontSpaceMono.className} text-lg font-bold opacity-50`}>
                 NO.OF HUMAN PARTICIPANTS
               </h3>
-              <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}><CountUp start={0} end={123456} duration={3} startOnMount /></h3>
+              <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}>
+                <CountUp start={0} end={123456} duration={3} startOnMount />
+              </h3>
             </div>
           </div>
         </div>
@@ -173,10 +183,10 @@ const Index = (props: Props) => {
       <section id="third" className="z-[10000] bg-gradient-to-t from-[#FFFFF4] to-[#E1F5F4]">
         <motion.div
           className="mx-auto max-w-[1075px]"
-          initial={{ y: '100vh' }} // Start off-screen at the bottom
-          animate={scrollYPosition > 0.63 ? { y: 0 } : { y: '100vh', opacity: 1 }} // Slide up to the original position
+          initial={{ y: '0' }} // Start off-screen at the bottom
+          animate={scrollYPosition > 0.58 ? { y: 0 } : { y: '100vh', opacity: 1 }} // Slide up to the original position
           transition={{ type: 'spring', stiffness: 100 }} // Smooth slide-in effect
-          exit={{ y: '100vh' }} // Slide back down off-screen
+          exit={{ y: 0 }} // Slide back down off-screen
         >
           <h1 className={`${FontSpaceMono.className} text-5xl font-bold uppercase`}>How does it work?</h1>
           <p className={`${FontManrope.className} text-2xl font-bold opacity-60`}>

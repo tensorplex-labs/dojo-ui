@@ -18,7 +18,7 @@ const ScrollAnimation = () => {
       // Change background image based on scroll position
       if (value > 0.17) {
         setHidden(false);
-        if (value > 0.23 && value < 0.46) {
+        if (value > 0.2 && value < 0.46) {
           setBackgroundImage('url("./world-1.png")');
         } else if (value > 0.46 && value < 0.55) {
           setBackgroundImage('url("./currency-2.png")');
@@ -70,7 +70,11 @@ const ScrollAnimation = () => {
   useEffect(() => {
     setScrollYPosition(scrollY.get());
   }, [scrollY]);
-
+  const calculateOpacity = (position: number, start: number, end: number) => {
+    if (position < start) return 0;
+    if (position > end) return 0;
+    return (position - start) / (end - start);
+  };
   return (
     <div
       style={{
@@ -88,7 +92,7 @@ const ScrollAnimation = () => {
               backgroundRepeat: 'repeat-y',
               backgroundPosition: 'center top',
               position: 'fixed',
-              top: 0, 
+              top: 0,
               left: 0,
               margin: '0 auto',
               display: 'flex',
@@ -106,26 +110,24 @@ const ScrollAnimation = () => {
             transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
           >
             <AnimatePresence>
-              {scrollYPosition > 0.23 && !hidden && (
+              {scrollYPosition > 0.2 && !hidden && (
                 <ScrollableCard
                   y={y}
                   title={texts[0].title}
                   subtitle={texts[0].subtitle}
                   scrollYPosition={scrollYPosition}
-                  // style={{ 
-                  //   rotate: '-2deg', 
-                  //   scale: scrollYPosition < 0.275 ? 1 + (scrollYPosition - 0.2) * (1 / 0.75) : 1 
-                  // }}
+                  opacity={calculateOpacity(scrollYPosition, 0.23, 0.46)}
                 />
               )}
             </AnimatePresence>
             <AnimatePresence>
-              {scrollYPosition >= 0.46 && !hidden && (
+              {scrollYPosition >= 0.4 && !hidden && (
                 <ScrollableCard
                   y={y}
                   title={texts[1].title}
                   subtitle={texts[1].subtitle}
                   scrollYPosition={scrollYPosition}
+                  opacity={1}
                   style={{ rotate: '3deg' }}
                 />
               )}
@@ -137,6 +139,7 @@ const ScrollAnimation = () => {
                   title={texts[2].title}
                   subtitle={texts[2].subtitle}
                   scrollYPosition={scrollYPosition}
+                  opacity={1}
                   style={{ rotate: '-3deg' }}
                 />
               )}
@@ -144,7 +147,7 @@ const ScrollAnimation = () => {
           </motion.div>
         ) : (
           <></>
-        )} 
+        )}
       </AnimatePresence>
     </div>
   );

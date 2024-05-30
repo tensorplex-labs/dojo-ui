@@ -7,9 +7,12 @@ interface ScrollableCardProps {
   subtitle: string;
   scrollYPosition: number;
   style?: React.CSSProperties;
+  opacity?: number;
 }
 
-const ScrollableCard: React.FC<ScrollableCardProps> = ({ y, title, subtitle, style, scrollYPosition }) => {
+const ScrollableCard: React.FC<ScrollableCardProps> = ({ y, title, subtitle, style, scrollYPosition, opacity }) => {
+  const scale = scrollYPosition < 0.26 ? 1 + (scrollYPosition - 0.2) * (1 / 0.06) : 1;
+
   return (
     <motion.div
       style={{
@@ -17,16 +20,17 @@ const ScrollableCard: React.FC<ScrollableCardProps> = ({ y, title, subtitle, sty
         borderRadius: '20px',
         position: 'absolute',
         ...style,
+        scale: scale,
       }}
-      initial={{ opacity: 0.2, scale: 20, filter: 'blur(5px)' }}
-      animate={{ opacity: 1, scale: 1, filter: 'blur(0px)', animation: 'ease-in' }}
+      initial={{ opacity: 0, scale: 20, filter: 'blur(5px)' }}
+      animate={{ opacity: 1, scale: scale, filter: 'blur(0px)', animation: 'ease-in' }}
       exit={{ opacity: 0, scale: 20, filter: 'blur(5px)' }}
       transition={{ duration: 1 }}
     >
       <motion.div
         className={`mx-auto flex -translate-y-20 transform flex-col items-center justify-center rounded-lg border-4 border-black text-center shadow-brut-sm`}
         style={{
-          background: 'linear-gradient(to bottom, #D7F9F6, #F9FFFE)',
+          background: `linear-gradient(to bottom, rgba(215, 249, 246, ${opacity}), rgba(249, 255, 254, ${opacity}))`,
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -34,7 +38,7 @@ const ScrollableCard: React.FC<ScrollableCardProps> = ({ y, title, subtitle, sty
           border: '2px solid black',
           borderRadius: '20px',
           height: '190px',
-          padding: '12px 24px', // Vertical padding is 12px, horizontal padding is 24px
+          padding: '12px 24px',
         }}
       >
         <h2 className={`text-[46px] font-extrabold ${FontManrope.className}`}>{title}</h2>
