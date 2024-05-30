@@ -18,11 +18,11 @@ const ScrollAnimation = () => {
       // Change background image based on scroll position
       if (value > 0.17) {
         setHidden(false);
-        if (value > 0.2 && value < 0.46) {
+        if (value > 0.2 && value < 0.35) {
           setBackgroundImage('url("./world-1.png")');
-        } else if (value > 0.46 && value < 0.55) {
+        } else if (value > 0.35 && value < 0.5) {
           setBackgroundImage('url("./currency-2.png")');
-        } else if (value > 0.55 && value < 0.65) {
+        } else if (value > 0.5 && value < 0.65) {
           setBackgroundImage('url("./posts-3.png")');
         } else if (value > 0.65) {
           setBackgroundImage('');
@@ -116,12 +116,12 @@ const ScrollAnimation = () => {
                   title={texts[0].title}
                   subtitle={texts[0].subtitle}
                   scrollYPosition={scrollYPosition}
-                  opacity={calculateOpacity(scrollYPosition, 0.23, 0.46)}
+                  opacity={calculateOpacity(scrollYPosition, 0.2, 0.35)}
                 />
               )}
             </AnimatePresence>
             <AnimatePresence>
-              {scrollYPosition >= 0.4 && !hidden && (
+              {scrollYPosition >= 0.35 && !hidden && (
                 <ScrollableCard
                   y={y}
                   title={texts[1].title}
@@ -133,7 +133,7 @@ const ScrollAnimation = () => {
               )}
             </AnimatePresence>
             <AnimatePresence>
-              {scrollYPosition >= 0.55 && !hidden && (
+              {scrollYPosition >= 0.5 && !hidden && (
                 <ScrollableCard
                   y={y}
                   title={texts[2].title}

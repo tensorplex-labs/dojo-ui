@@ -7,7 +7,6 @@ import SliderCardFrame from '@/components/HomePageCard/SliderCardFrame';
 import ScrollEffect from '@/components/ScrollAnimation';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRouter } from 'next/router';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
 import StepCard from '@/components/HomePageCard/StepCard';
@@ -85,11 +84,7 @@ const Index = (props: Props) => {
   const y = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [200, 0, 0, -200]);
   const blur = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [10, 0, 0, 10]);
   const [scrollRange, setScrollRange] = useState(0);
-  const router = useRouter();
-  const firstSectionThreshold = 0;
-  const secondSectionThreshold = 0.4;
-  const thirdSectionThreshold = 0.6;
-  const fourthSectionThreshold = 0.8;
+
   useEffect(() => {
     setClientHeight(window.innerHeight);
     setScrollRange(window.innerHeight * 4); // Set the scroll range to 4 times the viewport height
@@ -194,10 +189,10 @@ const Index = (props: Props) => {
           </p>
 
           <div className="mb-3 mt-6 flex justify-between pt-6">
-            <div className="w-[36%]">
+            <div className="w-[37%]">
               <StepCard {...steps[0]} />
             </div>
-            <div className="w-[58%]">
+            <div className="w-[60%]">
               <StepCard {...steps[1]} />
             </div>
           </div>
