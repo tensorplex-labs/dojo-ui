@@ -38,7 +38,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       try {
-        const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/?page=${page}&limit=10&task=All&sort=createdAt`;
+        const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/?page=${page}&limit=10&task=All&sort=createdAt&isSkipTask=true`;
         const response = await fetch(endpoint, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
