@@ -193,7 +193,7 @@ export default function Home() {
       case 'Most Recent':
         sortQuery = "createdAt"
         break;
-      case 'Least Questions':
+      case 'Least Difficult':
         sortQuery = "numCriteria"
         break;
       default:
@@ -274,7 +274,7 @@ export default function Home() {
           </div>
           <div className="mt-[18px] flex gap-2">
             <DropdownContainer
-              buttonText={`Sort By ${params.get('sort') === 'createdAt' ? 'Most Recent' : params.get('sort')=== 'numCriteria' ? 'Least Questions' : 'Most Attempted'}`}
+              buttonText={`Sort By ${params.get('sort') === 'createdAt' ? 'Most Recent' : params.get('sort')=== 'numCriteria' ? 'Least Difficult' : 'Most Attempted'}`}
               imgSrc="/top-down-arrow.svg"
               className="w-[193.89px]"
             >

@@ -26,7 +26,7 @@ const useSubmitTask =  () => {
   const [error, setError] = useState<string | null>(null);
   const jwtToken = getFromLocalStorage('jwtToken');
   const convertPercentageToRange = (percentage: number, min: number, max: number): number => {
-    return parseFloat((min + (percentage / 100) * (max - min)).toFixed(3));
+    return parseFloat((min + (percentage / 10) * (max - min)).toFixed(3));
   };
   const submitTask = async (taskId: string, multiSelectData: string[], rankingData: RankOrder, scoreData: number, multiScore: number[], isMultiSelectQuestion: boolean, isRankQuestion: boolean, isMultiScore: boolean, isSlider: boolean, maxMultiScore: number, minMultiScore: number) => {
     setLoading(true);

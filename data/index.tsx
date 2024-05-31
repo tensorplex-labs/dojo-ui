@@ -4,7 +4,7 @@ export const dropdownOptions = [
   { text: "Most Attempted" },
   { text: "Most Recent" },
   // { text: "Highest Potential Yield" },
-  { text: "Least Questions" },
+  { text: "Least Difficult" },
 ];
 export interface FrequentlyAccessedProps {
   title: string;
