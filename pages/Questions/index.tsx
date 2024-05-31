@@ -122,7 +122,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
       const defaultRatings = task.taskData.responses.reduce((acc, _, index) => {
         if (index < multiScoreOptions.length) {
           const modelKey = multiScoreOptions[index];
-          acc[modelKey] = Math.floor(maxValSlider * 10 / 2);
+          acc[modelKey] = Math.floor(maxValSlider/ 2);
         }
         return acc;
       }, {});
@@ -217,7 +217,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
               url={plot.completion.sandbox_url}
               sliderSettings={{
                 min: minValSlider,
-                max: maxValSlider * 10,
+                max: maxValSlider,
                 step: 1,
                 initialValue: ratings[multiScoreOptions[index]]
               }}
@@ -296,14 +296,15 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
       {!isTaskLoading && isRankQuestion &&
         <div className="mx-auto my-4 flex max-w-[1200px] flex-col items-center justify-center">
           <div className='mt-[42px] flex items-center justify-start self-start text-left'>
-            <h1 className={`text-2xl font-bold ${FontManrope.className} mr-[17px]`}>Rank Question</h1>
+            <h1 className={`text-2xl font-bold ${FontManrope.className} mr-[17px]`}> Question 2</h1>
             {/* <span className={`${FontSpaceMono.className} bg-[#D0A215] text-white px-2.5 py-[5px] rounded-[20px] border border-black font-bold`}>{task?.type} PROMPT</span> */}
           </div>
           <>
             {/* <p className="text-center flex self-start font-semibold opacity-60 mb-4">Which animation best represent an animated solar system? The slider should speed up the animation.</p> */}
-            <div className="mt-4 flex w-full justify-center">
-              <div className="w-[780px] bg-[#FFFFF4] pl-[48px]">
-                <p>Please rank the following output in accordance with the shown frames and the described prompt as much as possible, considering any interactions included</p>
+            <div className="mt-4 flex w-full justify-start">
+              <div className="w-[780px] bg-[#FFFFF4]">
+                {/* <p>Please rank the following output in accordance with the shown frames and the described prompt as much as possible, considering any interactions included</p> */}
+                <p>Please rank the following features in order of importance</p>
                 <DragnDrop options={rankQuestionData} onOrderChange={handleOrderChange} />
               </div>
             </div>

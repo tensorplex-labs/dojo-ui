@@ -13,7 +13,7 @@ const ImageComponent: React.FC<ImageComponentProps> = ({ src, fallbackSrc }) => 
   };
 
   return (
-    <div className='shadow-brut-sm border-2 border-black'>
+    <div className='border-2 border-black shadow-brut-sm'>
       <img src={currentSrc} alt="" onError={handleError} />
     </div>
   );

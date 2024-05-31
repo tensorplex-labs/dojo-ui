@@ -26,7 +26,7 @@ const LinkContentVisualizer: React.FC<LinkContentVisualizerProps> = ({ title, sh
   return (
     <div className="flex size-full flex-col justify-center ">
       {showTitle && <p className={`text-start font-bold ${FontSpaceMono.className}`}>{title}</p>}
-      <div className={`w-full h-auto rounded-none ${showSlider && 'shadow-brut-sm border-2 border-black bg-[#F6F6E6]'} `}>
+      <div className={`h-auto w-full rounded-none ${showSlider && 'border-2 border-black bg-[#F6F6E6] shadow-brut-sm'} `}>
         <iframe
           src={url}
           className="aspect-[3/4] w-full"
@@ -35,7 +35,7 @@ const LinkContentVisualizer: React.FC<LinkContentVisualizerProps> = ({ title, sh
           sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
         />
         {showSlider && <>
-          <div className={` text-base inline-flex w-full justify-between px-4 ${FontSpaceMono.className} uppercase font-bold py-2`}>Prompt Similarities<span>{ratingData} %</span></div>
+          <div className={` inline-flex w-full justify-between px-4 text-base ${FontSpaceMono.className} border-t-2 border-black py-2  font-bold uppercase`}>response quality</div>
           <div className={`px-4`}>
             {sliderSettings && onRatingChange &&
               <Slider
@@ -44,6 +44,7 @@ const LinkContentVisualizer: React.FC<LinkContentVisualizerProps> = ({ title, sh
                 step={sliderSettings.step}
                 initialValue={sliderSettings.initialValue}
                 onChange={handleRatingChange}
+                showSections
               />
             }
           </div>
