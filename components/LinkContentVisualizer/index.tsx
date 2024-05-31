@@ -35,7 +35,7 @@ const LinkContentVisualizer: React.FC<LinkContentVisualizerProps> = ({ title, sh
           sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
         />
         {showSlider && <>
-          <div className={` text-base inline-flex w-full justify-between px-4 ${FontSpaceMono.className} uppercase font-bold py-2`}>Prompt Similarities<span>{ratingData} %</span></div>
+          <div className={` text-base inline-flex w-full justify-between px-4 ${FontSpaceMono.className} uppercase font-bold py-2  border-t-2 border-black`}>response quality</div>
           <div className={`px-4`}>
             {sliderSettings && onRatingChange &&
               <Slider
@@ -44,6 +44,7 @@ const LinkContentVisualizer: React.FC<LinkContentVisualizerProps> = ({ title, sh
                 step={sliderSettings.step}
                 initialValue={sliderSettings.initialValue}
                 onChange={handleRatingChange}
+                showSections
               />
             }
           </div>
