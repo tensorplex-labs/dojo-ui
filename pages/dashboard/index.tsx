@@ -9,8 +9,8 @@ import StepCard from '@/components/HomePageCard/StepCard';
 import useAverageTaskCompletionTime from '@/hooks/useAverageTaskCompletionTime';
 import useCompletedTasksCount from '@/hooks/useCompletedTasksCount';
 import useDojoWorkerCount from '@/hooks/useDojoWorkerCount';
-import HeroCardSection from './components/HeroCardSection';
 import FirstKeyMessageSlide from './components/FirstKeyMessageSlide';
+import HeroCardSection from './components/HeroCardSection';
 import SecondKeyMessageSlide from './components/SecondKeyMessageSlide';
 import ThirdKeyMessageSlide from './components/ThirdKeyMessageSlide';
 // import './index.css';
@@ -134,26 +134,16 @@ const Index = (props: Props) => {
   return (
     <LandingPageLayout>
       {/* Hero Card Section */}
-      <HeroCardSection 
-      scrollYProgress={scrollYProgress}/>
+      <HeroCardSection />
       <div className='w-full bg-gray-100'>
-        <FirstKeyMessageSlide scrollY={scrollY}/>
+        <FirstKeyMessageSlide />
         {/* Spacer */}
         <div className={`h-[${KEY_MESSAGE_SCROLL_HEIGHT}px] w-full`}></div>
-        <SecondKeyMessageSlide scrollY={scrollY}/>
+        <SecondKeyMessageSlide />
         <div className={`h-[${KEY_MESSAGE_SCROLL_HEIGHT}px] w-full`}></div>
-        <ThirdKeyMessageSlide scrollY={scrollY}/>
+        <ThirdKeyMessageSlide />
         <div className={`h-[${KEY_MESSAGE_SCROLL_HEIGHT}px] w-full`}></div>
       </div>
-
-      {/* <section id="second" className="overflow-hidden">
-        <ScrollEffect />
-      </section> */}
-
-
-
-
-
       <section id="third" className="z-[10000] bg-gradient-to-t from-[#FFFFF4] to-[#E1F5F4]">
         <motion.div
           className="mx-auto max-w-[1075px]"

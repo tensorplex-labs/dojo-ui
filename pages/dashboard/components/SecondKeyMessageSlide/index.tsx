@@ -1,10 +1,10 @@
-import { MotionValue, easeOut, motion, useMotionValueEvent, useTransform } from "framer-motion";
-import { FontSpaceMono } from "../../../../utils/typography"
-import { useState } from "react";
 import { useWindowSize } from "@uidotdev/usehooks";
-import PayoutRecord from "./components/PayoutRecord";
+import { easeOut, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Image from 'next/image';
+import { useState } from "react";
 import { KEY_MESSAGE_SCROLL_HEIGHT } from "../..";
+import { FontSpaceMono } from "../../../../utils/typography";
+import PayoutRecord from "./components/PayoutRecord";
 interface Props {
 }
 
@@ -71,19 +71,16 @@ const staggeredFadeInParent = {
   }
 }
 
-interface Props {
-  scrollY: MotionValue<number>
-}
 
 type AnimStateType = "hide" | "show";
-const SecondKeyMessageSlide = (props: Props) => {
+const SecondKeyMessageSlide = () => {
 
-  const { scrollY } = props;
+  // const { scrollY } = props;
   const { height: windowHeight } = useWindowSize();
 
   const [animState, setAnimState] = useState<AnimStateType>("hide")
+  const { scrollY } = useScroll();
 
-  const y = useTransform(scrollY, [(windowHeight ?? 0) * 2.4, ((windowHeight ?? 0) * 2.4) + 500], ["100%", "0%"]);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (!windowHeight) return;
@@ -94,8 +91,6 @@ const SecondKeyMessageSlide = (props: Props) => {
     else
       setAnimState("hide")
   })
-
-
 
 
 

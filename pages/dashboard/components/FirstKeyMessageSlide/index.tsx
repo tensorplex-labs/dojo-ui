@@ -1,14 +1,12 @@
-import { MotionValue, easeOut, motion, spring, useMotionValueEvent } from "framer-motion";
-import { FontSpaceMono } from "../../../../utils/typography"
-import ConversationBubble from "../ConversationBubble";
-import styles from './styles.module.css';
-import { useEffect, useState } from "react";
-import StepMarker from "../StepMarker";
-import { duration } from "moment";
 import { useWindowSize } from "@uidotdev/usehooks";
-import GridImage from "../../../../public/grid.svg"
+import { easeOut, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Image from 'next/image';
+import { useState } from "react";
 import { KEY_MESSAGE_SCROLL_HEIGHT } from "../..";
+import { FontSpaceMono } from "../../../../utils/typography";
+import ConversationBubble from "../ConversationBubble";
+import StepMarker from "../StepMarker";
+import styles from './styles.module.css';
 interface Props {
 }
 
@@ -155,15 +153,10 @@ export const buttonAnimVariant = {
 }
 
 
-
-interface Props {
-  scrollY : MotionValue<number>
-}
-
 type AnimStateType = "hide" | "show";
-const FirstKeyMessageSlide = (props: Props ) => {
+const FirstKeyMessageSlide = ( ) => {
 
-  const {scrollY} = props;
+  const {scrollY} = useScroll();
   const {height : windowHeight} = useWindowSize();
   const [animState, setAnimState] = useState<AnimStateType>("hide")
 

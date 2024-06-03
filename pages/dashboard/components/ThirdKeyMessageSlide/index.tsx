@@ -1,9 +1,9 @@
-import { MotionValue, easeOut, motion, useMotionValueEvent } from "framer-motion";
-import { FontSpaceMono } from "../../../../utils/typography"
-import { useState } from "react";
 import { useWindowSize } from "@uidotdev/usehooks";
+import { easeOut, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Image from 'next/image';
+import { useState } from "react";
 import { KEY_MESSAGE_SCROLL_HEIGHT } from "../..";
+import { FontSpaceMono } from "../../../../utils/typography";
 interface Props {
 }
 
@@ -50,14 +50,13 @@ const coinAnimVariant = {
 
 
 
-interface Props {
-  scrollY: MotionValue<number>
-}
 
 type AnimStateType = "hide" | "show";
-const ThirdKeyMessageSlide = (props: Props) => {
+const ThirdKeyMessageSlide = () => {
 
-  const { scrollY } = props;
+  // const { scrollY } = props;
+  const { scrollY } = useScroll();
+
   const { height: windowHeight } = useWindowSize();
 
   const [animState, setAnimState] = useState<AnimStateType>("hide")

@@ -1,8 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { FontSpaceMono } from '../../../../../../utils/typography';
-import CountUp from 'react-countup';
 import { motion } from 'framer-motion';
+import PropTypes from 'prop-types';
+import CountUp from 'react-countup';
+import { FontSpaceMono } from '../../../../../../utils/typography';
 
  const staggeredFadeInChildren = {
   hide : {
@@ -66,7 +65,7 @@ PayoutRecord.propTypes = {
   taskName: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
-  amount: PropTypes.string.isRequired,
+  amount: PropTypes.number.isRequired,
   FontSpaceMono: PropTypes.object.isRequired,
 };
 

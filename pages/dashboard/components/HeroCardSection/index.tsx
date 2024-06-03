@@ -1,21 +1,20 @@
-import { MotionValue, motion, useTransform } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
+import { useState } from "react"
 import CountUp from "react-countup"
 import GetStartedButton from "../../../../components/Button/GetStarted"
 import MultiSelectCardFrame from "../../../../components/HomePageCard/MultiSelectCardFrame"
 import SliderCardFrame from "../../../../components/HomePageCard/SliderCardFrame"
-import { FontSpaceMono, FontManrope } from "../../../../utils/typography"
-import { useState } from "react"
 import useAverageTaskCompletionTime from "../../../../hooks/useAverageTaskCompletionTime"
 import useCompletedTasksCount from "../../../../hooks/useCompletedTasksCount"
 import useDojoWorkerCount from "../../../../hooks/useDojoWorkerCount"
-
-interface Props {
-  scrollYProgress : MotionValue<number>
-}
+import { FontManrope, FontSpaceMono } from "../../../../utils/typography"
 
 
-const HeroCardSection = (props : Props ) => {
-  const {scrollYProgress} = props;
+
+
+const HeroCardSection = ( ) => {
+  // const {scrollYProgress} = props;
+  const { scrollYProgress } = useScroll();
 
   const { numDojoWorkers } = useDojoWorkerCount();
   const { numCompletedTasks } = useCompletedTasksCount();
