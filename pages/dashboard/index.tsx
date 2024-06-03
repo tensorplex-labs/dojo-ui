@@ -1,10 +1,6 @@
 import NavigationBar from '@/components/NavigationBar';
 // import useIntersectionObserver from '@/components/track';
-import GetStartedButton from '@/components/Button/GetStarted';
 import MainFooter from '@/components/Footer/MainFooter';
-import MultiSelectCardFrame from '@/components/HomePageCard/MultiSelectCardFrame';
-import SliderCardFrame from '@/components/HomePageCard/SliderCardFrame';
-import ScrollEffect from '@/components/ScrollAnimation';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ReactNode, useEffect, useRef, useState } from 'react';
@@ -13,7 +9,10 @@ import StepCard from '@/components/HomePageCard/StepCard';
 import useAverageTaskCompletionTime from '@/hooks/useAverageTaskCompletionTime';
 import useCompletedTasksCount from '@/hooks/useCompletedTasksCount';
 import useDojoWorkerCount from '@/hooks/useDojoWorkerCount';
-import CountUp from 'react-countup';
+import HeroCardSection from './components/HeroCardSection';
+import FirstKeyMessageSlide from './components/FirstKeyMessageSlide';
+import SecondKeyMessageSlide from './components/SecondKeyMessageSlide';
+import ThirdKeyMessageSlide from './components/ThirdKeyMessageSlide';
 // import './index.css';
 const steps = [
   {
@@ -52,6 +51,9 @@ const steps = [
     backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
   },
 ];
+
+export const KEY_MESSAGE_SCROLL_HEIGHT = 800;
+
 type Props = {};
 const Index = (props: Props) => {
   const [clientHeight, setClientHeight] = useState(0);
@@ -82,6 +84,11 @@ const Index = (props: Props) => {
   const scrollRef = useRef(null);
 
   const { scrollYProgress } = useScroll({
+    target: scrollRef,
+    offset: ['start end', 'end start'],
+  });
+
+  const { scrollY } = useScroll({
     target: scrollRef,
     offset: ['start end', 'end start'],
   });
@@ -126,78 +133,27 @@ const Index = (props: Props) => {
 
   return (
     <LandingPageLayout>
-      <motion.section
-        id="first"
-        className="mx-auto mb-40 grid h-[calc(100vh-134px)] w-fit max-w-[1075px] grid-cols-[50%_1fr] gap-8"
-        initial={{ y: '100vh' }}
-        animate={scrollYPosition >= 0 ? { y: 0 } : { y: '100vh' }}
-        transition={{ type: 'spring', stiffness: 100 }}
-        exit={{ y: '100vh' }}
-        style={{ opacity }}
-      >
-        <div className="flex flex-col justify-center">
-          <h1 className={`${FontSpaceMono.className} text-5xl font-bold uppercase text-black`}>
-            Get paid to shape the future of AI
-          </h1>
-          <p className={`${FontManrope.className} pr-2 mt-[13px] text-2xl font-semibold text-black text-opacity-50`}>
-            Earn TAO through responding to AI-generated tasks across various domains. Join the crowd-sourced effort to
-            build the world's most powerful multimodal AI models.
-          </p>
-          <div className={`mb-5 mt-[13px]`}>
-            <GetStartedButton />
-          </div>
-          <hr className={'border-black'} />
-          <div className={`mt-[22px] flex flex-row gap-3`}>
-            <div>
-              <h3 className={`uppercase ${FontSpaceMono.className} text-lg font-bold opacity-50`}>
-                {/* Rewards paid out (usd) */}
-                Average Task Completion Time
-              </h3>
-              <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}>
-                { averageTaskCompletionTime && averageTaskCompletionTime > 60 && 
-                  <>
-                    <CountUp 
-                      start={0} 
-                      end={Math.floor(averageTaskCompletionTime / 60)} 
-                      duration={3} 
-                      startOnMount 
-                    />:
-                  </>
-                }
-                <CountUp 
-                  start={0} 
-                  end={averageTaskCompletionTime ? averageTaskCompletionTime % 60 : 30} 
-                  duration={3} 
-                  startOnMount 
-                /><span className='lowercase'>{`${averageTaskCompletionTime && averageTaskCompletionTime >= 60 ? 'min':'sec'}`}</span>
-              </h3>
-            </div>
-            <div>
-              <h3 className={`uppercase ${FontSpaceMono.className} text-lg font-bold opacity-50`}>
-                HUMAN TASKS COMPLETED
-              </h3>
-              <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}>
-                <CountUp start={0} end={numCompletedTasks ? numCompletedTasks : 12} duration={3} startOnMount />
-              </h3>
-            </div>
-            <div>
-              <h3 className={`uppercase ${FontSpaceMono.className} text-lg font-bold opacity-50`}>
-                NO.OF HUMAN PARTICIPANTS
-              </h3>
-              <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}>
-                <CountUp start={0} end={numDojoWorkers ? numDojoWorkers : 123512} duration={3} startOnMount />
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="relative flex items-center justify-center">
-          <MultiSelectCardFrame mouseX={mouseX} mouseY={mouseY} />
-          <SliderCardFrame mouseX={mouseX} mouseY={mouseY} />
-        </div>
-      </motion.section>
-      <section id="second" className="overflow-hidden">
+      {/* Hero Card Section */}
+      <HeroCardSection 
+      scrollYProgress={scrollYProgress}/>
+      <div className='w-full bg-gray-100'>
+        <FirstKeyMessageSlide scrollY={scrollY}/>
+        {/* Spacer */}
+        <div className={`h-[${KEY_MESSAGE_SCROLL_HEIGHT}px] w-full`}></div>
+        <SecondKeyMessageSlide scrollY={scrollY}/>
+        <div className={`h-[${KEY_MESSAGE_SCROLL_HEIGHT}px] w-full`}></div>
+        <ThirdKeyMessageSlide scrollY={scrollY}/>
+        <div className={`h-[${KEY_MESSAGE_SCROLL_HEIGHT}px] w-full`}></div>
+      </div>
+
+      {/* <section id="second" className="overflow-hidden">
         <ScrollEffect />
-      </section>
+      </section> */}
+
+
+
+
+
       <section id="third" className="z-[10000] bg-gradient-to-t from-[#FFFFF4] to-[#E1F5F4]">
         <motion.div
           className="mx-auto max-w-[1075px]"
@@ -215,7 +171,7 @@ const Index = (props: Props) => {
             <div className="w-[37%]">
               <StepCard {...steps[0]} />
             </div>
-            <div className="w-[60%]">
+            <div className="w-3/5">
               <StepCard {...steps[1]} />
             </div>
           </div>
@@ -240,7 +196,7 @@ const Index = (props: Props) => {
           background: 'linear-gradient(to bottom, #FFFFF4, #E1F5F4)',
         }}
       >
-        <div className="mx-auto max-w-[1075px] py-20 flex justify-between">
+        <div className="mx-auto flex max-w-[1075px] justify-between py-20">
           <div className="mb-12 mt-[57px]">
             <h1 className={`${FontSpaceMono.className} text-[46px] font-bold uppercase`}>Dojo roadmap</h1>
             <p className={`${FontManrope.className} text-xl font-bold opacity-50`}>
@@ -250,32 +206,32 @@ const Index = (props: Props) => {
           <div className="flex flex-col">
             <div className="flex items-start">
               <div className="mr-8 flex flex-col items-center">
-                <div className="flex h-[67px] w-[67px] items-center justify-center rounded-full border-2 border-black shadow-brut-sm">
+                <div className="flex size-[67px] items-center justify-center rounded-full border-2 border-black shadow-brut-sm">
                   <p className={`${FontManrope.className} text-[32px] font-bold`}>v0</p>
                 </div>
-                <div className="h-32 w-[1px] border-l-[3px] border-dashed border-black border-opacity-50"></div>
+                <div className="h-32 w-px border-l-[3px] border-dashed border-black border-opacity-50"></div>
               </div>
               <div>
-                <h3 className={`${FontSpaceMono.className} mb-4 text-xl font-bold uppercase mt-4`}>Testnet launch</h3>
+                <h3 className={`${FontSpaceMono.className} my-4 text-xl font-bold uppercase`}>Testnet launch</h3>
                 <ul className="">
-                  <li className={`${FontManrope.className} text-lg font-bold opacity-70 mb-2`}>Synthetic Task Generation</li>
-                  <li className={`${FontManrope.className} text-lg font-bold opacity-70 mb-2`}>Worker API Model</li>
-                  <li className={`${FontManrope.className} text-lg font-bold opacity-70 mb-2`}>Task Completion Interface</li>
+                  <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>Synthetic Task Generation</li>
+                  <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>Worker API Model</li>
+                  <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>Task Completion Interface</li>
                 </ul>
               </div>
             </div>
             <div className="flex items-start">
               <div className="mr-8 flex flex-col items-center">
-                <div className="flex h-[67px] w-[67px] items-center justify-center rounded-full border-2 border-black shadow-brut-sm">
+                <div className="flex size-[67px] items-center justify-center rounded-full border-2 border-black shadow-brut-sm">
                   <p className={`${FontManrope.className} text-[32px] font-bold`}>v1</p>
                 </div>
-                <div className="h-32 w-[1px] border-l-[3px] border-dashed border-black border-opacity-50"></div>
+                <div className="h-32 w-px border-l-[3px] border-dashed border-black border-opacity-50"></div>
               </div>
               <div>
-                <h3 className={`${FontSpaceMono.className} mb-4 text-xl font-bold uppercase mt-4`}>MAINNET launch</h3>
+                <h3 className={`${FontSpaceMono.className} my-4 text-xl font-bold uppercase`}>MAINNET launch</h3>
                 <ul className="">
-                  <li className={`${FontManrope.className} text-lg font-bold opacity-70 mb-2`}>Cross-Subnet Integration</li>
-                  <li className={`${FontManrope.className} text-lg font-bold opacity-70 mb-2`}>Scoring Refinement</li>
+                  <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>Cross-Subnet Integration</li>
+                  <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>Scoring Refinement</li>
                 </ul>
               </div>
             </div>

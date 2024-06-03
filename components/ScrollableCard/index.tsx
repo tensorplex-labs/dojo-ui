@@ -28,7 +28,7 @@ const ScrollableCard: React.FC<ScrollableCardProps> = ({ y, title, subtitle, sty
       transition={{ duration: 1 }}
     >
       <motion.div
-        className={`mx-auto flex -translate-y-20 transform flex-col items-center justify-center rounded-lg border-4 border-black text-center shadow-brut-sm`}
+        className={`mx-auto flex -translate-y-20 flex-col items-center justify-center rounded-lg border-4 border-black text-center shadow-brut-sm`}
         style={{
           background: `linear-gradient(to bottom, rgba(215, 249, 246, ${opacity}), rgba(249, 255, 254, ${opacity}))`,
           display: 'flex',
