@@ -18,27 +18,39 @@ const defaultContextValue: TaskContextType = {
   getNextTaskId: () => {},
 };
 
+const LIMIT=100;
+
+const calculateNextPageForLimit = (currentPage: number, currentLimit: number, targetLimit: number): number => {
+  // Total tasks fetched up to the current page
+  const tasksFetched = currentPage * currentLimit;
+
+  // Calculate the page number for the target limit to start fetching the next set of tasks
+  return Math.floor(tasksFetched / targetLimit) + 1;
+};
+
+
 const TaskContext = createContext<TaskContextType>(defaultContextValue);
 
 export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [taskData, setTaskData] = useState<Task[]>([]);
   const [pagination, setPagination] = useState<Pagination | null>(null);
-  const [cache, setCache] = useState<Map<number, TasksResponse>>(new Map());
+  const [cache, setCache] = useState<Map<string, TasksResponse>>(new Map());
   const router = useRouter();
   const jwtToken = getFromLocalStorage('jwtToken');
 
   const fetchTasks = useCallback(
     async (page: number): Promise<TasksResponse | null> => {
       console.log('Fetching tasks for page:', page, 'cache', cache);
-      if (cache.has(page)) {
-        const cachedData = cache.get(page) as TasksResponse;
+      const cacheKey = `${page}-${LIMIT}`;
+      if (cache.has(cacheKey)) {
+        const cachedData = cache.get(cacheKey) as TasksResponse;
         setTaskData(cachedData.body.tasks);
         setPagination(cachedData.body.pagination);
         return cachedData;
       }
 
       try {
-        const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/?page=${page}&limit=10&task=All&sort=createdAt&isSkipTask=true`;
+        const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/?page=${page}&limit=${LIMIT}&task=All&sort=createdAt`;
         const response = await fetch(endpoint, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
@@ -49,7 +61,8 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         if (response.ok) {
           // Cache the fetched tasks and update state
-          setCache(prevCache => new Map(prevCache).set(page, data));
+          const cacheKey = `${page}-${LIMIT}`;
+          setCache(prevCache => new Map(prevCache).set(cacheKey, data));
           return data;
         } else {
           throw new Error(data.error || `HTTP error! status: ${response.status}`);
@@ -80,7 +93,11 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
     let newPagination = pagination;
 
     // If no uncompleted task is found in the current page, fetch new pages
-    let nextPage = (pagination?.pageNumber ?? 1) + 1;
+    // let nextPage = (pagination?.pageNumber ?? 1) + 1;
+    const currentPage = pagination?.pageNumber ?? 1;
+    const currentLimit = pagination?.pageSize ?? 10;
+    // Calculate the equivalent page number when switching to the limit
+    let nextPage = calculateNextPageForLimit(currentPage, currentLimit, LIMIT);
 
     while (!nextTaskId && newPagination && nextPage <= newPagination.totalPages) {
       const fetchedData = await fetchTasks(nextPage);
