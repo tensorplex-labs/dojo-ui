@@ -100,7 +100,7 @@ const SecondKeyMessageSlide = (props: Props) => {
 
 
   return <motion.section
-    className="sticky z-100 top-0 left-0 flex h-screen w-full justify-center overflow-hidden border-t-4 border-solid border-black bg-gray-100">
+    className="z-100 sticky left-0 top-0 flex h-screen w-full justify-center overflow-hidden border-t-4 border-solid border-black bg-gray-100">
       <Image
         src="/grid.svg"
         alt="Example Icon"
@@ -117,18 +117,18 @@ const SecondKeyMessageSlide = (props: Props) => {
         <div className="overflow-hidden">
           <motion.h2
             variants={elemAnimVariant}
-            className={`${FontSpaceMono.className} text-4xl md:text-5xl font-bold uppercase leading-tight`}>GET PAID QUICKLY</motion.h2>
+            className={`${FontSpaceMono.className} text-4xl font-bold uppercase leading-tight md:text-5xl`}>GET PAID QUICKLY</motion.h2>
         </div>
         <div className="overflow-hidden">
           <motion.p
             variants={elemAnimVariant}
-            className="mt-4 text-lg leading-snug md:text-xl text-gray-500">Rewards are streamed consistently to the miner, as long as sufficient tasks are completed and accepted by the Subnet.</motion.p>
+            className="mt-4 text-lg leading-snug text-gray-500 md:text-xl">Rewards are streamed consistently to the miner, as long as sufficient tasks are completed and accepted by the Subnet.</motion.p>
         </div>
       </div>
       {/* key visual graphic */}
       <div className="flex overflow-hidden">
         <motion.div 
-        className="flex flex-col justify-center items-center gap-4 pr-1 pb-1 w-full md:w-auto"
+        className="flex w-full flex-col items-center justify-center gap-4 pb-1 pr-1 md:w-auto"
         variants={staggeredFadeInParent} 
         initial="hide" animate={animState}>
   {payoutRecords.map((record, index) => (

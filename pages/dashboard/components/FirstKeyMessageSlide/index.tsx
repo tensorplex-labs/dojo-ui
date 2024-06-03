@@ -213,12 +213,12 @@ const FirstKeyMessageSlide = (props: Props ) => {
            variants={kvAnimVariant}
            className="relative w-[400px] rounded-2xl shadow-brut-sm">
           {/* Floating button element */}
-          <div className="absolute z-10 -bottom-[30px] right-1/2 md:bottom-1/4 md:-right-[50px] translate-x-1/2 md:translate-x-0">
+          <div className="absolute -bottom-[30px] right-1/2 z-10 translate-x-1/2 md:-right-[50px] md:bottom-1/4 md:translate-x-0">
             <motion.button 
             variants={buttonAnimVariant}
             initial="hide"
             animate={animState} 
-            className={`h-[50px] rounded-xl border-2 border-solid border-black bg-primary w-[240px] md:w-[120px] text-lg font-semibold uppercase text-white ring-[12px] ring-[#00B8A8] ring-opacity-20 ${FontSpaceMono.className}`}>
+            className={`h-[50px] w-[240px] rounded-xl border-2 border-solid border-black bg-primary text-lg font-semibold uppercase text-white ring-[12px] ring-[#00B8A8] ring-opacity-20 md:w-[120px] ${FontSpaceMono.className}`}>
               Proceed</motion.button>
           </div>
          
@@ -241,7 +241,7 @@ const FirstKeyMessageSlide = (props: Props ) => {
             variants={staggeredFadeInMarkerParent}
             initial="hide"
             animate={animState}
-            className="w-full rounded-b-2xl border-2 border-t-0 border-solid border-black p-4 pb-12 bg-gray-100">
+            className="w-full rounded-b-2xl border-2 border-t-0 border-solid border-black bg-gray-100 p-4 pb-12">
               <div className="text-left">
                 <motion.label 
                     variants={staggeredFadeInChildren}

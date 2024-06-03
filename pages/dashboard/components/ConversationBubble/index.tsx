@@ -18,7 +18,7 @@ const ConversationBubble = ({ text , actor, isRightAligned , gradientClass } : P
       <div className={`size-[36px] min-h-[36px] min-w-[36px] rounded-full ${gradientClass} flex items-center justify-center border border-solid border-black`}>
         <span className={`text-lg font-semibold ${isRightAligned ? 'text-white text-opacity-80' : 'text-black text-opacity-80'}`}>{actor}</span>
       </div>
-      <div className={`rounded-xl border border-solid border-black p-3 py-2 ${isRightAligned ? 'text-right bg-gray-100' : 'bg-white'}`}>
+      <div className={`rounded-xl border border-solid border-black p-3 py-2 ${isRightAligned ? 'bg-gray-100 text-right' : 'bg-white'}`}>
         <p>{text}</p>
       </div>
     </motion.div>
