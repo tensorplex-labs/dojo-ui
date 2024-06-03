@@ -75,7 +75,7 @@
 // export default Slider;
 
 import { FontManrope } from '@/utils/typography';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface SliderProps {
   min: number;
@@ -105,11 +105,16 @@ const Slider: React.FC<SliderProps> = ({
   // Generate an array of steps
   // const stepsArray = Array.from({ length: numberOfSteps }, (_, i) => min + i * step);
 
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+
   const percentage = ((value - min) / (max - min)) * 100;
+  
   const numberOfSteps = Math.floor((max - min) / step) + 1;
-
-const stepsArray = Array.from({ length: numberOfSteps }, (_, i) => min + i * step);
-
+  
+  const stepsArray = Array.from({ length: numberOfSteps }, (_, i) => min + i * step);
+  
   const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(event.target.value, 10);
     setValue(newValue);

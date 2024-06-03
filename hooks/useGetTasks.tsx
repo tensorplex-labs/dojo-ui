@@ -1,5 +1,15 @@
+import { useSubmit } from '@/providers/submitContext';
 import { getFromLocalStorage } from '@/utils/general_helpers';
+import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
+
+export const taskStatus = {
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  EXPIRED: 'EXPIRED',
+} as const;
+
+export type TaskStatus = (typeof taskStatus)[keyof typeof taskStatus];
 
 export interface Task {
   taskId: string;
@@ -8,7 +18,7 @@ export interface Task {
   expireAt: string;
   type: string;
   taskData: any[];
-  status: string;
+  status: TaskStatus;
   numResults: number;
   maxResults: number;
   numCriteria: number,
@@ -16,14 +26,14 @@ export interface Task {
 }
 
 
-interface Pagination {
+export interface Pagination {
   pageNumber: number;
   pageSize: number;
   totalPages: number;
   totalItems: number;
 }
 
-interface TasksResponse {
+export interface TasksResponse {
   success: boolean;
   body: {
     tasks: Task[];
@@ -38,8 +48,11 @@ const useGetTasks = (page: number, limit: number, taskQuery: string, sort: strin
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const jwtToken = getFromLocalStorage('jwtToken');
+  const { triggerTaskPageReload } = useSubmit();
+  const router = useRouter();
+
   const fetchTasks = useCallback(async () => {
-    if(!jwtToken) {
+    if (!jwtToken) {
       setTasks([]);
       setPagination(null);
       setError('No JWT token found');
@@ -76,8 +89,10 @@ const useGetTasks = (page: number, limit: number, taskQuery: string, sort: strin
   }, [page, limit, taskQuery, sort, yieldMin, yieldMax, jwtToken]);
 
   useEffect(() => {
+    console.log('useEffect inside useGetTasks', router);
+    if (!router.isReady) return;
     fetchTasks();
-  }, [fetchTasks]);
+  }, [fetchTasks, triggerTaskPageReload, router]);
 
   return { tasks, pagination, loading, error, refetchTasks: fetchTasks };
 };

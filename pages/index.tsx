@@ -1,7 +1,9 @@
 'use client';
+import { Button } from "@/components/Button";
 import { CategoryItem } from "@/components/CategoryItem";
 import { DropdownContainer } from "@/components/DropDown";
 import NavigationBar from "@/components/NavigationBar";
+import { Pagination } from "@/components/Pagination";
 import SubscriptionModal from "@/components/SubscriptionModal";
 import { TPLXButton } from "@/components/TPLXButton";
 import TPLXDatatable from "@/components/TPLXDatatable";
@@ -13,7 +15,6 @@ import { useEtherScanOpen } from "@/hooks/useEtherScanOpen";
 import useGetTasks from "@/hooks/useGetTasks"; // Import the hook
 import { useModal } from "@/hooks/useModal";
 import { usePartnerList } from "@/hooks/usePartnerList";
-import useRequestTaskByTaskID from "@/hooks/useRequestTaskByTaskID";
 import { useAuth } from "@/providers/authContext";
 import { MODAL } from "@/providers/modals";
 import { useSubmit } from "@/providers/submitContext";
@@ -21,12 +22,10 @@ import { useTaskData } from "@/providers/taskContext";
 import { getFirstFourLastFour } from "@/utils/math_helpers";
 import { FontManrope, FontSpaceMono } from "@/utils/typography";
 import { IconCopy, IconExternalLink } from "@tabler/icons-react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useAccount, useDisconnect, useSignMessage } from "wagmi";
-import {useRouter} from "next/router"
-import { Button } from "@/components/Button";
-import { Pagination } from "@/components/Pagination";
+import { useAccount } from "wagmi";
 
 
 
@@ -58,32 +57,19 @@ export default function Home() {
   const params = useMemo(() => new URLSearchParams(searchParams),[searchParams]);
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState<string>('1');
-  const {
-    page = currentPage,
-    limit = 10,
-    tasks: taskTypes = 'All',
-    sort = 'createdAt',
-    yieldMin,
-    yieldMax
-  } = router.query; 
+  const { page, limit, tasks: taskTypes, sort, yieldMin, yieldMax } = router.query;
 
-
-  const { tasks, pagination, loading, error, refetchTasks} = useGetTasks(
-    parseInt(currentPage as string),
-    parseInt(limit as string),
-    taskTypes as string,
-    sort as string,
+  const { tasks, pagination, loading } = useGetTasks(
+    page ? parseInt(page as string) : parseInt(currentPage),
+    limit ? parseInt(limit as string) : 10,
+    taskTypes ? (taskTypes as string) : 'All', // 'All' as default task type if not provided
+    sort ? (sort as string) : 'createdAt',
     yieldMin ? parseInt(yieldMin as string) : undefined,
     yieldMax ? parseInt(yieldMax as string) : undefined
   );
-  const [refetchTrigger, setRefetchTrigger] = useState(false);  
-  const {partners, isLoading: pLoading} = usePartnerList(refetchTrigger)
-  const { setTaskData } = useTaskData(); 
+  const { partners, isLoading: pLoading } = usePartnerList(triggerTaskPageReload);
+  const { setTaskData, setPagination } = useTaskData();
   // update the task data in the context
-  setTaskData(tasks);
-
-
-  console.log("tasks.....", tasks);
 
   const handleViewClick = () => {
     // Logic to close Wallet & API (if any)
@@ -192,15 +178,10 @@ export default function Home() {
   //   }
   // };
 
-  useEffect(()=>{
-    if (router.isReady) {
-      console.log("Router is ready: ", router.query)
-      refetchTasks()
-    }
-
-    // setRefetchTrigger(prev => !prev);
-    setTriggerTaskPageReload(false);
-  },[triggerTaskPageReload, setTriggerTaskPageReload, refetchTasks, router])  
+  useEffect(() => {
+    if (tasks && tasks.length > 0) setTaskData(tasks);
+    if (pagination) setPagination(pagination);
+  }, [tasks, pagination, setTaskData, setPagination]);
 
 
   const updateSorting = useCallback((sort: string) => {
@@ -212,7 +193,7 @@ export default function Home() {
       case 'Most Recent':
         sortQuery = "createdAt"
         break;
-      case 'Least Questions':
+      case 'Least Difficult':
         sortQuery = "numCriteria"
         break;
       default:
@@ -293,7 +274,7 @@ export default function Home() {
           </div>
           <div className="mt-[18px] flex gap-2">
             <DropdownContainer
-              buttonText={`Sort By ${params.get('sort') === 'createdAt' ? 'Most Recent' : params.get('sort')=== 'numCriteria' ? 'Least Questions' : 'Most Attempted'}`}
+              buttonText={`Sort By ${params.get('sort') === 'createdAt' ? 'Most Recent' : params.get('sort')=== 'numCriteria' ? 'Least Difficult' : 'Most Attempted'}`}
               imgSrc="/top-down-arrow.svg"
               className="w-[193.89px]"
             >
