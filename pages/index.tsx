@@ -18,13 +18,12 @@ import { usePartnerList } from "@/hooks/usePartnerList";
 import { useAuth } from "@/providers/authContext";
 import { MODAL } from "@/providers/modals";
 import { useSubmit } from "@/providers/submitContext";
-import { useTaskData } from "@/providers/taskContext";
 import { getFirstFourLastFour } from "@/utils/math_helpers";
 import { FontManrope, FontSpaceMono } from "@/utils/typography";
 import { IconCopy, IconExternalLink } from "@tabler/icons-react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useAccount } from "wagmi";
 
 
@@ -68,7 +67,6 @@ export default function Home() {
     yieldMax ? parseInt(yieldMax as string) : undefined
   );
   const { partners, isLoading: pLoading } = usePartnerList(triggerTaskPageReload);
-  const { setTaskData, setPagination } = useTaskData();
   // update the task data in the context
 
   const handleViewClick = () => {
@@ -177,12 +175,6 @@ export default function Home() {
   //     setInputValue2(value);
   //   }
   // };
-
-  useEffect(() => {
-    if (tasks && tasks.length > 0) setTaskData(tasks);
-    if (pagination) setPagination(pagination);
-  }, [tasks, pagination, setTaskData, setPagination]);
-
 
   const updateSorting = useCallback((sort: string) => {
     let sortQuery: string; 
