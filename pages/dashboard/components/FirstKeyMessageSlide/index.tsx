@@ -83,7 +83,7 @@ const staggeredFadeInParent = {
   },
   show : {
     transition: {
-      delayChildren: 0.65,
+      delayChildren: 0.85,
       staggerChildren: 0.1,
     }
   }
@@ -106,7 +106,7 @@ export const staggeredFadeInMarkerParent = {
   },
   show : {
     transition: {
-      delayChildren: 0.7,
+      delayChildren: 1,
       staggerChildren: 0.1,
     }
   }
@@ -172,7 +172,7 @@ const FirstKeyMessageSlide = (props: Props ) => {
     if (!windowHeight) return;
 
     const lowerBound = windowHeight
-    const upperBound = windowHeight + (KEY_MESSAGE_SCROLL_HEIGHT) + 300
+    const upperBound = windowHeight + (KEY_MESSAGE_SCROLL_HEIGHT * 2)
     if (latest > lowerBound && latest < upperBound)
       setAnimState("show")
     else
