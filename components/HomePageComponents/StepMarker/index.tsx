@@ -1,9 +1,8 @@
 // StepMarker.tsx
-import React from 'react';
-import PropTypes from 'prop-types';
+import { staggeredFadeInMarker } from '@/components/HomePageComponents/FirstKeyMessageSlide';
+import { FontSpaceMono } from '@/utils/typography';
 import { motion } from 'framer-motion';
-import { FontSpaceMono } from '../../../../utils/typography';
-import { staggeredFadeInMarker } from '../FirstKeyMessageSlide';
+import PropTypes from 'prop-types';
 
 interface Props {
   positionClass : string,

@@ -1,13 +1,13 @@
+import GetStartedButton from "@/components/Button/GetStarted"
+import MultiSelectCardFrame from "@/components/HomePageCard/MultiSelectCardFrame"
+import SliderCardFrame from "@/components/HomePageCard/SliderCardFrame"
+import useAverageTaskCompletionTime from "@/hooks/useAverageTaskCompletionTime"
+import useCompletedTasksCount from "@/hooks/useCompletedTasksCount"
+import useDojoWorkerCount from "@/hooks/useDojoWorkerCount"
+import { FontManrope, FontSpaceMono } from "@/utils/typography"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useState } from "react"
 import CountUp from "react-countup"
-import GetStartedButton from "../../../../components/Button/GetStarted"
-import MultiSelectCardFrame from "../../../../components/HomePageCard/MultiSelectCardFrame"
-import SliderCardFrame from "../../../../components/HomePageCard/SliderCardFrame"
-import useAverageTaskCompletionTime from "../../../../hooks/useAverageTaskCompletionTime"
-import useCompletedTasksCount from "../../../../hooks/useCompletedTasksCount"
-import useDojoWorkerCount from "../../../../hooks/useDojoWorkerCount"
-import { FontManrope, FontSpaceMono } from "../../../../utils/typography"
 
 
 

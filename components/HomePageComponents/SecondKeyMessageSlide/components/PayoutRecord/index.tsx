@@ -1,8 +1,7 @@
+import { FontSpaceMono } from '@/utils/typography';
 import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import CountUp from 'react-countup';
-import { FontSpaceMono } from '../../../../../../utils/typography';
-
  const staggeredFadeInChildren = {
   hide : {
     opacity : 0

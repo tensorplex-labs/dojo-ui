@@ -1,12 +1,13 @@
+import { KEY_MESSAGE_SCROLL_HEIGHT } from "@/pages";
+import { FontSpaceMono } from "@/utils/typography";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { easeOut, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Image from 'next/image';
 import { useState } from "react";
-import { KEY_MESSAGE_SCROLL_HEIGHT } from "../..";
-import { FontSpaceMono } from "../../../../utils/typography";
 import ConversationBubble from "../ConversationBubble";
 import StepMarker from "../StepMarker";
 import styles from './styles.module.css';
+
 interface Props {
 }
 
