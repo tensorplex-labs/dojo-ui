@@ -188,7 +188,7 @@ const FirstKeyMessageSlide = (props: Props ) => {
         alt="Example Icon"
         width={100}
         height={100}
-        className="absolute w-full opacity-[0.04]"
+        className="absolute w-full opacity-[0.03]"
       />
     <motion.div
     variants={elemAnimParentVariant}
@@ -241,7 +241,7 @@ const FirstKeyMessageSlide = (props: Props ) => {
             variants={staggeredFadeInMarkerParent}
             initial="hide"
             animate={animState}
-            className="w-full rounded-b-2xl border-2 border-t-0 border-solid border-black p-4 pb-12">
+            className="w-full rounded-b-2xl border-2 border-t-0 border-solid border-black p-4 pb-12 bg-gray-100">
               <div className="text-left">
                 <motion.label 
                     variants={staggeredFadeInChildren}

@@ -80,7 +80,7 @@ const ThirdKeyMessageSlide = (props: Props) => {
         alt="Example Icon"
         width={100}
         height={100}
-        className="absolute w-full opacity-[0.04]"
+        className="absolute w-full opacity-[0.03]"
       />
     <motion.div
       variants={elemAnimParentVariant}
