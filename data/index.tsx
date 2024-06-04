@@ -7,14 +7,6 @@ interface HeaderItem {
 
 export const headerItems: Array<HeaderItem> = [
   {
-    title: 'Stake',
-    url: '/',
-  },
-  {
-    title: 'Transparency',
-    url: '/transparency',
-  },
-  {
     title: 'FAQ',
     url: '/faq',
   },
