@@ -141,8 +141,8 @@ const Index = (props: Props) => {
             Get paid to shape the future of AI
           </h1>
           <p className={`${FontManrope.className} mt-[13px] pr-2 text-2xl font-semibold text-black text-opacity-50`}>
-            Earn TAO through responding to AI-generated tasks across various domains. Join the crowd-sourced effort to
-            build the world's most powerful multimodal AI models.
+            {`Earn TAO through responding to AI-generated tasks across various domains. Join the crowd-sourced effort to
+            build the world's most powerful multimodal AI models.`}
           </p>
           <div className={`mb-5 mt-[13px]`}>
             <GetStartedButton />
