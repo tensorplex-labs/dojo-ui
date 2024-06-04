@@ -52,7 +52,7 @@ const steps = [
   },
 ];
 
-export const KEY_MESSAGE_SCROLL_HEIGHT = 800;
+export const KEY_MESSAGE_SCROLL_HEIGHT = 1000;
 
 type Props = {};
 const Index = (props: Props) => {
@@ -64,7 +64,7 @@ const Index = (props: Props) => {
   const { numDojoWorkers } = useDojoWorkerCount();
   const { numCompletedTasks } = useCompletedTasksCount();
   const { averageTaskCompletionTime } = useAverageTaskCompletionTime();
-  
+
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
       setMouseX(event.clientX);
@@ -104,7 +104,7 @@ const Index = (props: Props) => {
     setScrollRange(window.innerHeight * 4); // Set the scroll range to 4 times the viewport height
   }, []);
   useEffect(() => {
-    const unsubscribe = scrollYProgress.onChange(value => {
+    const unsubscribe = scrollYProgress.onChange((value) => {
       setCurrentSection(value * scrollRange);
       setScrollYPosition(value);
     });
@@ -130,12 +130,11 @@ const Index = (props: Props) => {
     return scrollYPosition >= threshold && scrollYPosition < threshold + 0.2;
   };
 
-
   return (
     <LandingPageLayout>
       {/* Hero Card Section */}
       <HeroCardSection />
-      <div className='w-full bg-gray-100'>
+      <div className="w-full bg-gray-100">
         <FirstKeyMessageSlide />
         {/* Spacer */}
         <div className={`h-[${KEY_MESSAGE_SCROLL_HEIGHT}px] w-full`}></div>
@@ -145,13 +144,7 @@ const Index = (props: Props) => {
         <div className={`h-[${KEY_MESSAGE_SCROLL_HEIGHT}px] w-full`}></div>
       </div>
       <section id="third" className="z-[10000] bg-gradient-to-t from-[#FFFFF4] to-[#E1F5F4]">
-        <motion.div
-          className="mx-auto max-w-[1075px]"
-          initial={{ y: '0' }} // Start off-screen at the bottom
-          animate={scrollYPosition > 0.58 ? { y: 0 } : { y: '100vh', opacity: 1 }} // Slide up to the original position
-          transition={{ type: 'spring', stiffness: 100 }} // Smooth slide-in effect
-          exit={{ y: 0 }} // Slide back down off-screen
-        >
+        <motion.div className="mx-auto max-w-[1075px] pt-32">
           <h1 className={`${FontSpaceMono.className} text-5xl font-bold uppercase`}>How does it work?</h1>
           <p className={`${FontManrope.className} text-2xl font-bold opacity-60`}>
             Five simple steps to get you started!
@@ -187,7 +180,7 @@ const Index = (props: Props) => {
         }}
       >
         <div className="mx-auto flex max-w-[1075px] justify-between py-20">
-          <div className="mb-12 mt-[57px]">
+          <div className="mb-12 mt-64">
             <h1 className={`${FontSpaceMono.className} text-[46px] font-bold uppercase`}>Dojo roadmap</h1>
             <p className={`${FontManrope.className} text-xl font-bold opacity-50`}>
               Our journey to revolutionize AI development
@@ -204,9 +197,13 @@ const Index = (props: Props) => {
               <div>
                 <h3 className={`${FontSpaceMono.className} my-4 text-xl font-bold uppercase`}>Testnet launch</h3>
                 <ul className="">
-                  <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>Synthetic Task Generation</li>
+                  <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>
+                    Synthetic Task Generation
+                  </li>
                   <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>Worker API Model</li>
-                  <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>Task Completion Interface</li>
+                  <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>
+                    Task Completion Interface
+                  </li>
                 </ul>
               </div>
             </div>
@@ -220,7 +217,9 @@ const Index = (props: Props) => {
               <div>
                 <h3 className={`${FontSpaceMono.className} my-4 text-xl font-bold uppercase`}>MAINNET launch</h3>
                 <ul className="">
-                  <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>Cross-Subnet Integration</li>
+                  <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>
+                    Cross-Subnet Integration
+                  </li>
                   <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>Scoring Refinement</li>
                 </ul>
               </div>
@@ -235,7 +234,7 @@ const Index = (props: Props) => {
 const LandingPageLayout = ({ children }: { children: ReactNode }) => (
   <div className="min-h-screen bg-[#FFFFF4] text-black">
     <div className="border-b-2 border-black bg-[#F6F6E6] text-white">
-      <NavigationBar openModal={() => { }} isHomePage />
+      <NavigationBar openModal={() => {}} isHomePage />
     </div>
     <main className="mx-auto">{children}</main>
     <MainFooter />
