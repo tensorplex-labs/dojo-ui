@@ -18,15 +18,17 @@ import CountUp from 'react-countup';
 const steps = [
   {
     stepNumber: 1,
-    title: 'Set up your miner',    
-    description: 'Visit <a href="https://github.com/tensorplex-labs/dojo-subnet" target="_blank" style="text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none; font-weight: 700;" className="">Dojo GitHub</a> to set up the Dojo Subnet Miner',
+    title: 'Set up your miner',
+    description:
+      'Visit <a href="https://github.com/tensorplex-labs/dojo-subnet" target="_blank" style="text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none; font-weight: 700;" className="">Dojo GitHub</a> to set up the Dojo Subnet Miner',
     imageUrl: './step1.png',
     backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
   },
   {
     stepNumber: 2,
     title: 'Creating an account',
-    description: 'Connect metamask wallet to  <a href="https://dojo.tensorplex.ai/" target="_blank" style="text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none; font-weight: 700;" className="">dojo.tensorplex.ai</a>',
+    description:
+      'Connect metamask wallet to  <a href="https://dojo.tensorplex.ai/" target="_blank" style="text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none; font-weight: 700;" className="">dojo.tensorplex.ai</a>',
     imageUrl: './step2.png',
     backgroundGradient: 'linear-gradient(to bottom, #00B6A6, #005049)',
   },
@@ -62,7 +64,7 @@ const Index = (props: Props) => {
   const { numDojoWorkers } = useDojoWorkerCount();
   const { numCompletedTasks } = useCompletedTasksCount();
   const { averageTaskCompletionTime } = useAverageTaskCompletionTime();
-  
+
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
       setMouseX(event.clientX);
@@ -97,7 +99,7 @@ const Index = (props: Props) => {
     setScrollRange(window.innerHeight * 4); // Set the scroll range to 4 times the viewport height
   }, []);
   useEffect(() => {
-    const unsubscribe = scrollYProgress.onChange(value => {
+    const unsubscribe = scrollYProgress.onChange((value) => {
       setCurrentSection(value * scrollRange);
       setScrollYPosition(value);
     });
@@ -122,7 +124,6 @@ const Index = (props: Props) => {
   const isSectionVisible = (threshold: number) => {
     return scrollYPosition >= threshold && scrollYPosition < threshold + 0.2;
   };
-
 
   return (
     <LandingPageLayout>
@@ -154,22 +155,20 @@ const Index = (props: Props) => {
                 Average Task Completion Time
               </h3>
               <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}>
-                { averageTaskCompletionTime && averageTaskCompletionTime > 60 && 
+                {averageTaskCompletionTime && averageTaskCompletionTime > 60 && (
                   <>
-                    <CountUp 
-                      start={0} 
-                      end={Math.floor(averageTaskCompletionTime / 60)} 
-                      duration={3} 
-                      startOnMount 
-                    />:
+                    <CountUp start={0} end={Math.floor(averageTaskCompletionTime / 60)} duration={3} startOnMount />:
                   </>
-                }
-                <CountUp 
-                  start={0} 
-                  end={averageTaskCompletionTime ? averageTaskCompletionTime % 60 : 30} 
-                  duration={3} 
-                  startOnMount 
-                /><span className='lowercase'>{`${averageTaskCompletionTime && averageTaskCompletionTime >= 60 ? 'min':'sec'}`}</span>
+                )}
+                <CountUp
+                  start={0}
+                  end={averageTaskCompletionTime ? averageTaskCompletionTime % 60 : 30}
+                  duration={3}
+                  startOnMount
+                />
+                <span className="lowercase">{`${
+                  averageTaskCompletionTime && averageTaskCompletionTime >= 60 ? 'min' : 'sec'
+                }`}</span>
               </h3>
             </div>
             <div>
@@ -258,9 +257,13 @@ const Index = (props: Props) => {
               <div>
                 <h3 className={`${FontSpaceMono.className} mb-4 text-xl font-bold uppercase mt-4`}>Testnet launch</h3>
                 <ul className="">
-                  <li className={`${FontManrope.className} text-lg font-bold opacity-70 mb-2`}>Synthetic Task Generation</li>
+                  <li className={`${FontManrope.className} text-lg font-bold opacity-70 mb-2`}>
+                    Synthetic Task Generation
+                  </li>
                   <li className={`${FontManrope.className} text-lg font-bold opacity-70 mb-2`}>Worker API Model</li>
-                  <li className={`${FontManrope.className} text-lg font-bold opacity-70 mb-2`}>Task Completion Interface</li>
+                  <li className={`${FontManrope.className} text-lg font-bold opacity-70 mb-2`}>
+                    Task Completion Interface
+                  </li>
                 </ul>
               </div>
             </div>
@@ -274,7 +277,9 @@ const Index = (props: Props) => {
               <div>
                 <h3 className={`${FontSpaceMono.className} mb-4 text-xl font-bold uppercase mt-4`}>MAINNET launch</h3>
                 <ul className="">
-                  <li className={`${FontManrope.className} text-lg font-bold opacity-70 mb-2`}>Cross-Subnet Integration</li>
+                  <li className={`${FontManrope.className} text-lg font-bold opacity-70 mb-2`}>
+                    Cross-Subnet Integration
+                  </li>
                   <li className={`${FontManrope.className} text-lg font-bold opacity-70 mb-2`}>Scoring Refinement</li>
                 </ul>
               </div>
@@ -289,7 +294,7 @@ const Index = (props: Props) => {
 const LandingPageLayout = ({ children }: { children: ReactNode }) => (
   <div className="min-h-screen bg-[#FFFFF4] text-black">
     <div className="border-b-2 border-black bg-[#F6F6E6] text-white">
-      <NavigationBar openModal={() => { }} isHomePage />
+      <NavigationBar openModal={() => {}} isHomePage />
     </div>
     <main className="mx-auto">{children}</main>
     <MainFooter />
