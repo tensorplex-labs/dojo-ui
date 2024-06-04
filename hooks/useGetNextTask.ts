@@ -2,7 +2,7 @@ import { getFromLocalStorage } from "@/utils/general_helpers";
 import { useCallback, useState } from "react";
 
 export interface NextTaskResponse {
-    nextTaskId: string;
+    nextInProgressTaskId: string;
 }
 
 export interface TaskResponse {
@@ -11,12 +11,12 @@ export interface TaskResponse {
     error: string | null;
 }
 
-const useGetNextTask = () => {
+const useGetNextInProgressTask = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
     const jwtToken = getFromLocalStorage('jwtToken');
 
-    const fetchNextTask = useCallback(
+    const fetchNextInProgressTask = useCallback(
         async (taskId: string): Promise<NextTaskResponse | null>  => {
             setLoading(true)
             try {
@@ -42,7 +42,7 @@ const useGetNextTask = () => {
         }
     ,[jwtToken])
  
-    return {loading, error, fetchNextTask}
+    return {loading, error, fetchNextInProgressTask}
 }
 
-export default useGetNextTask;
+export default useGetNextInProgressTask ;

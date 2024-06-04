@@ -1,4 +1,4 @@
-import useGetNextTask, { NextTaskResponse } from '@/hooks/useGetNextTask';
+import useGetNextInProgressTask, { NextTaskResponse } from '@/hooks/useGetNextTask';
 import { useSubmit } from '@/providers/submitContext';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -13,7 +13,7 @@ const Footer: React.FC<FooterProps> = (props) => {
     const router = useRouter();
     const { taskId } = router.query;
     const { handleSubmit } = useSubmit();
-    const {fetchNextTask} = useGetNextTask();
+     const { fetchNextInProgressTask } = useGetNextInProgressTask();
 
     const handleSkip = async() => {
         if (!router.isReady) return;
@@ -21,16 +21,13 @@ const Footer: React.FC<FooterProps> = (props) => {
         
         if (!taskId || typeof taskId !== 'string') return;
 
-        nextTaskResponse = await fetchNextTask(taskId);
+        nextTaskResponse = await fetchNextInProgressTask(taskId);
 
         if (!nextTaskResponse) {
             router.push('/')
             return;
         }
-
-        console.log("nextTaskReponse", nextTaskResponse)
-
-        router.push(`/Questions?taskId=${nextTaskResponse.nextTaskId}`) 
+        router.push(`/Questions?taskId=${nextTaskResponse.nextInProgressTaskId}`) 
     }
 
     return (
@@ -46,7 +43,7 @@ const Footer: React.FC<FooterProps> = (props) => {
         </div> */}
         <div className="flex justify-between">
         {/* Stake Amount */}
-            <div className=" flex">
+             <div className=" flex">
                 {/* <div className="w-[290px]">
                     <div className="flex justify-between items-center mb-4">
                         <h1 className={`uppercase ${FontSpaceMono.className} text-base font-bold`}>
