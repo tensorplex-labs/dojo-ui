@@ -79,7 +79,7 @@ const SecondKeyMessageSlide = (props: Props) => {
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     if (!windowHeight) return;
-    const lowerBound = (windowHeight ?? 0) * 2 - 200;
+    const lowerBound = (windowHeight ?? 0) * 2 - 400;
     // const lowerBound = (windowHeight ?? 0) * 2;
     const upperBound = (windowHeight ?? 0) * 2 + KEY_MESSAGE_SCROLL_HEIGHT * 3;
     if (latest > lowerBound && latest < upperBound) setAnimState('show');
