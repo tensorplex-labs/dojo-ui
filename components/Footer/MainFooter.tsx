@@ -44,7 +44,7 @@ const TPLXFooter = ({ className, ...props }: Props) => {
     <div className="bg-background-accent ">
       <div className={cn('border-t-[2px] border-font-primary flex flex-col w-full items-center', 'px-4 py-4')}>
         <div className={cn('w-full  flex flex-col flex-wrap justify-between max-w-[1075px] gap-2', className)}>
-          <div className="flex flex-col sm:flex-row flex-wrap gap-2 justify-between items-center">
+          <div className="flex flex-col flex-wrap items-center justify-between gap-2 sm:flex-row">
             <Link href="/">
               <img className="h-[30px]" src="/logo.svg" alt="logo" />
             </Link>
@@ -69,7 +69,7 @@ const TPLXFooter = ({ className, ...props }: Props) => {
 
           {/* Logos */}
           <div
-            className={`w-full ${FontManrope.className} text-xl font-bold gap-[0px] flex justify-center sm:justify-start items-center`}
+            className={`w-full ${FontManrope.className} flex items-center justify-center gap-0 text-xl font-bold sm:justify-start`}
           >
             {footerLinks.map((link, idx) => {
               return (
@@ -81,7 +81,7 @@ const TPLXFooter = ({ className, ...props }: Props) => {
           </div>
         </div>
       </div>
-      <div className="px-4 py-2 flex items-center justify-center w-full border-t-[2px] border-muted">
+      <div className="flex w-full items-center justify-center border-t-2 border-muted px-4 py-2">
         <div className={cn('max-w-[1075px] grow text-muted-foreground text-xs text-center sm:text-start')}>
           ©2024 Tensorplex Labs - All rights reserved.
         </div>

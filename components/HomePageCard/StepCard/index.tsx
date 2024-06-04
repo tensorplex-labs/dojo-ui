@@ -11,10 +11,10 @@ interface StepCardProps {
 
 const StepCard: React.FC<StepCardProps> = ({ stepNumber, title, description, imageUrl, backgroundGradient }) => {
   return (
-    <div className="w-full h-full rounded-2xl border-2 border-black bg-white p-2 shadow-brut-sm ease-in">
+    <div className="size-full rounded-2xl border-2 border-black bg-white p-2 shadow-brut-sm ease-in">
       <div className="relative">
         <div
-          className="absolute left-[0px] top-[-9px] flex h-[54px] w-[95px] rounded-tl-2xl pl-[8px] pt-[5px]"
+          className="absolute left-0 top-[-9px] flex h-[54px] w-[95px] rounded-tl-2xl pl-[8px] pt-[5px]"
           style={{
             backgroundImage: "url('./steps-bg.svg')",
             backgroundSize: 'contain',
@@ -30,7 +30,7 @@ const StepCard: React.FC<StepCardProps> = ({ stepNumber, title, description, ima
             background: backgroundGradient,
           }}
         >
-          <img src={imageUrl} className="w-full h-[230px] object-cover object-left-top" />
+          <img src={imageUrl} className="h-[230px] w-full object-cover object-left-top" />
         </div>
         <div
           className="absolute bottom-0 left-0 flex h-[145px] w-full flex-col justify-end rounded-2xl px-3 py-4"

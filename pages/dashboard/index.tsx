@@ -140,7 +140,7 @@ const Index = (props: Props) => {
           <h1 className={`${FontSpaceMono.className} text-5xl font-bold uppercase text-black`}>
             Get paid to shape the future of AI
           </h1>
-          <p className={`${FontManrope.className} pr-2 mt-[13px] text-2xl font-semibold text-black text-opacity-50`}>
+          <p className={`${FontManrope.className} mt-[13px] pr-2 text-2xl font-semibold text-black text-opacity-50`}>
             Earn TAO through responding to AI-generated tasks across various domains. Join the crowd-sourced effort to
             build the world's most powerful multimodal AI models.
           </p>
@@ -214,7 +214,7 @@ const Index = (props: Props) => {
             <div className="w-[37%]">
               <StepCard {...steps[0]} />
             </div>
-            <div className="w-[60%]">
+            <div className="w-3/5">
               <StepCard {...steps[1]} />
             </div>
           </div>
@@ -239,7 +239,7 @@ const Index = (props: Props) => {
           background: 'linear-gradient(to bottom, #FFFFF4, #E1F5F4)',
         }}
       >
-        <div className="mx-auto max-w-[1075px] py-20 flex justify-between">
+        <div className="mx-auto flex max-w-[1075px] justify-between py-20">
           <div className="mb-12 mt-[57px]">
             <h1 className={`${FontSpaceMono.className} text-[46px] font-bold uppercase`}>Dojo roadmap</h1>
             <p className={`${FontManrope.className} text-xl font-bold opacity-50`}>
@@ -249,19 +249,19 @@ const Index = (props: Props) => {
           <div className="flex flex-col">
             <div className="flex items-start">
               <div className="mr-8 flex flex-col items-center">
-                <div className="flex h-[67px] w-[67px] items-center justify-center rounded-full border-2 border-black shadow-brut-sm">
+                <div className="flex size-[67px] items-center justify-center rounded-full border-2 border-black shadow-brut-sm">
                   <p className={`${FontManrope.className} text-[32px] font-bold`}>v0</p>
                 </div>
-                <div className="h-32 w-[1px] border-l-[3px] border-dashed border-black border-opacity-50"></div>
+                <div className="h-32 w-px border-l-[3px] border-dashed border-black border-opacity-50"></div>
               </div>
               <div>
-                <h3 className={`${FontSpaceMono.className} mb-4 text-xl font-bold uppercase mt-4`}>Testnet launch</h3>
+                <h3 className={`${FontSpaceMono.className} my-4 text-xl font-bold uppercase`}>Testnet launch</h3>
                 <ul className="">
-                  <li className={`${FontManrope.className} text-lg font-bold opacity-70 mb-2`}>
+                  <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>
                     Synthetic Task Generation
                   </li>
-                  <li className={`${FontManrope.className} text-lg font-bold opacity-70 mb-2`}>Worker API Model</li>
-                  <li className={`${FontManrope.className} text-lg font-bold opacity-70 mb-2`}>
+                  <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>Worker API Model</li>
+                  <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>
                     Task Completion Interface
                   </li>
                 </ul>
@@ -269,18 +269,18 @@ const Index = (props: Props) => {
             </div>
             <div className="flex items-start">
               <div className="mr-8 flex flex-col items-center">
-                <div className="flex h-[67px] w-[67px] items-center justify-center rounded-full border-2 border-black shadow-brut-sm">
+                <div className="flex size-[67px] items-center justify-center rounded-full border-2 border-black shadow-brut-sm">
                   <p className={`${FontManrope.className} text-[32px] font-bold`}>v1</p>
                 </div>
-                <div className="h-32 w-[1px] border-l-[3px] border-dashed border-black border-opacity-50"></div>
+                <div className="h-32 w-px border-l-[3px] border-dashed border-black border-opacity-50"></div>
               </div>
               <div>
-                <h3 className={`${FontSpaceMono.className} mb-4 text-xl font-bold uppercase mt-4`}>MAINNET launch</h3>
+                <h3 className={`${FontSpaceMono.className} my-4 text-xl font-bold uppercase`}>MAINNET launch</h3>
                 <ul className="">
-                  <li className={`${FontManrope.className} text-lg font-bold opacity-70 mb-2`}>
+                  <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>
                     Cross-Subnet Integration
                   </li>
-                  <li className={`${FontManrope.className} text-lg font-bold opacity-70 mb-2`}>Scoring Refinement</li>
+                  <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>Scoring Refinement</li>
                 </ul>
               </div>
             </div>
