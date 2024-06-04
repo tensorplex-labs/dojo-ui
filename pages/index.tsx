@@ -143,7 +143,7 @@ const Index = (props: Props) => {
         <ThirdKeyMessageSlide />
         <div className={`h-[${KEY_MESSAGE_SCROLL_HEIGHT}px] w-full`}></div>
       </div>
-      <section id="third" className="z-[10000] bg-gradient-to-t from-[#FFFFF4] to-[#E1F5F4] mb-20">
+      <section id="third" className="z-[10000] mb-20 bg-gradient-to-t from-[#FFFFF4] to-[#E1F5F4]">
         <motion.div className="mx-auto max-w-[1075px] pt-32">
           <h1 className={`${FontSpaceMono.className} text-5xl font-bold uppercase`}>How does it work?</h1>
           <p className={`${FontManrope.className} text-2xl font-bold opacity-60`}>
@@ -180,13 +180,13 @@ const Index = (props: Props) => {
         }}
       >
         <div className="mx-auto flex max-w-[1075px] justify-between py-20">
-          <div className="w-[60%] h-full">
+          <div className="h-full w-3/5">
             <h1 className={`${FontSpaceMono.className} text-[46px] font-bold uppercase`}>Dojo roadmap</h1>
             <p className={`${FontManrope.className} text-xl font-bold opacity-50`}>
               Our journey to revolutionize AI development
             </p>
           </div>
-          <div className="flex flex-col w-[40%] h-full">
+          <div className="flex h-full w-2/5 flex-col">
             <div className="flex items-start">
               <div className="mr-8 flex flex-col items-center">
                 <div className="flex size-[67px] items-center justify-center rounded-full border-2 border-black shadow-brut-sm">
