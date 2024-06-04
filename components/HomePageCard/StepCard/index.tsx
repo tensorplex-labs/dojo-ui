@@ -30,7 +30,7 @@ const StepCard: React.FC<StepCardProps> = ({ stepNumber, title, description, ima
             background: backgroundGradient,
           }}
         >
-          <img src={imageUrl} className="w-full" />
+          <img src={imageUrl} className="w-full h-[230px] object-cover object-left-top" />
         </div>
         <div
           className="absolute bottom-0 left-0 flex h-[145px] w-full flex-col justify-end rounded-2xl px-3 py-4"
@@ -38,12 +38,9 @@ const StepCard: React.FC<StepCardProps> = ({ stepNumber, title, description, ima
             background: 'linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0))',
           }}
         >
-          <h1 className={`font-bold ${FontManrope.className} text-md mb-2 text-white`}>{title}</h1>
+          <h1 className={`font-bold ${FontManrope.className} text-md mb-2 text-white`}><span dangerouslySetInnerHTML={{ __html: title}}></span></h1>
           <span className={`font-thin ${FontManrope.className} text-sm text-white`}>
-            {description}{' '}
-            <a href="#" className="font-bold underline">
-              GitHub
-            </a>
+          <span dangerouslySetInnerHTML={{ __html: description}}></span>
           </span>
         </div>
       </div>
