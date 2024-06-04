@@ -10,6 +10,20 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        pulseY: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-12px)' },
+        },
+        pulseYandScale: {
+          '0%, 100%': { transform: 'translateY(0) scale(1.4)' },
+          '50%': { transform: 'translateY(-12px) scale(1.9)' },
+        },
+      },
+      animation: {
+        pulseY: 'pulseY 2s ease-in-out infinite',
+        pulseYandScale: 'pulseYandScale 2s ease-in-out infinite',
+      },
       colors: {
         primary: 'hsla(var(--primary))',
         secondary: 'hsla(var(--secondary))',

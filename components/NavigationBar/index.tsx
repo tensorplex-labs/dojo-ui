@@ -1,15 +1,14 @@
-'use client'
-import { useSIWE } from "@/hooks/useSIWE";
-import { FontManrope, FontSpaceMono } from "@/utils/typography";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { TPLXWalletButton } from "../Wallet/tplx-wallet-button-entry";
-const WalletConnect = ({
-  handleWalletConnect,
-}: {
-  handleWalletConnect: () => void;
-}) => {
+'use client';
+import { useSIWE } from '@/hooks/useSIWE';
+import { cn } from '@/utils/tw';
+import { FontManrope, FontSpaceMono } from '@/utils/typography';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import GetStartedButton from '../Button/GetStarted';
+import { TPLXButton } from '../TPLXButton';
+import { TPLXWalletButton } from '../Wallet/tplx-wallet-button-entry';
+const WalletConnect = ({ handleWalletConnect }: { handleWalletConnect: () => void }) => {
   return (
     <button
       onClick={handleWalletConnect}
@@ -71,9 +70,10 @@ const TPLXMobileMenu = ({
 
 type NavigationBarProps = {
   openModal: () => void;
+  isHomePage?: boolean;
 };
 // NavigationBar component
-const NavigationBar = ({ openModal }: NavigationBarProps) => {
+const NavigationBar = ({ openModal, isHomePage }: NavigationBarProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [isWalletModalOpen, setIsWalletModalOpen] = useState(false);
@@ -128,21 +128,28 @@ const NavigationBar = ({ openModal }: NavigationBarProps) => {
                 ))}
               </div>
             </div>
-            <div className="flex gap-3">
-              <div className="flex items-center justify-center gap-[8px]">
-                <TPLXWalletButton openModal={openModal}></TPLXWalletButton>
-              </div>
-              {/* <div className="flex items-center justify-center gap-[8px]">
-                <TPLXButton
-                  className={cn(
-                    FontSpaceMono.className,
-                    'text-xs uppercase md:text-sm bg-primary rounded-none border-[2px] border-black text-font-secondary hover:shadow-brut-sm',
-                  )}
-                  onClick={() => router.push('/apply')}
-                >
-                  {`I'm a miner`}
-                </TPLXButton>
-              </div> */}
+            <div className="flex items-center gap-3">
+              {!isHomePage ? (
+                <>
+                  <div className="flex items-center justify-center gap-[8px]">
+                    <TPLXWalletButton openModal={openModal}></TPLXWalletButton>
+                  </div>
+                  <div className="flex items-center justify-center gap-[8px]">
+                    <TPLXButton
+                      className={cn(
+                        FontSpaceMono.className,
+                        'rounded-none border-[2px] border-black bg-primary text-xs uppercase text-font-secondary hover:shadow-brut-sm md:text-sm'
+                      )}
+                      onClick={() => router.push('/apply')}
+                    >
+                      {`I'm a miner`}
+                    </TPLXButton>
+                  </div>
+                </>
+              ) : (
+                <GetStartedButton />
+                // <div className="rounded-[10px] bg-[#00B6A6] font-bold uppercase text-white">Get started</div>
+              )}
             </div>
           </div>
         </div>
