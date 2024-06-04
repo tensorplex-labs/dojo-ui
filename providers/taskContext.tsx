@@ -1,3 +1,7 @@
+/**
+ * Currently, this file is not being used. But, will leave it here for awhile.
+ */
+
 'use client';
 import { Pagination, Task, TasksResponse, taskStatus } from '@/hooks/useGetTasks';
 import { getFromLocalStorage } from '@/utils/general_helpers';
@@ -18,7 +22,7 @@ const defaultContextValue: TaskContextType = {
   getNextTaskId: () => {},
 };
 
-const LIMIT=100;
+const LIMIT = 100;
 
 const calculateNextPageForLimit = (currentPage: number, currentLimit: number, targetLimit: number): number => {
   // Total tasks fetched up to the current page
@@ -27,7 +31,6 @@ const calculateNextPageForLimit = (currentPage: number, currentLimit: number, ta
   // Calculate the page number for the target limit to start fetching the next set of tasks
   return Math.floor(tasksFetched / targetLimit) + 1;
 };
-
 
 const TaskContext = createContext<TaskContextType>(defaultContextValue);
 
