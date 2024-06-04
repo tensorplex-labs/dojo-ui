@@ -69,7 +69,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
   const {triggerTaskPageReload, setTriggerTaskPageReload} = useSubmit();
 
   useEffect(()=>{
-    setTriggerTaskPageReload(true);
+    setTriggerTaskPageReload(prev => !prev);
   },[refetchTrigger])  
   
   const handleEdit = (item: SubscriptionData) => {
