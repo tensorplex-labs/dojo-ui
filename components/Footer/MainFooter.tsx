@@ -42,18 +42,8 @@ interface Props extends HTMLAttributes<HTMLDivElement> {}
 const TPLXFooter = ({ className, ...props }: Props) => {
   return (
     <div className="bg-background-accent ">
-      <div
-        className={cn(
-          'border-t-[2px] border-font-primary flex flex-col w-full items-center',
-          'px-4 py-4',
-        )}
-      >
-        <div
-          className={cn(
-            'w-full  flex flex-col flex-wrap justify-between max-w-[1075px] gap-2',
-            className,
-          )}
-        >
+      <div className={cn('border-t-[2px] border-font-primary flex flex-col w-full items-center', 'px-4 py-4')}>
+        <div className={cn('w-full  flex flex-col flex-wrap justify-between max-w-[1075px] gap-2', className)}>
           <div className="flex flex-col flex-wrap items-center justify-between gap-2 sm:flex-row">
             <Link href="/">
               <img className="h-[30px]" src="/logo.svg" alt="logo" />
@@ -78,7 +68,9 @@ const TPLXFooter = ({ className, ...props }: Props) => {
           </div>
 
           {/* Logos */}
-          <div className={`w-full ${FontManrope.className} flex items-center justify-center gap-0 text-xl font-bold sm:justify-start`}>
+          <div
+            className={`w-full ${FontManrope.className} flex items-center justify-center gap-0 text-xl font-bold sm:justify-start`}
+          >
             {footerLinks.map((link, idx) => {
               return (
                 <a key={`footerlink_${link.alt}_${idx}`} target="_blank" rel="noreferrer" href={link.url}>
@@ -90,11 +82,7 @@ const TPLXFooter = ({ className, ...props }: Props) => {
         </div>
       </div>
       <div className="flex w-full items-center justify-center border-t-2 border-muted px-4 py-2">
-        <div
-          className={cn(
-            'max-w-[1075px] grow text-muted-foreground text-xs text-center sm:text-start',
-          )}
-        >
+        <div className={cn('max-w-[1075px] grow text-muted-foreground text-xs text-center sm:text-start')}>
           ©2024 Tensorplex Labs - All rights reserved.
         </div>
       </div>

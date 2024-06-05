@@ -99,7 +99,7 @@ const NavigationBar = ({ openModal, isHomePage }: NavigationBarProps) => {
   const headerItems = [
     // { title: "Home", url: "/" },
     // { title: "Dashboard", url: "/quest" },
-    { title: "Task List", url: "/task-list" },
+    { title: 'Task List', url: '/task-list' },
     { title: 'FAQ', url: '/faq' },
   ];
 

@@ -26,8 +26,7 @@ const steps = [
   {
     stepNumber: 2,
     title: 'Creating an account',
-    description:
-      'Connect metamask wallet',
+    description: 'Connect metamask wallet',
     imageUrl: './step2.png',
     backgroundGradient: 'linear-gradient(to bottom, #00B6A6, #005049)',
   },
@@ -66,7 +65,7 @@ const minerSteps = [
   {
     stepNumber: 2,
     title: 'Wallet authentication',
-    description:'After setting up your miner, authenticate using CLI',
+    description: 'After setting up your miner, authenticate using CLI',
     imageUrl: './minerStep2.png',
     backgroundGradient: 'linear-gradient(to bottom, #00B6A6, #005049)',
   },
@@ -76,7 +75,7 @@ const minerSteps = [
     description: 'Generate API and subscription keys using CLI',
     imageUrl: './minerStep3.png',
     backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
-  }
+  },
 ];
 
 export const KEY_MESSAGE_SCROLL_HEIGHT = 800;
@@ -178,9 +177,7 @@ const Index = (props: Props) => {
           {/* <p className={`${FontManrope.className} text-2xl font-bold opacity-60`}>
             Five simple steps to get you started!
           </p> */}
-          <p className={`${FontManrope.className} text-2xl font-bold opacity-90`}>
-            {'For Workers/Contributors'}
-          </p>
+          <p className={`${FontManrope.className} text-2xl font-bold opacity-90`}>{'For Workers/Contributors'}</p>
           <div className="mb-3 mt-6 flex justify-between">
             <div className="w-[37%]">
               <StepCard {...steps[0]} />
@@ -200,9 +197,7 @@ const Index = (props: Props) => {
               <StepCard {...steps[4]} />
             </div>
           </div>
-          <p className={`${FontManrope.className} pt-10 text-2xl font-bold opacity-90`}>
-            {'For Miners'}
-          </p>
+          <p className={`${FontManrope.className} pt-10 text-2xl font-bold opacity-90`}>{'For Miners'}</p>
           <div className="mb-3 mt-6 flex justify-between">
             <div className="w-[31.5%]">
               <StepCard {...minerSteps[0]} />
