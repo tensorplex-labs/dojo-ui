@@ -17,39 +17,66 @@ import useDojoWorkerCount from '@/hooks/useDojoWorkerCount';
 const steps = [
   {
     stepNumber: 1,
-    title: 'Sign up for a Dojo Subnet Miner',
-    description: 'Click here to open the link to',
+    title: 'Go to task list',
+    description:
+      '<a href="https://dojo.tensorplex.ai/task-list" target="_blank" style="text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none; font-weight: 700;" className="">dojo.tensorplex.ai/task-list</a>',
     imageUrl: './step1.png',
     backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
   },
   {
     stepNumber: 2,
-    title: 'Sign up for a Dojo Subnet Miner',
-    description: 'Click here to open the link to',
+    title: 'Creating an account',
+    description:
+      'Connect metamask wallet',
     imageUrl: './step2.png',
     backgroundGradient: 'linear-gradient(to bottom, #00B6A6, #005049)',
   },
   {
     stepNumber: 3,
-    title: 'Sign up for a Dojo Subnet Miner',
-    description: 'Click here to open the link to',
-    imageUrl: './step1.png',
+    title: 'Input subscription keys',
+    description: 'Obtain subscription key from miners and save it',
+    imageUrl: './step3.png',
     backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
   },
   {
     stepNumber: 4,
-    title: 'Sign up for a Dojo Subnet Miner',
-    description: 'Click here to open the link to',
-    imageUrl: './step1.png',
+    title: 'Start contributing',
+    description: 'Start working on available tasks',
+    imageUrl: './step4.png',
     backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
   },
   {
     stepNumber: 5,
-    title: 'Sign up for a Dojo Subnet Miner',
-    description: 'Click here to open the link to',
-    imageUrl: './step1.png',
+    title: 'Get rewarded',
+    description: 'Get paid for your contribution to open source AI',
+    imageUrl: './step5.png',
     backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
   },
+];
+
+const minerSteps = [
+  {
+    stepNumber: 1,
+    title: 'Set up your miner',
+    description:
+      'Visit <a href="https://github.com/tensorplex-labs/dojo-subnet" target="_blank" style="text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none; font-weight: 700;" className="">Dojo GitHub</a> to set up the Dojo Subnet Miner',
+    imageUrl: './minerStep1.png',
+    backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
+  },
+  {
+    stepNumber: 2,
+    title: 'Wallet authentication',
+    description:'After setting up your miner, authenticate using CLI',
+    imageUrl: './minerStep2.png',
+    backgroundGradient: 'linear-gradient(to bottom, #00B6A6, #005049)',
+  },
+  {
+    stepNumber: 3,
+    title: 'Generate API and Subscription keys',
+    description: 'Generate API and subscription keys using CLI',
+    imageUrl: './minerStep3.png',
+    backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
+  }
 ];
 
 export const KEY_MESSAGE_SCROLL_HEIGHT = 800;
@@ -145,12 +172,16 @@ const Index = (props: Props) => {
       </div>
       <section id="third" className="z-[10000] mb-20 bg-gradient-to-t from-[#FFFFF4] to-[#E1F5F4]">
         <motion.div className="mx-auto max-w-[1075px] pt-32">
-          <h1 className={`${FontSpaceMono.className} text-5xl font-bold uppercase`}>How does it work?</h1>
-          <p className={`${FontManrope.className} text-2xl font-bold opacity-60`}>
-            Five simple steps to get you started!
-          </p>
+          {/* <h1 className={`${FontSpaceMono.className} text-5xl font-bold uppercase`}>How does it work?</h1> */}
+          <h1 className={`${FontSpaceMono.className} text-5xl font-bold uppercase mb-5`}>How to get started?</h1>
 
-          <div className="mb-3 mt-6 flex justify-between pt-6">
+          {/* <p className={`${FontManrope.className} text-2xl font-bold opacity-60`}>
+            Five simple steps to get you started!
+          </p> */}
+          <p className={`${FontManrope.className} text-xl font-bold opacity-90`}>
+            {'For Workers/Contributors'}
+          </p>
+          <div className="mb-3 mt-6 flex justify-between">
             <div className="w-[37%]">
               <StepCard {...steps[0]} />
             </div>
@@ -158,7 +189,6 @@ const Index = (props: Props) => {
               <StepCard {...steps[1]} />
             </div>
           </div>
-
           <div className="mb-3 mt-6 flex justify-between">
             <div className="w-[31.5%]">
               <StepCard {...steps[2]} />
@@ -168,6 +198,20 @@ const Index = (props: Props) => {
             </div>
             <div className="w-[31.5%]">
               <StepCard {...steps[4]} />
+            </div>
+          </div>
+          <p className={`${FontManrope.className} text-xl font-bold opacity-90 pt-10`}>
+            {'For Miners'}
+          </p>
+          <div className="mb-3 mt-6 flex justify-between">
+            <div className="w-[31.5%]">
+              <StepCard {...minerSteps[0]} />
+            </div>
+            <div className="w-[31.5%]">
+              <StepCard {...minerSteps[1]} />
+            </div>
+            <div className="w-[31.5%]">
+              <StepCard {...minerSteps[2]} />
             </div>
           </div>
         </motion.div>
