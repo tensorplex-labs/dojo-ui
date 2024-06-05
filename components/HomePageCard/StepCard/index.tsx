@@ -30,7 +30,7 @@ const StepCard: React.FC<StepCardProps> = ({ stepNumber, title, description, ima
             background: backgroundGradient,
           }}
         >
-          <img src={imageUrl} className="h-[230px] w-full object-cover object-left-top" />
+          <img src={imageUrl} className="h-[230px] w-full object-cover rounded-[15px] object-left-top" />
         </div>
         <div
           className="absolute bottom-0 left-0 flex h-[145px] w-full flex-col justify-end rounded-2xl px-3 py-4"

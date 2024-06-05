@@ -166,13 +166,13 @@ const FirstKeyMessageSlide = () => {
   });
 
   return (
-    <section className="sticky top-0 flex h-screen w-full justify-center overflow-hidden border-t-4 border-solid border-black">
-      <Image src="/grid.svg" alt="Example Icon" width={100} height={100} className="absolute w-full opacity-[0.03]" />
+    <section className="sticky top-0 flex h-[200vh] w-full justify-center overflow-hidden border-t-4 border-solid border-black">
+      <Image src="/grid.svg" alt="Example Icon" width={100} height={200} className="absolute w-full opacity-[0.03]" />
       <motion.div
         variants={elemAnimParentVariant}
         initial="hide"
         animate={animState}
-        className="flex size-full max-w-4xl flex-col items-center justify-evenly p-4"
+        className="flex w-full h-screen max-w-4xl flex-col items-center justify-evenly p-4"
       >
         <div className="text-center">
           <div className="overflow-hidden">
