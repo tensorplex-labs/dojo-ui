@@ -24,7 +24,7 @@ const Footer: React.FC<FooterProps> = (props) => {
         nextTaskResponse = await fetchNextInProgressTask(taskId);
 
         if (!nextTaskResponse) {
-            router.push('/')
+            router.push('/task-list')
             return;
         }
         router.push(`/Questions?taskId=${nextTaskResponse.nextInProgressTaskId}`) 
