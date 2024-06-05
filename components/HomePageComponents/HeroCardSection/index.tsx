@@ -1,6 +1,7 @@
 import GetStartedButton from '@/components/Button/GetStarted';
 import MultiSelectCardFrame from '@/components/HomePageCard/MultiSelectCardFrame';
 import SliderCardFrame from '@/components/HomePageCard/SliderCardFrame';
+import useAverageTaskCompletionTime from '@/hooks/useAverageTaskCompletionTime';
 import useCompletedTasksCount from '@/hooks/useCompletedTasksCount';
 import useDojoWorkerCount from '@/hooks/useDojoWorkerCount';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
@@ -14,8 +15,7 @@ const HeroCardSection = () => {
 
   const { numDojoWorkers } = useDojoWorkerCount();
   const { numCompletedTasks } = useCompletedTasksCount();
-  // const { averageTaskCompletionTime } = useAverageTaskCompletionTime();
-  const averageTaskCompletionTime = 32000;
+  const { averageTaskCompletionTime } = useAverageTaskCompletionTime();
   const [scrollYPosition, setScrollYPosition] = useState(0);
   const [mouseX, setMouseX] = useState(0);
   const [mouseY, setMouseY] = useState(0);
