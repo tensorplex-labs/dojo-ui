@@ -11,7 +11,7 @@ interface StepCardProps {
 
 const StepCard: React.FC<StepCardProps> = ({ stepNumber, title, description, imageUrl, backgroundGradient }) => {
   return (
-    <div className="size-full rounded-[15px] border-2 border-black bg-white p-2 shadow-brut-sm ease-in">
+    <div className="size-full rounded-[15px] border-2 border-black bg-white p-2 ease-in hover:shadow-brut-sm">
       <div className="relative">
         <div
           className="absolute left-0 top-[-9px] flex h-[54px] w-[95px] rounded-tl-2xl pl-[8px] pt-[5px]"
