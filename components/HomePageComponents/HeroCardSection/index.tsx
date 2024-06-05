@@ -6,7 +6,7 @@ import useCompletedTasksCount from '@/hooks/useCompletedTasksCount';
 import useDojoWorkerCount from '@/hooks/useDojoWorkerCount';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import CountUp from 'react-countup';
 
 const HeroCardSection = () => {
@@ -16,12 +16,26 @@ const HeroCardSection = () => {
   const { numDojoWorkers } = useDojoWorkerCount();
   const { numCompletedTasks } = useCompletedTasksCount();
   const { averageTaskCompletionTime } = useAverageTaskCompletionTime();
-
   const [scrollYPosition, setScrollYPosition] = useState(0);
   const [mouseX, setMouseX] = useState(0);
   const [mouseY, setMouseY] = useState(0);
   const opacity = useTransform(scrollYProgress, [0, 0.15, 0.3], [1, 1, 0]);
+  const formatTime = useCallback((value: number) => {
+    const hours = Math.floor(value / 3600);
+    const minutes = Math.floor((value % 3600) / 60);
+    const seconds = value % 60;
 
+    if (hours > 0) {
+      const formattedHours = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} hrs`;
+      return formattedHours;
+    } else if (minutes > 0) {
+      const formattedMinutes = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} mins`;
+      return formattedMinutes;
+    } else {
+      const formattedSeconds = `${seconds.toString().padStart(2, '0')} secs`;
+      return formattedSeconds;
+    }
+  }, []);
   return (
     <motion.section
       id="first"
@@ -50,21 +64,14 @@ const HeroCardSection = () => {
               {/* Rewards paid out (usd) */}
               Average Task Completion Time
             </h3>
-            <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}>
-              {averageTaskCompletionTime && averageTaskCompletionTime > 60 && (
-                <>
-                  <CountUp start={0} end={Math.floor(averageTaskCompletionTime / 60)} duration={3} startOnMount />:
-                </>
-              )}
+            <h3 className={` ${FontManrope.className} text-[32px] font-extrabold`} key={averageTaskCompletionTime}>
               <CountUp
                 start={0}
-                end={averageTaskCompletionTime ? averageTaskCompletionTime % 60 : 30}
+                end={averageTaskCompletionTime || 0}
                 duration={3}
                 startOnMount
+                formattingFn={formatTime}
               />
-              <span className="lowercase">{`${
-                averageTaskCompletionTime && averageTaskCompletionTime >= 60 ? 'min' : 'sec'
-              }`}</span>
             </h3>
           </div>
           <div>

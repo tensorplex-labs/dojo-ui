@@ -1,4 +1,4 @@
-import { CellContext } from "@tanstack/react-table";
+import { CellContext } from '@tanstack/react-table';
 
 interface HeaderItem {
   title: string;
@@ -7,12 +7,8 @@ interface HeaderItem {
 
 export const headerItems: Array<HeaderItem> = [
   {
-    title: 'Stake',
-    url: '/',
-  },
-  {
-    title: 'Transparency',
-    url: '/transparency',
+    title: 'Task List',
+    url: '/task-list',
   },
   {
     title: 'FAQ',
@@ -24,10 +20,10 @@ export const headerItems: Array<HeaderItem> = [
   },
 ];
 export const dropdownOptions = [
-  { text: "Most Attempted" },
-  { text: "Most Recent" },
+  { text: 'Most Attempted' },
+  { text: 'Most Recent' },
   // { text: "Highest Potential Yield" },
-  { text: "Least Difficult" },
+  { text: 'Least Difficult' },
 ];
 export interface FrequentlyAccessedProps {
   title: string;
@@ -41,26 +37,28 @@ export interface FrequentlyAccessedProps {
 }
 export const TensorplexProducts: FrequentlyAccessedProps[] = [
   {
-    title: "Tensorplex Stake",
-    description: "Deposit wTAO on Ethereum and receive stTAO which represents your share of TAO staked on the Bittensor Finney Network",
+    title: 'Tensorplex Stake',
+    description:
+      'Deposit wTAO on Ethereum and receive stTAO which represents your share of TAO staked on the Bittensor Finney Network',
     isLong: true,
     isRoutable: true,
-    type: "product",
+    type: 'product',
     route: 'https://stake.tensorplex.ai/',
   },
   {
-    title: "Tensorplex Stream",
-    description: "Discover insights from key opinion leaders in Web3 with content curated from the Tensorplex Team",
+    title: 'Tensorplex Stream',
+    description: 'Discover insights from key opinion leaders in Web3 with content curated from the Tensorplex Team',
     isLong: true,
-    type: "product",
+    type: 'product',
     isRoutable: true,
     route: 'https://stream.tensorplex.ai/',
   },
   {
-    title: "Tensorplex Dojo",
-    description: "Dojo is a decentralized platform that leverages the collective power of human insights to train AI models.",
+    title: 'Tensorplex Dojo',
+    description:
+      'Dojo is a decentralized platform that leverages the collective power of human insights to train AI models.',
     isLong: true,
-    type: "product",
+    type: 'product',
     isRoutable: true,
     route: '/',
   },
@@ -68,17 +66,17 @@ export const TensorplexProducts: FrequentlyAccessedProps[] = [
 
 export const frequentlyAccessedData: FrequentlyAccessedProps[] = [
   {
-    title: "Tensorplex AI Chatbot",
-    description: "Ask anything and everything about Web3",
+    title: 'Tensorplex AI Chatbot',
+    description: 'Ask anything and everything about Web3',
     isLong: false,
-    type: "page",
+    type: 'page',
     route: 'https://stream.tensorplex.ai/TensorplexAIChatbot',
   },
   {
-    title: "Podcasts",
-    description: "Access to our curated list of more than 1900 podcasts",
+    title: 'Podcasts',
+    description: 'Access to our curated list of more than 1900 podcasts',
     isLong: false,
-    type: "page",
+    type: 'page',
     route: 'https://stream.tensorplex.ai',
   },
 ];
@@ -116,423 +114,423 @@ export const frequentlyAccessedData: FrequentlyAccessedProps[] = [
 
 export const mockData = [
   {
-    "name": "Item 1",
-    "type": "Object Detection",
-    "yield": "1 stTAO",
-    "expiry": "Expired",
-    "slotsFilled": "5/10",
-    "operations": "Operation Data"
+    name: 'Item 1',
+    type: 'Object Detection',
+    yield: '1 stTAO',
+    expiry: 'Expired',
+    slotsFilled: '5/10',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 2",
-    "type": "Content Classification",
-    "yield": "2 stTAO",
-    "expiry": "14m",
-    "slotsFilled": "5/14",
-    "operations": "Operation Data"
+    name: 'Item 2',
+    type: 'Content Classification',
+    yield: '2 stTAO',
+    expiry: '14m',
+    slotsFilled: '5/14',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 3",
-    "type": "Semantic Segmentation",
-    "yield": "3 stTAO",
-    "expiry": "8m",
-    "slotsFilled": "2/9",
-    "operations": "Operation Data"
+    name: 'Item 3',
+    type: 'Semantic Segmentation',
+    yield: '3 stTAO',
+    expiry: '8m',
+    slotsFilled: '2/9',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 4",
-    "type": "Named Entity Recognition",
-    "yield": "4 stTAO",
-    "expiry": "5m",
-    "slotsFilled": "4/8",
-    "operations": "Operation Data"
+    name: 'Item 4',
+    type: 'Named Entity Recognition',
+    yield: '4 stTAO',
+    expiry: '5m',
+    slotsFilled: '4/8',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 5",
-    "type": "Object & Event Detection",
-    "yield": "5 stTAO",
-    "expiry": "24m",
-    "slotsFilled": "2/8",
-    "operations": "Operation Data"
+    name: 'Item 5',
+    type: 'Object & Event Detection',
+    yield: '5 stTAO',
+    expiry: '24m',
+    slotsFilled: '2/8',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 6",
-    "type": "Object Detection",
-    "yield": "6 stTAO",
-    "expiry": "53m",
-    "slotsFilled": "9/14",
-    "operations": "Operation Data"
+    name: 'Item 6',
+    type: 'Object Detection',
+    yield: '6 stTAO',
+    expiry: '53m',
+    slotsFilled: '9/14',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 7",
-    "type": "Content Classification",
-    "yield": "7 stTAO",
-    "expiry": "34m",
-    "slotsFilled": "9/9",
-    "operations": "Operation Data"
+    name: 'Item 7',
+    type: 'Content Classification',
+    yield: '7 stTAO',
+    expiry: '34m',
+    slotsFilled: '9/9',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 8",
-    "type": "Semantic Segmentation",
-    "yield": "8 stTAO",
-    "expiry": "18m",
-    "slotsFilled": "7/7",
-    "operations": "Operation Data"
+    name: 'Item 8',
+    type: 'Semantic Segmentation',
+    yield: '8 stTAO',
+    expiry: '18m',
+    slotsFilled: '7/7',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 9",
-    "type": "Named Entity Recognition",
-    "yield": "9 stTAO",
-    "expiry": "26m",
-    "slotsFilled": "5/11",
-    "operations": "Operation Data"
+    name: 'Item 9',
+    type: 'Named Entity Recognition',
+    yield: '9 stTAO',
+    expiry: '26m',
+    slotsFilled: '5/11',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 10",
-    "type": "Object & Event Detection",
-    "yield": "10 stTAO",
-    "expiry": "20m",
-    "slotsFilled": "8/9",
-    "operations": "Operation Data"
+    name: 'Item 10',
+    type: 'Object & Event Detection',
+    yield: '10 stTAO',
+    expiry: '20m',
+    slotsFilled: '8/9',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 11",
-    "type": "Object Detection",
-    "yield": "11 stTAO",
-    "expiry": "47m",
-    "slotsFilled": "4/11",
-    "operations": "Operation Data"
+    name: 'Item 11',
+    type: 'Object Detection',
+    yield: '11 stTAO',
+    expiry: '47m',
+    slotsFilled: '4/11',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 12",
-    "type": "Content Classification",
-    "yield": "12 stTAO",
-    "expiry": "53m",
-    "slotsFilled": "1/11",
-    "operations": "Operation Data"
+    name: 'Item 12',
+    type: 'Content Classification',
+    yield: '12 stTAO',
+    expiry: '53m',
+    slotsFilled: '1/11',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 13",
-    "type": "Semantic Segmentation",
-    "yield": "13 stTAO",
-    "expiry": "55m",
-    "slotsFilled": "4/12",
-    "operations": "Operation Data"
+    name: 'Item 13',
+    type: 'Semantic Segmentation',
+    yield: '13 stTAO',
+    expiry: '55m',
+    slotsFilled: '4/12',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 14",
-    "type": "Named Entity Recognition",
-    "yield": "14 stTAO",
-    "expiry": "58m",
-    "slotsFilled": "10/14",
-    "operations": "Operation Data"
+    name: 'Item 14',
+    type: 'Named Entity Recognition',
+    yield: '14 stTAO',
+    expiry: '58m',
+    slotsFilled: '10/14',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 15",
-    "type": "Object & Event Detection",
-    "yield": "15 stTAO",
-    "expiry": "5m",
-    "slotsFilled": "4/4",
-    "operations": "Operation Data"
+    name: 'Item 15',
+    type: 'Object & Event Detection',
+    yield: '15 stTAO',
+    expiry: '5m',
+    slotsFilled: '4/4',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 16",
-    "type": "Object Detection",
-    "yield": "16 stTAO",
-    "expiry": "58m",
-    "slotsFilled": "3/5",
-    "operations": "Operation Data"
+    name: 'Item 16',
+    type: 'Object Detection',
+    yield: '16 stTAO',
+    expiry: '58m',
+    slotsFilled: '3/5',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 17",
-    "type": "Content Classification",
-    "yield": "17 stTAO",
-    "expiry": "38m",
-    "slotsFilled": "8/10",
-    "operations": "Operation Data"
+    name: 'Item 17',
+    type: 'Content Classification',
+    yield: '17 stTAO',
+    expiry: '38m',
+    slotsFilled: '8/10',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 18",
-    "type": "Semantic Segmentation",
-    "yield": "18 stTAO",
-    "expiry": "33m",
-    "slotsFilled": "6/13",
-    "operations": "Operation Data"
+    name: 'Item 18',
+    type: 'Semantic Segmentation',
+    yield: '18 stTAO',
+    expiry: '33m',
+    slotsFilled: '6/13',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 19",
-    "type": "Named Entity Recognition",
-    "yield": "19 stTAO",
-    "expiry": "52m",
-    "slotsFilled": "10/12",
-    "operations": "Operation Data"
+    name: 'Item 19',
+    type: 'Named Entity Recognition',
+    yield: '19 stTAO',
+    expiry: '52m',
+    slotsFilled: '10/12',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 20",
-    "type": "Object & Event Detection",
-    "yield": "20 stTAO",
-    "expiry": "25m",
-    "slotsFilled": "3/4",
-    "operations": "Operation Data"
+    name: 'Item 20',
+    type: 'Object & Event Detection',
+    yield: '20 stTAO',
+    expiry: '25m',
+    slotsFilled: '3/4',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 21",
-    "type": "Object Detection",
-    "yield": "21 stTAO",
-    "expiry": "10m",
-    "slotsFilled": "5/9",
-    "operations": "Operation Data"
+    name: 'Item 21',
+    type: 'Object Detection',
+    yield: '21 stTAO',
+    expiry: '10m',
+    slotsFilled: '5/9',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 22",
-    "type": "Content Classification",
-    "yield": "22 stTAO",
-    "expiry": "29m",
-    "slotsFilled": "9/11",
-    "operations": "Operation Data"
+    name: 'Item 22',
+    type: 'Content Classification',
+    yield: '22 stTAO',
+    expiry: '29m',
+    slotsFilled: '9/11',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 23",
-    "type": "Semantic Segmentation",
-    "yield": "23 stTAO",
-    "expiry": "58m",
-    "slotsFilled": "1/4",
-    "operations": "Operation Data"
+    name: 'Item 23',
+    type: 'Semantic Segmentation',
+    yield: '23 stTAO',
+    expiry: '58m',
+    slotsFilled: '1/4',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 24",
-    "type": "Named Entity Recognition",
-    "yield": "24 stTAO",
-    "expiry": "48m",
-    "slotsFilled": "2/3",
-    "operations": "Operation Data"
+    name: 'Item 24',
+    type: 'Named Entity Recognition',
+    yield: '24 stTAO',
+    expiry: '48m',
+    slotsFilled: '2/3',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 25",
-    "type": "Object & Event Detection",
-    "yield": "25 stTAO",
-    "expiry": "27m",
-    "slotsFilled": "10/10",
-    "operations": "Operation Data"
+    name: 'Item 25',
+    type: 'Object & Event Detection',
+    yield: '25 stTAO',
+    expiry: '27m',
+    slotsFilled: '10/10',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 26",
-    "type": "Object Detection",
-    "yield": "26 stTAO",
-    "expiry": "22m",
-    "slotsFilled": "5/12",
-    "operations": "Operation Data"
+    name: 'Item 26',
+    type: 'Object Detection',
+    yield: '26 stTAO',
+    expiry: '22m',
+    slotsFilled: '5/12',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 27",
-    "type": "Content Classification",
-    "yield": "27 stTAO",
-    "expiry": "11m",
-    "slotsFilled": "9/13",
-    "operations": "Operation Data"
+    name: 'Item 27',
+    type: 'Content Classification',
+    yield: '27 stTAO',
+    expiry: '11m',
+    slotsFilled: '9/13',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 28",
-    "type": "Semantic Segmentation",
-    "yield": "28 stTAO",
-    "expiry": "51m",
-    "slotsFilled": "8/11",
-    "operations": "Operation Data"
+    name: 'Item 28',
+    type: 'Semantic Segmentation',
+    yield: '28 stTAO',
+    expiry: '51m',
+    slotsFilled: '8/11',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 29",
-    "type": "Named Entity Recognition",
-    "yield": "29 stTAO",
-    "expiry": "21m",
-    "slotsFilled": "2/13",
-    "operations": "Operation Data"
+    name: 'Item 29',
+    type: 'Named Entity Recognition',
+    yield: '29 stTAO',
+    expiry: '21m',
+    slotsFilled: '2/13',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 30",
-    "type": "Object & Event Detection",
-    "yield": "30 stTAO",
-    "expiry": "26m",
-    "slotsFilled": "7/8",
-    "operations": "Operation Data"
+    name: 'Item 30',
+    type: 'Object & Event Detection',
+    yield: '30 stTAO',
+    expiry: '26m',
+    slotsFilled: '7/8',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 31",
-    "type": "Object Detection",
-    "yield": "31 stTAO",
-    "expiry": "20m",
-    "slotsFilled": "8/11",
-    "operations": "Operation Data"
+    name: 'Item 31',
+    type: 'Object Detection',
+    yield: '31 stTAO',
+    expiry: '20m',
+    slotsFilled: '8/11',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 32",
-    "type": "Content Classification",
-    "yield": "32 stTAO",
-    "expiry": "16m",
-    "slotsFilled": "4/14",
-    "operations": "Operation Data"
+    name: 'Item 32',
+    type: 'Content Classification',
+    yield: '32 stTAO',
+    expiry: '16m',
+    slotsFilled: '4/14',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 33",
-    "type": "Semantic Segmentation",
-    "yield": "33 stTAO",
-    "expiry": "33m",
-    "slotsFilled": "9/13",
-    "operations": "Operation Data"
+    name: 'Item 33',
+    type: 'Semantic Segmentation',
+    yield: '33 stTAO',
+    expiry: '33m',
+    slotsFilled: '9/13',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 34",
-    "type": "Named Entity Recognition",
-    "yield": "34 stTAO",
-    "expiry": "53m",
-    "slotsFilled": "10/10",
-    "operations": "Operation Data"
+    name: 'Item 34',
+    type: 'Named Entity Recognition',
+    yield: '34 stTAO',
+    expiry: '53m',
+    slotsFilled: '10/10',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 35",
-    "type": "Object & Event Detection",
-    "yield": "35 stTAO",
-    "expiry": "32m",
-    "slotsFilled": "7/14",
-    "operations": "Operation Data"
+    name: 'Item 35',
+    type: 'Object & Event Detection',
+    yield: '35 stTAO',
+    expiry: '32m',
+    slotsFilled: '7/14',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 36",
-    "type": "Object Detection",
-    "yield": "36 stTAO",
-    "expiry": "38m",
-    "slotsFilled": "3/6",
-    "operations": "Operation Data"
+    name: 'Item 36',
+    type: 'Object Detection',
+    yield: '36 stTAO',
+    expiry: '38m',
+    slotsFilled: '3/6',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 37",
-    "type": "Content Classification",
-    "yield": "37 stTAO",
-    "expiry": "59m",
-    "slotsFilled": "6/7",
-    "operations": "Operation Data"
+    name: 'Item 37',
+    type: 'Content Classification',
+    yield: '37 stTAO',
+    expiry: '59m',
+    slotsFilled: '6/7',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 38",
-    "type": "Semantic Segmentation",
-    "yield": "38 stTAO",
-    "expiry": "10m",
-    "slotsFilled": "10/10",
-    "operations": "Operation Data"
+    name: 'Item 38',
+    type: 'Semantic Segmentation',
+    yield: '38 stTAO',
+    expiry: '10m',
+    slotsFilled: '10/10',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 39",
-    "type": "Named Entity Recognition",
-    "yield": "39 stTAO",
-    "expiry": "34m",
-    "slotsFilled": "4/6",
-    "operations": "Operation Data"
+    name: 'Item 39',
+    type: 'Named Entity Recognition',
+    yield: '39 stTAO',
+    expiry: '34m',
+    slotsFilled: '4/6',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 40",
-    "type": "Object & Event Detection",
-    "yield": "40 stTAO",
-    "expiry": "47m",
-    "slotsFilled": "6/11",
-    "operations": "Operation Data"
+    name: 'Item 40',
+    type: 'Object & Event Detection',
+    yield: '40 stTAO',
+    expiry: '47m',
+    slotsFilled: '6/11',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 41",
-    "type": "Object Detection",
-    "yield": "41 stTAO",
-    "expiry": "5m",
-    "slotsFilled": "9/12",
-    "operations": "Operation Data"
+    name: 'Item 41',
+    type: 'Object Detection',
+    yield: '41 stTAO',
+    expiry: '5m',
+    slotsFilled: '9/12',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 42",
-    "type": "Content Classification",
-    "yield": "42 stTAO",
-    "expiry": "33m",
-    "slotsFilled": "1/4",
-    "operations": "Operation Data"
+    name: 'Item 42',
+    type: 'Content Classification',
+    yield: '42 stTAO',
+    expiry: '33m',
+    slotsFilled: '1/4',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 43",
-    "type": "Semantic Segmentation",
-    "yield": "43 stTAO",
-    "expiry": "36m",
-    "slotsFilled": "10/10",
-    "operations": "Operation Data"
+    name: 'Item 43',
+    type: 'Semantic Segmentation',
+    yield: '43 stTAO',
+    expiry: '36m',
+    slotsFilled: '10/10',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 44",
-    "type": "Named Entity Recognition",
-    "yield": "44 stTAO",
-    "expiry": "17m",
-    "slotsFilled": "3/11",
-    "operations": "Operation Data"
+    name: 'Item 44',
+    type: 'Named Entity Recognition',
+    yield: '44 stTAO',
+    expiry: '17m',
+    slotsFilled: '3/11',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 45",
-    "type": "Object & Event Detection",
-    "yield": "45 stTAO",
-    "expiry": "54m",
-    "slotsFilled": "9/9",
-    "operations": "Operation Data"
+    name: 'Item 45',
+    type: 'Object & Event Detection',
+    yield: '45 stTAO',
+    expiry: '54m',
+    slotsFilled: '9/9',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 46",
-    "type": "Object Detection",
-    "yield": "46 stTAO",
-    "expiry": "3m",
-    "slotsFilled": "10/11",
-    "operations": "Operation Data"
+    name: 'Item 46',
+    type: 'Object Detection',
+    yield: '46 stTAO',
+    expiry: '3m',
+    slotsFilled: '10/11',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 47",
-    "type": "Content Classification",
-    "yield": "47 stTAO",
-    "expiry": "29m",
-    "slotsFilled": "2/14",
-    "operations": "Operation Data"
+    name: 'Item 47',
+    type: 'Content Classification',
+    yield: '47 stTAO',
+    expiry: '29m',
+    slotsFilled: '2/14',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 48",
-    "type": "Semantic Segmentation",
-    "yield": "48 stTAO",
-    "expiry": "46m",
-    "slotsFilled": "1/6",
-    "operations": "Operation Data"
+    name: 'Item 48',
+    type: 'Semantic Segmentation',
+    yield: '48 stTAO',
+    expiry: '46m',
+    slotsFilled: '1/6',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 49",
-    "type": "Named Entity Recognition",
-    "yield": "49 stTAO",
-    "expiry": "30m",
-    "slotsFilled": "10/12",
-    "operations": "Operation Data"
+    name: 'Item 49',
+    type: 'Named Entity Recognition',
+    yield: '49 stTAO',
+    expiry: '30m',
+    slotsFilled: '10/12',
+    operations: 'Operation Data',
   },
   {
-    "name": "Item 50",
-    "type": "Object & Event Detection",
-    "yield": "50 stTAO",
-    "expiry": "45m",
-    "slotsFilled": "6/14",
-    "operations": "Operation Data"
-  }
-]
+    name: 'Item 50',
+    type: 'Object & Event Detection',
+    yield: '50 stTAO',
+    expiry: '45m',
+    slotsFilled: '6/14',
+    operations: 'Operation Data',
+  },
+];
 export const columnDef = [
   {
-    accessorKey: "title",
-    header: "Name",
+    accessorKey: 'title',
+    header: 'Name',
   },
   {
-    accessorKey: "type",
-    header: "Type",
-    cell: (info: CellContext<any, any>) => info.getValue().replace(/_/g, ' ')
+    accessorKey: 'type',
+    header: 'Type',
+    cell: (info: CellContext<any, any>) => info.getValue().replace(/_/g, ' '),
   },
   // {
   //   accessorKey: "yield",
   //   header: "Yield",
   // },
   {
-    accessorKey: "expireAt",
-    header: "Expiry",
+    accessorKey: 'expireAt',
+    header: 'Expiry',
     accessorFn: (row: any) => {
       const expiryDate = new Date(row.expireAt);
       const now = new Date();
@@ -550,16 +548,16 @@ export const columnDef = [
       }
       return formattedExpiry;
     },
-},
+  },
   {
-    accessorKey: "slotsFilled",
-    header: "Slots Filled",
+    accessorKey: 'slotsFilled',
+    header: 'Slots Filled',
     accessorFn: (row: any) => `${row.numResults}/${row.maxResults}`,
   },
   {
-    accessorKey: "operations",
-    header: "Operations",
-    cell: ({ }) => "Start", // Render JSX for the button
+    accessorKey: 'operations',
+    header: 'Operations',
+    cell: ({}) => 'Start', // Render JSX for the button
   },
 ];
 
@@ -590,7 +588,7 @@ export const faqList = [
   {
     id: '3',
     content:
-    "Rewards are distributed from the emissions generated by the Bittensor network. These emissions are allocated to Subnet miners, like those in Dojo, who contribute to the enhancement of machine learning models through high-quality data provision.",
+      'Rewards are distributed from the emissions generated by the Bittensor network. These emissions are allocated to Subnet miners, like those in Dojo, who contribute to the enhancement of machine learning models through high-quality data provision.',
     title: 'Where do the rewards come from?',
   },
   {
@@ -625,12 +623,11 @@ export const faqList = [
   },
 ];
 
-
 export const categories = [
-  { label: "All", isActive: true },
-  { label: "Code Generation", isActive: false, taskType: "CODE_GENERATION"},
-  { label: "Text To Image", isActive: false, taskType: "TEXT_TO_IMAGE"},
-  { label: "Dialogue", isActive: false, taskType: "DIALOGUE"}
+  { label: 'All', isActive: true },
+  { label: 'Code Generation', isActive: false, taskType: 'CODE_GENERATION' },
+  { label: 'Text To Image', isActive: false, taskType: 'TEXT_TO_IMAGE' },
+  { label: 'Dialogue', isActive: false, taskType: 'DIALOGUE' },
 ];
 
 export const questionMultiSelectData = [
@@ -854,54 +851,51 @@ export const questionDataPY = [
     title: '3 (hidden: phind-codellama-34b)',
     showTitle: true,
   },
-]
+];
 
 export const multiSelectOptions = [
   { value: 'opt1', label: 'There are 8 rings' },
   { value: 'output2', label: 'All the rings are moving' },
   { value: 'output3', label: 'Earth is the first planet in the solarsystem' },
-  { value: 'output4', label: 'The function returns a list where even numbers are incremented by 2 and odd numbers are decremented by 2.' },
-  { value: 'output5', label: 'The output will be [-1, 4, 1, 6, 3, 8]' }  // Corrected 'output#' to 'output3'
+  {
+    value: 'output4',
+    label: 'The function returns a list where even numbers are incremented by 2 and odd numbers are decremented by 2.',
+  },
+  { value: 'output5', label: 'The output will be [-1, 4, 1, 6, 3, 8]' }, // Corrected 'output#' to 'output3'
 ];
 
 export const dialogue = [
   {
-    "dialogue": [
+    dialogue: [
       {
-        "role": "user",
-        "message": "Hello! What is your name?"
+        role: 'user',
+        message: 'Hello! What is your name?',
       },
       {
-        "role": "ai",
-        "message": "Hello, nice to meet you! My name is Llama 3."
+        role: 'ai',
+        message: 'Hello, nice to meet you! My name is Llama 3.',
       },
     ],
-    "task": "DIALOGUE",
-    "criteria": [
+    task: 'DIALOGUE',
+    criteria: [
       {
-        "type": "ranking",
-        "options": [
-          "Image 1",
-          "Image 2"
-        ]
+        type: 'ranking',
+        options: ['Image 1', 'Image 2'],
       },
       {
-        "type": "multi-select",
-        "options": [
-          "The image is Safe For Work (SFW).",
-          "The code does not have any malicious intent."
-        ]
+        type: 'multi-select',
+        options: ['The image is Safe For Work (SFW).', 'The code does not have any malicious intent.'],
       },
       {
-        "type": "score",
-        "min": 1.0,
-        "max": 10.0
-      }
-    ]
+        type: 'score',
+        min: 1.0,
+        max: 10.0,
+      },
+    ],
   },
   {
-    "dialogue": [],
-    "task": "xxx",
-    "criteria": []
-  }
-]
+    dialogue: [],
+    task: 'xxx',
+    criteria: [],
+  },
+];

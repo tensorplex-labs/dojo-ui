@@ -1,12 +1,10 @@
 'use client';
 import { useSIWE } from '@/hooks/useSIWE';
-import { cn } from '@/utils/tw';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import GetStartedButton from '../Button/GetStarted';
-import { TPLXButton } from '../TPLXButton';
 import { TPLXWalletButton } from '../Wallet/tplx-wallet-button-entry';
 const WalletConnect = ({ handleWalletConnect }: { handleWalletConnect: () => void }) => {
   return (
@@ -101,7 +99,7 @@ const NavigationBar = ({ openModal, isHomePage }: NavigationBarProps) => {
   const headerItems = [
     // { title: "Home", url: "/" },
     // { title: "Dashboard", url: "/quest" },
-    // { title: "Apply", url: "/apply" },
+    { title: 'Task List', url: '/task-list' },
     { title: 'FAQ', url: '/faq' },
   ];
 
@@ -134,7 +132,7 @@ const NavigationBar = ({ openModal, isHomePage }: NavigationBarProps) => {
                   <div className="flex items-center justify-center gap-[8px]">
                     <TPLXWalletButton openModal={openModal}></TPLXWalletButton>
                   </div>
-                  <div className="flex items-center justify-center gap-[8px]">
+                  {/* <div className="flex items-center justify-center gap-[8px]">
                     <TPLXButton
                       className={cn(
                         FontSpaceMono.className,
@@ -144,7 +142,7 @@ const NavigationBar = ({ openModal, isHomePage }: NavigationBarProps) => {
                     >
                       {`I'm a miner`}
                     </TPLXButton>
-                  </div>
+                  </div> */}
                 </>
               ) : (
                 <GetStartedButton />

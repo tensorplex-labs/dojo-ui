@@ -10,29 +10,29 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = (props) => {
   // Destructure props if any, e.g., const { someValue } = props;
-    const router = useRouter();
-    const { taskId } = router.query;
-    const { handleSubmit } = useSubmit();
-     const { fetchNextInProgressTask } = useGetNextInProgressTask();
+  const router = useRouter();
+  const { taskId } = router.query;
+  const { handleSubmit } = useSubmit();
+  const { fetchNextInProgressTask } = useGetNextInProgressTask();
 
-    const handleSkip = async() => {
-        if (!router.isReady) return;
-        let nextTaskResponse: NextTaskResponse | null
-        
-        if (!taskId || typeof taskId !== 'string') return;
+  const handleSkip = async () => {
+    if (!router.isReady) return;
+    let nextTaskResponse: NextTaskResponse | null;
 
-        nextTaskResponse = await fetchNextInProgressTask(taskId);
+    if (!taskId || typeof taskId !== 'string') return;
 
-        if (!nextTaskResponse) {
-            router.push('/')
-            return;
-        }
-        router.push(`/Questions?taskId=${nextTaskResponse.nextInProgressTaskId}`) 
+    nextTaskResponse = await fetchNextInProgressTask(taskId);
+
+    if (!nextTaskResponse) {
+      router.push('/task-list');
+      return;
     }
+    router.push(`/Questions?taskId=${nextTaskResponse.nextInProgressTaskId}`);
+  };
 
-    return (
+  return (
     <div className="mx-auto max-w-[1075px] p-4">
-        {/* <div className="mb-2">
+      {/* <div className="mb-2">
         <h1 className={`uppercase ${FontSpaceMono.className} text-xl font-bold mb-1.5`}>
             Rewards
         </h1>
@@ -41,10 +41,10 @@ const Footer: React.FC<FooterProps> = (props) => {
             how this thing would behave so the user is aware on how to use it.
         </p>
         </div> */}
-        <div className="flex justify-between">
+      <div className="flex justify-between">
         {/* Stake Amount */}
-             <div className=" flex">
-                {/* <div className="w-[290px]">
+        <div className=" flex">
+          {/* <div className="w-[290px]">
                     <div className="flex justify-between items-center mb-4">
                         <h1 className={`uppercase ${FontSpaceMono.className} text-base font-bold`}>
                             Stake Amount
@@ -68,9 +68,9 @@ const Footer: React.FC<FooterProps> = (props) => {
                     />
                 </div>
             <   div className="w-px bg-gray-300 mx-4 my-2"></div>  */}
-            {/* Risk & Rewards */}
-                <div className="flex w-[250px] flex-col">
-                    {/* <h1 className={`uppercase ${FontSpaceMono.className} text-base font-bold mb-4`}> Risk & Rewards </h1>
+          {/* Risk & Rewards */}
+          <div className="flex w-[250px] flex-col">
+            {/* <h1 className={`uppercase ${FontSpaceMono.className} text-base font-bold mb-4`}> Risk & Rewards </h1>
                     <div className="flex justify-between gap-5">
                     <div className="flex flex-col">
                         <h2 className={`${FontManrope.className} text-[13px] font-semibold opacity-50`}>Potential Gains</h2>
@@ -85,15 +85,22 @@ const Footer: React.FC<FooterProps> = (props) => {
                         </p>
                     </div>
                 </div> */}
-            </div>
-            </div>
-            <div className="flex items-center justify-end space-x-[11px]">
-                <Button buttonText={"SKIP"} className="bg-[#E4E4E4] px-[37px] py-[15px] text-black hover:shadow-brut-sm" onClick={async() => handleSkip()}/>
-                <Button buttonText={"PROCEED"} className="bg-[#00B6A6] px-[37px] py-[15px] text-white hover:shadow-brut-sm" onClick={()=> handleSubmit()}/>
-            </div>
+          </div>
         </div>
+        <div className="flex items-center justify-end space-x-[11px]">
+          <Button
+            buttonText={'SKIP'}
+            className="bg-[#E4E4E4] px-[37px] py-[15px] text-black hover:shadow-brut-sm"
+            onClick={async () => handleSkip()}
+          />
+          <Button
+            buttonText={'PROCEED'}
+            className="bg-[#00B6A6] px-[37px] py-[15px] text-white hover:shadow-brut-sm"
+            onClick={() => handleSubmit()}
+          />
+        </div>
+      </div>
     </div>
-
   );
 };
 

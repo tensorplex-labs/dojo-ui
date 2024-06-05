@@ -32,7 +32,6 @@ interface SubmitContextType {
   minMultiScore: number;
   handleMaxMultiScore: (value: number) => void;
   handleMinMultiScore: (value: number) => void;
-
 }
 
 const SubmitContext = createContext<SubmitContextType | undefined>(undefined);
@@ -62,16 +61,16 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [isMultiScore, setIsMultiScore] = useState<boolean>(false);
   const [isSlider, setIsSlider] = useState<boolean>(false);
 
-  const [maxMultiScore, setMaxMultiScore] = useState<number>(0); 
-  const [minMultiScore, setMinMultiScore] = useState<number>(0); 
+  const [maxMultiScore, setMaxMultiScore] = useState<number>(0);
+  const [minMultiScore, setMinMultiScore] = useState<number>(0);
 
   const handleMaxMultiScore = (value: number) => {
     setMaxMultiScore(value);
-  }
+  };
 
   const handleMinMultiScore = (value: number) => {
     setMinMultiScore(value);
-  }
+  };
 
   const updateMultiSelect = (data: string[]) => {
     setMultiSelectData(data);
@@ -97,15 +96,27 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     const taskId = String(router.query.taskId || '');
 
     if (rankingData || scoreData || multiSelectData.length > 0 || multiScore) {
-      console.log('submitting task');      
-      await submitTask(taskId, multiSelectData, rankingData, scoreData, multiScore, isMultiSelectQuestion, isRankQuestion, isMultiScore, isSlider, maxMultiScore, minMultiScore);
+      console.log('submitting task');
+      await submitTask(
+        taskId,
+        multiSelectData,
+        rankingData,
+        scoreData,
+        multiScore,
+        isMultiSelectQuestion,
+        isRankQuestion,
+        isMultiScore,
+        isSlider,
+        maxMultiScore,
+        minMultiScore
+      );
       if (error) {
         console.log('WORKED >>> ', error);
         setSubmissionErr(error);
         return;
       }
       setSubmissionErr(null);
-      router.push('/');
+      router.push('/task-list');
     }
   };
 

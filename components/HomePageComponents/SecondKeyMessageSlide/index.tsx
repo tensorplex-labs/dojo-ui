@@ -79,7 +79,7 @@ const SecondKeyMessageSlide = (props: Props) => {
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     if (!windowHeight) return;
-    const lowerBound = (windowHeight ?? 0) * 2 - 400;
+    const lowerBound = (windowHeight ?? 0) * 2 + 600;
     // const lowerBound = (windowHeight ?? 0) * 2;
     const upperBound = (windowHeight ?? 0) * 2 + KEY_MESSAGE_SCROLL_HEIGHT * 3;
     if (latest > lowerBound && latest < upperBound) setAnimState('show');
@@ -87,13 +87,13 @@ const SecondKeyMessageSlide = (props: Props) => {
   });
 
   return (
-    <motion.section className="z-100 sticky left-0 top-0 flex h-screen w-full justify-center overflow-hidden border-t-4 border-solid border-black bg-gray-100">
-      <Image src="/grid.svg" alt="Example Icon" width={100} height={100} className="absolute w-full opacity-[0.03]" />
+    <motion.section className="z-100 sticky left-0 top-0 flex h-[200vh] w-full justify-center overflow-hidden border-t-4 border-solid border-black bg-gray-100">
+      <Image src="/grid.svg" alt="Example Icon" width={100} height={200} className="absolute w-full opacity-[0.03]" />
       <motion.div
         variants={elemAnimParentVariant}
         initial="hide"
         animate={animState}
-        className="flex size-full max-w-4xl flex-col items-center justify-evenly p-4"
+        className="flex h-screen w-full max-w-4xl flex-col items-center justify-evenly p-4"
       >
         <div className="text-center">
           <div className="overflow-hidden">
