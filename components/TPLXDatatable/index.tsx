@@ -1,26 +1,22 @@
-import React, { useEffect, useRef, useState } from "react";
+import { taskStatus } from '@/hooks/useGetTasks';
+import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import {
-  useReactTable,
-  getCoreRowModel,
-  flexRender,
-  getPaginationRowModel,
-  getFilteredRowModel,
   ColumnDef,
-} from "@tanstack/react-table";
-import {
-  IconChevronsLeft,
-  IconChevronsRight,
-  IconX,
-} from "@tabler/icons-react";
-import { FontManrope, FontSpaceMono } from "@/utils/typography";
-import { Button } from "../Button";
-import useRequestTaskByTaskID from "@/hooks/useRequestTaskByTaskID";
-import { useRouter } from "next/router";
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  Row,
+  useReactTable,
+} from '@tanstack/react-table';
+import { useRouter } from 'next/router';
+import React, { useRef, useState } from 'react';
+import { Button } from '../Button';
 
 export interface FilterDef {
-  filterType: "global" | "column";
+  filterType: 'global' | 'column';
   columnIdToFilter?: string;
-  filterInputType?: "string" | "date";
+  filterInputType?: 'string' | 'date';
   displayLabel?: string;
 }
 
@@ -30,7 +26,7 @@ interface Props {
   data: any[];
   columnDef: ColumnDef<any, any>[];
   filterControlsDef?: FilterDef[];
-  dateFilterControlType?: "past" | "future" | "none";
+  dateFilterControlType?: 'past' | 'future' | 'none';
   pageSize?: number;
   headerClassName?: string;
   headerCellClassName?: string;
@@ -41,18 +37,30 @@ interface Props {
   defaultColumnSize?: number;
   columnVisibility?: Record<string, boolean>;
   isLoading?: boolean;
-  cellRenderer?: (
-    cell: any,
-    cellIndex: number,
-    row: any,
-    rowIndex: number
-  ) => React.ReactNode;
+  cellRenderer?: (cell: any, cellIndex: number, row: any, rowIndex: number) => React.ReactNode;
   rowRenderer?: (row: any, rowIndex: number, cells: any[]) => React.ReactNode;
 }
 
 type ColumnFilter = {
   id: string;
   value: any;
+};
+
+type ButtonState = {
+  disabled: boolean;
+  text: string;
+};
+
+const generateBtnState = (row: Row<any>): ButtonState => {
+  if (new Date(row.original.expireAt).getTime() < Date.now() || row.original.status === taskStatus.EXPIRED)
+    return { disabled: true, text: 'Expired' };
+
+  if (row.original.isCompletedByWorker) return { disabled: true, text: 'Completed' };
+
+  if (row.original.maxResults === row.original.numResults || row.original.status == taskStatus.COMPLETED)
+    return { disabled: true, text: 'Filled' };
+
+  return { disabled: false, text: 'Start' };
 };
 
 const TPLXDatatable = ({
@@ -64,12 +72,12 @@ const TPLXDatatable = ({
   filterControlsDef,
   pageSize = 10,
   dateFilterControlType,
-  headerClassName = "",
-  headerCellClassName = "",
+  headerClassName = '',
+  headerCellClassName = '',
   tooltipShowingXofY = true,
   styled = true,
-  cellsClassName = "",
-  tableClassName = "",
+  cellsClassName = '',
+  tableClassName = '',
   defaultColumnSize = 150,
   columnVisibility,
   cellRenderer,
@@ -77,7 +85,7 @@ const TPLXDatatable = ({
   ...props
 }: Props) => {
   // State and refs
-  const [globalFilter, setGlobalFilter] = useState("");
+  const [globalFilter, setGlobalFilter] = useState('');
   const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
   const tableContainerRef = useRef<HTMLDivElement>(null);
 
@@ -106,9 +114,7 @@ const TPLXDatatable = ({
   const maxPageButtons = 5;
 
   // Calculate the total number of pages
-  const pageCount = Math.ceil(
-    table.getPreFilteredRowModel().rows.length / pageSize
-  );
+  const pageCount = Math.ceil(table.getPreFilteredRowModel().rows.length / pageSize);
 
   // Calculate the range of page numbers to display
   const currentPage = table.getState().pagination.pageIndex + 1;
@@ -126,47 +132,39 @@ const TPLXDatatable = ({
   }
 
   // Generate the page numbers to display
-  const pageNumbers = Array.from(
-    { length: endPage - startPage + 1 },
-    (_, i) => startPage + i
-  );
+  const pageNumbers = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
 
-  const [taskId, setTaskId] = useState<string>("");
+  const [taskId, setTaskId] = useState<string>('');
   const router = useRouter(); // Initialize useRouter
 
-  
   const onStartHandler = (id: string) => {
     setTaskId(id);
     router.push(`/Questions?taskId=${id}`);
-  }
+  };
 
-  const tableRows = table.getRowModel().rows
+  const tableRows = table.getRowModel().rows;
 
   // Render the UI for your table
   return (
     <div {...props} ref={tableContainerRef} className="flex flex-col gap-4">
-      <div
-        className={`overflow-x-auto border-2 border-black bg-[#F8F8F8] shadow-brut-sm`}
-      >
+      <div className={`overflow-x-auto border-2 border-black bg-[#F8F8F8] shadow-brut-sm`}>
         <table className={`min-w-full ${tableClassName}`}>
-          <thead
-            className={`border-b border-black ${FontSpaceMono.className} text-lg font-bold`}
-          >
-            {table.getHeaderGroups().map((headerGroup) => (
+          <thead className={`border-b border-black ${FontSpaceMono.className} text-lg font-bold`}>
+            {table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id} className="px-[25px] py-[18px]">
-                {headerGroup.headers.map((header) => (
+                {headerGroup.headers.map(header => (
                   <th
                     key={header.id}
                     className={`px-4 py-2 text-start text-black ${headerCellClassName} ${
-                      header.column.columnDef.header === "Name"
-                        ? "font-bold"
-                        : header.column.columnDef.header === "Operations"
-                        ? "text-end"
-                        : ""
+                      header.column.columnDef.header === 'Name'
+                        ? 'font-bold'
+                        : header.column.columnDef.header === 'Operations'
+                          ? 'text-end'
+                          : ''
                     }`}
                   >
                     {flexRender(
-                      header.column.columnDef.header !== "Operations" ? header.column.columnDef.header : " " ,
+                      header.column.columnDef.header !== 'Operations' ? header.column.columnDef.header : ' ',
                       header.getContext()
                     )}
                   </th>
@@ -176,134 +174,115 @@ const TPLXDatatable = ({
           </thead>
           {isLoading ? (
             <tbody>
-            {[...Array(10)].map((_, i) => (
-              <tr key={i}>
-                <td className="px-4 py-2">
-                  <div className="h-4 w-1/2 animate-pulse rounded bg-gray-300"></div>
-                </td>
-                <td className="px-4 py-2">
-                  <div className="h-4 animate-pulse rounded bg-gray-300"></div>
-                </td>
-                <td className="px-4 py-2">
-                  <div className="h-4 w-1/3 animate-pulse rounded bg-gray-300"></div>
-                </td>
-                <td className="px-4 py-2">
-                  <div className="h-4 w-1/4 animate-pulse rounded bg-gray-300"></div>
-                </td>
-                <td className="px-4 py-2">
-  <div className="relative right-0 flex">
-    <div className="h-8 w-20 animate-pulse rounded bg-gray-300"></div>
-    <div className="justify-right absolute inset-0 flex items-center">
-      {/* <div className="w-4 h-4 bg-white rounded-full animate-bounce"></div> */}
-    </div>
-  </div>
-</td>
-              </tr>
-            ))}
-
-            </tbody>
-          
-          ):
-          <tbody>
-            {tableRows.map((row) => (
-              <tr key={row.id} className={`${row.original.bodyRowClassName || ""} border-b-2`}>
-                {row.getVisibleCells().map((cell) =>
-                  cell.column.columnDef.header === "Name" ? (
-                    <td
-                      key={cell.id}
-                      className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
-                  ) : cell.column.columnDef.header === "Type" ? (
-                    <td
-                      key={cell.id}
-                      className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
-                    >
-                      <div className=" w-fit rounded-[64px] bg-[#00B6A6] bg-opacity-[0.22] px-[11px] py-1.5 text-[#00B6A6]">
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
+              {[...Array(10)].map((_, i) => (
+                <tr key={i}>
+                  <td className="px-4 py-2">
+                    <div className="h-4 w-1/2 animate-pulse rounded bg-gray-300"></div>
+                  </td>
+                  <td className="px-4 py-2">
+                    <div className="h-4 animate-pulse rounded bg-gray-300"></div>
+                  </td>
+                  <td className="px-4 py-2">
+                    <div className="h-4 w-1/3 animate-pulse rounded bg-gray-300"></div>
+                  </td>
+                  <td className="px-4 py-2">
+                    <div className="h-4 w-1/4 animate-pulse rounded bg-gray-300"></div>
+                  </td>
+                  <td className="px-4 py-2">
+                    <div className="relative right-0 flex">
+                      <div className="h-8 w-20 animate-pulse rounded bg-gray-300"></div>
+                      <div className="justify-right absolute inset-0 flex items-center">
+                        {/* <div className="w-4 h-4 bg-white rounded-full animate-bounce"></div> */}
                       </div>
-                    </td>
-                  ) : 
-                  // cell.column.columnDef.header === "Yield" ? (
-                  //   <td
-                  //     key={cell.id}
-                  //     className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
-                  //   >
-                  //     <div
-                  //       className={`${FontManrope.className} text-lg text-black opacity-60 font-bold`}
-                  //     >
-                  //       {flexRender(
-                  //         cell.column.columnDef.cell,
-                  //         cell.getContext()
-                  //       )}
-                  //     </div>
-                  //   </td>
-                  // ) : 
-                  cell.column.columnDef.header === "Expiry" ? (
-                    <td
-                      key={cell.id}
-                      className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
-                    >
-                      {new Date(row.original.expireAt).getTime() < Date.now() ? (
-                        <div
-                          className={`rounded-full px-0.5 text-center ${FontManrope.className} bg-red-500 bg-opacity-50 text-base font-bold text-white`}
-                        >
-                          {/* {flexRender(
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          ) : (
+            <tbody>
+              {tableRows.map(row => (
+                <tr key={row.id} className={`${row.original.bodyRowClassName || ''} border-b-2`}>
+                  {row.getVisibleCells().map(cell =>
+                    cell.column.columnDef.header === 'Name' ? (
+                      <td
+                        key={cell.id}
+                        className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
+                      >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </td>
+                    ) : cell.column.columnDef.header === 'Type' ? (
+                      <td
+                        key={cell.id}
+                        className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
+                      >
+                        <div className=" w-fit rounded-[64px] bg-[#00B6A6] bg-opacity-[0.22] px-[11px] py-1.5 text-[#00B6A6]">
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </div>
+                      </td>
+                    ) : // cell.column.columnDef.header === "Yield" ? (
+                    //   <td
+                    //     key={cell.id}
+                    //     className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
+                    //   >
+                    //     <div
+                    //       className={`${FontManrope.className} text-lg text-black opacity-60 font-bold`}
+                    //     >
+                    //       {flexRender(
+                    //         cell.column.columnDef.cell,
+                    //         cell.getContext()
+                    //       )}
+                    //     </div>
+                    //   </td>
+                    // ) :
+                    cell.column.columnDef.header === 'Expiry' ? (
+                      <td
+                        key={cell.id}
+                        className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
+                      >
+                        {new Date(row.original.expireAt).getTime() < Date.now() ? (
+                          <div
+                            className={`rounded-full px-0.5 text-center ${FontManrope.className} bg-red-500 bg-opacity-50 text-base font-bold text-white`}
+                          >
+                            {/* {flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext()
                           )} */}
-                          Expired
-                        </div>
-                      ) : (
-                        <div
-                          className={`${FontManrope.className} text-lg font-bold text-black opacity-60`}
-                        >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </div>
-                      )}
-                    </td>
-                  ) : cell.column.columnDef.header === "Slots Filled" ? (
-                    <td
-                      key={cell.id}
-                      className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
-                    >
-                      <div
-                        className={`${FontManrope.className} text-lg font-bold text-black opacity-60`}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
+                            Expired
+                          </div>
+                        ) : (
+                          <div className={`${FontManrope.className} text-lg font-bold text-black opacity-60`}>
+                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                          </div>
                         )}
-                      </div>
-                    </td>
-                  ): cell.column.columnDef.header === "Operations" ? (
-                    <td
-                    key={cell.id}
-                    className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className} flex justify-end`}
-                  >
-                    <Button
-                      disabled={new Date(row.original.expireAt).getTime() < Date.now() || row.original.isCompletedByWorker === true}
-                      buttonText={ `${new Date(row.original.expireAt).getTime() < Date.now() ? "Expired" : row.original.isCompletedByWorker ? 'Completed' : "Start"}`}
-                      className={`text-white disabled:cursor-not-allowed disabled:bg-gray-400`}
-                      onClick={() => onStartHandler(row.original.taskId)}
-                    />
-                  </td>
-                  ) : null
-                )}
-              </tr>
-            ))}
-          </tbody>
-        }
+                      </td>
+                    ) : cell.column.columnDef.header === 'Slots Filled' ? (
+                      <td
+                        key={cell.id}
+                        className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
+                      >
+                        <div className={`${FontManrope.className} text-lg font-bold text-black opacity-60`}>
+                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        </div>
+                      </td>
+                    ) : cell.column.columnDef.header === 'Operations' ? (
+                      <td
+                        key={cell.id}
+                        className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className} flex justify-end`}
+                      >
+                        <Button
+                          disabled={generateBtnState(row).disabled}
+                          buttonText={generateBtnState(row).text}
+                          className={`text-white disabled:cursor-not-allowed disabled:bg-gray-400`}
+                          onClick={() => onStartHandler(row.original.taskId)}
+                        />
+                      </td>
+                    ) : null
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          )}
         </table>
       </div>
 
