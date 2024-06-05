@@ -173,7 +173,7 @@ const Index = (props: Props) => {
       <section id="third" className="z-[10000] mb-20 bg-gradient-to-t from-[#FFFFF4] to-[#E1F5F4]">
         <motion.div className="mx-auto max-w-[1075px] pt-32">
           {/* <h1 className={`${FontSpaceMono.className} text-5xl font-bold uppercase`}>How does it work?</h1> */}
-          <h1 className={`${FontSpaceMono.className} text-5xl font-bold uppercase mb-5`}>How to get started?</h1>
+          <h1 className={`${FontSpaceMono.className} mb-5 text-5xl font-bold uppercase`}>How to get started?</h1>
 
           {/* <p className={`${FontManrope.className} text-2xl font-bold opacity-60`}>
             Five simple steps to get you started!
@@ -200,7 +200,7 @@ const Index = (props: Props) => {
               <StepCard {...steps[4]} />
             </div>
           </div>
-          <p className={`${FontManrope.className} text-2xl font-bold opacity-90 pt-10`}>
+          <p className={`${FontManrope.className} pt-10 text-2xl font-bold opacity-90`}>
             {'For Miners'}
           </p>
           <div className="mb-3 mt-6 flex justify-between">

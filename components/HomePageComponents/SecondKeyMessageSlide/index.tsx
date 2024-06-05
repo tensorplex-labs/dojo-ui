@@ -93,7 +93,7 @@ const SecondKeyMessageSlide = (props: Props) => {
         variants={elemAnimParentVariant}
         initial="hide"
         animate={animState}
-        className="flex w-full h-screen max-w-4xl flex-col items-center justify-evenly p-4"
+        className="flex h-screen w-full max-w-4xl flex-col items-center justify-evenly p-4"
       >
         <div className="text-center">
           <div className="overflow-hidden">
