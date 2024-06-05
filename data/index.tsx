@@ -7,6 +7,10 @@ interface HeaderItem {
 
 export const headerItems: Array<HeaderItem> = [
   {
+    title: 'Task List',
+    url: '/task-list',
+  },
+  {
     title: 'FAQ',
     url: '/faq',
   },
