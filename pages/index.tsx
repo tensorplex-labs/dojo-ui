@@ -178,7 +178,7 @@ const Index = (props: Props) => {
           {/* <p className={`${FontManrope.className} text-2xl font-bold opacity-60`}>
             Five simple steps to get you started!
           </p> */}
-          <p className={`${FontManrope.className} text-xl font-bold opacity-90`}>
+          <p className={`${FontManrope.className} text-2xl font-bold opacity-90`}>
             {'For Workers/Contributors'}
           </p>
           <div className="mb-3 mt-6 flex justify-between">
@@ -200,7 +200,7 @@ const Index = (props: Props) => {
               <StepCard {...steps[4]} />
             </div>
           </div>
-          <p className={`${FontManrope.className} text-xl font-bold opacity-90 pt-10`}>
+          <p className={`${FontManrope.className} text-2xl font-bold opacity-90 pt-10`}>
             {'For Miners'}
           </p>
           <div className="mb-3 mt-6 flex justify-between">
@@ -223,7 +223,7 @@ const Index = (props: Props) => {
           background: 'linear-gradient(to bottom, #FFFFF4, #E1F5F4)',
         }}
       >
-        <div className="mx-auto flex max-w-[1075px] justify-between py-20">
+        <div className="mx-auto flex max-w-[1075px] justify-between pt-36">
           <div className="h-full w-3/5">
             <h1 className={`${FontSpaceMono.className} text-[46px] font-bold uppercase`}>Dojo roadmap</h1>
             <p className={`${FontManrope.className} text-xl font-bold opacity-50`}>
