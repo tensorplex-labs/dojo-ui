@@ -1,5 +1,5 @@
+import useGetNextInProgressTask, { NextTaskResponse } from '@/hooks/useGetNextTask';
 import { useSubmit } from '@/providers/submitContext';
-import { useTaskData } from '@/providers/taskContext';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { Button } from '../Button';
@@ -11,18 +11,24 @@ interface FooterProps {
 const Footer: React.FC<FooterProps> = (props) => {
   // Destructure props if any, e.g., const { someValue } = props;
     const router = useRouter();
-    const { getNextTaskId } = useTaskData();
+    const { taskId } = router.query;
     const { handleSubmit } = useSubmit();
+     const { fetchNextInProgressTask } = useGetNextInProgressTask();
 
     const handleSkip = async() => {
-        const taskId = await getNextTaskId();
-        if (!taskId) {
+        if (!router.isReady) return;
+        let nextTaskResponse: NextTaskResponse | null
+        
+        if (!taskId || typeof taskId !== 'string') return;
+
+        nextTaskResponse = await fetchNextInProgressTask(taskId);
+
+        if (!nextTaskResponse) {
             router.push('/')
             return;
         }
-        router.push(`/Questions?taskId=${taskId}`) 
+        router.push(`/Questions?taskId=${nextTaskResponse.nextInProgressTaskId}`) 
     }
-
 
     return (
     <div className="mx-auto max-w-[1075px] p-4">
@@ -37,7 +43,7 @@ const Footer: React.FC<FooterProps> = (props) => {
         </div> */}
         <div className="flex justify-between">
         {/* Stake Amount */}
-            <div className=" flex">
+             <div className=" flex">
                 {/* <div className="w-[290px]">
                     <div className="flex justify-between items-center mb-4">
                         <h1 className={`uppercase ${FontSpaceMono.className} text-base font-bold`}>

@@ -1,12 +1,11 @@
 import { config } from "@/components/Wallet/WagmiWalletConfig";
+import { AuthProvider } from "@/providers/authContext";
+import ModalProvider from '@/providers/modals';
+import { SubmitProvider } from "@/providers/submitContext";
 import "@/styles/globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
 import { WagmiProvider } from "wagmi";
-import ModalProvider from '@/providers/modals';
-import { SubmitProvider } from "@/providers/submitContext";
-import { AuthProvider } from "@/providers/authContext";
-import { TaskProvider } from "@/providers/taskContext";
 
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -19,9 +18,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <AuthProvider>
           <SubmitProvider>
             <ModalProvider>
-              <TaskProvider>
+              {/* <TaskProvider> */}
                 <Component {...pageProps} />
-              </TaskProvider>
+              {/* </TaskProvider> */}
             </ModalProvider>
           </SubmitProvider>
         </AuthProvider>
