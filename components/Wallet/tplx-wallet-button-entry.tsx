@@ -1,16 +1,11 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 'use client';
 
-import { useAccount, useChainId, useDisconnect } from 'wagmi';
+import { useAccount, useChainId } from 'wagmi';
 
-import { useEffect } from 'react';
-
+import { useAuth } from '@/providers/authContext';
 import TPLXWalletButtonBadge from './tplx-wallet-button-badge';
 import WalletConnect from './walletConnect';
-import { useModal } from '@/hooks/useModal';
-import { MODAL } from '@/providers/modals';
-import { useAuth } from '@/providers/authContext';
-
 
 type TPLXWalletButtonProps = {
   openModal: () => void; // Prop for the openModal function
@@ -18,9 +13,8 @@ type TPLXWalletButtonProps = {
 export const TPLXWalletButton = ({ openModal }: TPLXWalletButtonProps) => {
   const chainId = useChainId();
   const { address, status, isConnected } = useAccount();
-  const {isAuthenticated} = useAuth();
+  const { isAuthenticated } = useAuth();
   // const { openModal } = useModal(MODAL.wallet);
-
 
   return (
     <div>

@@ -1,5 +1,5 @@
+import { FontManrope } from '@/utils/typography';
 import React from 'react';
-import { FontManrope } from "@/utils/typography";
 
 interface YieldInputProps {
   value: string;
@@ -26,9 +26,7 @@ const YieldInput: React.FC<YieldInputProps> = ({ value, onChange }) => {
         disabled={true}
       />
       <div className="flex h-full items-center justify-center bg-[#E4E4E4] px-2">
-        <p
-          className={`text-center text-[11px] font-extrabold text-black text-opacity-40 ${FontManrope.className}`}
-        >
+        <p className={`text-center text-[11px] font-extrabold text-black text-opacity-40 ${FontManrope.className}`}>
           stTAO
         </p>
       </div>

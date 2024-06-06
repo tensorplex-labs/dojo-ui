@@ -7,14 +7,11 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          'bg-primary text-font-secondary visited:text-font-secondary hover:bg-primary/70',
-        destructive:
-          'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+        default: 'bg-primary text-font-secondary visited:text-font-secondary hover:bg-primary/70',
+        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         secondary: 'bg-secondary text-font-primary',
         link: 'border-0 bg-transparent text-primary underline-offset-4 visited:text-primary hover:cursor-pointer hover:text-primary hover:underline',
-        disabled:
-          'bg-muted text-gray-500/50 hover:cursor-not-allowed hover:bg-muted',
+        disabled: 'bg-muted text-gray-500/50 hover:cursor-not-allowed hover:bg-muted',
         none: 'border-0 bg-none p-0 text-font-primary hover:bg-none',
         transit: 'bg-transit text-font-secondary hover:cursor-not-allowed',
       },
@@ -29,7 +26,7 @@ const buttonVariants = cva(
       variant: 'default',
       size: 'default',
     },
-  },
+  }
 );
 
 export interface ButtonProps
@@ -48,7 +45,7 @@ const TPLXButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
             size,
             className,
           }),
-          className,
+          className
         )}
         ref={ref}
         {...props}
@@ -65,7 +62,7 @@ const TPLXButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
       </button>
     );
-  },
+  }
 );
 
 TPLXButton.displayName = 'TPLXButton';

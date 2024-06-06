@@ -1,5 +1,5 @@
 import jazzicon from 'jazzicon-ts';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 interface Props {
   address: string;
   size?: number;

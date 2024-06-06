@@ -1,15 +1,11 @@
-'use client'
-import { FC, HTMLAttributes, useState } from 'react';
+'use client';
+import { HTMLAttributes } from 'react';
 
-
-import { cn } from '@/utils/tw';
-import TPLXManageWalletConnectModal from './tplx-manage-wallet-modal';
 import { useModal } from '@/hooks/useModal';
 import { MODAL } from '@/providers/modals';
-import { TPLXButton } from '../TPLXButton';
+import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
-
-
+import { TPLXButton } from '../TPLXButton';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 
@@ -23,7 +19,7 @@ const WalletConnect = (props: Props) => {
         className={cn(
           FontSpaceMono.className,
           'text-xs md:text-sm bg-primary rounded-none border-[2px] border-black text-font-secondary hover:shadow-brut-sm',
-          className,
+          className
         )}
         onClick={openModal}
       >

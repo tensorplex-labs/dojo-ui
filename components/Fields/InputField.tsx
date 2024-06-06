@@ -1,8 +1,12 @@
 import { cn } from '@/utils/tw';
-import React, { forwardRef, InputHTMLAttributes } from 'react';
 import { FontManrope } from '@/utils/typography';
+import { forwardRef, InputHTMLAttributes } from 'react';
 
-export type InputProps = InputHTMLAttributes<HTMLInputElement> & {hasError?: boolean, errorMessage?: string, isCopy?: boolean}
+export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
+  hasError?: boolean;
+  errorMessage?: string;
+  isCopy?: boolean;
+};
 
 const InputField = forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, hasError, errorMessage, isCopy, ...props }, ref) => {
@@ -19,7 +23,7 @@ const InputField = forwardRef<HTMLInputElement, InputProps>(
           <input
             type={type}
             className={cn(
-              ` font-medium disabled:bg-gray-300 text-sm w-full h-[40px] bg-foreground p-[10px] border-2 border-black shadow-brut-sm text-black outline-0 mb-2`,
+              ` font-medium disabled:bg-gray-300 text-sm w-full h-[40px] bg-foreground p-[10px] border-2 border-black shadow-brut-sm text-black outline-0 mb-2`
             )}
             ref={ref}
             {...props}
@@ -36,9 +40,9 @@ const InputField = forwardRef<HTMLInputElement, InputProps>(
         </div>
         {hasError && <p className="text-sm font-medium text-red-500">{errorMessage}</p>}
       </div>
-    )
+    );
   }
-)
-InputField.displayName = "InputField"
+);
+InputField.displayName = 'InputField';
 
-export { InputField }
+export { InputField };

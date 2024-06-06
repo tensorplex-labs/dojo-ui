@@ -44,7 +44,7 @@
 //           className="ml-1 w-[5px] h-[11px] bg-[#00B6A6] border-black border text-gray-500 dark:text-gray-400 absolute z-10"
 //           style={{ left: `calc(${((stepValue - min) / (max - min)) * 100}% - 0.5rem)` }}
 //         >
-         
+
 //         </span>
 //       ))}
 //       <input
@@ -95,9 +95,9 @@ const Slider: React.FC<SliderProps> = ({
   step,
   initialValue,
   onChange,
-    minLabel,
+  minLabel,
   maxLabel,
-  showSections
+  showSections,
 }) => {
   const [value, setValue] = useState(initialValue);
   // const numberOfSteps = Math.floor((max - min) / step);
@@ -110,11 +110,11 @@ const Slider: React.FC<SliderProps> = ({
   }, [initialValue]);
 
   const percentage = ((value - min) / (max - min)) * 100;
-  
+
   const numberOfSteps = Math.floor((max - min) / step) + 1;
-  
+
   const stepsArray = Array.from({ length: numberOfSteps }, (_, i) => min + i * step);
-  
+
   const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(event.target.value, 10);
     setValue(newValue);
@@ -122,7 +122,7 @@ const Slider: React.FC<SliderProps> = ({
   };
 
   const sliderStyle = {
-    background: `linear-gradient(to right, #00B6A6 0%, #00B6A6 ${percentage}%, #ccc ${percentage}%, #ccc 100%)`
+    background: `linear-gradient(to right, #00B6A6 0%, #00B6A6 ${percentage}%, #ccc ${percentage}%, #ccc 100%)`,
   };
 
   return (
@@ -148,30 +148,23 @@ const Slider: React.FC<SliderProps> = ({
        `}
         style={sliderStyle}
       />
-    {showSections && (
-      <div className="pointer-events-none absolute inset-x-0 top-0 flex size-full justify-between">
-      {stepsArray.map((stepValue, index) => (
-        <div className={`ml-[10px] mt-[10px] `} key={index}>
-          <span
-            className={`bg-[#00B6A6] ${stepValue === value && "bg-transparent opacity-0"} block h-[11px] w-[5px] border border-black dark:text-gray-400`}
-          />
-          <p className={`${FontManrope.className} font-semibold`}>{stepValue}</p>
+      {showSections && (
+        <div className="pointer-events-none absolute inset-x-0 top-0 flex size-full justify-between">
+          {stepsArray.map((stepValue, index) => (
+            <div className={`ml-[10px] mt-[10px] `} key={index}>
+              <span
+                className={`bg-[#00B6A6] ${stepValue === value && 'bg-transparent opacity-0'} block h-[11px] w-[5px] border border-black dark:text-gray-400`}
+              />
+              <p className={`${FontManrope.className} font-semibold`}>{stepValue}</p>
+            </div>
+          ))}
         </div>
-      ))}
-      
-  
-
-      </div>
-    )}
+      )}
       {minLabel && (
-        <span className="absolute -bottom-6 start-0 text-sm text-gray-500 dark:text-gray-400">
-          {minLabel}
-        </span>
+        <span className="absolute -bottom-6 start-0 text-sm text-gray-500 dark:text-gray-400">{minLabel}</span>
       )}
       {maxLabel && (
-        <span className="absolute -bottom-6 end-0 text-sm text-gray-500 dark:text-gray-400">
-          {maxLabel}
-        </span>
+        <span className="absolute -bottom-6 end-0 text-sm text-gray-500 dark:text-gray-400">{maxLabel}</span>
       )}
     </div>
   );

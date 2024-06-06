@@ -8,9 +8,9 @@ interface UserCardProps {
 }
 
 const UserCard: React.FC<UserCardProps> = ({ closeModal, children }) => {
-    const handleCloseModal = () => {
-        closeModal(false);
-      };
+  const handleCloseModal = () => {
+    closeModal(false);
+  };
   return (
     <>
       {/* Backdrop */}
@@ -20,7 +20,7 @@ const UserCard: React.FC<UserCardProps> = ({ closeModal, children }) => {
       <div className="fixed inset-0 z-50 m-auto mt-[90px] flex w-[1115px] items-start justify-end p-4">
         {/* Modal */}
         <div className="relative h-auto w-full max-w-[401px] overflow-auto border-2 border-black bg-[#F8F8F8] text-black shadow-brut-sm">
-        <div className="border-blueGray-200 flex items-start justify-between border-solid">
+          <div className="border-blueGray-200 flex items-start justify-between border-solid">
             <div className="justify-left flex h-[46px] w-[90%] items-center border border-gray-900 pl-[22px]">
               <h1 className={`${FontSpaceMono.className} text-base font-bold uppercase`}>Wallet & API Key</h1>
             </div>
@@ -31,9 +31,7 @@ const UserCard: React.FC<UserCardProps> = ({ closeModal, children }) => {
               <IconX />
             </div>
           </div>
-          <div className="flex flex-col items-center justify-end border-gray-900 bg-[#F8F8F8]">
-            {children}
-          </div>
+          <div className="flex flex-col items-center justify-end border-gray-900 bg-[#F8F8F8]">{children}</div>
         </div>
       </div>
     </>

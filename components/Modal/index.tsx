@@ -1,26 +1,19 @@
-import { FontSpaceMono } from "@/utils/typography";
-import { IconX } from "@tabler/icons-react";
-import React, { ReactNode } from "react";
+import { FontSpaceMono } from '@/utils/typography';
+import { IconX } from '@tabler/icons-react';
+import { ReactNode } from 'react';
 
 type ModalProps = {
   title: string;
-    showModal: boolean;
-    setShowModal: Function;
-    btnText: string;
-    children: ReactNode;
-    className?: string;
-  };
+  showModal: boolean;
+  setShowModal: Function;
+  btnText: string;
+  children: ReactNode;
+  className?: string;
+};
 
-function Modal({
-  title,
-  showModal,
-  setShowModal,
-  btnText,
-  className,
-  children
-}: ModalProps) {
+function Modal({ title, showModal, setShowModal, btnText, className, children }: ModalProps) {
   const handleCloseModal = () => {
-    console.log(showModal)
+    console.log(showModal);
     setShowModal(!showModal);
   };
 
@@ -39,15 +32,11 @@ function Modal({
               <IconX />
             </div>
           </div>
-          <div className="flex flex-col items-center justify-end border  border-gray-900 bg-[#F8F8F8]">
-            {children}
-          </div>
+          <div className="flex flex-col items-center justify-end border  border-gray-900 bg-[#F8F8F8]">{children}</div>
         </div>
       </div>
     </div>
-    
   );
 }
 
 export default Modal;
-

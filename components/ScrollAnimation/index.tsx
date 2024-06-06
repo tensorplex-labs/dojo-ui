@@ -12,7 +12,7 @@ const ScrollAnimation = () => {
   const [backgroundImage, setBackgroundImage] = useState('url("../public/world-1.png")');
 
   useEffect(() => {
-    scrollYProgress.onChange(value => {
+    scrollYProgress.onChange((value) => {
       setScrollYPosition(value);
       console.log('Scroll position:', value);
       // Change background image based on scroll position
@@ -29,13 +29,12 @@ const ScrollAnimation = () => {
           setHidden(true);
         }
       } else {
-        setHidden(true)
+        setHidden(true);
         setBackgroundImage('');
-
       }
     });
 
-    const unsubscribe = scrollYProgress.onChange(value => {
+    const unsubscribe = scrollYProgress.onChange((value) => {
       console.log('Scroll position:', value);
     });
 
@@ -100,7 +99,7 @@ const ScrollAnimation = () => {
               alignItems: 'center',
               overflow: 'hidden',
               paddingTop: '10vh',
-              width: hidden ? 'auto' : '100vw',  // Conditionally set width
+              width: hidden ? 'auto' : '100vw', // Conditionally set width
               height: hidden ? '0vh' : '100vh', // Conditionally set height`
               background: `linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1)), url(${backgroundImage})`,
               // zIndex: 1000 // Ensure it's above other content

@@ -9,7 +9,13 @@ interface DropdownContainerProps {
   count?: string; // Optional count prop
 }
 
-export const DropdownContainer: React.FC<DropdownContainerProps> = ({ buttonText, imgSrc, children, className, count }) => {
+export const DropdownContainer: React.FC<DropdownContainerProps> = ({
+  buttonText,
+  imgSrc,
+  children,
+  className,
+  count,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -25,7 +31,9 @@ export const DropdownContainer: React.FC<DropdownContainerProps> = ({ buttonText
         count={count}
       />
       {isOpen && (
-        <div className={`DropDownButton-content absolute z-10 mt-[10px] border-2 border-black bg-white shadow-brut-sm ${className}`}>
+        <div
+          className={`DropDownButton-content absolute z-10 mt-[10px] border-2 border-black bg-white shadow-brut-sm ${className}`}
+        >
           {/* Use children here if needed, otherwise remove the children prop */}
           {children || (
             <ul>

@@ -1,21 +1,17 @@
-import React from 'react';
 import { cn } from '@/utils/tw';
 import { VariantProps, cva } from 'class-variance-authority';
-
+import React from 'react';
 
 const buttonVariants = cva(
   'focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap border-2 border-black text-sm font-medium ring-offset-background transition-colors hover:cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none',
   {
     variants: {
       variant: {
-        default:
-          'bg-primary text-font-secondary visited:text-font-secondary hover:bg-primary/70',
-        destructive:
-          'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+        default: 'bg-primary text-font-secondary visited:text-font-secondary hover:bg-primary/70',
+        destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         secondary: 'bg-secondary text-font-primary',
         link: 'border-0 bg-transparent text-primary underline-offset-4 visited:text-primary hover:cursor-pointer hover:underline',
-        disabled:
-          'bg-muted text-gray-500/50 hover:cursor-not-allowed hover:bg-muted',
+        disabled: 'bg-muted text-gray-500/50 hover:cursor-not-allowed hover:bg-muted',
         none: 'border-0 bg-none p-0 text-font-primary hover:bg-none',
         transit: 'bg-transit text-font-secondary hover:cursor-not-allowed',
       },
@@ -30,7 +26,7 @@ const buttonVariants = cva(
       variant: 'default',
       size: 'default',
     },
-  },
+  }
 );
 
 export interface ButtonProps
@@ -49,7 +45,7 @@ const TPLXButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
             size,
             className,
           }),
-          className,
+          className
         )}
         ref={ref}
         {...props}
@@ -66,7 +62,7 @@ const TPLXButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
       </button>
     );
-  },
+  }
 );
 
 TPLXButton.displayName = 'TPLXButton';
