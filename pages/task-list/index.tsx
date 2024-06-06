@@ -331,7 +331,7 @@ export default function Home() {
             SHOWING {tasks.length} RECORDS
           </h1>
           <span className={`${FontSpaceMono.className} text-sm font-bold text-black opacity-60`}>
-            Refreshing in {countdown}s
+            Fetching latest tasks in {countdown}s
           </span>
         </div>
         <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} isLoading={loading} />
