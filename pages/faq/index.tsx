@@ -91,7 +91,7 @@ const Page = () => {
   const [modalMessage, setModalMessage] = useState('');
   // TODO: Refactor with proper type and hook
 
-  const handleFormMessage = () => { };
+  const handleFormMessage = () => {};
 
   useEffect(() => {
     if (!response) return; // response is initially null, and we don't want to do anything
@@ -120,7 +120,7 @@ const Page = () => {
           <NavigationBar openModal={() => setShowUserCard(true)} />
           <h1
             // eslint-disable-next-line tailwindcss/no-contradicting-classname
-            className={`${FontSpaceMono.className} mb-4 mt-9 text-center text-4xl font-bold tracking-wide text-font-primary`}
+            className={`${FontSpaceMono.className} my-2 mt-5 text-center text-4xl font-bold tracking-wide text-font-primary`}
           >
             FREQUENTLY ASKED QUESTIONS
           </h1>
