@@ -87,7 +87,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
     if (task) {
       setTaskType(task.type);
     }
-    task?.taskData.criteria.forEach(criterion => {
+    task?.taskData.criteria.forEach((criterion) => {
       switch (criterion.type) {
         case taskCriteria.multiSelect:
           setIsMultiSelectQuestion(true);
@@ -156,9 +156,9 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
   }, []);
 
   const handleSelectionChange = (newValue: string) => {
-    setSelectedMultiSelectValues(prevValues => {
+    setSelectedMultiSelectValues((prevValues) => {
       const newValues = prevValues.includes(newValue)
-        ? prevValues.filter(value => value !== newValue)
+        ? prevValues.filter((value) => value !== newValue)
         : [...prevValues, newValue];
       updateMultiSelect(newValues);
       return newValues;
@@ -189,7 +189,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
   const handleRatingChange = (model: string, newRating: number) => {
     console.log('Received new rating:', newRating, '>>>', model); // Log the received new rating
 
-    setRatings(prevRatings => {
+    setRatings((prevRatings) => {
       const updatedRatings = {
         ...prevRatings,
         [model]: newRating,
@@ -247,7 +247,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
                   step: 1,
                   initialValue: ratings[multiScoreOptions[index]],
                 }}
-                onRatingChange={rating => handleRatingChange(multiScoreOptions[index], rating)}
+                onRatingChange={(rating) => handleRatingChange(multiScoreOptions[index], rating)}
                 showSlider={isMultiScore}
                 ratingData={ratings[multiScoreOptions[index]]}
               />

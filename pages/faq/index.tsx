@@ -91,7 +91,7 @@ const Page = () => {
   const [modalMessage, setModalMessage] = useState('');
   // TODO: Refactor with proper type and hook
 
-  const handleFormMessage = () => { };
+  const handleFormMessage = () => {};
 
   useEffect(() => {
     if (!response) return; // response is initially null, and we don't want to do anything
