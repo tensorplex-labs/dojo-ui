@@ -1,12 +1,12 @@
-import type { Config } from "tailwindcss";
-const { fontFamily } = require('tailwindcss/defaultTheme')
+import type { Config } from 'tailwindcss';
 import { red } from 'tailwindcss/colors';
+const { fontFamily } = require('tailwindcss/defaultTheme');
 
 const config: Config = {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
@@ -53,9 +53,8 @@ const config: Config = {
         },
       },
       backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       boxShadow: {
         'brut-sm': '4px 4px 0px 0px rgba(0,0,0,1);',
@@ -65,8 +64,8 @@ const config: Config = {
     },
   },
   fontFamily: {
-    'spacemono': ['var(--font-mono)', ...fontFamily.mono],
-    'manrope': ['var(--font-manrope)', ...fontFamily.sans]
+    spacemono: ['var(--font-mono)', ...fontFamily.mono],
+    manrope: ['var(--font-manrope)', ...fontFamily.sans],
   },
   plugins: [],
 };
