@@ -113,8 +113,7 @@ const isValidChainId = (chainId: string) => {
 };
 
 export const getBridgeProgressUrl = (bridge: string, identifier: string) => {
-  if (bridge in bridgeProgressUrl)
-    return bridgeProgressUrl[bridge].replace('__target__', identifier);
+  if (bridge in bridgeProgressUrl) return bridgeProgressUrl[bridge].replace('__target__', identifier);
 };
 
 export { getChainIds, isValidChainId, rpcSettings };

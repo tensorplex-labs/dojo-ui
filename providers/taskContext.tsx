@@ -65,7 +65,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (response.ok) {
           // Cache the fetched tasks and update state
           const cacheKey = `${page}-${LIMIT}`;
-          setCache(prevCache => new Map(prevCache).set(cacheKey, data));
+          setCache((prevCache) => new Map(prevCache).set(cacheKey, data));
           return data;
         } else {
           throw new Error(data.error || `HTTP error! status: ${response.status}`);
@@ -88,7 +88,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const getNextTaskId = useCallback(async (): Promise<string | null> => {
-    let currentTaskIndex = taskData.findIndex(task => task.taskId === router.query.taskId);
+    let currentTaskIndex = taskData.findIndex((task) => task.taskId === router.query.taskId);
     let nextTaskId = findNextUncompletedTask(taskData, currentTaskIndex + 1);
 
     if (nextTaskId) return nextTaskId;

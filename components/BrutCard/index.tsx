@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
+import React, { ReactNode } from 'react';
 
 import { cn } from '@/utils/tw';
 import TPLXShimmers from '../Shimmers';
@@ -22,9 +22,7 @@ const brutCardVariants = cva('border-2 border-black shadow-brut-sm', {
   },
 });
 
-interface Props
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof brutCardVariants> {
+interface Props extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof brutCardVariants> {
   loading?: boolean;
   disabledOverlay?: ReactNode;
 }
@@ -33,11 +31,7 @@ const TPLXBrutCard = React.forwardRef<HTMLDivElement, Props>(
   ({ className, variant, size, disabledOverlay, loading, ...props }, ref) => {
     return (
       <div
-        className={cn(
-          brutCardVariants({ variant, size, className }),
-          'p-[16px] relative',
-          className,
-        )}
+        className={cn(brutCardVariants({ variant, size, className }), 'p-[16px] relative', className)}
         ref={ref}
         {...props}
       >
@@ -45,7 +39,7 @@ const TPLXBrutCard = React.forwardRef<HTMLDivElement, Props>(
           <div
             className={cn(
               'bg-gradient-to-t from-primary from-30% to-primary/60 z-10',
-              'absolute flex justify-center items-center top-0 left-0  w-full h-full',
+              'absolute flex justify-center items-center top-0 left-0  w-full h-full'
             )}
           >
             {disabledOverlay}
@@ -61,9 +55,9 @@ const TPLXBrutCard = React.forwardRef<HTMLDivElement, Props>(
         )}
       </div>
     );
-  },
+  }
 );
 
 TPLXBrutCard.displayName = 'TPLXBrutCard';
 
-export { TPLXBrutCard, brutCardVariants };
+export { brutCardVariants, TPLXBrutCard };

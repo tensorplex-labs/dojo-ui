@@ -16,7 +16,9 @@ const useAverageTaskCompletionTime = () => {
   useEffect(() => {
     const fetchAverageTaskCompletionTime = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/metrics/average-task-completion-time`);
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/metrics/average-task-completion-time`
+        );
         const data: AverageTaskCompletionTimeResponse = await response.json();
 
         if (data.success && data.body) {

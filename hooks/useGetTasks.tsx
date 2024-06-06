@@ -21,10 +21,9 @@ export interface Task {
   status: TaskStatus;
   numResults: number;
   maxResults: number;
-  numCriteria: number,
-  isCompletedByWorker: boolean
+  numCriteria: number;
+  isCompletedByWorker: boolean;
 }
-
 
 export interface Pagination {
   pageNumber: number;
@@ -42,7 +41,14 @@ export interface TasksResponse {
   error: string | null;
 }
 
-const useGetTasks = (page: number, limit: number, taskQuery: string, sort: string, yieldMin?: number, yieldMax?: number) => {
+const useGetTasks = (
+  page: number,
+  limit: number,
+  taskQuery: string,
+  sort: string,
+  yieldMin?: number,
+  yieldMax?: number
+) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -58,9 +64,7 @@ const useGetTasks = (page: number, limit: number, taskQuery: string, sort: strin
       setError('No JWT token found');
     }
     try {
-
-      console.log("fetchTasks called", page, limit, taskQuery, sort, yieldMin, yieldMax)
-
+      console.log('fetchTasks called', page, limit, taskQuery, sort, yieldMin, yieldMax);
 
       const yieldMinQuery = yieldMin ? `&yieldMin=${yieldMin}` : '';
       const yieldMaxQuery = yieldMax ? `&yieldMax=${yieldMax}` : '';
@@ -70,8 +74,8 @@ const useGetTasks = (page: number, limit: number, taskQuery: string, sort: strin
 
       const response = await fetch(endpoint, {
         headers: {
-          'Authorization': `Bearer ${jwtToken}`,
-        }
+          Authorization: `Bearer ${jwtToken}`,
+        },
       });
       const data: TasksResponse = await response.json();
 

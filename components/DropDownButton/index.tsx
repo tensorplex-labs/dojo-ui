@@ -1,5 +1,5 @@
+import { FontSpaceMono } from '@/utils/typography'; // Assuming this is the correct import path
 import React from 'react';
-import { FontSpaceMono } from "@/utils/typography"; // Assuming this is the correct import path
 
 type DropdownButtonProps = {
   buttonText: string;
@@ -16,7 +16,7 @@ export const DropDownButton: React.FC<DropdownButtonProps> = ({ buttonText, imgS
     >
       <p>{buttonText}</p>
       <img src={imgSrc} className="inline-block" />
-      {count && <div className='bg-[#00B6A6] pl-0.5 pr-1 text-white'>{count}</div>}
+      {count && <div className="bg-[#00B6A6] pl-0.5 pr-1 text-white">{count}</div>}
     </button>
   );
 };

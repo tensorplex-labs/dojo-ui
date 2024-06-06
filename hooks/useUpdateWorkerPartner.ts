@@ -15,11 +15,7 @@ const useUpdateWorkerPartner = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const updateWorkerPartner = async (
-    minerSubscriptionKey: string,
-    newMinerSubscriptionKey: string,
-    name: string
-  ) => {
+  const updateWorkerPartner = async (minerSubscriptionKey: string, newMinerSubscriptionKey: string, name: string) => {
     setLoading(true);
     try {
       const payload = {
@@ -32,7 +28,7 @@ const useUpdateWorkerPartner = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${jwtToken}`,
+          Authorization: `Bearer ${jwtToken}`,
         },
         body: JSON.stringify(payload),
       });

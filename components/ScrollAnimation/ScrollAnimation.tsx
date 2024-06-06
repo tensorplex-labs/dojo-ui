@@ -12,7 +12,7 @@ export const ScrollAnimation = () => {
   const [backgroundImage, setBackgroundImage] = useState('url("../public/world-1.png")');
 
   useEffect(() => {
-    scrollYProgress.onChange(value => {
+    scrollYProgress.onChange((value) => {
       setScrollYPosition(value);
       console.log('Scroll position:', value);
       // Change background image based on scroll position
@@ -32,11 +32,10 @@ export const ScrollAnimation = () => {
       } else {
         setHidden(true);
         setBackgroundImage('');
-
       }
     });
 
-    const unsubscribe = scrollYProgress.onChange(value => {
+    const unsubscribe = scrollYProgress.onChange((value) => {
       console.log('Scroll position:', value);
     });
 
@@ -53,7 +52,8 @@ export const ScrollAnimation = () => {
   const texts = [
     {
       title: 'Get Paid to Contribute to Open Source AI',
-      subtitle: 'Your responses will  be used to train open-source models and improve outputs on other Bittensor Subnets',
+      subtitle:
+        'Your responses will  be used to train open-source models and improve outputs on other Bittensor Subnets',
     },
     {
       title: 'Work anytime from anywhere',
@@ -61,7 +61,8 @@ export const ScrollAnimation = () => {
     },
     {
       title: 'Get Paid Quickly',
-      subtitle: 'Rewards are streamed consistently to the miner, as long as sufficient tasks are completed and accepted by the Subnet',
+      subtitle:
+        'Rewards are streamed consistently to the miner, as long as sufficient tasks are completed and accepted by the Subnet',
     },
   ];
 
@@ -110,7 +111,8 @@ export const ScrollAnimation = () => {
                 title={texts[0].title}
                 subtitle={texts[0].subtitle}
                 scrollYPosition={scrollYPosition}
-                style={{ rotate: '-6deg' }} />
+                style={{ rotate: '-6deg' }}
+              />
             )}
           </AnimatePresence>
           <AnimatePresence>
@@ -120,7 +122,8 @@ export const ScrollAnimation = () => {
                 title={texts[1].title}
                 subtitle={texts[1].subtitle}
                 scrollYPosition={scrollYPosition}
-                style={{ rotate: '3deg' }} />
+                style={{ rotate: '3deg' }}
+              />
             )}
           </AnimatePresence>
           <AnimatePresence>
@@ -129,7 +132,8 @@ export const ScrollAnimation = () => {
                 y={y}
                 title={texts[2].title}
                 subtitle={texts[2].subtitle}
-                scrollYPosition={scrollYPosition} />
+                scrollYPosition={scrollYPosition}
+              />
             )}
           </AnimatePresence>
         </motion.div>

@@ -2,11 +2,11 @@ import { taskStatus } from '@/hooks/useGetTasks';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import {
   ColumnDef,
+  Row,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
-  Row,
   useReactTable,
 } from '@tanstack/react-table';
 import { useRouter } from 'next/router';
@@ -150,9 +150,9 @@ const TPLXDatatable = ({
       <div className={`overflow-x-auto border-2 border-black bg-[#F8F8F8] shadow-brut-sm`}>
         <table className={`min-w-full ${tableClassName}`}>
           <thead className={`border-b border-black ${FontSpaceMono.className} text-lg font-bold`}>
-            {table.getHeaderGroups().map(headerGroup => (
+            {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id} className="px-[25px] py-[18px]">
-                {headerGroup.headers.map(header => (
+                {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
                     className={`px-4 py-2 text-start text-black ${headerCellClassName} ${
@@ -201,9 +201,9 @@ const TPLXDatatable = ({
             </tbody>
           ) : (
             <tbody>
-              {tableRows.map(row => (
+              {tableRows.map((row) => (
                 <tr key={row.id} className={`${row.original.bodyRowClassName || ''} border-b-2`}>
-                  {row.getVisibleCells().map(cell =>
+                  {row.getVisibleCells().map((cell) =>
                     cell.column.columnDef.header === 'Name' ? (
                       <td
                         key={cell.id}

@@ -30,7 +30,6 @@ const useWorkerLoginAuth = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-
         },
         body: JSON.stringify(payload),
       });
@@ -39,12 +38,11 @@ const useWorkerLoginAuth = () => {
 
       if (response.ok && data.success) {
         if (data.body?.token) {
-            localStorage.setItem('jwtToken', data.body.token);
-
-          } else {
-            throw new Error('Token is undefined');
-          }
+          localStorage.setItem('jwtToken', data.body.token);
         } else {
+          throw new Error('Token is undefined');
+        }
+      } else {
         throw new Error(data.error || `HTTP error! status: ${response.status}`);
       }
     } catch (e: any) {
