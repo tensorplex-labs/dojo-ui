@@ -5,7 +5,7 @@ import useDisableMinerByWorker from '@/hooks/useDisableMinerByWorker';
 import { usePartnerList } from '@/hooks/usePartnerList';
 import useUpdateWorkerPartner from '@/hooks/useUpdateWorkerPartner';
 import { useSubmit } from '@/providers/submitContext';
-import { getFirstSixLastSix } from '@/utils/math_helpers';
+import { getFirstAndLastCharacters } from '@/utils/math_helpers';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { IconCheck, IconEdit, IconLoader, IconTrash, IconX } from '@tabler/icons-react';
 import React, { useEffect, useState } from 'react';
@@ -119,13 +119,13 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isModalVisible, s
   return (
     <Modal showModal={isModalVisible} setShowModal={setIsModalVisible} title="SUBSCRIPTION KEYS" btnText="Close">
       <div className="w-full bg-[#DBF5E9] px-[22px] py-[15px] text-black">
-        <div>
+        <div className="pb-[15px]">
           <h1 className={`${FontSpaceMono.className} text-base font-bold`}>ENTER SUBSCRIPTION KEY</h1>
           <h2 className={`${FontManrope.className} text-base font-medium opacity-60`}>
             Obtain subscription key from miners
           </h2>
         </div>
-        <div className={` flex-row`}>
+        <div className={`flex-row`}>
           <div className="flex flex-row justify-between">
             <div className="mr-2 flex">
               <LabelledInput
@@ -175,7 +175,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isModalVisible, s
             <th className="border-b-2 px-5 py-3 text-left text-sm font-bold uppercase tracking-wider opacity-75">
               Created
             </th>
-            <th className="border-b-2 px-5 py-3 text-left text-sm font-bold uppercase tracking-wider opacity-75">
+            <th className="border-b-2 px-5 py-3 text-right text-sm font-bold uppercase tracking-wider opacity-75">
               Operations
             </th>
           </tr>
@@ -217,12 +217,12 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isModalVisible, s
                       onChange={(e) => handleChange(e, 'subscriptionKey')}
                     />
                   ) : (
-                    getFirstSixLastSix(item.subscriptionKey)
+                    getFirstAndLastCharacters(item.subscriptionKey, 10)
                   )}
                 </td>
                 <td className="px-5 py-3">{formatDate(item.createdAt)}</td>
                 <td className="px-5 py-3">
-                  <div className="flex size-full items-center justify-start">
+                  <div className="flex size-full items-center justify-end">
                     {editRowId === item.id ? (
                       <>
                         <button onClick={handleSave}>
