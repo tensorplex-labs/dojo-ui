@@ -64,15 +64,26 @@ export default function Home() {
     yieldMax ? parseInt(yieldMax as string) : undefined
   );
   const { partners, isLoading: pLoading } = usePartnerList(triggerTaskPageReload);
+  const [countdown, setCountdown] = useState(20);
 
-  // Polling Effect
+  // Define the function to handle polling and refetching tasks
+  const handlePollingTasks = useCallback(async () => {
+    if (countdown === 0) {
+      await refetchTasks();
+      setCountdown(20); // Reset the countdown only after refetchTasks completes
+    } else {
+      setCountdown((prev) => prev - 1); // Decrease the countdown
+    }
+  }, [countdown, refetchTasks]);
+
+  // Polling Tasks
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      refetchTasks();
-    }, 20000); // Poll every 20 seconds
+    const timer = setInterval(() => {
+      handlePollingTasks();
+    }, 1000); // Decrease the countdown every second
 
-    return () => clearInterval(intervalId); // Cleanup interval on component unmount
-  }, [refetchTasks]);
+    return () => clearInterval(timer); // Cleanup interval on component unmount
+  }, [handlePollingTasks]);
 
   const handleViewClick = () => {
     // Logic to close Wallet & API (if any)
@@ -315,11 +326,16 @@ export default function Home() {
         </div>
       </div>
       <div className="mx-auto mb-[40px] mt-[19px] flex w-[1075px] flex-col">
-        <h1 className={`${FontSpaceMono.className} mb-[19px] text-[22px] font-bold text-black`}>
-          SHOWING {tasks.length} RECORDS
-        </h1>
+        <div className="mb-[19px]">
+          <h1 className={`${FontSpaceMono.className}text-[22px] font-bold text-black`}>
+            SHOWING {tasks.length} RECORDS
+          </h1>
+          <span className={`${FontSpaceMono.className} text-sm font-bold text-black opacity-60`}>
+            Refreshing in {countdown}s
+          </span>
+        </div>
         <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} isLoading={loading} />
-        <div className=" mt-3"></div>
+        <div className="mt-3"></div>
         <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange} />
         {partners.length === 0 || tasks.length <= 0 ? (
           <div className="text-center">
