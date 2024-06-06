@@ -17,7 +17,7 @@ const useDisableWorkerByMiner = () => {
       const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/miner/partner/disable`;
       const payload = {
         worker_id: workerId,
-        to_disable: toDisable
+        to_disable: toDisable,
       };
 
       const response = await fetch(endpoint, {

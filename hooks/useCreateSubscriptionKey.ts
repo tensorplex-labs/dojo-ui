@@ -25,9 +25,9 @@ export const useCreateSubscriptionKey = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${jwtToken}`
+          Authorization: `Bearer ${jwtToken}`,
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
       });
 
       const result = await response.json();
@@ -36,7 +36,7 @@ export const useCreateSubscriptionKey = () => {
       }
       setError('');
       setResponse(result);
-    } catch (error:any) {
+    } catch (error: any) {
       setError(error.message);
     } finally {
       setIsLoading(false);

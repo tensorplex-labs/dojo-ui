@@ -27,7 +27,7 @@ const useSubmitTaskByWorker = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${jwtToken}`
+          Authorization: `Bearer ${jwtToken}`,
         },
         body: JSON.stringify({ taskId, resultData }),
       });

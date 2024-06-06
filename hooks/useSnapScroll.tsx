@@ -16,7 +16,7 @@ const useSnapScroll = () => {
         const newScrollPosition = snapHeight * snapIndex;
         window.scrollTo({
           top: newScrollPosition,
-          behavior: 'smooth'
+          behavior: 'smooth',
         });
       }, 100);
     };
