@@ -1,14 +1,13 @@
 const getFromLocalStorage = (key: string) => {
-    if (!key || typeof window === 'undefined') {
-        return ""
-    }
-    return localStorage.getItem(key)
-}
+  if (!key || typeof window === 'undefined') {
+    return '';
+  }
+  return localStorage.getItem(key);
+};
 
 const clearLocalStorage = () => {
-    localStorage.removeItem('jwtToken')
-    // remove all the storage as need
-}
+  localStorage.removeItem('jwtToken');
+  // remove all the storage as need
+};
 
-
-export { getFromLocalStorage, clearLocalStorage}
+export { clearLocalStorage, getFromLocalStorage };

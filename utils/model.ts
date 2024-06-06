@@ -3,4 +3,3 @@ export type DefaultApiResponse<T> = {
   body: T;
   error: any;
 };
-

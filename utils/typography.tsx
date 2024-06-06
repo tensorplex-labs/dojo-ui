@@ -1,4 +1,4 @@
-import { Space_Mono, Manrope } from 'next/font/google';
+import { Manrope, Space_Mono } from 'next/font/google';
 
 export const FontSpaceMono = Space_Mono({
   subsets: ['latin'],

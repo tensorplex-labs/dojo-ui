@@ -47,10 +47,7 @@ const abbreviateNumber = (value?: number) => {
     remainingLHS = remainingLHS.slice(0, remainingLHS.length - 3);
     suffixFinalIndex++; // Everytime we slice 3 numbers, means suffix go to next one; k->m->b->t
   }
-  const remainingRHS = valueRounded.slice(
-    remainingLHS.length,
-    valueRounded.length,
-  );
+  const remainingRHS = valueRounded.slice(remainingLHS.length, valueRounded.length);
   newValue = `${remainingLHS}.${remainingRHS[0]}${
     remainingRHS.length > 0 && remainingRHS[1]
   }${suffixes[suffixFinalIndex]}`;
@@ -90,7 +87,6 @@ export const getFirstFourLastFour = (str: string) => {
   return `${str.slice(0, 4)}...${str.slice(-4)}`;
 };
 
-
 export const getFirstSixLastSix = (str: string) => {
   if (str === '' || str === null) {
     return '-';
@@ -98,4 +94,4 @@ export const getFirstSixLastSix = (str: string) => {
   return `${str.slice(0, 6)}...${str.slice(-6)}`;
 };
 
-export { formatDollar, roundTwoDP, roundDP, abbreviateNumber };
+export { abbreviateNumber, formatDollar, roundDP, roundTwoDP };
