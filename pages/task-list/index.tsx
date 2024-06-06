@@ -18,7 +18,6 @@ import { usePartnerList } from '@/hooks/usePartnerList';
 import { useAuth } from '@/providers/authContext';
 import { MODAL } from '@/providers/modals';
 import { useSubmit } from '@/providers/submitContext';
-import { useTaskData } from '@/providers/taskContext';
 import { getFirstFourLastFour } from '@/utils/math_helpers';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { IconCopy, IconExternalLink } from '@tabler/icons-react';
@@ -49,14 +48,14 @@ export default function Home() {
     openModal();
     setShowUserCard(false);
   };
-  const { triggerTaskPageReload, setTriggerTaskPageReload } = useSubmit();
+  const { triggerTaskPageReload } = useSubmit();
   const searchParams = useSearchParams();
   const params = useMemo(() => new URLSearchParams(searchParams), [searchParams]);
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState<string>('1');
   const { page, limit, tasks: taskTypes, sort, yieldMin, yieldMax } = router.query;
 
-  const { tasks, pagination, loading } = useGetTasks(
+  const { tasks, pagination, loading, refetchTasks } = useGetTasks(
     page ? parseInt(page as string) : parseInt(currentPage),
     limit ? parseInt(limit as string) : 10,
     taskTypes ? (taskTypes as string) : 'All', // 'All' as default task type if not provided
@@ -65,8 +64,15 @@ export default function Home() {
     yieldMax ? parseInt(yieldMax as string) : undefined
   );
   const { partners, isLoading: pLoading } = usePartnerList(triggerTaskPageReload);
-  const { setTaskData, setPagination } = useTaskData();
-  // update the task data in the context
+
+  // Polling Effect
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      refetchTasks();
+    }, 20000); // Poll every 20 seconds
+
+    return () => clearInterval(intervalId); // Cleanup interval on component unmount
+  }, [refetchTasks]);
 
   const handleViewClick = () => {
     // Logic to close Wallet & API (if any)
@@ -81,15 +87,6 @@ export default function Home() {
   const toggleDemo = () => {
     setShowDemo(!showDemo);
   };
-
-  // useEffect(() => {
-  //   if (activeCategories.length == 1 && activeCategories.includes("All")) {
-  //     setFilteredData(mockData);
-  //   } else {
-  //     const filtered = mockData.filter((dataItem) => activeCategories.includes(dataItem.type));
-  //     setFilteredData(filtered);
-  //   }
-  // }, [activeCategories]); // Run this effect when activeCategory changes
 
   const clearInputs = () => {
     setInputValue1('');
@@ -118,8 +115,8 @@ export default function Home() {
       } else {
         // Compute new categories list outside the setter
         updatedCategories = activeCategories.includes(categoryLabel)
-          ? activeCategories.filter(cat => cat !== categoryLabel && cat !== ALL_CATEGORY) // Remove the category
-          : [...activeCategories.filter(cat => cat !== ALL_CATEGORY), categoryLabel]; // Add the category, remove "All"
+          ? activeCategories.filter((cat) => cat !== categoryLabel && cat !== ALL_CATEGORY) // Remove the category
+          : [...activeCategories.filter((cat) => cat !== ALL_CATEGORY), categoryLabel]; // Add the category, remove "All"
 
         // Check if the list is empty and reset to "All"
         if (updatedCategories.length === 0) {
@@ -135,8 +132,8 @@ export default function Home() {
       if (updatedCategories.length === 0 || updatedCategories.includes(ALL_CATEGORY)) {
         // setTaskTypes(categories.map(cat => cat.taskType).filter( type => type !== undefined));
         const taskFilter = categories
-          .map(cat => cat.taskType)
-          .filter(type => type !== undefined)
+          .map((cat) => cat.taskType)
+          .filter((type) => type !== undefined)
           .join(',');
 
         const newQuery = {
@@ -157,9 +154,9 @@ export default function Home() {
       }
 
       const updatedTaskTypes = categories
-        .filter(cat => updatedCategories.includes(cat.label))
-        .map(category => category.taskType)
-        .filter(type => type !== undefined);
+        .filter((cat) => updatedCategories.includes(cat.label))
+        .map((category) => category.taskType)
+        .filter((type) => type !== undefined);
 
       const newQuery = {
         ...router.query,
@@ -186,11 +183,6 @@ export default function Home() {
   //     setInputValue2(value);
   //   }
   // };
-
-  useEffect(() => {
-    if (tasks && tasks.length > 0) setTaskData(tasks);
-    if (pagination) setPagination(pagination);
-  }, [tasks, pagination, setTaskData, setPagination]);
 
   const updateSorting = useCallback(
     (sort: string) => {
@@ -278,7 +270,7 @@ export default function Home() {
       <div className="mx-auto mt-[18px] flex w-[1075px]">
         <div className="flex w-full  justify-between gap-2">
           <div className="mt-[18px] flex flex-wrap gap-2">
-            {categories.map(category => (
+            {categories.map((category) => (
               <CategoryItem
                 key={category.label}
                 label={category.label}
