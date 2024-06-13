@@ -193,7 +193,21 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isModalVisible, s
               </td>
             </tr>
           )}
-          {!isSubscriptionModalLoading &&
+          {!isSubscriptionModalLoading && partners.length === 0 ? (
+            <>
+              {[...Array(5)].map((_, i) => (
+                <tr key={i}>
+                  <td colSpan={4} className="px-5 py-3 text-center">
+                    {i === 2 && (
+                      <div className={`${FontManrope.className} text-lg font-bold text-black opacity-60`}>
+                        No Data Available
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </>
+          ) : (
             partners.map((item) => (
               <tr key={item.id} className="font-medium opacity-60">
                 <td className="px-5 py-3">
@@ -245,7 +259,8 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isModalVisible, s
                   </div>
                 </td>
               </tr>
-            ))}
+            ))
+          )}
         </tbody>
       </table>
     </Modal>
