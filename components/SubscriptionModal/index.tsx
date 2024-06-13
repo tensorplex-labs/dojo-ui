@@ -181,7 +181,76 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isModalVisible, s
           </tr>
         </thead>
         <tbody className={`${FontManrope.className} text-opacity-60`}>
-          {isSubscriptionModalLoading && (
+          {!isSubscriptionModalLoading ? (
+            partners.length === 0 ? (
+              <>
+                {[...Array(5)].map((_, i) => (
+                  <tr key={i}>
+                    <td colSpan={4} className="px-5 py-3 text-center">
+                      {i === 2 && (
+                        <div className={`${FontManrope.className} text-lg font-bold text-black opacity-60`}>
+                          No Data Available
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </>
+            ) : (
+              partners.map((item) => (
+                <tr key={item.id} className="font-medium opacity-60">
+                  <td className="px-5 py-3">
+                    {editRowId === item.id ? (
+                      <input
+                        className="block w-full border-2 border-black p-2"
+                        type="text"
+                        value={editableData?.name}
+                        onChange={(e) => handleChange(e, 'name')}
+                      />
+                    ) : (
+                      item.name
+                    )}
+                  </td>
+                  <td className="px-5 py-3">
+                    {editRowId === item.id ? (
+                      <input
+                        className="block w-full border-2 border-black p-2"
+                        type="text"
+                        value={editableData?.subscriptionKey}
+                        onChange={(e) => handleChange(e, 'subscriptionKey')}
+                      />
+                    ) : (
+                      getFirstAndLastCharacters(item.subscriptionKey, 10)
+                    )}
+                  </td>
+                  <td className="px-5 py-3">{formatDate(item.createdAt)}</td>
+                  <td className="px-5 py-3">
+                    <div className="flex size-full items-center justify-end">
+                      {editRowId === item.id ? (
+                        <>
+                          <button onClick={handleSave}>
+                            <IconCheck />
+                          </button>
+                          <button className="ml-4" onClick={handleCancel}>
+                            <IconX />
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button onClick={() => handleEdit(item)}>
+                            <IconEdit />
+                          </button>
+                          <button className="ml-4" onClick={() => handleDelete(item)}>
+                            <IconTrash />
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )
+          ) : (
             <tr>
               <td colSpan={4} className="py-5 text-center">
                 <div className="flex justify-center">
@@ -192,74 +261,6 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isModalVisible, s
                 </div>
               </td>
             </tr>
-          )}
-          {!isSubscriptionModalLoading && partners.length === 0 ? (
-            <>
-              {[...Array(5)].map((_, i) => (
-                <tr key={i}>
-                  <td colSpan={4} className="px-5 py-3 text-center">
-                    {i === 2 && (
-                      <div className={`${FontManrope.className} text-lg font-bold text-black opacity-60`}>
-                        No Data Available
-                      </div>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </>
-          ) : (
-            partners.map((item) => (
-              <tr key={item.id} className="font-medium opacity-60">
-                <td className="px-5 py-3">
-                  {editRowId === item.id ? (
-                    <input
-                      className="block w-full border-2 border-black p-2"
-                      type="text"
-                      value={editableData?.name}
-                      onChange={(e) => handleChange(e, 'name')}
-                    />
-                  ) : (
-                    item.name
-                  )}
-                </td>
-                <td className="px-5 py-3">
-                  {editRowId === item.id ? (
-                    <input
-                      className="block w-full border-2 border-black p-2"
-                      type="text"
-                      value={editableData?.subscriptionKey}
-                      onChange={(e) => handleChange(e, 'subscriptionKey')}
-                    />
-                  ) : (
-                    getFirstAndLastCharacters(item.subscriptionKey, 10)
-                  )}
-                </td>
-                <td className="px-5 py-3">{formatDate(item.createdAt)}</td>
-                <td className="px-5 py-3">
-                  <div className="flex size-full items-center justify-end">
-                    {editRowId === item.id ? (
-                      <>
-                        <button onClick={handleSave}>
-                          <IconCheck />
-                        </button>
-                        <button className="ml-4" onClick={handleCancel}>
-                          <IconX />
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <button onClick={() => handleEdit(item)}>
-                          <IconEdit />
-                        </button>
-                        <button className="ml-4" onClick={() => handleDelete(item)}>
-                          <IconTrash />
-                        </button>
-                      </>
-                    )}
-                  </div>
-                </td>
-              </tr>
-            ))
           )}
         </tbody>
       </table>
