@@ -62,6 +62,8 @@ const useGetTasks = (
       setTasks([]);
       setPagination(null);
       setError('No JWT token found');
+      setLoading(false);
+      return;
     }
     try {
       console.log('fetchTasks called', page, limit, taskQuery, sort, yieldMin, yieldMax);
@@ -91,12 +93,18 @@ const useGetTasks = (
       setLoading(false);
     }
   }, [page, limit, taskQuery, sort, yieldMin, yieldMax, jwtToken]);
-
   useEffect(() => {
     console.log('useEffect inside useGetTasks', router);
     if (!router.isReady) return;
-    fetchTasks();
-  }, [fetchTasks, triggerTaskPageReload, router]);
+    if (jwtToken) {
+      fetchTasks();
+    } else {
+      setTasks([]);
+      setPagination(null);
+      setError('No JWT token found');
+      setLoading(false);
+    }
+  }, [fetchTasks, jwtToken, router.isReady]);
 
   return { tasks, pagination, loading, error, refetchTasks: fetchTasks };
 };
