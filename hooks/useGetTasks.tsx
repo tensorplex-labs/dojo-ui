@@ -1,7 +1,7 @@
 import { useSubmit } from '@/providers/submitContext';
 import { getFromLocalStorage } from '@/utils/general_helpers';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export const taskStatus = {
   IN_PROGRESS: 'IN_PROGRESS',
@@ -56,8 +56,14 @@ const useGetTasks = (
   const jwtToken = getFromLocalStorage('jwtToken');
   const { triggerTaskPageReload } = useSubmit();
   const router = useRouter();
+  const isFetchingRef = useRef<boolean>(false);
 
   const fetchTasks = useCallback(async () => {
+    if (isFetchingRef.current) {
+      console.log('Fetch request already in progress, skipping new request');
+      return;
+    }
+
     if (!jwtToken) {
       setTasks([]);
       setPagination(null);
@@ -65,6 +71,8 @@ const useGetTasks = (
       setLoading(false);
       return;
     }
+
+    isFetchingRef.current = true;
     try {
       console.log('fetchTasks called', page, limit, taskQuery, sort, yieldMin, yieldMax);
 
@@ -91,8 +99,10 @@ const useGetTasks = (
       setError(e.message);
     } finally {
       setLoading(false);
+      isFetchingRef.current = false;
     }
   }, [page, limit, taskQuery, sort, yieldMin, yieldMax, jwtToken]);
+
   useEffect(() => {
     console.log('useEffect inside useGetTasks', router);
     if (!router.isReady) return;
