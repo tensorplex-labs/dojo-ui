@@ -199,6 +199,20 @@ const TPLXDatatable = ({
                 </tr>
               ))}
             </tbody>
+          ) : tableRows.length === 0 ? (
+            <>
+              {[...Array(8)].map((_, i) => (
+                <tr key={i}>
+                  <td colSpan={columnDef.length} className="px-4 py-2 text-center">
+                    {i === 3 && (
+                      <div className={`${FontManrope.className} text-lg font-bold text-black opacity-60`}>
+                        No Data Available
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </>
           ) : (
             <tbody>
               {tableRows.map((row) => (
