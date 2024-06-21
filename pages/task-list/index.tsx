@@ -64,13 +64,13 @@ export default function Home() {
     yieldMax ? parseInt(yieldMax as string) : undefined
   );
   const { partners, isLoading: pLoading } = usePartnerList(triggerTaskPageReload);
-  const [countdown, setCountdown] = useState(20);
+  const [countdown, setCountdown] = useState(120);
 
   // Define the function to handle polling and refetching tasks
   const handlePollingTasks = useCallback(async () => {
     if (countdown === 0) {
       await refetchTasks();
-      setCountdown(20); // Reset the countdown only after refetchTasks completes
+      setCountdown(120); // Reset the countdown only after refetchTasks completes
     } else {
       setCountdown((prev) => prev - 1); // Decrease the countdown
     }
