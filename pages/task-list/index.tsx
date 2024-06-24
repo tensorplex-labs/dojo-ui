@@ -64,13 +64,13 @@ export default function Home() {
     yieldMax ? parseInt(yieldMax as string) : undefined
   );
   const { partners, isLoading: pLoading } = usePartnerList(triggerTaskPageReload);
-  const [countdown, setCountdown] = useState(20);
+  const [countdown, setCountdown] = useState(120);
 
   // Define the function to handle polling and refetching tasks
   const handlePollingTasks = useCallback(async () => {
     if (countdown === 0) {
       await refetchTasks();
-      setCountdown(20); // Reset the countdown only after refetchTasks completes
+      setCountdown(120); // Reset the countdown only after refetchTasks completes
     } else {
       setCountdown((prev) => prev - 1); // Decrease the countdown
     }
@@ -78,12 +78,14 @@ export default function Home() {
 
   // Polling Tasks
   useEffect(() => {
+    if (!isAuthenticated || !isConnected) return;
     const timer = setInterval(() => {
       handlePollingTasks();
+      console.log('working', countdown);
     }, 1000); // Decrease the countdown every second
 
-    return () => clearInterval(timer); // Cleanup interval on component unmount
-  }, [handlePollingTasks]);
+    return () => clearInterval(timer);
+  }, [handlePollingTasks, isAuthenticated, isConnected]);
 
   const handleViewClick = () => {
     // Logic to close Wallet & API (if any)
@@ -330,9 +332,11 @@ export default function Home() {
           <h1 className={`${FontSpaceMono.className}text-[22px] font-bold text-black`}>
             SHOWING {tasks.length} RECORDS
           </h1>
-          <span className={`${FontSpaceMono.className} text-sm font-bold text-black opacity-60`}>
-            Fetching latest tasks in {countdown}s
-          </span>
+          {isAuthenticated && isConnected ? (
+            <span className={`${FontSpaceMono.className} text-sm font-bold text-black opacity-60`}>
+              Fetching latest tasks in {countdown}s
+            </span>
+          ) : null}
         </div>
         <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} isLoading={loading} />
         <div className="mt-3"></div>
