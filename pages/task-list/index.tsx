@@ -40,7 +40,7 @@ export default function Home() {
   const [showUserCard, setShowUserCard] = useState(false);
   const { isAuthenticated } = useAuth();
 
-  const { address, status, isConnected } = useAccount();
+  const { connector, address, status, isConnected } = useAccount();
   // const { disconnect } = useDisconnect();
   const handleCopy = useCopyToClipboard(address ?? '');
   const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
@@ -341,14 +341,16 @@ export default function Home() {
         <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} isLoading={loading} />
         <div className="mt-3"></div>
         <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange} />
-        {partners.length === 0 || tasks.length <= 0 ? (
-          <div className="text-center">
-            <Button
-              onClick={() => handleViewClick()}
-              buttonText="Enter Subscription Key"
-              className="cursor-not-allowed bg-primary text-white"
-            />
-          </div>
+        {isAuthenticated ? (
+          partners.length === 0 || tasks.length <= 0 ? (
+            <div className="text-center">
+              <Button
+                onClick={() => handleViewClick()}
+                buttonText="Enter Subscription Key"
+                className="cursor-not-allowed bg-primary text-white"
+              />
+            </div>
+          ) : null
         ) : null}
       </div>
       {showUserCard && (
