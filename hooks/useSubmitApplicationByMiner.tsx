@@ -25,7 +25,8 @@ export const useSubmitApplication = () => {
 
   const submitApplication = async (data: ApplicationData) => {
     setIsLoading(true);
-    const jwtToken = getFromLocalStorage('jwtToken');
+    const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+    const jwtToken = getFromLocalStorage(tokenType);
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/miner/login/auth`, {

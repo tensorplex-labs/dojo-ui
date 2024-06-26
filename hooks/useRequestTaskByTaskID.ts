@@ -27,7 +27,8 @@ const useRequestTaskByTaskID = (taskId: string) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const jwtToken = getFromLocalStorage('jwtToken');
+    const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+    const jwtToken = getFromLocalStorage(tokenType);
     const fetchTask = async () => {
       setLoading(true);
       try {

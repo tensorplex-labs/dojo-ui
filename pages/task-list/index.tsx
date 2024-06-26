@@ -81,7 +81,6 @@ export default function Home() {
     if (!isAuthenticated || !isConnected) return;
     const timer = setInterval(() => {
       handlePollingTasks();
-      console.log('working', countdown);
     }, 1000); // Decrease the countdown every second
 
     return () => clearInterval(timer);

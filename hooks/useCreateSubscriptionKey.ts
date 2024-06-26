@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useJwtToken } from './useJwtToken';
 
 interface CreateSubscriptionKeyResponse {
   success: boolean;
@@ -18,7 +19,7 @@ export const useCreateSubscriptionKey = () => {
 
   const createSubscriptionKey = async (data: SubscriptionKeyData) => {
     setIsLoading(true);
-    const jwtToken = localStorage.getItem('jwtToken'); // Ensure you have the JWT token available
+    const jwtToken = useJwtToken(); // Ensure you have the JWT token available
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/worker/partner`, {
