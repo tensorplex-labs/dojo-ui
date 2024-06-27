@@ -45,10 +45,9 @@ export const useSIWE = (postSignin: () => void) => {
     }
   };
   useEffect(() => {
-    console.log('isConnected and isauth', isConnected, isAuthenticated);
-    if (isConnected && !isAuthenticated && address) {
+    const jwtToken = localStorage.getItem('jwtToken'); // Ensure you have the JWT token available
+    if (isConnected && !isAuthenticated && address && !jwtToken) {
       signInWithEthereum(address);
-      //
     }
-  }, [isConnected, isAuthenticated]);
+  }, [isConnected, isAuthenticated, address]);
 };
