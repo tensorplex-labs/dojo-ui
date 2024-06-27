@@ -1,7 +1,6 @@
 'use client';
 import { Button } from '@/components/Button';
 import { CategoryItem } from '@/components/CategoryItem';
-import DisconnectedPopup from '@/components/DisconnectedPopup';
 import { DropdownContainer } from '@/components/DropDown';
 import NavigationBar from '@/components/NavigationBar';
 import { Pagination } from '@/components/Pagination';
@@ -418,7 +417,6 @@ export default function Home() {
           </div>
         </UserCard>
       )}
-      <DisconnectedPopup />
       {isModalVisible && <SubscriptionModal setIsModalVisible={setIsModalVisible} isModalVisible={isModalVisible} />}
     </div>
   );
