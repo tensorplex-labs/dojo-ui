@@ -19,7 +19,7 @@ const steps = [
     stepNumber: 1,
     title: 'Go to task list',
     description:
-      '<a href="https://dojo.tensorplex.ai/task-list" target="_blank" style="text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none; font-weight: 700;" className="">dojo.tensorplex.ai/task-list</a>',
+      '<a href="https://dojo.tensorplex.ai/task-list?sort=numCriteria&order=desc" target="_blank" style="text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none; font-weight: 700;" className="">dojo.tensorplex.ai/task-list</a>',
     imageUrl: './step1.png',
     backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
   },

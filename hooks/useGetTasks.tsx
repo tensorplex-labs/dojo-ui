@@ -46,6 +46,7 @@ const useGetTasks = (
   limit: number,
   taskQuery: string,
   sort: string,
+  order: string,
   yieldMin?: number,
   yieldMax?: number
 ) => {
@@ -78,7 +79,7 @@ const useGetTasks = (
 
       const yieldMinQuery = yieldMin ? `&yieldMin=${yieldMin}` : '';
       const yieldMaxQuery = yieldMax ? `&yieldMax=${yieldMax}` : '';
-      const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/?page=${page}&limit=${limit}&task=${taskQuery}&sort=${sort}${yieldMinQuery}${yieldMaxQuery}`;
+      const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/?page=${page}&limit=${limit}&task=${taskQuery}&sort=${sort}${yieldMinQuery}${yieldMaxQuery}&order=${order}`;
 
       setLoading(true);
 
@@ -101,7 +102,7 @@ const useGetTasks = (
       setLoading(false);
       isFetchingRef.current = false;
     }
-  }, [page, limit, taskQuery, sort, yieldMin, yieldMax, jwtToken]);
+  }, [page, limit, taskQuery, sort, order, yieldMin, yieldMax, jwtToken]);
 
   useEffect(() => {
     console.log('useEffect inside useGetTasks', router);
