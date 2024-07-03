@@ -67,7 +67,7 @@ const HeroCardSection = () => {
             <h3 className={` ${FontManrope.className} text-[32px] font-extrabold`} key={averageTaskCompletionTime}>
               <CountUp
                 start={0}
-                end={averageTaskCompletionTime || 0}
+                end={averageTaskCompletionTime ? averageTaskCompletionTime : 300}
                 duration={3}
                 startOnMount
                 formattingFn={formatTime}
