@@ -23,7 +23,8 @@ const useUpdateWorkerPartner = () => {
         newMinerSubscriptionKey: newMinerSubscriptionKey,
         name: name,
       };
-      const jwtToken = getFromLocalStorage('jwtToken');
+      const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+      const jwtToken = getFromLocalStorage(tokenType);
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/partner/edit`, {
         method: 'PUT',
         headers: {

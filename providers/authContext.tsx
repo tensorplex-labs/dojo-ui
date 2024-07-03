@@ -26,10 +26,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const { workerLoginAuth, loading, error } = useWorkerLoginAuth();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { disconnect } = useDisconnect();
-
+  const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
   // Attempt to retrieve the auth token from localStorage on initial load
   useEffect(() => {
-    const token = localStorage.getItem('jwtToken');
+    const token = localStorage.getItem(tokenType);
     setIsAuthenticated(!!token); // Convert the presence of token to a boolean to set authenticated state
   }, []);
 
@@ -37,7 +37,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       await workerLoginAuth(loginPayload);
 
-      const token = localStorage.getItem('jwtToken');
+      const token = localStorage.getItem(tokenType);
       if (!token) disconnect(); // means the login failed, so disconnect the user
 
       setIsAuthenticated(!!token);
@@ -48,7 +48,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const workerLogout = () => {
-    localStorage.removeItem('jwtToken'); // Remove the token from localStorage
+    localStorage.removeItem(tokenType); // Remove the token from localStorage
     setIsAuthenticated(false);
     disconnect();
   };

@@ -24,7 +24,7 @@ import { IconArrowNarrowDown, IconArrowNarrowUp, IconCopy, IconExternalLink } fr
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useAccount } from 'wagmi';
+import { useAccount, useDisconnect } from 'wagmi';
 
 const ALL_CATEGORY = 'All';
 export default function Home() {
@@ -54,7 +54,21 @@ export default function Home() {
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState<string>('1');
   const { page, limit, tasks: taskTypes, sort, order, yieldMin, yieldMax } = router.query;
+  const { disconnect } = useDisconnect();
 
+  useEffect(() => {
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === 'wagmi.io.metamask.disconnected') {
+        window.location.reload();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, [disconnect]);
   const { tasks, pagination, loading, refetchTasks } = useGetTasks(
     page ? parseInt(page as string) : parseInt(currentPage),
     limit ? parseInt(limit as string) : 10,
@@ -82,7 +96,6 @@ export default function Home() {
     if (!isAuthenticated || !isConnected) return;
     const timer = setInterval(() => {
       handlePollingTasks();
-      console.log('working', countdown);
     }, 1000); // Decrease the countdown every second
 
     return () => clearInterval(timer);

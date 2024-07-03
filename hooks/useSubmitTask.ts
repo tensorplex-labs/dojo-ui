@@ -24,7 +24,8 @@ const useSubmitTask = () => {
   const [response, setResponse] = useState<SubmitTaskResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const jwtToken = getFromLocalStorage('jwtToken');
+  const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+  const jwtToken = getFromLocalStorage(tokenType);
   const convertPercentageToRange = (percentage: number, min: number, max: number): number => {
     return parseFloat((min + (percentage / 10) * (max - min)).toFixed(3));
   };

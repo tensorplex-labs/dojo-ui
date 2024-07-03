@@ -12,7 +12,7 @@ export const useSIWE = (postSignin: () => void) => {
   const { triggerTaskPageReload, setTriggerTaskPageReload } = useSubmit();
   const { signMessageAsync, reset: resetSignMessage } = useSignMessage();
   const { workerLogin: postSignInWithEthereum, isAuthenticated } = useAuth();
-
+  const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
   const signInWithEthereum = async (address: string) => {
     try {
       const nonce = await fetchNonce(address);
@@ -45,10 +45,9 @@ export const useSIWE = (postSignin: () => void) => {
     }
   };
   useEffect(() => {
-    console.log('isConnected and isauth', isConnected, isAuthenticated);
-    if (isConnected && !isAuthenticated && address) {
+    const jwtToken = localStorage.getItem(tokenType); // Ensure you have the JWT token available
+    if (isConnected && !isAuthenticated && address && !jwtToken) {
       signInWithEthereum(address);
-      //
     }
-  }, [isConnected, isAuthenticated]);
+  }, [isConnected, isAuthenticated, address]);
 };

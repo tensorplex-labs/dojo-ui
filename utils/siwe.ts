@@ -12,6 +12,8 @@ export const fetchNonce = async (address: string) => {
   try {
     const response = await fetch(url, options);
     if (!response.ok) {
+      console.error('Network response was not ok. Status:', response.status);
+      console.error('Response:', response);
       throw new Error('Network response was not ok');
     }
     const data = await response.json();
@@ -24,18 +26,20 @@ export const fetchNonce = async (address: string) => {
     throw error;
   }
 };
-
 export const createSiweMessage = (address: string, nonce: string, statement: string, chainId: number) => {
-  const message = new SiweMessage({
-    domain: `${window.location.host}`,
-    address,
-    statement,
-    uri: window.location.origin,
-    version: '1',
-    chainId: chainId,
-    nonce: nonce,
-  });
-  const preparedMessage = message.prepareMessage();
+  if (typeof window !== 'undefined') {
+    const message = new SiweMessage({
+      domain: window.location.host,
+      address,
+      statement,
+      uri: window.location.origin,
+      version: '1',
+      chainId: chainId,
+      nonce: nonce,
+    });
+    const preparedMessage = message.prepareMessage();
 
-  return preparedMessage;
+    return preparedMessage;
+  }
+  return '';
 };
