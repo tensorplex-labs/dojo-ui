@@ -27,6 +27,15 @@ export const taskCriteria = {
 
 export type TaskCriteria = (typeof taskCriteria)[keyof typeof taskCriteria];
 
+const HeadingTitle = ({ title, subTitle }: { title: string; subTitle: string }) => {
+  return (
+    <div className="mx-auto flex w-[1200px] flex-col">
+      <p className={`text-start ${FontManrope.className} gap-2 text-2xl font-bold`}>{title}</p>
+      <p className=" mb-4 flex self-start font-semibold opacity-60">{subTitle}</p>
+    </div>
+  );
+};
+
 const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
   const {
     updateMultiSelect,
@@ -51,6 +60,10 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
   const [maxValSlider, setMaxValSlider] = useState<number>(10); // [1]
   const [taskType, setTaskType] = useState<string>('');
   const [ratings, setRatings] = useState<{ [key: string]: number }>({});
+  const [titleForSlider, setTitleForSlider] = useState<string>(''); // [1
+  const [titleForRanking, setTitleForRanking] = useState<string>(''); // [1
+  const [titleForMultiSelect, setTitleForMultiSelect] = useState<string>(''); // [1
+  const [titleForMultiScore, setTitleForMultiScore] = useState<string>(''); // [1
   // State for the selected values in the multi-select radio component
   const [selectedMultiSelectValues, setSelectedMultiSelectValues] = useState<string[]>([]);
   // Handler for changes in the draggable items order
@@ -85,7 +98,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
 
   useEffect(() => {
     if (task) {
-      setTaskType(task.type);
+      setTaskType(task.type.replace(/_/g, ' '));
     }
     task?.taskData.criteria.forEach((criterion) => {
       switch (criterion.type) {
@@ -124,6 +137,35 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
           console.log(`Unhandled criterion type: ${criterion.type}`);
       }
     });
+
+    return () => {
+      setIsMultiSelectQuestion(false);
+      setMultiSelectQuestionData([]);
+      setSelectedMultiSelectValues([]);
+      handleSetIsMultiSelectQuestion(false);
+      setTitleForMultiSelect('');
+
+      setIsRankQuestion(false);
+      setRankQuestionData([]);
+      handleSetIsRankQuestion(false);
+      setTitleForRanking('');
+
+      setIsMultiScore(false);
+      handleSetIsMultiScore(false);
+      setMinScoreSlider(0);
+      setMaxScoreSlider(0);
+      handleMinMultiScore(0);
+      handleMaxMultiScore(0);
+      setMultiScoreOptions([]);
+      setTitleForMultiScore('');
+
+      setisSlider(false);
+      handleSliderChange(1);
+      handleSetIsSlider(false);
+      setMinValSlider(1);
+      setMaxValSlider(10);
+      setTitleForSlider('');
+    };
   }, [task]);
 
   useEffect(() => {
@@ -131,6 +173,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
       const defaultRatings = task.taskData.responses.reduce((acc, _, index) => {
         if (index < multiScoreOptions.length) {
           const modelKey = multiScoreOptions[index];
+          acc[modelKey] = Math.floor(maxValSlider / 2);
           acc[modelKey] = Math.floor(maxValSlider / 2);
         }
         return acc;
@@ -212,18 +255,32 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
   }, []);
 
   return (
-    <Layout>
-      <div className="mx-auto my-4 flex max-w-[1200px] flex-col items-center justify-center">
-        <span
-          className={`${FontSpaceMono.className} self-start rounded-[20px] border border-black bg-[#D0A215] px-2.5 py-[5px] font-bold text-white`}
-        >
-          {task?.type} PROMPT
-        </span>
-        <div className="my-5 flex self-start whitespace-pre-wrap text-left font-semibold opacity-60">
-          {formattedPrompt}
+    <Layout isFullWidth>
+      <div className=" my-4 flex flex-col items-center justify-center">
+        <div className="mx-auto flex w-[1200px] flex-col">
+          <p className={`text-start ${FontManrope.className} gap-2 text-2xl font-bold`}>
+            {task?.title}
+            {`  `}
+            <span
+              className={`${FontSpaceMono.className}  rounded-[20px] border border-black bg-[#D0A215] px-2.5 py-[5px] text-[13px] font-bold text-white`}
+            >
+              {taskType} PROMPT
+            </span>
+          </p>
+          <div
+            className={`${FontManrope.className}  my-5 flex self-start whitespace-pre-wrap rounded-xl border-2 border-black bg-[#F6F6E6] p-5 text-left text-base font-medium opacity-60`}
+          >
+            {formattedPrompt}
+          </div>
         </div>
-        {/* {taskType === 'CODE_GENERATION ' ?  */}
-        <div className=" grid w-full grid-cols-2 gap-3 ">
+        <hr className={' mb-8 mt-3 w-full border-2 border-black'} />
+        {isMultiScore && (
+          <HeadingTitle
+            title={`Question 1`}
+            subTitle="Draft the respective slider for each output according to how close the interface matches the following prompt"
+          />
+        )}
+        <div className="grid w-full max-w-[1200px] grid-cols-2 gap-x-5 gap-y-10">
           {task?.taskData?.responses?.map(
             (
               plot: {
@@ -255,67 +312,31 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
           )}
         </div>
 
-        {/* <ChatComponent /> */}
-        {/* <div className='grid grid-cols-2 gap-4'>
-          {[1, 2, 3, 4].map((index) => (
-            <div key={index} className='shadow-brut-sm border-2 border-black bg-[#F6F6E6]'>
-              <ImageComponent src={"https://cdn.britannica.com/55/174255-050-526314B6/brown-Guernsey-cow.jpg"}/>
-              <div className={` text-base inline-flex w-full justify-between px-4 ${FontSpaceMono.className} uppercase font-bold py-2`}><span>Prompt Similarities</span><span>{percentage}%</span></div>
-              <div className=' p-2'>
-              <Slider
-                  min={1}
-                  max={100}
-                  step={1} // Changed step from 5 to 1 to allow values between 1 and 5
-                  initialValue={1}
-                  // onChange={handleSliderChange}
-                  onChange={handleSliderPercentage}
-                  // showSections
-                />
-                </div>
-            </div>
-          ))}
-        </div> */}
-        {/* <div className=' flex justify-start items-center text-left self-start mt-[42px]'>
-          <h1 className={`text-2xl font-bold ${FontManrope.className} mr-[17px]`}>Ranking Question </h1>
-          <span className={`${FontSpaceMono.className} bg-[#D0A215] text-white px-2.5 py-[5px] rounded-[20px] border border-black font-bold`}>{task?.type} PROMPT</span>
-        </div> */}
-        {/* <p className="text-center flex self-start font-semibold opacity-60 mb-4">{task?.taskData?.prompt}</p> */}
         {!isTaskLoading && isSlider && (
           <>
-            {/* <ChatComponent /> */}
-            <div className=" mt-[42px] flex items-center justify-start self-start text-left">
-              <h1 className={`text-2xl font-bold ${FontManrope.className} mr-[17px]`}>Rate Question</h1>
-            </div>
-            <div className="mt-4 w-[541px] space-y-2 rounded-xl border-2 border-black border-opacity-10">
-              <div className="row-start-2 h-[160px] rounded-br-lg px-[57px] py-[30px]">
-                <h1 className={`${FontSpaceMono.className} mb-[5px] text-base font-bold`}>
-                  LINEAR SCALE<span className=" text-red-500">*</span>
-                </h1>
-                <p className={`${FontManrope.className} mb-[16px] text-base font-bold opacity-60`}>
-                  Rate from 1 (negative) to 10 (positive)
-                </p>
-                <Slider
-                  min={1}
-                  max={10}
-                  step={1} // Changed step from 5 to 1 to allow values between 1 and 5
-                  initialValue={1}
-                  onChange={handleSliderChange}
-                  showSections
-                />
+            <hr className={'mt-4 w-full border border-black opacity-10'} />
+            <div className=" mx-auto my-4 flex max-w-[1200px] flex-col justify-center">
+              <HeadingTitle title={`Question ${isMultiScore ? '2' : '1'}`} subTitle="Rate the output" />
+              <div className="mt-4 w-[541px]">
+                <div className="row-start-2 rounded-br-lg ">
+                  {/* <p className={`${FontManrope.className} mb-[16px] text-base font-bold opacity-60`}>Rate from 1 (negative) to 10 (positive)</p> */}
+                  <Slider min={1} max={10} step={1} initialValue={1} onChange={handleSliderChange} showSections />
+                </div>
               </div>
             </div>
           </>
         )}
       </div>
-      {/* Multiselect Question */}
       {!isTaskLoading && isMultiSelectQuestion && (
-        <div className="mx-auto my-4 flex max-w-[1200px] flex-col items-center justify-center">
-          <div className=" mt-[42px] flex items-center justify-start self-start text-left">
-            <h1 className={`text-2xl font-bold ${FontManrope.className} mr-[17px]`}>Multi-Select Question</h1>
-          </div>
-          {/* <p className="text-center flex self-start font-semibold opacity-60 mb-4">Please evaluate the coding question, and answer accordingly.</p> */}
-          <div className="mx-auto my-4 flex w-[610px] flex-col items-center justify-center rounded-b-xl border-2 border-black border-opacity-10">
-            <div className="p-[34px] pt-[10px]">
+        <>
+          <hr className={'w-full border border-black opacity-10'} />
+          <div className=" mx-auto my-4 flex max-w-[1200px] flex-col justify-center">
+            {/* <p className="text-center flex self-start font-semibold opacity-60 mb-4">Please evaluate the coding question, and answer accordingly.</p> */}
+            <HeadingTitle
+              title={`Question ${isMultiScore && isSlider ? '3' : isSlider || isMultiScore ? '2' : '1'}`}
+              subTitle="Please choose the most appropriate option"
+            />{' '}
+            <div className=" flex w-[610px] flex-col items-center justify-center rounded-b-xl ">
               <MultiSelect
                 options={multiSelectQuestionData}
                 selectedValues={selectedMultiSelectValues}
@@ -323,26 +344,24 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
               />
             </div>
           </div>
-        </div>
+        </>
       )}
-      {/* Rank Question */}
       {!isTaskLoading && isRankQuestion && (
-        <div className="mx-auto my-4 flex max-w-[1200px] flex-col items-center justify-center">
-          <div className="mt-[42px] flex items-center justify-start self-start text-left">
-            <h1 className={`text-2xl font-bold ${FontManrope.className} mr-[17px]`}> Question 2</h1>
-            {/* <span className={`${FontSpaceMono.className} bg-[#D0A215] text-white px-2.5 py-[5px] rounded-[20px] border border-black font-bold`}>{task?.type} PROMPT</span> */}
-          </div>
-          <>
+        <>
+          <hr className={'w-full border border-black opacity-10'} />
+          <div className="mx-auto my-4 flex max-w-[1200px] flex-col items-center justify-center">
             {/* <p className="text-center flex self-start font-semibold opacity-60 mb-4">Which animation best represent an animated solar system? The slider should speed up the animation.</p> */}
-            <div className="mt-4 flex w-full justify-start">
+            <div className="flex w-full justify-start">
               <div className="w-[780px] bg-[#FFFFF4]">
-                {/* <p>Please rank the following output in accordance with the shown frames and the described prompt as much as possible, considering any interactions included</p> */}
-                <p>Please rank the following features in order of importance</p>
+                <HeadingTitle
+                  title={`Question ${isMultiScore && isSlider && isMultiSelectQuestion ? '4' : isMultiScore && isSlider ? '3' : isMultiScore && isMultiSelectQuestion ? '3' : isSlider && isMultiSelectQuestion ? '3' : isMultiScore ? '2' : isSlider ? '2' : isMultiSelectQuestion ? '2' : '1'}`}
+                  subTitle="Rank the following options according to how well they match the prompt"
+                />
                 <DragnDrop options={rankQuestionData} onOrderChange={handleOrderChange} />
               </div>
             </div>
-          </>
-        </div>
+          </div>
+        </>
       )}
       <TPLXModalContainer
         className={'h-[206px] w-[512px]'}
