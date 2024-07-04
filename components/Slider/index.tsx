@@ -122,9 +122,8 @@ const Slider: React.FC<SliderProps> = ({
   };
 
   const sliderStyle = {
-    background: `linear-gradient(to right, #00B6A6 0%, #00B6A6 ${percentage}%, #ccc ${percentage}%, #ccc 100%)`,
+    background: `linear-gradient(to right, #00B6A6 0%, #00B6A6 ${percentage}%, #ccc ${percentage}%, #ccc ${percentage}%)`,
   };
-
   return (
     <div className="relative mb-6">
       <input
@@ -134,10 +133,11 @@ const Slider: React.FC<SliderProps> = ({
         step={step}
         value={value}
         onChange={handleSliderChange}
-        className={`h-1.5 w-full cursor-pointer appearance-none border border-black bg-transparent focus:outline-none disabled:pointer-events-none disabled:opacity-50
+        className={`border-e-1 h-1.5 w-full cursor-pointer appearance-none border border-black bg-transparent focus:outline-none disabled:pointer-events-none disabled:opacity-50
         [&::-webkit-slider-thumb]:z-50
+        [&::-webkit-slider-thumb]:-ml-0.5
         [&::-webkit-slider-thumb]:-mt-0.5
-        [&::-webkit-slider-thumb]:size-3
+        [&::-webkit-slider-thumb]:size-[13px]
         [&::-webkit-slider-thumb]:appearance-none
         [&::-webkit-slider-thumb]:rounded-full
         [&::-webkit-slider-thumb]:bg-[#D9D9D9]
@@ -149,13 +149,15 @@ const Slider: React.FC<SliderProps> = ({
         style={sliderStyle}
       />
       {showSections && (
-        <div className="pointer-events-none absolute inset-x-0 top-0 flex size-full justify-between">
+        <div className="pointer-events-none absolute inset-x-0 top-[9px] flex justify-between">
           {stepsArray.map((stepValue, index) => (
-            <div className={`ml-[10px] mt-[10px] `} key={index}>
+            <div key={index} className={`flex flex-col ${index === 0 ? 'items-start' : 'items-end'} justify-center`}>
               <span
-                className={`bg-[#00B6A6] ${stepValue === value && 'bg-transparent opacity-0'} block h-[11px] w-[5px] border border-black dark:text-gray-400`}
+                className={`bg-[#00B6A6] ${
+                  stepValue === value ? 'bg-transparent opacity-0' : ''
+                } block h-[11px] w-[5px] border border-black dark:text-gray-400`}
               />
-              <p className={`${FontManrope.className} font-semibold`}>{stepValue}</p>
+              <p className={`${FontManrope.className} -mr-[0.75px] mt-1 text-xs font-semibold`}>{stepValue}</p>
             </div>
           ))}
         </div>

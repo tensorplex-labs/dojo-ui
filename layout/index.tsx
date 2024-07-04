@@ -20,9 +20,10 @@ import NavigationBar from '../components/NavigationBar';
 type LayoutProps = {
   children: ReactNode;
   showFooter?: boolean;
+  isFullWidth?: boolean;
 };
 
-const Layout: React.FC<LayoutProps> = ({ children, showFooter = true }) => {
+const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidth = false }) => {
   const queryClient = new QueryClient();
   const { openModal } = useModal(MODAL.wallet);
   const [showUserCard, setShowUserCard] = useState(false);
@@ -76,7 +77,7 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true }) => {
             <div className="border-b-2 border-black bg-[#F6F6E6] text-white">
               <NavigationBar openModal={() => setShowUserCard(true)} />
             </div>
-            <main className="mx-auto max-w-[1075px]">{children}</main>
+            <main className={`${!isFullWidth && 'max-w-[1075px]'} mx-auto`}>{children}</main>
             {showFooter && <hr className=" border-black" />}
             {showUserCard && (
               <UserCard closeModal={setShowUserCard}>
