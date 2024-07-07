@@ -1,50 +1,27 @@
-import { FontManrope } from '@/utils/typography';
 import React from 'react';
 
-interface StepCardProps {
+export interface StepCardProps {
   stepNumber: number;
   title: string;
   description: string;
-  imageUrl: string;
-  backgroundGradient: string;
+  imageComponent?: JSX.Element;
+  height?: number;
 }
 
-const StepCard: React.FC<StepCardProps> = ({ stepNumber, title, description, imageUrl, backgroundGradient }) => {
+const StepCard: React.FC<StepCardProps> = ({ stepNumber, title, description, height, imageComponent }) => {
   return (
-    <div className="size-full rounded-[15px] border-2 border-black bg-white p-2 ease-in hover:shadow-brut-sm">
-      <div className="relative">
-        <div
-          className="absolute left-0 top-[-9px] flex h-[54px] w-[95px] rounded-tl-2xl pl-[8px] pt-[5px]"
-          style={{
-            backgroundImage: "url('./steps-bg.svg')",
-            backgroundSize: 'contain',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-          }}
-        >
-          <h1 className={` font-bold uppercase ${FontManrope.className} text-xl`}>Step {stepNumber}</h1>
+    <div className="size-full overflow-hidden rounded-[15px] border-2 border-black bg-white transition-all ease-in hover:shadow-brut-sm md:hover:shadow-brut-md">
+      <div className="relative h-full">
+        {/* Text Content Section */}
+
+        <div className="p-6" style={{ height }}>
+          <div className="mb-2 w-fit rounded-full border-2 border-black bg-[#00B8A8] px-3 py-1 text-sm font-bold text-white">
+            STEP {stepNumber}
+          </div>
+          <h3 className="text-[1.4em] font-semibold">{title}</h3>
+          <p className="text-gray-600" dangerouslySetInnerHTML={{ __html: description }}></p>
         </div>
-        <div
-          className="rounded-2xl px-3 pb-4 pt-[54px]"
-          style={{
-            background: backgroundGradient,
-          }}
-        >
-          <img src={imageUrl} className="h-[230px] w-full rounded-[15px] object-cover object-left-top" />
-        </div>
-        <div
-          className="absolute bottom-0 left-0 flex h-[145px] w-full flex-col justify-end rounded-2xl px-3 py-4"
-          style={{
-            background: 'linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0))',
-          }}
-        >
-          <h1 className={`font-bold ${FontManrope.className} text-md mb-2 text-white`}>
-            <span dangerouslySetInnerHTML={{ __html: title }}></span>
-          </h1>
-          <span className={`font-thin ${FontManrope.className} text-sm text-white`}>
-            <span dangerouslySetInnerHTML={{ __html: description }}></span>
-          </span>
-        </div>
+        {imageComponent && imageComponent}
       </div>
     </div>
   );

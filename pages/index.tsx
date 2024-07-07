@@ -5,7 +5,7 @@ import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
-import StepCard from '@/components/HomePageCard/StepCard';
+import StepCard, { StepCardProps } from '@/components/HomePageCard/StepCard';
 import FirstKeyMessageSlide from '@/components/HomePageComponents/FirstKeyMessageSlide';
 import HeroCardSection from '@/components/HomePageComponents/HeroCardSection';
 import SecondKeyMessageSlide from '@/components/HomePageComponents/SecondKeyMessageSlide';
@@ -13,42 +13,72 @@ import ThirdKeyMessageSlide from '@/components/HomePageComponents/ThirdKeyMessag
 import useAverageTaskCompletionTime from '@/hooks/useAverageTaskCompletionTime';
 import useCompletedTasksCount from '@/hooks/useCompletedTasksCount';
 import useDojoWorkerCount from '@/hooks/useDojoWorkerCount';
+import Image from 'next/image';
+import CreateTaskAnimation from '../components/HomePageComponents/CreateTaskAnimation';
+import DistributeSubscriptionKeyAnimation from '../components/HomePageComponents/DistributeSubscriptionKeyAnimation';
+import EarnStepAnimation from '../components/HomePageComponents/EarnStepAnimation';
+
 // import './index.css';
-const steps = [
+const steps: StepCardProps[] = [
   {
     stepNumber: 1,
-    title: 'Go to task list',
-    description:
-      '<a href="https://dojo.tensorplex.ai/task-list" target="_blank" style="text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none; font-weight: 700;" className="">dojo.tensorplex.ai/task-list</a>',
-    imageUrl: './step1.png',
-    backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
-  },
-  {
-    stepNumber: 2,
     title: 'Creating an account',
     description: 'Connect metamask wallet',
     imageUrl: './step2.png',
+    imageComponent: (
+      <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
+        <Image
+          src={'/wallet-step-v2.png'}
+          alt="Image of Tensorplex Dojo Wallet Connection user interface"
+          width={1520}
+          height={620}
+          className="rounded-tl-xl border-2 border-solid border-black shadow-brut-sm"
+        />
+      </div>
+    ),
     backgroundGradient: 'linear-gradient(to bottom, #00B6A6, #005049)',
   },
   {
-    stepNumber: 3,
+    stepNumber: 2,
     title: 'Input subscription keys',
     description: 'Obtain subscription key from miners and save it',
     imageUrl: './step3.png',
+    imageComponent: (
+      <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
+        <Image
+          src={'/subscription_key_step.png'}
+          alt="Image of Tensorplex Dojo Wallet Connection user interface"
+          width={1520}
+          height={620}
+          className="rounded-tl-xl border-2 border-solid border-black shadow-brut-sm"
+        />
+      </div>
+    ),
+    backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
+  },
+  {
+    stepNumber: 3,
+    title: 'Start contributing',
+    description: 'Start working on available tasks',
+    imageUrl: './contribute-task.png',
+    imageComponent: (
+      <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
+        <Image
+          src={'/contribute-task.png'}
+          alt="Image of Tensorplex Dojo Wallet Connection user interface"
+          width={1520}
+          height={620}
+        />
+      </div>
+    ),
     backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
   },
   {
     stepNumber: 4,
-    title: 'Start contributing',
-    description: 'Start working on available tasks',
-    imageUrl: './step4.png',
-    backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
-  },
-  {
-    stepNumber: 5,
     title: 'Get rewarded',
     description: 'Get paid for your contribution to open source AI',
     imageUrl: './step5.png',
+    imageComponent: <EarnStepAnimation />,
     backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
   },
 ];
@@ -56,29 +86,71 @@ const steps = [
 const minerSteps = [
   {
     stepNumber: 1,
+    height: 150,
     title: 'Set up your miner',
     description:
       'Visit <a href="https://github.com/tensorplex-labs/dojo-subnet" target="_blank" style="text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none; font-weight: 700;" className="">Dojo GitHub</a> to set up the Dojo Subnet Miner',
-    imageUrl: './minerStep1.png',
-    backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
+    imageComponent: (
+      <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
+        <Image
+          src={'/miner-step-1.png'}
+          alt="Image of Tensorplex Dojo Wallet Connection user interface"
+          width={1520}
+          height={620}
+          className="rounded-tl-xl border-2 border-solid border-black shadow-brut-sm"
+        />
+      </div>
+    ),
   },
   {
     stepNumber: 2,
+    height: 150,
     title: 'Wallet authentication',
     description: 'After setting up your miner, authenticate using CLI',
-    imageUrl: './minerStep2.png',
-    backgroundGradient: 'linear-gradient(to bottom, #00B6A6, #005049)',
+    imageComponent: (
+      <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
+        <Image
+          src={'/miner-step-2.png'}
+          alt="Image of Tensorplex Dojo Wallet Connection user interface"
+          width={1520}
+          height={620}
+          className="rounded-tl-xl border-2 border-solid border-black shadow-brut-sm"
+        />
+      </div>
+    ),
   },
   {
     stepNumber: 3,
+    height: 150,
     title: 'Generate API and Subscription keys',
     description: 'Generate API and subscription keys using CLI',
-    imageUrl: './minerStep3.png',
-    backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
+    imageComponent: (
+      <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
+        <Image
+          src={'/miner-step-3.png'}
+          alt="Image of Tensorplex Dojo Wallet Connection user interface"
+          width={1520}
+          height={620}
+          className="rounded-tl-xl border-2 border-solid border-black shadow-brut-sm"
+        />
+      </div>
+    ),
+  },
+  {
+    stepNumber: 4,
+    title: 'Creating Tasks',
+    description: 'Use API key to create tasks',
+    imageComponent: <CreateTaskAnimation />,
+  },
+  {
+    stepNumber: 5,
+    title: 'Creating Tasks',
+    description: 'Use API key to create tasks',
+    imageComponent: <DistributeSubscriptionKeyAnimation />,
   },
 ];
 
-export const KEY_MESSAGE_SCROLL_HEIGHT = 800;
+export const KEY_MESSAGE_SCROLL_HEIGHT = 1200;
 
 type Props = {};
 const Index = (props: Props) => {
@@ -163,50 +235,58 @@ const Index = (props: Props) => {
       <div className="w-full bg-gray-100">
         <FirstKeyMessageSlide />
         {/* Spacer */}
-        <div className={`h-[${KEY_MESSAGE_SCROLL_HEIGHT}px] w-full`}></div>
+        <div className={`w-full`} style={{ height: KEY_MESSAGE_SCROLL_HEIGHT }}></div>
         <SecondKeyMessageSlide />
-        <div className={`h-[${KEY_MESSAGE_SCROLL_HEIGHT}px] w-full`}></div>
+        <div className={`w-full`} style={{ height: KEY_MESSAGE_SCROLL_HEIGHT }}></div>
         <ThirdKeyMessageSlide />
-        <div className={`h-[${KEY_MESSAGE_SCROLL_HEIGHT}px] w-full`}></div>
+        <div className={`w-full`} style={{ height: KEY_MESSAGE_SCROLL_HEIGHT }}></div>
       </div>
-      <section id="third" className="z-[10000] mb-20 bg-gradient-to-t from-[#FFFFF4] to-[#E1F5F4]">
-        <motion.div className="mx-auto max-w-[1075px] pt-32">
-          {/* <h1 className={`${FontSpaceMono.className} text-5xl font-bold uppercase`}>How does it work?</h1> */}
-          <h1 className={`${FontSpaceMono.className} mb-5 text-5xl font-bold uppercase`}>How to get started?</h1>
+      <section id="third" className="z-[10000] mb-20 bg-gradient-to-t from-[#FFFFF4] to-[#E1F5F4] ">
+        <motion.div className="mx-auto max-w-[1075px] px-5 pt-32 md:px-0">
+          <h1 className={`${FontSpaceMono.className} mb-5 text-center text-5xl font-bold uppercase md:text-left`}>
+            How to get started?
+          </h1>
 
           {/* <p className={`${FontManrope.className} text-2xl font-bold opacity-60`}>
             Five simple steps to get you started!
           </p> */}
-          <p className={`${FontManrope.className} text-2xl font-bold opacity-90`}>{'For Workers/Contributors'}</p>
-          <div className="mb-3 mt-6 flex justify-between">
-            <div className="w-[37%]">
+          <p className={`${FontManrope.className}  text-center text-xl font-bold opacity-90 md:text-left`}>
+            {'For Workers/Contributors'}
+          </p>
+          <div className="mb-3 mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div>
               <StepCard {...steps[0]} />
             </div>
-            <div className="w-3/5">
+            <div>
               <StepCard {...steps[1]} />
             </div>
-          </div>
-          <div className="mb-3 mt-6 flex justify-between">
-            <div className="w-[31.5%]">
+            <div>
               <StepCard {...steps[2]} />
             </div>
-            <div className="w-[31.5%]">
+            <div>
               <StepCard {...steps[3]} />
-            </div>
-            <div className="w-[31.5%]">
-              <StepCard {...steps[4]} />
             </div>
           </div>
           <p className={`${FontManrope.className} pt-10 text-2xl font-bold opacity-90`}>{'For Miners'}</p>
-          <div className="mb-3 mt-6 flex justify-between">
-            <div className="w-[31.5%]">
+          <div className="mb-3 mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
+            <div className="col-span-1 md:col-span-1">
               <StepCard {...minerSteps[0]} />
             </div>
-            <div className="w-[31.5%]">
+            <div className="col-span-1 md:col-span-1">
               <StepCard {...minerSteps[1]} />
             </div>
-            <div className="w-[31.5%]">
+            <div className="col-span-1 md:col-span-1">
               <StepCard {...minerSteps[2]} />
+            </div>
+            <div className="col-span-1 md:col-span-3">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div className="col-span-1">
+                  <StepCard {...minerSteps[3]} />
+                </div>
+                <div className="col-span-1">
+                  <StepCard {...minerSteps[4]} />
+                </div>
+              </div>
             </div>
           </div>
         </motion.div>
@@ -218,14 +298,16 @@ const Index = (props: Props) => {
           background: 'linear-gradient(to bottom, #FFFFF4, #E1F5F4)',
         }}
       >
-        <div className="mx-auto flex max-w-[1075px] justify-between pt-36">
-          <div className="h-full w-3/5">
-            <h1 className={`${FontSpaceMono.className} text-[46px] font-bold uppercase`}>Dojo roadmap</h1>
-            <p className={`${FontManrope.className} text-xl font-bold opacity-50`}>
+        <div className="mx-auto mt-16 flex max-w-[1075px] flex-col justify-between  md:mt-36 md:flex-row">
+          <div className="w-full md:h-full md:w-3/5">
+            <h1 className={`${FontSpaceMono.className} text-center text-[46px] font-bold uppercase md:text-left`}>
+              Dojo Roadmap
+            </h1>
+            <p className={`${FontManrope.className} text-center text-lg font-semibold opacity-50 md:text-left`}>
               Our journey to revolutionize AI development
             </p>
           </div>
-          <div className="flex h-full w-2/5 flex-col">
+          <div className="mt-12 flex w-full flex-col px-5 md:mt-0 md:h-full md:w-2/5 md:px-0">
             <div className="flex items-start">
               <div className="mr-8 flex flex-col items-center">
                 <div className="flex size-[67px] items-center justify-center rounded-full border-2 border-black shadow-brut-sm">

@@ -40,7 +40,7 @@ const elemAnimParentVariant = {
   hide: {},
   show: {
     transition: {
-      staggerChildren: 0.3,
+      staggerChildren: 0.2,
     },
   },
 };
@@ -63,7 +63,7 @@ const staggeredFadeInParent = {
   hide: {},
   show: {
     transition: {
-      delayChildren: 0.65,
+      delayChildren: 0.45,
       staggerChildren: 0.06,
     },
   },

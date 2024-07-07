@@ -7,9 +7,9 @@ interface SliderCardFrameProps {
 }
 
 const SliderCardFrame: React.FC<SliderCardFrameProps> = ({ mouseX, mouseY }) => {
-    const transformStyle = {
-        transform: `translate(${mouseX * 0.05}px, ${mouseY * 0.05}px) translateZ(${(mouseX + mouseY) * 0.5}px)`,
-      };
+  const transformStyle = {
+    transform: `translate(${mouseX * 0.05}px, ${mouseY * 0.05}px) translateZ(${(mouseX + mouseY) * 0.5}px)`,
+  };
 
   return (
     <div
@@ -22,7 +22,7 @@ const SliderCardFrame: React.FC<SliderCardFrameProps> = ({ mouseX, mouseY }) => 
         <div className="h-[9px] w-[94px] animate-pulse bg-gradient-to-r from-gray-200 via-gray-400 to-gray-200"></div>
       </div>
       <div className="flex grow flex-col justify-center gap-1 p-[12px] ">
-        <Slider min={1} max={100} step={1} initialValue={0} onChange={()=>{}} />
+        <Slider min={1} max={100} step={1} initialValue={0} onChange={() => {}} />
       </div>
     </div>
   );
