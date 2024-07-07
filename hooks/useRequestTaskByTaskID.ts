@@ -1,5 +1,5 @@
 import { getFromLocalStorage } from '@/utils/general_helpers';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Task {
   taskId: string;
@@ -27,13 +27,14 @@ const useRequestTaskByTaskID = (taskId: string) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const jwtToken = getFromLocalStorage('jwtToken');
+    const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+    const jwtToken = getFromLocalStorage(tokenType);
     const fetchTask = async () => {
       setLoading(true);
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/${taskId}`, {
           headers: {
-            'Authorization': `Bearer ${jwtToken}`
+            Authorization: `Bearer ${jwtToken}`,
           },
         });
         const data = await response.json();

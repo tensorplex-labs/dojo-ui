@@ -2,11 +2,11 @@ import { taskStatus } from '@/hooks/useGetTasks';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import {
   ColumnDef,
+  Row,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
-  Row,
   useReactTable,
 } from '@tanstack/react-table';
 import { useRouter } from 'next/router';
@@ -150,12 +150,12 @@ const TPLXDatatable = ({
       <div className={`overflow-x-auto border-2 border-black bg-[#F8F8F8] shadow-brut-sm`}>
         <table className={`min-w-full ${tableClassName}`}>
           <thead className={`border-b border-black ${FontSpaceMono.className} text-lg font-bold`}>
-            {table.getHeaderGroups().map(headerGroup => (
+            {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id} className="px-[25px] py-[18px]">
-                {headerGroup.headers.map(header => (
+                {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className={`px-4 py-2 text-start text-black ${headerCellClassName} ${
+                    className={`px-4 uppercase py-2 text-start text-black ${headerCellClassName} text-base ${
                       header.column.columnDef.header === 'Name'
                         ? 'font-bold'
                         : header.column.columnDef.header === 'Operations'
@@ -199,11 +199,25 @@ const TPLXDatatable = ({
                 </tr>
               ))}
             </tbody>
+          ) : tableRows.length === 0 ? (
+            <>
+              {[...Array(8)].map((_, i) => (
+                <tr key={i}>
+                  <td colSpan={columnDef.length} className="px-4 py-2 text-center">
+                    {i === 3 && (
+                      <div className={`${FontManrope.className} text-lg font-bold text-black opacity-60`}>
+                        No Data Available
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </>
           ) : (
             <tbody>
-              {tableRows.map(row => (
+              {tableRows.map((row) => (
                 <tr key={row.id} className={`${row.original.bodyRowClassName || ''} border-b-2`}>
-                  {row.getVisibleCells().map(cell =>
+                  {row.getVisibleCells().map((cell) =>
                     cell.column.columnDef.header === 'Name' ? (
                       <td
                         key={cell.id}
@@ -216,7 +230,7 @@ const TPLXDatatable = ({
                         key={cell.id}
                         className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
                       >
-                        <div className=" w-fit rounded-[64px] bg-[#00B6A6] bg-opacity-[0.22] px-[11px] py-1.5 text-[#00B6A6]">
+                        <div className=" w-fit text-sm rounded-[64px] font-semibold bg-[#00B6A6] bg-opacity-[0.22] px-[11px] py-1.5 text-[#00B6A6]">
                           {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </div>
                       </td>
@@ -238,20 +252,18 @@ const TPLXDatatable = ({
                     cell.column.columnDef.header === 'Expiry' ? (
                       <td
                         key={cell.id}
-                        className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
+                        className={`px-4 py-2 flex text-black ${cellsClassName} capitalize ${FontManrope.className}`}
                       >
                         {new Date(row.original.expireAt).getTime() < Date.now() ? (
                           <div
-                            className={`rounded-full px-0.5 text-center ${FontManrope.className} bg-red-500 bg-opacity-50 text-base font-bold text-white`}
+                            className={` rounded-2xl  px-[10px] py-[5px] text-center ${FontManrope.className} text-sm bg-red-400 bg-opacity-20 text-opacity-100 font-semibold text-red-600`}
                           >
-                            {/* {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )} */}
                             Expired
                           </div>
                         ) : (
-                          <div className={`${FontManrope.className} text-lg font-bold text-black opacity-60`}>
+                          <div
+                            className={`${FontManrope.className} text-lg text-center font-bold text-black opacity-60`}
+                          >
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                           </div>
                         )}
@@ -273,7 +285,7 @@ const TPLXDatatable = ({
                         <Button
                           disabled={generateBtnState(row).disabled}
                           buttonText={generateBtnState(row).text}
-                          className={`text-white disabled:cursor-not-allowed disabled:bg-gray-400`}
+                          className={`text-white w-[113px] h-[40px] disabled:cursor-not-allowed disabled:bg-gray-400`}
                           onClick={() => onStartHandler(row.original.taskId)}
                         />
                       </td>

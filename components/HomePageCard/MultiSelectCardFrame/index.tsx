@@ -6,9 +6,9 @@ interface MultiSelectCardFrameProps {
 }
 
 const MultiSelectCardFrame: React.FC<MultiSelectCardFrameProps> = ({ mouseX, mouseY }) => {
-    const transformStyle = {
-        transform: `translate(${mouseX * 0.06}px, ${mouseY * 0.06}px) translateZ(${(mouseX + mouseY) * 0.6}px)`,
-      };
+  const transformStyle = {
+    transform: `translate(${mouseX * 0.06}px, ${mouseY * 0.06}px) translateZ(${(mouseX + mouseY) * 0.6}px)`,
+  };
 
   return (
     <div

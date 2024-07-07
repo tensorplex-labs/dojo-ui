@@ -24,7 +24,6 @@ const steps: StepCardProps[] = [
     stepNumber: 1,
     title: 'Creating an account',
     description: 'Connect metamask wallet',
-    imageUrl: './step2.png',
     imageComponent: (
       <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
         <Image
@@ -36,13 +35,11 @@ const steps: StepCardProps[] = [
         />
       </div>
     ),
-    backgroundGradient: 'linear-gradient(to bottom, #00B6A6, #005049)',
   },
   {
     stepNumber: 2,
     title: 'Input subscription keys',
     description: 'Obtain subscription key from miners and save it',
-    imageUrl: './step3.png',
     imageComponent: (
       <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
         <Image
@@ -54,13 +51,11 @@ const steps: StepCardProps[] = [
         />
       </div>
     ),
-    backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
   },
   {
     stepNumber: 3,
     title: 'Start contributing',
     description: 'Start working on available tasks',
-    imageUrl: './contribute-task.png',
     imageComponent: (
       <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
         <Image
@@ -71,15 +66,12 @@ const steps: StepCardProps[] = [
         />
       </div>
     ),
-    backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
   },
   {
     stepNumber: 4,
     title: 'Get rewarded',
     description: 'Get paid for your contribution to open source AI',
-    imageUrl: './step5.png',
     imageComponent: <EarnStepAnimation />,
-    backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
   },
 ];
 

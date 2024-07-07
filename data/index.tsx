@@ -20,10 +20,9 @@ export const headerItems: Array<HeaderItem> = [
   },
 ];
 export const dropdownOptions = [
-  { text: 'Most Attempted' },
-  { text: 'Most Recent' },
-  // { text: "Highest Potential Yield" },
-  { text: 'Least Difficult' },
+  { text: 'Most Attempted', value: 'numResults' },
+  { text: 'Most Recent', value: 'createdAt' },
+  { text: 'Least Difficult', value: 'numCriteria' },
 ];
 export interface FrequentlyAccessedProps {
   title: string;

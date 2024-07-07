@@ -18,7 +18,8 @@ const useSubmitTaskByWorker = () => {
   const [response, setResponse] = useState<SubmitTaskResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const jwtToken = getFromLocalStorage('jwtToken');
+  const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+  const jwtToken = getFromLocalStorage(tokenType);
 
   const submitTaskByWorker = async (taskId: string, resultData: ResultDataItem[]) => {
     setLoading(true);
@@ -27,7 +28,7 @@ const useSubmitTaskByWorker = () => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${jwtToken}`
+          Authorization: `Bearer ${jwtToken}`,
         },
         body: JSON.stringify({ taskId, resultData }),
       });

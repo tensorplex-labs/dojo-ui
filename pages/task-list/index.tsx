@@ -18,14 +18,13 @@ import { usePartnerList } from '@/hooks/usePartnerList';
 import { useAuth } from '@/providers/authContext';
 import { MODAL } from '@/providers/modals';
 import { useSubmit } from '@/providers/submitContext';
-import { useTaskData } from '@/providers/taskContext';
 import { getFirstFourLastFour } from '@/utils/math_helpers';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
-import { IconCopy, IconExternalLink } from '@tabler/icons-react';
+import { IconArrowNarrowDown, IconArrowNarrowUp, IconCopy, IconExternalLink } from '@tabler/icons-react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useAccount } from 'wagmi';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useAccount, useDisconnect } from 'wagmi';
 
 const ALL_CATEGORY = 'All';
 export default function Home() {
@@ -39,9 +38,13 @@ export default function Home() {
   const [showDemo, setShowDemo] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [showUserCard, setShowUserCard] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isSortOrderDropdownOpen, setIsSortOrderDropdownOpen] = useState(false);
   const { isAuthenticated } = useAuth();
-
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const sortOrderDropdownRef = useRef<HTMLDivElement>(null);
   const { address, status, isConnected } = useAccount();
+
   // const { disconnect } = useDisconnect();
   const handleCopy = useCopyToClipboard(address ?? '');
   const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
@@ -49,24 +52,77 @@ export default function Home() {
     openModal();
     setShowUserCard(false);
   };
-  const { triggerTaskPageReload, setTriggerTaskPageReload } = useSubmit();
+  const { triggerTaskPageReload } = useSubmit();
   const searchParams = useSearchParams();
   const params = useMemo(() => new URLSearchParams(searchParams), [searchParams]);
   const router = useRouter();
   const [currentPage, setCurrentPage] = useState<string>('1');
-  const { page, limit, tasks: taskTypes, sort, yieldMin, yieldMax } = router.query;
+  const { page, limit, tasks: taskTypes, sort, order, yieldMin, yieldMax } = router.query;
+  const { disconnect } = useDisconnect();
 
-  const { tasks, pagination, loading } = useGetTasks(
+  useEffect(() => {
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === 'wagmi.io.metamask.disconnected') {
+        window.location.reload();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, [disconnect]);
+  const { tasks, pagination, loading, refetchTasks } = useGetTasks(
     page ? parseInt(page as string) : parseInt(currentPage),
     limit ? parseInt(limit as string) : 10,
     taskTypes ? (taskTypes as string) : 'All', // 'All' as default task type if not provided
     sort ? (sort as string) : 'createdAt',
+    order ? (order as string) : 'desc',
     yieldMin ? parseInt(yieldMin as string) : undefined,
     yieldMax ? parseInt(yieldMax as string) : undefined
   );
   const { partners, isLoading: pLoading } = usePartnerList(triggerTaskPageReload);
-  const { setTaskData, setPagination } = useTaskData();
-  // update the task data in the context
+  const [countdown, setCountdown] = useState(120);
+
+  // Define the function to handle polling and refetching tasks
+  const handlePollingTasks = useCallback(async () => {
+    if (countdown === 0) {
+      await refetchTasks();
+      setCountdown(120); // Reset the countdown only after refetchTasks completes
+    } else {
+      setCountdown((prev) => prev - 1); // Decrease the countdown
+    }
+  }, [countdown, refetchTasks]);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) ||
+      (sortOrderDropdownRef.current && !sortOrderDropdownRef.current.contains(event.target as Node))
+    ) {
+      setIsDropdownOpen(false);
+      setIsSortOrderDropdownOpen(false);
+    }
+  };
+  const handleSortOrderToggle = () => {
+    setIsSortOrderDropdownOpen(!isSortOrderDropdownOpen);
+  };
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  // Polling Tasks
+  useEffect(() => {
+    if (!isAuthenticated || !isConnected) return;
+    const timer = setInterval(() => {
+      handlePollingTasks();
+    }, 1000); // Decrease the countdown every second
+
+    return () => clearInterval(timer);
+  }, [handlePollingTasks, isAuthenticated, isConnected]);
 
   const handleViewClick = () => {
     // Logic to close Wallet & API (if any)
@@ -82,18 +138,13 @@ export default function Home() {
     setShowDemo(!showDemo);
   };
 
-  // useEffect(() => {
-  //   if (activeCategories.length == 1 && activeCategories.includes("All")) {
-  //     setFilteredData(mockData);
-  //   } else {
-  //     const filtered = mockData.filter((dataItem) => activeCategories.includes(dataItem.type));
-  //     setFilteredData(filtered);
-  //   }
-  // }, [activeCategories]); // Run this effect when activeCategory changes
-
   const clearInputs = () => {
     setInputValue1('');
     setInputValue2('');
+  };
+
+  const handleToggle = () => {
+    setIsDropdownOpen(!isDropdownOpen);
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,8 +169,8 @@ export default function Home() {
       } else {
         // Compute new categories list outside the setter
         updatedCategories = activeCategories.includes(categoryLabel)
-          ? activeCategories.filter(cat => cat !== categoryLabel && cat !== ALL_CATEGORY) // Remove the category
-          : [...activeCategories.filter(cat => cat !== ALL_CATEGORY), categoryLabel]; // Add the category, remove "All"
+          ? activeCategories.filter((cat) => cat !== categoryLabel && cat !== ALL_CATEGORY) // Remove the category
+          : [...activeCategories.filter((cat) => cat !== ALL_CATEGORY), categoryLabel]; // Add the category, remove "All"
 
         // Check if the list is empty and reset to "All"
         if (updatedCategories.length === 0) {
@@ -135,8 +186,8 @@ export default function Home() {
       if (updatedCategories.length === 0 || updatedCategories.includes(ALL_CATEGORY)) {
         // setTaskTypes(categories.map(cat => cat.taskType).filter( type => type !== undefined));
         const taskFilter = categories
-          .map(cat => cat.taskType)
-          .filter(type => type !== undefined)
+          .map((cat) => cat.taskType)
+          .filter((type) => type !== undefined)
           .join(',');
 
         const newQuery = {
@@ -157,9 +208,9 @@ export default function Home() {
       }
 
       const updatedTaskTypes = categories
-        .filter(cat => updatedCategories.includes(cat.label))
-        .map(category => category.taskType)
-        .filter(type => type !== undefined);
+        .filter((cat) => updatedCategories.includes(cat.label))
+        .map((category) => category.taskType)
+        .filter((type) => type !== undefined);
 
       const newQuery = {
         ...router.query,
@@ -187,11 +238,24 @@ export default function Home() {
   //   }
   // };
 
-  useEffect(() => {
-    if (tasks && tasks.length > 0) setTaskData(tasks);
-    if (pagination) setPagination(pagination);
-  }, [tasks, pagination, setTaskData, setPagination]);
+  const updateOrderSorting = useCallback(
+    (sort: string) => {
+      const newQuery = {
+        ...router.query,
+        order: sort,
+      };
 
+      router.replace(
+        {
+          pathname: router.pathname,
+          query: newQuery,
+        },
+        undefined,
+        { shallow: true }
+      );
+    },
+    [router]
+  );
   const updateSorting = useCallback(
     (sort: string) => {
       let sortQuery: string;
@@ -277,8 +341,8 @@ export default function Home() {
       </div> */}
       <div className="mx-auto mt-[18px] flex w-[1075px]">
         <div className="flex w-full  justify-between gap-2">
-          <div className="mt-[18px] flex flex-wrap gap-2">
-            {categories.map(category => (
+          <div className="mt-[18px] flex items-center gap-2">
+            {categories.map((category) => (
               <CategoryItem
                 key={category.label}
                 label={category.label}
@@ -288,55 +352,78 @@ export default function Home() {
             ))}
           </div>
           <div className="mt-[18px] flex gap-2">
-            <DropdownContainer
-              buttonText={`Sort By ${params.get('sort') === 'createdAt' ? 'Most Recent' : params.get('sort') === 'numCriteria' ? 'Least Difficult' : 'Most Attempted'}`}
-              imgSrc="/top-down-arrow.svg"
-              className="w-[193.89px]"
-            >
-              <ul className="text-black opacity-75">
-                {dropdownOptions.map((option, index) => (
-                  <li
-                    key={index}
-                    className={`px-2 py-[6px] text-base font-semibold text-black opacity-75 ${FontManrope.className} cursor-pointer hover:bg-[#dbf5e9] hover:opacity-100`}
-                    onClick={() => updateSorting(option.text)}
-                  >
-                    {option.text}
-                  </li>
-                ))}
-              </ul>
-            </DropdownContainer>
-            {/* <DropdownContainer
-              buttonText="Filters"
-              imgSrc="/filter-funnel.svg"
-              count={"+0"}
-            >
-              <div className="w-[300px] px-[7px] py-[14px]">
-                <YieldInputGroup
-                  label="Potential Yield"
-                  values={['8.41', '9']}
-                  onClear={clearInputs}
-                  onChange={handleYieldInputChange}
-                />
-              </div>
-            </DropdownContainer> */}
+            <div ref={dropdownRef}>
+              <DropdownContainer
+                buttonText={`Sort By ${params.get('sort') === 'createdAt' ? 'Most Recent' : params.get('sort') === 'numCriteria' ? 'Least Difficult' : params.get('sort') === 'numResults' ? 'Most Attempted' : 'Most Recent'}`}
+                imgSrc={`${params.get('order') === 'asc' ? '/top-arrow.svg' : '/down-arrow.svg'}`}
+                className="w-[193.89px]"
+                onToggle={handleToggle}
+                isOpen={isDropdownOpen}
+              >
+                <ul className="text-black opacity-75">
+                  {dropdownOptions.map((option, index) => (
+                    <li
+                      key={index}
+                      className={`flex  text-base font-semibold text-black ${
+                        params.get('sort') === option.value ? 'bg-[#dbf5e9] opacity-100' : 'opacity-75 py-1.5'
+                      } ${FontManrope.className} cursor-pointer hover:bg-[#dbf5e9] hover:opacity-100  items-center justify-between`}
+                    >
+                      <div className="pl-1.5 h-full  min-w-[80%]" onClick={() => updateSorting(option.text)}>
+                        {option.text}
+                      </div>
+                      <div className="w-[20%] h-full">
+                        {params.get('sort') === option.value ? (
+                          params.get('order') === 'asc' ? (
+                            <div
+                              key={index}
+                              className={`px-2 py-[6px] text-base font-semibold text-black opacity-75 ${FontManrope.className} cursor-pointer hover:bg-[#dbf5e9] hover:opacity-100`}
+                              onClick={() => updateOrderSorting('desc')}
+                            >
+                              <IconArrowNarrowUp />
+                            </div>
+                          ) : (
+                            <div
+                              key={index}
+                              className={`px-2 py-[6px] text-base font-semibold text-black opacity-75 ${FontManrope.className} cursor-pointer hover:bg-[#dbf5e9] hover:opacity-100`}
+                              onClick={() => updateOrderSorting('asc')}
+                            >
+                              <IconArrowNarrowDown />
+                            </div>
+                          )
+                        ) : null}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </DropdownContainer>
+            </div>
           </div>
         </div>
       </div>
       <div className="mx-auto mb-[40px] mt-[19px] flex w-[1075px] flex-col">
-        <h1 className={`${FontSpaceMono.className} mb-[19px] text-[22px] font-bold text-black`}>
-          SHOWING {tasks.length} RECORDS
-        </h1>
+        <div className="mb-[19px]">
+          <h1 className={`${FontSpaceMono.className}text-[22px] uppercase font-bold text-black`}>
+            SHOWING {tasks.length} of {pagination?.totalItems || 0} RECORDS
+          </h1>
+          {isAuthenticated && isConnected ? (
+            <span className={`${FontSpaceMono.className} text-sm font-bold text-black opacity-60`}>
+              Fetching latest tasks in {countdown}s
+            </span>
+          ) : null}
+        </div>
         <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} isLoading={loading} />
-        <div className=" mt-3"></div>
+        <div className="mt-3"></div>
         <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange} />
-        {partners.length === 0 || tasks.length <= 0 ? (
-          <div className="text-center">
-            <Button
-              onClick={() => handleViewClick()}
-              buttonText="Enter Subscription Key"
-              className="cursor-not-allowed bg-primary text-white"
-            />
-          </div>
+        {isAuthenticated ? (
+          partners.length === 0 || tasks.length <= 0 ? (
+            <div className="text-center">
+              <Button
+                onClick={() => handleViewClick()}
+                buttonText="Enter Subscription Key"
+                className="cursor-not-allowed bg-primary text-white"
+              />
+            </div>
+          ) : null
         ) : null}
       </div>
       {showUserCard && (

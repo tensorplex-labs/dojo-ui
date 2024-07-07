@@ -39,7 +39,8 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [cache, setCache] = useState<Map<string, TasksResponse>>(new Map());
   const router = useRouter();
-  const jwtToken = getFromLocalStorage('jwtToken');
+  const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+  const jwtToken = getFromLocalStorage(tokenType);
 
   const fetchTasks = useCallback(
     async (page: number): Promise<TasksResponse | null> => {
@@ -65,7 +66,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (response.ok) {
           // Cache the fetched tasks and update state
           const cacheKey = `${page}-${LIMIT}`;
-          setCache(prevCache => new Map(prevCache).set(cacheKey, data));
+          setCache((prevCache) => new Map(prevCache).set(cacheKey, data));
           return data;
         } else {
           throw new Error(data.error || `HTTP error! status: ${response.status}`);
@@ -88,7 +89,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const getNextTaskId = useCallback(async (): Promise<string | null> => {
-    let currentTaskIndex = taskData.findIndex(task => task.taskId === router.query.taskId);
+    let currentTaskIndex = taskData.findIndex((task) => task.taskId === router.query.taskId);
     let nextTaskId = findNextUncompletedTask(taskData, currentTaskIndex + 1);
 
     if (nextTaskId) return nextTaskId;

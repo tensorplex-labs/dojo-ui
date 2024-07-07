@@ -21,7 +21,8 @@ export const usePartnerList = (refetchDependency: any): UsePartnerListResult => 
   const [error, setError] = useState<Error | null>(null);
 
   const fetchPartners = useCallback(async () => {
-    const jwtToken = getFromLocalStorage('jwtToken');
+    const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+    const jwtToken = getFromLocalStorage(tokenType);
     setIsLoading(true);
     setError(null);
     try {

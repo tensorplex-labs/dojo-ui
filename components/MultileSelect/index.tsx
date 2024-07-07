@@ -10,14 +10,14 @@ interface MultiSelectProps {
 const MultiSelect: React.FC<MultiSelectProps> = ({ options, selectedValues, onSelectionChange }) => {
   return (
     <>
-{options.map((option) => (
-  <MultiSelectItem
-    key={option}
-    option={option}
-    isSelected={selectedValues.includes(option)}
-    onSelectionChange={onSelectionChange}
-  />
-))}
+      {options.map((option) => (
+        <MultiSelectItem
+          key={option}
+          option={option}
+          isSelected={selectedValues.includes(option)}
+          onSelectionChange={onSelectionChange}
+        />
+      ))}
     </>
   );
 };

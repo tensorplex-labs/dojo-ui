@@ -1,7 +1,7 @@
 import useDisableMinerByWorker from '@/hooks/useDisableMinerByWorker';
 import { usePartnerList } from '@/hooks/usePartnerList';
 import useUpdateWorkerPartner from '@/hooks/useUpdateWorkerPartner';
-import { getFirstFourLastFour, getFirstSixLastSix } from '@/utils/math_helpers';
+import { getFirstSixLastSix } from '@/utils/math_helpers';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { IconCheck, IconEdit, IconTrash, IconX } from '@tabler/icons-react';
 import React, { useEffect, useState } from 'react';
@@ -17,9 +17,7 @@ type SubscriptionTableProps = {
   refetch?: boolean | null;
 };
 
-
-
-const SubscriptionTable: React.FC<SubscriptionTableProps> = ({refetch}) => {
+const SubscriptionTable: React.FC<SubscriptionTableProps> = ({ refetch }) => {
   const [editRowId, setEditRowId] = useState<string | null>(null);
   const [editableData, setEditableData] = useState<SubscriptionData | null>(null);
   const [refetchTrigger, setRefetchTrigger] = useState(false); // Could be a timestamp or a simple counter
@@ -27,17 +25,17 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({refetch}) => {
   const { disableMinerByWorker } = useDisableMinerByWorker();
   const { partners, isLoading } = usePartnerList(refetchTrigger);
 
-  useEffect(()=>{
-    if(refetch){
+  useEffect(() => {
+    if (refetch) {
       setRefetchTrigger((prev) => !prev);
     }
-  },[partners])
+  }, [partners]);
 
   const handleEdit = (item: SubscriptionData) => {
     setEditRowId(item.id);
     setEditableData({ ...item });
     editableData?.subscriptionKey &&
-    updateWorkerPartner(item.subscriptionKey, editableData!.subscriptionKey, editableData!.name)
+      updateWorkerPartner(item.subscriptionKey, editableData!.subscriptionKey, editableData!.name);
     setRefetchTrigger((prev) => !prev);
   };
   const handleCancel = () => {
@@ -52,7 +50,7 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({refetch}) => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, field: keyof SubscriptionData) => {
-    setEditableData(prev => ({ ...prev!, [field]: e.target.value }));
+    setEditableData((prev) => ({ ...prev!, [field]: e.target.value }));
   };
   const formatDate = (dateString: string | number | Date) => {
     const date = new Date(dateString);
@@ -87,11 +85,11 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({refetch}) => {
       </thead>
       <tbody className={`${FontManrope.className} text-opacity-60`}>
         {partners.map((item) => (
-          <tr key={item.id} className='font-medium opacity-60'>
-            <td className='px-5 py-3'>
+          <tr key={item.id} className="font-medium opacity-60">
+            <td className="px-5 py-3">
               {editRowId === item.id ? (
                 <input
-                className='block w-full border-2 border-black p-2'
+                  className="block w-full border-2 border-black p-2"
                   type="text"
                   value={editableData?.name}
                   onChange={(e) => handleChange(e, 'name')}
@@ -100,10 +98,10 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({refetch}) => {
                 item.name
               )}
             </td>
-            <td className='px-5 py-3'>
+            <td className="px-5 py-3">
               {editRowId === item.id ? (
                 <input
-                  className='block w-full border-2 border-black p-2'
+                  className="block w-full border-2 border-black p-2"
                   type="text"
                   value={editableData?.subscriptionKey}
                   onChange={(e) => handleChange(e, 'subscriptionKey')}
@@ -112,21 +110,29 @@ const SubscriptionTable: React.FC<SubscriptionTableProps> = ({refetch}) => {
                 getFirstSixLastSix(item.subscriptionKey)
               )}
             </td>
-            <td className='px-5 py-3'>{formatDate(item.createdAt)}</td>
-            <td className='px-5 py-3'>
-             <div className='flex size-full items-center justify-start'>
-             {editRowId === item.id ? (
-                <>
-                  <button onClick={handleSave}><IconCheck /></button>
-                  <button  className="ml-4" onClick={handleCancel}><IconX /></button>
-                </>
-              ) : (
-                <>
-                  <button onClick={() => handleEdit(item)}><IconEdit /></button>
-                  <button className="ml-4" onClick={()=>handleDelete(item)}><IconTrash /></button>
-                </>
-              )}
-             </div>
+            <td className="px-5 py-3">{formatDate(item.createdAt)}</td>
+            <td className="px-5 py-3">
+              <div className="flex size-full items-center justify-start">
+                {editRowId === item.id ? (
+                  <>
+                    <button onClick={handleSave}>
+                      <IconCheck />
+                    </button>
+                    <button className="ml-4" onClick={handleCancel}>
+                      <IconX />
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={() => handleEdit(item)}>
+                      <IconEdit />
+                    </button>
+                    <button className="ml-4" onClick={() => handleDelete(item)}>
+                      <IconTrash />
+                    </button>
+                  </>
+                )}
+              </div>
             </td>
           </tr>
         ))}

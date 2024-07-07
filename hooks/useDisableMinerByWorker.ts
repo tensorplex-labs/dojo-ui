@@ -11,7 +11,8 @@ const useDisableMinerByWorker = () => {
   const [response, setResponse] = useState<DisableMinerResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const jwtToken = getFromLocalStorage('jwtToken');
+  const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+  const jwtToken = getFromLocalStorage(tokenType);
 
   const disableMinerByWorker = async (minerSubscriptionKey: string, toDisable: boolean) => {
     setLoading(true);
@@ -20,13 +21,13 @@ const useDisableMinerByWorker = () => {
       const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/worker/partner/disable`;
       const payload = {
         minerSubscriptionKey: minerSubscriptionKey,
-        toDisable: toDisable
+        toDisable: toDisable,
       };
       const response = await fetch(endpoint, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${jwtToken}`
+          Authorization: `Bearer ${jwtToken}`,
         },
         body: JSON.stringify(payload),
       });

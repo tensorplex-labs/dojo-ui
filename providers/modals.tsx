@@ -1,14 +1,5 @@
 import TPLXManageWalletConnectModal from '@/components/Wallet/tplx-manage-wallet-modal';
-import {
-  createContext,
-  useMemo,
-  useCallback,
-  memo,
-  useState,
-  FC,
-  PropsWithChildren,
-} from 'react';
-
+import { FC, PropsWithChildren, createContext, memo, useCallback, useMemo, useState } from 'react';
 
 export type ModalContextValue = {
   openModal: (modal: MODAL) => void;
@@ -38,7 +29,7 @@ const ModalProvider: FC<PropsWithChildren> = ({ children }) => {
       openModal,
       closeModal,
     }),
-    [closeModal, openModal],
+    [closeModal, openModal]
   );
 
   const common = {

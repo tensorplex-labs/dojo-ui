@@ -15,11 +15,7 @@ const useUpdateWorkerPartner = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const updateWorkerPartner = async (
-    minerSubscriptionKey: string,
-    newMinerSubscriptionKey: string,
-    name: string
-  ) => {
+  const updateWorkerPartner = async (minerSubscriptionKey: string, newMinerSubscriptionKey: string, name: string) => {
     setLoading(true);
     try {
       const payload = {
@@ -27,12 +23,13 @@ const useUpdateWorkerPartner = () => {
         newMinerSubscriptionKey: newMinerSubscriptionKey,
         name: name,
       };
-      const jwtToken = getFromLocalStorage('jwtToken');
+      const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+      const jwtToken = getFromLocalStorage(tokenType);
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/partner/edit`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${jwtToken}`,
+          Authorization: `Bearer ${jwtToken}`,
         },
         body: JSON.stringify(payload),
       });

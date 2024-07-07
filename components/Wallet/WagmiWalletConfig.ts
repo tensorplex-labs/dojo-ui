@@ -1,14 +1,7 @@
 'use client';
-import { http, createConfig } from 'wagmi';
-import {
-  arbitrum,
-  base,
-  mainnet,
-  optimism,
-  polygonMumbai,
-  sepolia,
-} from 'wagmi/chains';
-import { injected, metaMask, safe, walletConnect } from 'wagmi/connectors';
+import { createConfig, http } from 'wagmi';
+import { arbitrum, base, mainnet, optimism, polygonMumbai, sepolia } from 'wagmi/chains';
+import { injected, walletConnect } from 'wagmi/connectors';
 
 export const config = createConfig({
   chains: [mainnet, base, sepolia, optimism, arbitrum, polygonMumbai],
