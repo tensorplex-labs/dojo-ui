@@ -13,8 +13,10 @@ import { categories, columnDef, dropdownOptions, mockData } from '@/data';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import { useEtherScanOpen } from '@/hooks/useEtherScanOpen';
 import useGetTasks from '@/hooks/useGetTasks'; // Import the hook
+import { useJwtToken } from '@/hooks/useJwtToken';
 import { useModal } from '@/hooks/useModal';
 import { usePartnerList } from '@/hooks/usePartnerList';
+import { useSIWE } from '@/hooks/useSIWE';
 import { useAuth } from '@/providers/authContext';
 import { MODAL } from '@/providers/modals';
 import { useSubmit } from '@/providers/submitContext';
@@ -38,12 +40,26 @@ export default function Home() {
   const [showDemo, setShowDemo] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [showUserCard, setShowUserCard] = useState(false);
+  const { isAuthenticated, isSignedIn } = useAuth();
+  const { address, status, isConnected } = useAccount();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isSortOrderDropdownOpen, setIsSortOrderDropdownOpen] = useState(false);
-  const { isAuthenticated } = useAuth();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const sortOrderDropdownRef = useRef<HTMLDivElement>(null);
-  const { address, status, isConnected } = useAccount();
+  const { signInWithEthereum } = useSIWE(() => console.log('post signin'));
+
+  const jwtToken = useJwtToken();
+  useEffect(() => {
+    if (!isAuthenticated && isConnected && isSignedIn) {
+      signInWithEthereum(address ?? '');
+    }
+  }, [isAuthenticated, isConnected, isSignedIn]);
+  useEffect(() => {
+    console.log('tasks', { tasks }, { jwtToken });
+    if (jwtToken) {
+      console.log('User is authenticated');
+    }
+  }, [jwtToken]);
 
   // const { disconnect } = useDisconnect();
   const handleCopy = useCopyToClipboard(address ?? '');
@@ -59,10 +75,13 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState<string>('1');
   const { page, limit, tasks: taskTypes, sort, order, yieldMin, yieldMax } = router.query;
   const { disconnect } = useDisconnect();
-
+  const jwtTokenKey = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === 'wagmi.io.metamask.disconnected') {
+        window.location.reload();
+      }
+      if (event.key === jwtTokenKey) {
         window.location.reload();
       }
     };
@@ -73,6 +92,7 @@ export default function Home() {
       window.removeEventListener('storage', handleStorageChange);
     };
   }, [disconnect]);
+
   const { tasks, pagination, loading, refetchTasks } = useGetTasks(
     page ? parseInt(page as string) : parseInt(currentPage),
     limit ? parseInt(limit as string) : 10,

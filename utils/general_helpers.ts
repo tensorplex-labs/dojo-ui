@@ -6,9 +6,7 @@ const getFromLocalStorage = (key: string) => {
 };
 
 const clearLocalStorage = () => {
-  const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
-  localStorage.removeItem(tokenType);
-  // remove all the storage as need
+  localStorage.clear();
 };
 
 export { clearLocalStorage, getFromLocalStorage };

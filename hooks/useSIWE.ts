@@ -1,7 +1,6 @@
 import { useAuth } from '@/providers/authContext';
 import { useSubmit } from '@/providers/submitContext';
 import { createSiweMessage, fetchNonce } from '@/utils/siwe';
-import { useEffect } from 'react';
 import { useAccount, useChainId, useDisconnect, useSignMessage } from 'wagmi';
 import { LoginAuthPayload } from './useWorkerLoginAuth';
 
@@ -11,8 +10,8 @@ export const useSIWE = (postSignin: () => void) => {
   const { disconnectAsync } = useDisconnect();
   const { triggerTaskPageReload, setTriggerTaskPageReload } = useSubmit();
   const { signMessageAsync, reset: resetSignMessage } = useSignMessage();
-  const { workerLogin: postSignInWithEthereum, isAuthenticated } = useAuth();
-  const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+  const { workerLogin: postSignInWithEthereum, isAuthenticated, setIsSignedIn } = useAuth();
+
   const signInWithEthereum = async (address: string) => {
     try {
       const nonce = await fetchNonce(address);
@@ -32,22 +31,17 @@ export const useSIWE = (postSignin: () => void) => {
         timestamp: Math.floor(Date.now() / 1000).toString(),
         nonce: nonce,
       };
-      // send payload to backend
       await postSignInWithEthereum(payload);
       setTriggerTaskPageReload((prev) => !prev);
-
       postSignin();
     } catch (error) {
       console.error('Error signing in with Ethereum:', error);
-      // if something goes wrong, disconnect the wallet, reset sign message
       disconnectAsync();
       resetSignMessage();
+    } finally {
+      setIsSignedIn(false);
     }
   };
-  useEffect(() => {
-    const jwtToken = localStorage.getItem(tokenType); // Ensure you have the JWT token available
-    if (isConnected && !isAuthenticated && address && !jwtToken) {
-      signInWithEthereum(address);
-    }
-  }, [isConnected, isAuthenticated, address]);
+
+  return { signInWithEthereum, isConnected, isAuthenticated, address };
 };
