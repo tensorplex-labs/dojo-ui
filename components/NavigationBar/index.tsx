@@ -1,5 +1,4 @@
 'use client';
-import { useSIWE } from '@/hooks/useSIWE';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -80,10 +79,6 @@ const NavigationBar = ({ openModal, isHomePage }: NavigationBarProps) => {
   const handleWalletModalOpen = () => {
     setIsWalletModalOpen(true);
   };
-
-  useSIWE(() => {
-    console.log('Successfully signed in');
-  });
 
   const handleWalletModalClose = () => {
     setIsWalletModalOpen(false);

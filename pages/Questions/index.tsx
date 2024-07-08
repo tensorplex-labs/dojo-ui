@@ -4,14 +4,18 @@ import LinkContentVisualizer from '@/components/LinkContentVisualizer';
 import TPLXModalContainer from '@/components/ModalContainer';
 import MultiSelect from '@/components/MultileSelect';
 import Slider from '@/components/Slider';
+import { useJwtToken } from '@/hooks/useJwtToken';
 import useRequestTaskByTaskID from '@/hooks/useRequestTaskByTaskID';
+import { useSIWE } from '@/hooks/useSIWE';
 import useSubmitTask from '@/hooks/useSubmitTask';
 import Layout from '@/layout';
+import { useAuth } from '@/providers/authContext';
 import { useSubmit } from '@/providers/submitContext';
 import { cn } from '@/utils/tw';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { useRouter } from 'next/router';
 import React, { ReactNode, useEffect, useMemo, useState } from 'react';
+import { useAccount, useDisconnect } from 'wagmi';
 
 type QuestionPageProps = {
   children: ReactNode;
@@ -88,6 +92,42 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
   const [percentage, setPercentage] = useState(0);
   const { error } = useSubmitTask();
   const router = useRouter();
+
+  const { address } = useAccount();
+  const { isAuthenticated, isSignedIn } = useAuth();
+  const { isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
+  const { signInWithEthereum } = useSIWE(() => console.log('post signin'));
+  const jwtTokenKey = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+
+  const jwtToken = useJwtToken();
+  useEffect(() => {
+    if (!isAuthenticated && isConnected && isSignedIn) {
+      signInWithEthereum(address ?? '');
+    }
+  }, [isAuthenticated, isConnected, isSignedIn]);
+  useEffect(() => {
+    if (jwtToken) {
+      console.log('User is authenticated');
+    }
+  }, [jwtToken]);
+
+  useEffect(() => {
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === 'wagmi.io.metamask.disconnected') {
+        window.location.reload();
+      }
+      if (event.key === jwtTokenKey) {
+        window.location.reload();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, [disconnect]);
 
   useEffect(() => {
     const { taskId } = router.query;

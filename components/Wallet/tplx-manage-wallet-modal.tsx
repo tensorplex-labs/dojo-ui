@@ -22,12 +22,13 @@ const allowedNetwork: number[] = [1, 42161, 10, 8453];
 const TPLXManageWalletConnectModal = ({ open, onSave, onClose, ...props }: Props) => {
   const { connectors, connectAsync } = useConnect();
   const { connector, address, status } = useAccount();
-
+  const { setIsSignedIn } = useAuth();
   // const { workerLoginAuth } = useWorkerLoginAuth();
   const { isAuthenticated } = useAuth();
   const chainId = useChainId();
 
   const connectWalletHandler = async (connectorId: string) => {
+    setIsSignedIn(true);
     const connector = getConnectorById(connectors, connectorId);
     if (!connector) {
       console.error('Failed to find connector');

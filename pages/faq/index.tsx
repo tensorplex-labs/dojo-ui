@@ -10,8 +10,11 @@ import TPLXWeb3Icon from '@/components/Wallet/tplx-web3-icon';
 import { faqList } from '@/data';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import { useEtherScanOpen } from '@/hooks/useEtherScanOpen';
+import { useJwtToken } from '@/hooks/useJwtToken';
 import { useModal } from '@/hooks/useModal';
+import { useSIWE } from '@/hooks/useSIWE';
 import { useSubmitApplication } from '@/hooks/useSubmitApplicationByMiner';
+import { useAuth } from '@/providers/authContext';
 import { MODAL } from '@/providers/modals';
 import { getFirstFourLastFour } from '@/utils/math_helpers';
 import { cn } from '@/utils/tw';
@@ -21,7 +24,7 @@ import { IconCopy, IconExternalLink } from '@tabler/icons-react';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useAccount } from 'wagmi';
+import { useAccount, useDisconnect } from 'wagmi';
 import { z } from 'zod';
 
 const FormSchema = z.object({
@@ -60,6 +63,43 @@ const Page = () => {
   const [modalHeader, setModalHeader] = useState('');
   const { address, status } = useAccount();
   const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
+
+  const { isAuthenticated, isSignedIn } = useAuth();
+  const { connector, isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
+
+  const jwtTokenKey = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+
+  const { signInWithEthereum } = useSIWE(() => console.log('post signin'));
+
+  const jwtToken = useJwtToken();
+  useEffect(() => {
+    if (!isAuthenticated && isConnected && isSignedIn) {
+      signInWithEthereum(address ?? '');
+    }
+  }, [isAuthenticated, isConnected, isSignedIn]);
+  useEffect(() => {
+    if (jwtToken) {
+      console.log('User is authenticated');
+    }
+  }, [jwtToken]);
+
+  useEffect(() => {
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === 'wagmi.io.metamask.disconnected') {
+        window.location.reload();
+      }
+      if (event.key === jwtTokenKey) {
+        window.location.reload();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, [disconnect]);
 
   const handleViewClick = () => {
     // Logic to close Wallet & API (if any)
