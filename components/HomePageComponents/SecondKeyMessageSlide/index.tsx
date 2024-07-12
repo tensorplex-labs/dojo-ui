@@ -81,7 +81,7 @@ const SecondKeyMessageSlide = (props: Props) => {
     if (!windowHeight) return;
     const lowerBound = (windowHeight ?? 0) * 2 + 600;
     // const lowerBound = (windowHeight ?? 0) * 2;
-    const upperBound = (windowHeight ?? 0) * 2 + KEY_MESSAGE_SCROLL_HEIGHT * 3;
+    const upperBound = (windowHeight ?? 0) * 2 + KEY_MESSAGE_SCROLL_HEIGHT * 3.5;
     if (latest > lowerBound && latest < upperBound) setAnimState('show');
     else setAnimState('hide');
   });
