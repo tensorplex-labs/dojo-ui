@@ -81,7 +81,7 @@ const minerSteps = [
     height: 150,
     title: 'Set up your miner',
     description:
-      'Visit <a href="https://github.com/tensorplex-labs/dojo-subnet" target="_blank" style="text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none; font-weight: 700;" className="">Dojo GitHub</a> to set up the Dojo Subnet Miner',
+      'Visit <a href="https://github.com/tensorplex-labs/dojo" target="_blank" style="text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none; font-weight: 700;" className="">Dojo GitHub</a> to set up the Dojo Subnet Miner',
     imageComponent: (
       <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
         <Image
@@ -114,7 +114,7 @@ const minerSteps = [
   {
     stepNumber: 3,
     height: 150,
-    title: 'Generate API and Subscription keys',
+    title: 'Generate keys',
     description: 'Generate API and subscription keys using CLI',
     imageComponent: (
       <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
@@ -130,14 +130,15 @@ const minerSteps = [
   },
   {
     stepNumber: 4,
-    title: 'Creating Tasks',
-    description: 'Use API key to create tasks',
+    title: 'Start the miner and create new tasks',
+    description:
+      'Start the miner through the instructions <a href="https://github.com/tensorplex-labs/dojo?tab=readme-ov-file#mining" target="_blank" style="text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none; font-weight: 700;" className="">here</a>',
     imageComponent: <CreateTaskAnimation />,
   },
   {
     stepNumber: 5,
-    title: 'Creating Tasks',
-    description: 'Use API key to create tasks',
+    title: 'Distribute subscription keys',
+    description: 'Issue out subscription keys to participants for contribution!',
     imageComponent: <DistributeSubscriptionKeyAnimation />,
   },
 ];
@@ -235,17 +236,15 @@ const Index = (props: Props) => {
       </div>
       <section id="third" className="z-[10000] mb-20 bg-gradient-to-t from-[#FFFFF4] to-[#E1F5F4] ">
         <motion.div className="mx-auto max-w-[1075px] px-5 pt-32 md:px-0">
-          <h1 className={`${FontSpaceMono.className} mb-5 text-center text-5xl font-bold uppercase md:text-left`}>
+          <h1 className={`${FontSpaceMono.className} mb-3 text-center text-5xl font-bold uppercase md:text-left`}>
             How to get started?
           </h1>
 
           {/* <p className={`${FontManrope.className} text-2xl font-bold opacity-60`}>
             Five simple steps to get you started!
           </p> */}
-          <p className={`${FontManrope.className}  text-center text-xl font-bold opacity-90 md:text-left`}>
-            {'For Workers/Contributors'}
-          </p>
-          <div className="mb-3 mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
+          <p className={`${FontManrope.className}  pt-0 text-2xl font-bold opacity-90`}>{'For Workers/Contributors'}</p>
+          <div className="mb-3 mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
             <div>
               <StepCard {...steps[0]} />
             </div>

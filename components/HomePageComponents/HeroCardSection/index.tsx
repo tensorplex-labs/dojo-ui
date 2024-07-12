@@ -39,10 +39,12 @@ const HeroCardSection = () => {
     <section id="first" className="flex h-auto w-full justify-center overflow-hidden px-5 md:h-[calc(100vh-112px)]">
       <div className="flex max-w-[1075px] flex-col gap-6 md:flex-row md:gap-20">
         <div className="mt-10 flex flex-1 flex-col justify-center p-0 md:mt-0">
-          <h1 className={`${FontSpaceMono.className} text-4xl font-bold uppercase text-black md:text-5xl`}>
+          <h1 className={`${FontSpaceMono.className} text-4xl font-bold uppercase text-black md:text-6xl lg:text-7xl`}>
             Get paid to shape the future of AI
           </h1>
-          <p className={`${FontManrope.className} mt-[13px] pr-2 text-lg font-medium text-gray-500`}>
+          <p
+            className={`${FontManrope.className} mt-[13px] pr-2 text-lg font-medium text-gray-500 sm:text-lg lg:text-xl`}
+          >
             Earn TAO through responding to AI-generated tasks across various domains. Join the crowd-sourced effort to
             build the world&apos;s most powerful multimodal AI models.
           </p>
@@ -85,7 +87,7 @@ const HeroCardSection = () => {
           </div>
         </div>
         <div className="relative mb-10 flex flex-1 items-center justify-center md:mb-0">
-          <div className="static left-0 top-0 flex size-full items-center  p-0 md:absolute md:w-[50vw]">
+          <div className="static left-0 top-0 flex size-full items-center  p-0 md:absolute md:w-[80vw] lg:w-[42vw] lg:min-w-[800px] lg:max-w-[1200px]">
             <Image
               alt="Tensorplex Dojo user interface example"
               src="/hero-kv.png"
