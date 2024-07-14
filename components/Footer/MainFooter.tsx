@@ -1,12 +1,11 @@
 import { headerItems } from '@/data';
+import TPLXFooterDiscordLogo from '@/public/footer_logo/tplx-footer-discord-logo';
+import TPLXFooterGitbookLogo from '@/public/footer_logo/tplx-footer-gitbook-logo';
+import TPLXFooterTelegramLogo from '@/public/footer_logo/tplx-footer-telegram-logo';
+import TPLXFooterXLogo from '@/public/footer_logo/tplx-footer-x-logo';
 import { cn } from '@/utils/tw';
-import { FontManrope } from '@/utils/typography';
 import Link from 'next/link';
 import React, { HTMLAttributes } from 'react';
-// import TPLXFooterGitbookLogo from './tplx-footer-gitbook-logo.svg';
-// import TPLXFooterDiscordLogo from '/tplx-footer-discord-logo.svg';
-// import TPLXFooterTelegramLogo from '/tplx-footer-telegram-logo.svg';
-// import TPLXFooterXLogo from '/tplx-footer-x-logo.svg';
 
 type FooterLink = {
   url: string;
@@ -18,22 +17,22 @@ const footerLinks: Array<FooterLink> = [
   {
     url: 'https://twitter.com/TensorplexLabs',
     alt: 'Twitter',
-    image: <img src="../twitter.png" className="size-[36px]" />,
+    image: <TPLXFooterXLogo className="size-[36px]"></TPLXFooterXLogo>,
   },
   {
     url: 'https://t.me/+ug7C1J7Apf8wNzc1/',
     alt: 'Telegram',
-    image: <img src="../telegram.png" className="size-[36px]" />,
+    image: <TPLXFooterTelegramLogo className="size-[36px]"></TPLXFooterTelegramLogo>,
   },
   {
     url: 'https://discord.com/invite/zVZbRdt6U4',
     alt: 'Discord',
-    image: <img src="../discord.png" className="size-[36px]" />,
+    image: <TPLXFooterDiscordLogo className="size-[36px]"></TPLXFooterDiscordLogo>,
   },
   {
     url: 'https://tensorplex.gitbook.io/tensorplex-docs/',
     alt: 'Gitbook',
-    image: <img src="../gitbook.png" className="size-[36px]" />,
+    image: <TPLXFooterGitbookLogo className="size-[36px]"></TPLXFooterGitbookLogo>,
   },
 ];
 
@@ -41,16 +40,14 @@ interface Props extends HTMLAttributes<HTMLDivElement> {}
 
 const TPLXFooter = ({ className, ...props }: Props) => {
   return (
-    <div className="bg-background-accent ">
+    <div className="bg-background-accent w-full">
       <div className={cn('border-t-[2px] border-font-primary flex flex-col w-full items-center', 'px-4 py-4')}>
-        <div className={cn('w-full  flex flex-col flex-wrap justify-between max-w-[1075px] gap-2', className)}>
-          <div className="flex flex-col flex-wrap items-center justify-between gap-2 sm:flex-row">
+        <div className={cn('w-full  flex flex-col flex-wrap justify-between max-w-[1100px] gap-2', className)}>
+          <div className="flex flex-col sm:flex-row flex-wrap gap-2 justify-between items-center">
             <Link href="/">
               <img className="h-[30px]" src="/logo.svg" alt="logo" />
             </Link>
-            <div
-              className={cn(`flex justify-between ${FontManrope.className} text-xl font-bold items-center gap-[15px]`)}
-            >
+            <div className={cn(`flex justify-between items-center gap-[15px]`)}>
               {headerItems.map((v, idx) => {
                 return (
                   <Link
@@ -68,22 +65,29 @@ const TPLXFooter = ({ className, ...props }: Props) => {
           </div>
 
           {/* Logos */}
-          <div
-            className={`w-full ${FontManrope.className} flex items-center justify-center gap-0 text-xl font-bold sm:justify-start`}
-          >
-            {footerLinks.map((link, idx) => {
-              return (
-                <a key={`footerlink_${link.alt}_${idx}`} target="_blank" rel="noreferrer" href={link.url}>
-                  {link.image}
-                </a>
-              );
-            })}
+          <div className={`w-full gap-[0px] flex flex-col sm:flex-row justify-center sm:justify-between items-center`}>
+            <div
+              className={cn(
+                'max-w-[1100px] grow text-muted-foreground text-xs text-center sm:text-start hidden sm:flex'
+              )}
+            >
+              ©2024 Tensorplex Labs - All rights reserved.
+            </div>
+            <div className="flex">
+              {footerLinks.map((link, idx) => {
+                return (
+                  <a key={`footerlink_${link.alt}_${idx}`} target="_blank" rel="noreferrer" href={link.url}>
+                    {link.image}
+                  </a>
+                );
+              })}
+            </div>
+            <div
+              className={cn('max-w-[1100px] grow text-muted-foreground text-xs text-center sm:text-start sm:hidden')}
+            >
+              ©2024 Tensorplex Labs - All rights reserved.
+            </div>
           </div>
-        </div>
-      </div>
-      <div className="flex w-full items-center justify-center border-t-2 border-muted px-4 py-2">
-        <div className={cn('max-w-[1075px] grow text-muted-foreground text-xs text-center sm:text-start')}>
-          ©2024 Tensorplex Labs - All rights reserved.
         </div>
       </div>
     </div>

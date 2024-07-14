@@ -1,11 +1,10 @@
 import GetStartedButton from '@/components/Button/GetStarted';
-import MultiSelectCardFrame from '@/components/HomePageCard/MultiSelectCardFrame';
-import SliderCardFrame from '@/components/HomePageCard/SliderCardFrame';
 import useAverageTaskCompletionTime from '@/hooks/useAverageTaskCompletionTime';
 import useCompletedTasksCount from '@/hooks/useCompletedTasksCount';
 import useDojoWorkerCount from '@/hooks/useDojoWorkerCount';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useScroll, useTransform } from 'framer-motion';
+import Image from 'next/image';
 import { useCallback, useState } from 'react';
 import CountUp from 'react-countup';
 
@@ -37,66 +36,69 @@ const HeroCardSection = () => {
     }
   }, []);
   return (
-    <motion.section
-      id="first"
-      className="mx-auto grid h-[calc(100vh-112px)] w-fit max-w-[1075px] grid-cols-[50%_1fr] gap-8"
-      initial={{ y: '100vh' }}
-      animate={scrollYPosition >= 0 ? { y: 0 } : { y: '100vh' }}
-      transition={{ type: 'spring', stiffness: 100 }}
-      exit={{ y: '100vh' }}
-      style={{ opacity }}
-    >
-      <div className="flex flex-col justify-center">
-        <h1 className={`${FontSpaceMono.className} text-5xl font-bold uppercase text-black`}>
-          Get paid to shape the future of AI
-        </h1>
-        <p className={`${FontManrope.className} mt-[13px] pr-2 text-2xl font-semibold text-black text-opacity-50`}>
-          Earn TAO through responding to AI-generated tasks across various domains. Join the crowd-sourced effort to
-          build the world&apos;s most powerful multimodal AI models.
-        </p>
-        <div className={`mb-5 mt-[13px]`}>
-          <GetStartedButton />
+    <section id="first" className="flex h-auto w-full justify-center overflow-hidden px-5 md:h-[calc(100vh-112px)]">
+      <div className="flex max-w-[1075px] flex-col gap-6 md:flex-row md:gap-20">
+        <div className="mt-10 flex flex-1 flex-col justify-center p-0 md:mt-0">
+          <h1 className={`${FontSpaceMono.className} text-4xl font-bold uppercase text-black md:text-6xl lg:text-7xl`}>
+            Get paid to shape the future of AI
+          </h1>
+          <p
+            className={`${FontManrope.className} mt-[13px] pr-2 text-lg font-medium text-gray-500 sm:text-lg lg:text-xl`}
+          >
+            Earn TAO through responding to AI-generated tasks across various domains. Join the crowd-sourced effort to
+            build the world&apos;s most powerful multimodal AI models.
+          </p>
+          <div className={`mb-5 mt-[13px]`}>
+            <GetStartedButton />
+          </div>
+          <hr className={'border-black'} />
+          <div className={`mt-[22px] flex flex-col gap-3 md:flex-row`}>
+            <div>
+              <h3 className={`uppercase ${FontSpaceMono.className} text-lg font-bold text-gray-500`}>
+                {/* Rewards paid out (usd) */}
+                Average Task Completion Time
+              </h3>
+              <h3 className={` ${FontManrope.className} text-[32px] font-extrabold`} key={averageTaskCompletionTime}>
+                <CountUp
+                  start={0}
+                  end={averageTaskCompletionTime || 0}
+                  duration={3}
+                  startOnMount
+                  formattingFn={formatTime}
+                />
+              </h3>
+            </div>
+            <div>
+              <h3 className={`uppercase ${FontSpaceMono.className} text-lg font-bold text-gray-500`}>
+                HUMAN TASKS COMPLETED
+              </h3>
+              <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}>
+                <CountUp start={0} end={numCompletedTasks ? numCompletedTasks : 12} duration={3} startOnMount />
+              </h3>
+            </div>
+            <div>
+              <h3 className={`uppercase ${FontSpaceMono.className} text-lg font-bold text-gray-500`}>
+                NO.OF HUMAN PARTICIPANTS
+              </h3>
+              <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}>
+                <CountUp start={0} end={numDojoWorkers ? numDojoWorkers : 123512} duration={3} startOnMount />
+              </h3>
+            </div>
+          </div>
         </div>
-        <hr className={'border-black'} />
-        <div className={`mt-[22px] flex flex-row gap-3`}>
-          <div>
-            <h3 className={`uppercase ${FontSpaceMono.className} text-lg font-bold opacity-50`}>
-              {/* Rewards paid out (usd) */}
-              Average Task Completion Time
-            </h3>
-            <h3 className={` ${FontManrope.className} text-[32px] font-extrabold`} key={averageTaskCompletionTime}>
-              <CountUp
-                start={0}
-                end={averageTaskCompletionTime ? averageTaskCompletionTime : 300}
-                duration={3}
-                startOnMount
-                formattingFn={formatTime}
-              />
-            </h3>
-          </div>
-          <div>
-            <h3 className={`uppercase ${FontSpaceMono.className} text-lg font-bold opacity-50`}>
-              HUMAN TASKS COMPLETED
-            </h3>
-            <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}>
-              <CountUp start={0} end={numCompletedTasks ? numCompletedTasks : 12} duration={3} startOnMount />
-            </h3>
-          </div>
-          <div>
-            <h3 className={`uppercase ${FontSpaceMono.className} text-lg font-bold opacity-50`}>
-              NO.OF HUMAN PARTICIPANTS
-            </h3>
-            <h3 className={`uppercase ${FontManrope.className} text-[32px] font-extrabold`}>
-              <CountUp start={0} end={numDojoWorkers ? numDojoWorkers : 123512} duration={3} startOnMount />
-            </h3>
+        <div className="relative mb-10 flex flex-1 items-center justify-center md:mb-0">
+          <div className="static left-0 top-0 flex size-full items-center  p-0 md:absolute md:w-[80vw] lg:w-[42vw] lg:min-w-[800px] lg:max-w-[1200px]">
+            <Image
+              alt="Tensorplex Dojo user interface example"
+              src="/hero-kv.png"
+              width={1742}
+              height={1236}
+              className="w-full rounded-xl border-2 border-solid border-black  shadow-brut-sm"
+            />
           </div>
         </div>
       </div>
-      <div className="relative flex items-center justify-center">
-        <MultiSelectCardFrame mouseX={mouseX} mouseY={mouseY} />
-        <SliderCardFrame mouseX={mouseX} mouseY={mouseY} />
-      </div>
-    </motion.section>
+    </section>
   );
 };
 export default HeroCardSection;

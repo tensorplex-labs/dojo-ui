@@ -59,7 +59,7 @@ const ThirdKeyMessageSlide = () => {
     if (!windowHeight) return;
     const lowerBound = (windowHeight ?? 0) * 3 - 200;
     // const lowerBound = (windowHeight ?? 0) * 3;
-    const upperBound = (windowHeight ?? 0) * 3 + KEY_MESSAGE_SCROLL_HEIGHT * 4;
+    const upperBound = (windowHeight ?? 0) * 3 + KEY_MESSAGE_SCROLL_HEIGHT * 5;
     if (latest > lowerBound && latest < upperBound) setAnimState('show');
     else setAnimState('hide');
   });
