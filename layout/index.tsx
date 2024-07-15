@@ -28,24 +28,11 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidt
   const { openModal } = useModal(MODAL.wallet);
   const [showUserCard, setShowUserCard] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [inputValue1, setInputValue1] = useState('');
-  const [inputValue2, setInputValue2] = useState('');
 
   const { address, status } = useAccount();
 
-  const subscriptionsData = [
-    // This data would come from your state or props
-    { name: 'Miner 1', subscriptionKey: 'sk-xxxxxx...xxxxxx', created: '2023-04-01' },
-    { name: 'Miner 1', subscriptionKey: 'sk-xxxxxx...xxxxxx', created: '2023-04-02' },
-    // ... more data
-  ];
-
   const handleViewClick = () => {
-    // Logic to close Wallet & API (if any)
-    // For example, if you have a function to close the wallet, call it here
-    // closeWallet();
     setShowUserCard(false);
-    // Set showDemo to true to bring up the demo
     setIsModalVisible(true);
   };
 
@@ -54,20 +41,8 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidt
     setShowUserCard(false);
   };
 
-  // Define the handler functions
   const handleCopy = useCopyToClipboard(address ?? '');
   const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
-
-  const handleInputChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue1(e.target.value);
-  };
-
-  const handleInputChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue2(e.target.value);
-  };
-  const handleSubmit = () => {
-    // API submission logic here
-  };
 
   return (
     <div className="min-h-screen bg-[#FFFFF4] text-black">
@@ -96,9 +71,6 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidt
                       </span>
                     </div>
                   </div>
-                  {/* <div className={`flex items-center gap-[5px] pl-5 ${FontManrope.className} font-bold text-sm text-opacity-75`}>
-            4.332stTAO
-          </div> */}
                   <div className="flex items-center justify-start gap-[20px] pl-5">
                     <TPLXButton onClick={handleCopy} className="h-fit p-0 font-bold text-[#24837B]" variant={'link'}>
                       <span className=" mr-[3px] text-xs underline underline-offset-2">COPY ADDRESS</span>{' '}
