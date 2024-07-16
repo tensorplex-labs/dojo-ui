@@ -14,10 +14,6 @@ export const headerItems: Array<HeaderItem> = [
     title: 'FAQ',
     url: '/faq',
   },
-  {
-    title: 'Docs',
-    url: 'https://tensorplex.gitbook.io/tensorplex-docs/',
-  },
 ];
 export const dropdownOptions = [
   { text: 'Most Attempted', value: 'numResults' },

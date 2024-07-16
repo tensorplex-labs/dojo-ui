@@ -116,7 +116,7 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         return;
       }
       setSubmissionErr(null);
-      router.push('/task-list');
+      router.push('/');
     }
   };
 

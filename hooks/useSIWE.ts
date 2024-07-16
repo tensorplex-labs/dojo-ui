@@ -17,7 +17,7 @@ export const useSIWE = (postSignin: () => void) => {
       const nonce = await fetchNonce(address);
       if (!nonce) throw new Error('Failed to fetch nonce');
 
-      const message = createSiweMessage(address, nonce, 'Sign in with Ethereum to tensorplex', chainId);
+      const message = createSiweMessage(address, nonce, 'Sign in with Ethereum', chainId);
       if (!message) throw new Error('Failed to create SIWE message');
 
       const signature = await signMessageAsync({ message });
