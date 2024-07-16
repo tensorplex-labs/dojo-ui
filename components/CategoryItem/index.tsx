@@ -7,12 +7,12 @@ type CategoryItemProps = {
 };
 
 export const CategoryItem: React.FC<CategoryItemProps> = ({ label, isActive, onClick }) => {
-  const activeClasses = ' border-[#00B6A6]  bg-[#DBF5E9] text-[#00B6A6]';
-  const inactiveClasses = ' border-black border-opacity-10  bg-[#F8F8F8] text-black text-opacity-75';
+  const activeClasses = ' border-primary  bg-secondary text-primary';
+  const inactiveClasses = ' border-black border-opacity-10  bg-card-background text-black text-opacity-75';
 
   return (
     <div
-      className={`${isActive ? activeClasses : inactiveClasses} border-2 px-[11px] py-[5px] cursor-pointer text-[#00B6A6] hover:border-2 hover:border-[#00B6A6] hover:bg-[#DBF5E9]`}
+      className={`${isActive ? activeClasses : inactiveClasses} cursor-pointer border-2 px-[11px] py-[5px] hover:border-2 hover:border-primary hover:bg-secondary`}
       onClick={onClick}
     >
       <p>{label}</p>

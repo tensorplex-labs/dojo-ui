@@ -1,22 +1,31 @@
 'use client';
 import { FontManrope } from '@/utils/typography';
 import Link from 'next/link';
+<<<<<<< HEAD
 import GetStartedButton from '../Button/GetStarted';
 import { WalletButton } from '../Wallet/wallet-button-entry';
+=======
+import GetStartedButton from '../Common/Button/GetStarted';
+import { WalletButton } from '../Common/Wallet/wallet-button-entry';
+>>>>>>> 6edf9430 (refactored codebase and tailwindConfig)
 
 type NavigationBarProps = {
   openModal: () => void;
   isHomePage?: boolean;
 };
-// NavigationBar component
+
 const NavigationBar = ({ openModal, isHomePage }: NavigationBarProps) => {
   const headerItems = [
+<<<<<<< HEAD
     { title: 'Task List', url: '/' },
+=======
+    { title: 'Task List', url: '/task-list?sort=numCriteria&order=desc' },
+>>>>>>> 6edf9430 (refactored codebase and tailwindConfig)
     { title: 'FAQ', url: '/faq' },
   ];
   return (
     <div className="flex items-center justify-center py-4">
-      <nav className="h-[75px] w-full max-w-[1075px] justify-center rounded-[16px] border border-black bg-[#fffff5]">
+      <nav className="h-[75px] w-full max-w-[1075px] justify-center rounded-[16px] border border-black bg-background">
         <div className="mx-auto max-w-6xl px-4">
           <div className="flex justify-between">
             <div className="flex items-center space-x-4">

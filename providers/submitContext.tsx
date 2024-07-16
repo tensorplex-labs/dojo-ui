@@ -1,38 +1,7 @@
 import useSubmitTask from '@/hooks/useSubmitTask';
+import { RankOrder, SubmitContextType } from '@/types/ProvidersTypes';
 import { useRouter } from 'next/router';
-import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-
-interface SubmitContextType {
-  multiSelectData: string[];
-  rankingData: any;
-  scoreData: number;
-  multiScore: { [key: string]: number };
-  updateMultiSelect: (data: string[]) => void;
-  updateRanking: (data: string[]) => void;
-  updateScore: (score: number) => void;
-  updateMultiScore: (data: { [key: string]: number }) => void;
-  handleSubmit: Function;
-  triggerTaskPageReload: boolean;
-  setTriggerTaskPageReload: React.Dispatch<React.SetStateAction<boolean>>;
-  submissionErr: string | null;
-  setSubmissionErr: Function;
-  isSubscriptionModalLoading: boolean;
-  setIsSubscriptionModalLoading: Function;
-  partnerCount: number;
-  setPartnerCount: React.Dispatch<React.SetStateAction<number>>;
-  isMultiSelectQuestion: boolean;
-  isRankQuestion: boolean;
-  isMultiScore: boolean;
-  isSlider: boolean;
-  handleSetIsMultiSelectQuestion: (value: boolean) => void;
-  handleSetIsRankQuestion: (value: boolean) => void;
-  handleSetIsMultiScore: (value: boolean) => void;
-  handleSetIsSlider: (value: boolean) => void;
-  maxMultiScore: number;
-  minMultiScore: number;
-  handleMaxMultiScore: (value: number) => void;
-  handleMinMultiScore: (value: number) => void;
-}
+import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 
 const SubmitContext = createContext<SubmitContextType | undefined>(undefined);
 
@@ -43,8 +12,6 @@ export const useSubmit = () => {
   }
   return context;
 };
-
-type RankOrder = { [key: string]: string };
 
 export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [multiSelectData, setMultiSelectData] = useState<string[]>([]);

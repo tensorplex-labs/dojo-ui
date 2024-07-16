@@ -1,6 +1,7 @@
 // context/AuthContext.js
 import { useJwtToken } from '@/hooks/useJwtToken';
 import useWorkerLoginAuth, { LoginAuthPayload } from '@/hooks/useWorkerLoginAuth';
+// import { AuthContextType } from '@/types/ProvidersTypes';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useDisconnect } from 'wagmi';
 
@@ -48,7 +49,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setIsAuthenticated(!!token);
     } catch (err) {
       console.error('Error while worker login', err);
-      disconnect(); // Disconnect the user if an error occurs
+      disconnect();
     }
   };
 

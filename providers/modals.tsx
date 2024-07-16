@@ -1,15 +1,10 @@
+<<<<<<< HEAD
 import ManageWalletConnectModal from '@/components/Wallet/manage-wallet-modal';
+=======
+import ManageWalletConnectModal from '@/components/Common/Wallet/manage-wallet-modal';
+import { MODAL, ModalContextValue } from '@/types/ProvidersTypes';
+>>>>>>> 6edf9430 (refactored codebase and tailwindConfig)
 import { FC, PropsWithChildren, createContext, memo, useCallback, useMemo, useState } from 'react';
-
-export type ModalContextValue = {
-  openModal: (modal: MODAL) => void;
-  closeModal: () => void;
-};
-
-export enum MODAL {
-  connect,
-  wallet,
-}
 
 export const ModalContext = createContext({} as ModalContextValue);
 

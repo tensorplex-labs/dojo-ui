@@ -11,7 +11,7 @@ import {
 } from '@tanstack/react-table';
 import { useRouter } from 'next/router';
 import React, { useRef, useState } from 'react';
-import { Button } from '../Button';
+import { Button } from '../Common/Button';
 
 export interface FilterDef {
   filterType: 'global' | 'column';
@@ -147,7 +147,7 @@ const Datatable = ({
   // Render the UI for your table
   return (
     <div {...props} ref={tableContainerRef} className="flex flex-col gap-4">
-      <div className={`overflow-x-auto border-2 border-black bg-[#F8F8F8] shadow-brut-sm`}>
+      <div className={`overflow-x-auto border-2 border-black bg-card-background shadow-brut-sm`}>
         <table className={`min-w-full ${tableClassName}`}>
           <thead className={`border-b border-black ${FontSpaceMono.className} text-lg font-bold`}>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -155,7 +155,7 @@ const Datatable = ({
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className={`px-4 uppercase py-2 text-start text-black ${headerCellClassName} text-base ${
+                    className={`px-4 py-2 text-start uppercase text-black ${headerCellClassName} text-base ${
                       header.column.columnDef.header === 'Name'
                         ? 'font-bold'
                         : header.column.columnDef.header === 'Operations'
@@ -230,7 +230,7 @@ const Datatable = ({
                         key={cell.id}
                         className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
                       >
-                        <div className=" w-fit text-sm rounded-[64px] font-semibold bg-[#00B6A6] bg-opacity-[0.22] px-[11px] py-1.5 text-[#00B6A6]">
+                        <div className=" w-fit rounded-[64px] bg-primary/[0.22] px-[11px] py-1.5 text-sm font-semibold text-primary">
                           {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </div>
                       </td>
@@ -252,17 +252,17 @@ const Datatable = ({
                     cell.column.columnDef.header === 'Expiry' ? (
                       <td
                         key={cell.id}
-                        className={`px-4 py-2 flex text-black ${cellsClassName} capitalize ${FontManrope.className}`}
+                        className={`flex px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
                       >
                         {new Date(row.original.expireAt).getTime() < Date.now() ? (
                           <div
-                            className={` rounded-2xl  px-[10px] py-[5px] text-center ${FontManrope.className} text-sm bg-red-400 bg-opacity-20 text-opacity-100 font-semibold text-red-600`}
+                            className={` rounded-2xl  px-[10px] py-[5px] text-center ${FontManrope.className} bg-red-400/20 text-sm font-semibold text-red-600 text-opacity-100`}
                           >
                             Expired
                           </div>
                         ) : (
                           <div
-                            className={`${FontManrope.className} text-lg text-center font-bold text-black opacity-60`}
+                            className={`${FontManrope.className} text-center text-lg font-bold text-black opacity-60`}
                           >
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                           </div>
@@ -285,7 +285,7 @@ const Datatable = ({
                         <Button
                           disabled={generateBtnState(row).disabled}
                           buttonText={generateBtnState(row).text}
-                          className={`text-white w-[113px] h-[40px] disabled:cursor-not-allowed disabled:bg-gray-400`}
+                          className={`h-[40px] w-[113px] text-white disabled:cursor-not-allowed disabled:bg-gray-400`}
                           onClick={() => onStartHandler(row.original.taskId)}
                         />
                       </td>
@@ -297,41 +297,6 @@ const Datatable = ({
           )}
         </table>
       </div>
-
-      {/* Pagination */}
-      {/* <div className={`flex justify-end items-center gap-2 ${FontSpaceMono.className}`}>
-        <button
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-          className="px-2 py-1 text-base font-bold rounded-md text-opacity-75 text-black disabled:text-opacity-25"
-        >
-          Prev
-        </button>
-        {pageNumbers.map((pageNumber) => {
-          const isActive = currentPage === pageNumber;
-          return (
-            <button
-              onClick={() => table.setPageIndex(pageNumber - 1)}
-              className={`flex items-center justify-center h-7 w-7 border-2 font-bold bg-[#00B6A6] border-black ${
-                isActive
-                  ? " text-white"
-                  : " bg-opacity-[14%] text-black"
-              }`}
-              key={`pageControlPages_${pageNumber}`}
-            >
-              {pageNumber}
-            </button>
-          );
-        })}
-        <button
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-          className="px-2 py-1 text-base font-bold rounded-md text-opacity-75 text-black disabled:text-opacity-25"
-        >
-          Next
-        </button>
-
-      </div> */}
     </div>
   );
 };

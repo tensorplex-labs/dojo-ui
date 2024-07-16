@@ -1,5 +1,6 @@
+import { ModalContext } from '@/providers/modals';
+import { MODAL } from '@/types/ProvidersTypes';
 import { useCallback, useContext } from 'react';
-import { MODAL, ModalContext } from '../providers/modals';
 
 type UseModal = (modal: MODAL) => {
   openModal: () => void;

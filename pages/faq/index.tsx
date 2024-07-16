@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { brutCardVariants } from '@/components/BrutCard';
 import { Button } from '@/components/Button';
 import ModalContainer from '@/components/ModalContainer';
@@ -10,62 +11,29 @@ import { CustomButton, buttonVariants } from '@/components/utils/custom-button';
 import { faqList } from '@/data';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import { useEtherScanOpen } from '@/hooks/useEtherScanOpen';
+=======
+import SubscriptionModal from '@/components/Common/SubscriptionModal';
+import { FAQHero, FAQList } from '@/components/FAQPage';
+import NavigationBar from '@/components/NavigationBar';
+import { WalletManagement } from '@/components/TaskListPageComponents';
+>>>>>>> 6edf9430 (refactored codebase and tailwindConfig)
 import { useJwtToken } from '@/hooks/useJwtToken';
 import { useModal } from '@/hooks/useModal';
 import { useSIWE } from '@/hooks/useSIWE';
-import { useSubmitApplication } from '@/hooks/useSubmitApplicationByMiner';
 import { useAuth } from '@/providers/authContext';
-import { MODAL } from '@/providers/modals';
-import { getFirstFourLastFour } from '@/utils/math_helpers';
-import { cn } from '@/utils/tw';
-import { FontManrope, FontSpaceMono } from '@/utils/typography';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { IconCopy, IconExternalLink } from '@tabler/icons-react';
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { MODAL } from '@/types/ProvidersTypes';
+import { FontSpaceMono } from '@/utils/typography';
+import { useEffect, useState } from 'react';
 import { useAccount, useDisconnect } from 'wagmi';
-import { z } from 'zod';
-
-const FormSchema = z.object({
-  hotkey: z.string().min(1, {
-    message: 'Invalid Hotkey. Please input a valid Hotkey.',
-  }),
-  email: z.string().min(1, { message: 'Missing Email. Please input an email' }).email({
-    message: 'Invalid Email. Please input a correct email format.',
-  }),
-  organizationalKey: z.string(),
-});
-
-const successMessage =
-  'We are currently reviewing your application. Once approved, we will send you a miner API key and subscription key via the email you provided.';
 
 const Page = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      hotkey: '',
-      organizationalKey: '',
-      email: '',
-    },
-  });
-  const { submitApplication, response, isLoading } = useSubmitApplication();
-  const { openModal } = useModal(MODAL.wallet);
   const [showUserCard, setShowUserCard] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [inputValue1, setInputValue1] = useState('');
-  const [inputValue2, setInputValue2] = useState('');
-  const [modalHeader, setModalHeader] = useState('');
-  const { address, status } = useAccount();
-  const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
+  const { openModal } = useModal(MODAL.wallet);
+  const { address } = useAccount();
 
   const { isAuthenticated, isSignedIn } = useAuth();
-  const { connector, isConnected } = useAccount();
+  const { isConnected } = useAccount();
   const { disconnect } = useDisconnect();
 
   const jwtTokenKey = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
@@ -101,70 +69,18 @@ const Page = () => {
     };
   }, [disconnect]);
 
-  const handleViewClick = () => {
-    // Logic to close Wallet & API (if any)
-    // For example, if you have a function to close the wallet, call it here
-    // closeWallet();
-    setShowUserCard(false);
-    // Set showDemo to true to bring up the demo
-    setIsModalVisible(true);
-  };
-
-  const walletManagementHandler = () => {
-    openModal();
-    setShowUserCard(false);
-  };
-
-  // Define the handler functions
-  const handleCopy = useCopyToClipboard(address ?? '');
-  const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
-
-  const handleInputChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue1(e.target.value);
-  };
-
-  const handleInputChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue2(e.target.value);
-  };
-
-  const [open, setOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
-  // TODO: Refactor with proper type and hook
-
-  const handleFormMessage = () => {};
-
-  useEffect(() => {
-    if (!response) return; // response is initially null, and we don't want to do anything
-
-    if (response.success) {
-      reset();
-      setModalHeader('Application Completed');
-      setModalMessage('Please check your email for the miner API key and worker subscription key.');
-    } else {
-      setModalHeader('Application Failed');
-      setModalMessage(response?.message || 'Application failed');
-    }
-    setOpen(true);
-    setIsLoadingSubmit(false);
-  }, [response, reset]);
-
-  const handleOnClose = () => {
-    setOpen(false);
-    setModalMessage('');
-  };
-
   return (
     <div className="h-full bg-background text-black">
       <div>
         <div className="h-[320px] border-b-2 border-black bg-background-accent">
           <NavigationBar openModal={() => setShowUserCard(true)} />
           <h1
-            // eslint-disable-next-line tailwindcss/no-contradicting-classname
             className={`${FontSpaceMono.className} my-2 mt-5 text-center text-4xl font-bold tracking-wide text-font-primary`}
           >
             FREQUENTLY ASKED QUESTIONS
           </h1>
         </div>
+<<<<<<< HEAD
 
         <div className="relative mx-auto mt-[-116px] flex h-[177px] w-[1075px] justify-between self-center border-2 border-black bg-[#DBF5E9] shadow-brut-sm">
           <div className="pl-[29px] pt-[21px]">
@@ -282,6 +198,19 @@ const Page = () => {
             </div>
           </UserCard>
         )}
+=======
+        <FAQHero />
+        <FAQList />
+        {showUserCard && (
+          <WalletManagement
+            address={address || ''}
+            openModal={openModal}
+            closeModal={setShowUserCard}
+            setShowUserCard={setShowUserCard}
+            setShowSubscriptionCard={setIsModalVisible}
+          />
+        )}{' '}
+>>>>>>> 6edf9430 (refactored codebase and tailwindConfig)
         {isModalVisible && <SubscriptionModal setIsModalVisible={setIsModalVisible} isModalVisible={isModalVisible} />}
       </div>
     </div>

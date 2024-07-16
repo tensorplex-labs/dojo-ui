@@ -2,16 +2,25 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+First, make sure to install the necessary dependencies:
+
+```bash
+npm install
+```
+
+**_Note:_** Please note that the installation process might take some time to complete. If you encounter any issues during the installation, try the following steps:
+
+1. Delete the package-lock.json file and the node_modules directory.
+2. Run the installation command with the --force flag:
+
+```bash
+npm install --force
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
