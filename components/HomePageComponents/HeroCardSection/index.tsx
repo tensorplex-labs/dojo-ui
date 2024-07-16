@@ -1,4 +1,4 @@
-import GetStartedButton from '@/components/Button/GetStarted';
+import GetStartedButton from '@/components/Common/Button/GetStarted';
 import useAverageTaskCompletionTime from '@/hooks/useAverageTaskCompletionTime';
 import useCompletedTasksCount from '@/hooks/useCompletedTasksCount';
 import useDojoWorkerCount from '@/hooks/useDojoWorkerCount';
@@ -9,7 +9,6 @@ import { useCallback, useState } from 'react';
 import CountUp from 'react-countup';
 
 const HeroCardSection = () => {
-  // const {scrollYProgress} = props;
   const { scrollYProgress } = useScroll();
 
   const { numDojoWorkers } = useDojoWorkerCount();

@@ -1,26 +1,7 @@
+import { Task } from '@/types/QuestionPageTypes';
 import { getFromLocalStorage } from '@/utils/general_helpers';
 import { useEffect, useState } from 'react';
 
-interface Task {
-  taskId: string;
-  title: string;
-  body: string;
-  expireAt: string;
-  type: string;
-  taskData: {
-    task: string;
-    prompt: string;
-    criteria: Array<{
-      type: string;
-      options?: string[];
-      max?: number;
-      min?: number;
-    }>;
-    responses: Array<any>;
-  };
-  status: string;
-  maxResults: number;
-}
 const useRequestTaskByTaskID = (taskId: string) => {
   const [task, setTask] = useState<Task | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -50,7 +31,7 @@ const useRequestTaskByTaskID = (taskId: string) => {
       }
     };
 
-    if (taskId && jwtToken) {
+    if (taskId) {
       fetchTask();
     }
   }, [taskId]); // jwtToken is not a dependency anymore since it's fetched inside the effect

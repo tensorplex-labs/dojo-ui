@@ -7,16 +7,22 @@
     --foreground-rgb: 0, 0, 0;
     --background-start-rgb: 214, 219, 220;
     --background-end-rgb: 255, 255, 255;
-
+    --primaryBG-bg: 60, 100%, 98%;
     --background: 60, 100%, 98%;
     --background-dark: 60, 47%, 93%;
     --foreground: 0, 0%, 97%;
     /*Input */
     --primary: 175, 100%, 36%;
     --secondary: 152.31, 56.52%, 90.98%;
+    --primary-dark: 175, 57%, 33%;
     /* --secondary: 175, 58%, 81%; */
     --accent: 152, 57%, 91%;
     --muted: 0, 0%, 89%;
+    --ecru-white: 60, 47%, 93%;
+    --iceberg: 177, 50%, 92%;
+    --darkGreen: 175, 57%, 33%;
+    --lightGreen: 175, 100%, 36%;
+    --goldenYellow: 45, 82%, 45%;
     /* --muted: 0, 0%, 91%; */
     --muted-foreground: 0, 0%, 58%;
     --card-background: 0, 0%, 97%;
@@ -72,10 +78,14 @@ body {
 }
 
 .moving-background {
- animation: slide 30s linear infinite;
+  animation: slide 30s linear infinite;
 }
 
 @keyframes slide {
-  from { background-position: 0 0; }
-  to { background-position: -512px -512px; }
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -512px -512px;
+  }
 }

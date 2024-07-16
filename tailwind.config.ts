@@ -27,13 +27,23 @@ const config: Config = {
       colors: {
         primary: 'hsla(var(--primary))',
         secondary: 'hsla(var(--secondary))',
+        primaryBG: {
+          bg: 'hsla(var(--primaryBG-bg))',
+        },
         accent: 'hsla(var(--accent))',
+        ecru: {
+          white: 'hsla(var(--ecru-white))',
+        },
+        iceberg: 'hsla(var(--iceberg))',
         background: {
           DEFAULT: 'hsla(var(--background))',
           accent: 'hsla(var(--background-dark))',
         },
         foreground: 'hsla(var(--foreground))',
         danger: red,
+        lightGreen: 'hsla(var(--lightGreen))',
+        darkGreen: 'hsla(var(--darkGreen))',
+        goldenYellow: 'hsla(var(--goldenYellow))',
         error: 'hsla(var(--error))',
         muted: {
           DEFAULT: 'hsla(var(--muted))',

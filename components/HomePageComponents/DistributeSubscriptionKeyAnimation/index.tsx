@@ -129,10 +129,10 @@ const SubscriptionCardAnimItem = (props: Props) => {
         <div className="absolute left-0 top-0 z-10 h-[5px] w-full bg-gray-200">
           <motion.div style={{ scaleX: barScaleMv }} className="size-full origin-left bg-[#00B6A6]"></motion.div>
         </div>
-        <div className="z-10 flex-1 min-w-0">
+        <div className="z-10 min-w-0 flex-1">
           <label className="text-sm font-semibold text-gray-400">SUBSCRIPTION KEY</label>
           <div className="flex items-center gap-1 overflow-hidden">
-            <motion.span className="block h-6 text-gray-700 truncate">{displayText}</motion.span>
+            <motion.span className="block h-6 truncate text-gray-700">{displayText}</motion.span>
             <CursorBlinker />
           </div>
         </div>
