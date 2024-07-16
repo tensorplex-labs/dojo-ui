@@ -1,4 +1,4 @@
-import { config } from '@/components/Wallet/WagmiWalletConfig';
+import { config } from '@/components/Common/Wallet/WagmiWalletConfig';
 import { AuthProvider } from '@/providers/authContext';
 import ModalProvider from '@/providers/modals';
 import { SubmitProvider } from '@/providers/submitContext';
@@ -16,9 +16,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <AuthProvider>
           <SubmitProvider>
             <ModalProvider>
-              {/* <TaskProvider> */}
               <Component {...pageProps} />
-              {/* </TaskProvider> */}
             </ModalProvider>
           </SubmitProvider>
         </AuthProvider>

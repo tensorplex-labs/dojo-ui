@@ -1,19 +1,18 @@
 import NavigationBar from '@/components/NavigationBar';
 // import useIntersectionObserver from '@/components/track';
-import MainFooter from '@/components/Footer/MainFooter';
-import { FontManrope, FontSpaceMono } from '@/utils/typography';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { ReactNode, useEffect, useRef, useState } from 'react';
-
-import StepCard, { StepCardProps } from '@/components/HomePageCard/StepCard';
-import FirstKeyMessageSlide from '@/components/HomePageComponents/FirstKeyMessageSlide';
-import HeroCardSection from '@/components/HomePageComponents/HeroCardSection';
-import SecondKeyMessageSlide from '@/components/HomePageComponents/SecondKeyMessageSlide';
-import ThirdKeyMessageSlide from '@/components/HomePageComponents/ThirdKeyMessageSlide';
+import MainFooter from '@/components/Common/Footer/MainFooter';
+import { HeroCardSection, StepCard } from '@/components/HomePageComponents';
+import FirstKeyMessageSlide from '@/components/HomePageComponents/KeyMessageSlides/FirstKeyMessageSlide';
+import SecondKeyMessageSlide from '@/components/HomePageComponents/KeyMessageSlides/SecondKeyMessageSlide';
+import ThirdKeyMessageSlide from '@/components/HomePageComponents/KeyMessageSlides/ThirdKeyMessageSlide';
+import { StepCardProps } from '@/components/HomePageComponents/StepCard';
 import useAverageTaskCompletionTime from '@/hooks/useAverageTaskCompletionTime';
 import useCompletedTasksCount from '@/hooks/useCompletedTasksCount';
 import useDojoWorkerCount from '@/hooks/useDojoWorkerCount';
+import { FontManrope, FontSpaceMono } from '@/utils/typography';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import CreateTaskAnimation from '../components/HomePageComponents/CreateTaskAnimation';
 import DistributeSubscriptionKeyAnimation from '../components/HomePageComponents/DistributeSubscriptionKeyAnimation';
 import EarnStepAnimation from '../components/HomePageComponents/EarnStepAnimation';
@@ -304,7 +303,7 @@ const Index = (props: Props) => {
                 <div className="flex size-[67px] items-center justify-center rounded-full border-2 border-black shadow-brut-sm">
                   <p className={`${FontManrope.className} text-[32px] font-bold`}>v0</p>
                 </div>
-                <div className="h-32 w-px border-l-[3px] border-dashed border-black border-opacity-50"></div>
+                <div className="h-32 w-px border-l-[3px] border-dashed border-black/50"></div>
               </div>
               <div>
                 <h3 className={`${FontSpaceMono.className} my-4 text-xl font-bold uppercase`}>Testnet launch</h3>
@@ -324,7 +323,7 @@ const Index = (props: Props) => {
                 <div className="flex size-[67px] items-center justify-center rounded-full border-2 border-black shadow-brut-sm">
                   <p className={`${FontManrope.className} text-[32px] font-bold`}>v1</p>
                 </div>
-                <div className="h-32 w-px border-l-[3px] border-dashed border-black border-opacity-50"></div>
+                <div className="h-32 w-px border-l-[3px] border-dashed border-black/50"></div>
               </div>
               <div>
                 <h3 className={`${FontSpaceMono.className} my-4 text-xl font-bold uppercase`}>MAINNET launch</h3>

@@ -1,15 +1,15 @@
 // ConversationBubble.js
+import { staggeredFadeInChildren } from '@/constants';
+import { ConversationBubbleProps } from '@/types/HomePageTypes';
 import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
-import { staggeredFadeInChildren } from '../FirstKeyMessageSlide';
 
-interface Props {
-  text?: string;
-  actor?: string;
-  isRightAligned?: boolean;
-  gradientClass?: string;
-}
-const ConversationBubble = ({ text = '', actor = '', isRightAligned = false, gradientClass = '' }: Props) => {
+const ConversationBubble = ({
+  text = '',
+  actor = '',
+  isRightAligned = false,
+  gradientClass = '',
+}: ConversationBubbleProps) => {
   return (
     <motion.div variants={staggeredFadeInChildren} className={`flex ${isRightAligned ? 'flex-row-reverse' : ''} gap-3`}>
       <div

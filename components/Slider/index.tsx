@@ -41,7 +41,7 @@
 //       {stepsArray.map((stepValue, index) => (
 //         <span
 //           key={index}
-//           className="ml-1 w-[5px] h-[11px] bg-[#00B6A6] border-black border text-gray-500 dark:text-gray-400 absolute z-10"
+//           className="ml-1 w-[5px] h-[11px] bg-primary border-black border text-gray-500 dark:text-gray-400 absolute z-10"
 //           style={{ left: `calc(${((stepValue - min) / (max - min)) * 100}% - 0.5rem)` }}
 //         >
 
@@ -55,7 +55,7 @@
 //         step={step}
 //         value={value}
 //         onChange={handleSliderChange}
-//         className="w-full h-[6px] bg-[#00B6A6] rounded-lg appearance-none accent-[#D9D9D9] cursor-pointer border border-black"
+//         className="w-full h-[6px] bg-primary rounded-lg appearance-none accent-muted cursor-pointer border border-black"
 //       />
 
 //       {minLabel && (
@@ -133,14 +133,14 @@ const Slider: React.FC<SliderProps> = ({
         step={step}
         value={value}
         onChange={handleSliderChange}
-        className={`border-e-1 h-1.5 w-full cursor-pointer appearance-none border border-black bg-transparent focus:outline-none disabled:pointer-events-none disabled:opacity-50
+        className={`h-1.5 w-full cursor-pointer appearance-none border border-e border-black bg-transparent focus:outline-none disabled:pointer-events-none disabled:opacity-50
         [&::-webkit-slider-thumb]:z-50
         [&::-webkit-slider-thumb]:-ml-0.5
         [&::-webkit-slider-thumb]:-mt-0.5
         [&::-webkit-slider-thumb]:size-[13px]
         [&::-webkit-slider-thumb]:appearance-none
         [&::-webkit-slider-thumb]:rounded-full
-        [&::-webkit-slider-thumb]:bg-[#D9D9D9]
+        [&::-webkit-slider-thumb]:bg-muted
         [&::-webkit-slider-thumb]:shadow-[0_0_0_1px_rgba(0,0,0,1)]
         [&::-webkit-slider-thumb]:transition-all
         [&::-webkit-slider-thumb]:duration-150
@@ -153,11 +153,11 @@ const Slider: React.FC<SliderProps> = ({
           {stepsArray.map((stepValue, index) => (
             <div key={index} className={`flex flex-col ${index === 0 ? 'items-start' : 'items-end'} justify-center`}>
               <span
-                className={`bg-[#00B6A6] ${
+                className={`bg-primary ${
                   stepValue === value ? 'bg-transparent opacity-0' : ''
                 } block h-[11px] w-[5px] border border-black dark:text-gray-400`}
               />
-              <p className={`${FontManrope.className} -mr-[0.75px] mt-1 text-xs font-semibold`}>{stepValue}</p>
+              <p className={`${FontManrope.className} mr-[-0.75px] mt-1 text-xs font-semibold`}>{stepValue}</p>
             </div>
           ))}
         </div>
