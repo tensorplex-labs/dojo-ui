@@ -4,9 +4,9 @@ import { useAuth } from '@/providers/authContext';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
 import { Connector, useAccount, useChainId, useConnect } from 'wagmi';
-import TPLXModalContainer from '../ModalContainer';
-import TPLXLWalletConnectedCard from './tplx-wallet-connected-card';
-import TPLXWalletNetworkCard from './tplx-walletnetwork-card';
+import ModalContainer from '../ModalContainer';
+import WalletConnectedCard from './wallet-connected-card';
+import WalletNetworkCard from './walletnetwork-card';
 interface Props {
   open: boolean;
   onSave?: () => void;
@@ -19,7 +19,7 @@ const getConnectorById = (connectors: readonly Connector[], connectorId: string)
 
 const allowedNetwork: number[] = [1, 42161, 10, 8453];
 
-const TPLXManageWalletConnectModal = ({ open, onSave, onClose, ...props }: Props) => {
+const ManageWalletConnectModal = ({ open, onSave, onClose, ...props }: Props) => {
   const { connectors, connectAsync } = useConnect();
   const { connector, address, status } = useAccount();
   const { setIsSignedIn } = useAuth();
@@ -43,7 +43,7 @@ const TPLXManageWalletConnectModal = ({ open, onSave, onClose, ...props }: Props
   };
 
   return (
-    <TPLXModalContainer
+    <ModalContainer
       header={'MANAGE WALLET'}
       open={open}
       onSave={() => {
@@ -58,37 +58,37 @@ const TPLXManageWalletConnectModal = ({ open, onSave, onClose, ...props }: Props
     >
       <div className="flex w-[400px] flex-col">
         {status === 'connected' && connector && isAuthenticated && (
-          <TPLXLWalletConnectedCard connector={connector} address={address}></TPLXLWalletConnectedCard>
+          <WalletConnectedCard connector={connector} address={address}></WalletConnectedCard>
         )}
         <div className="flex flex-col p-2 pb-[31px]">
           <span className={cn(FontSpaceMono.className, 'font-bold text-xs')}>CHOOSE WALLET</span>
           <div className="grid grid-cols-3 gap-[10px] pt-[3px]">
-            <TPLXWalletNetworkCard
+            <WalletNetworkCard
               // disabled={!getConnectorById(connectors, 'io.metamask') || status === 'connected' }
               onClick={() => {
                 connectWalletHandler('io.metamask');
               }}
               logo="/wallet_logo/metamask_logo.svg"
               Description="Metamask"
-            ></TPLXWalletNetworkCard>
-            <TPLXWalletNetworkCard
+            ></WalletNetworkCard>
+            <WalletNetworkCard
               disabled={true}
               logo="/wallet_logo/walletconnect_blue_logo.svg"
               Description="WalletConnect"
-            ></TPLXWalletNetworkCard>
-            <TPLXWalletNetworkCard
+            ></WalletNetworkCard>
+            <WalletNetworkCard
               disabled={!getConnectorById(connectors, 'io.rabby') || status === 'connected'}
               onClick={() => {
                 connectWalletHandler('io.rabby');
               }}
               logo="/wallet_logo/rabbywallet_logo.svg"
               Description="Rabby"
-            ></TPLXWalletNetworkCard>
+            ></WalletNetworkCard>
           </div>
         </div>
       </div>
-    </TPLXModalContainer>
+    </ModalContainer>
   );
 };
 
-export default TPLXManageWalletConnectModal;
+export default ManageWalletConnectModal;

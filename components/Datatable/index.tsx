@@ -63,7 +63,7 @@ const generateBtnState = (row: Row<any>): ButtonState => {
   return { disabled: false, text: 'Start' };
 };
 
-const TPLXDatatable = ({
+const Datatable = ({
   isLoading,
   canLoad,
   loadingState,
@@ -336,4 +336,4 @@ const TPLXDatatable = ({
   );
 };
 
-export default TPLXDatatable;
+export default Datatable;

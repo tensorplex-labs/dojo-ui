@@ -1,4 +1,4 @@
-import TPLXManageWalletConnectModal from '@/components/Wallet/tplx-manage-wallet-modal';
+import ManageWalletConnectModal from '@/components/Wallet/manage-wallet-modal';
 import { FC, PropsWithChildren, createContext, memo, useCallback, useMemo, useState } from 'react';
 
 export type ModalContextValue = {
@@ -40,11 +40,11 @@ const ModalProvider: FC<PropsWithChildren> = ({ children }) => {
     <ModalContext.Provider value={value}>
       {children}
       {/* <WalletModal open={active === MODAL.wallet} {...common} /> */}
-      <TPLXManageWalletConnectModal
+      <ManageWalletConnectModal
         open={active === MODAL.connect || active === MODAL.wallet}
         onClose={common.onClose}
         onSave={common.onClose}
-      ></TPLXManageWalletConnectModal>
+      ></ManageWalletConnectModal>
       {/* <WalletsModalForEth
         open={active === MODAL.connect}
         metrics={walletsMetrics}

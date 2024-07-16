@@ -4,13 +4,13 @@
 import { useAccount, useChainId } from 'wagmi';
 
 import { useAuth } from '@/providers/authContext';
-import TPLXWalletButtonBadge from './tplx-wallet-button-badge';
+import WalletButtonBadge from './wallet-button-badge';
 import WalletConnect from './walletConnect';
 
-type TPLXWalletButtonProps = {
+type WalletButtonProps = {
   openModal: () => void; // Prop for the openModal function
 };
-export const TPLXWalletButton = ({ openModal }: TPLXWalletButtonProps) => {
+export const WalletButton = ({ openModal }: WalletButtonProps) => {
   const chainId = useChainId();
   const { address, status, isConnected } = useAccount();
   const { isAuthenticated } = useAuth();
@@ -24,7 +24,7 @@ export const TPLXWalletButton = ({ openModal }: TPLXWalletButtonProps) => {
           onClick={openModal}
           className="flex w-fit items-center justify-start overflow-hidden rounded-full p-[10px] text-black hover:cursor-pointer hover:bg-muted"
         >
-          <TPLXWalletButtonBadge account={address} />
+          <WalletButtonBadge account={address} />
         </div>
       ) : (
         <div>

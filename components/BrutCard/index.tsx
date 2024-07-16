@@ -2,7 +2,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import React, { ReactNode } from 'react';
 
 import { cn } from '@/utils/tw';
-import TPLXShimmers from '../Shimmers';
+import Shimmers from '../Shimmers';
 
 const brutCardVariants = cva('border-2 border-black shadow-brut-sm', {
   variants: {
@@ -27,7 +27,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeo
   disabledOverlay?: ReactNode;
 }
 
-const TPLXBrutCard = React.forwardRef<HTMLDivElement, Props>(
+const BrutCard = React.forwardRef<HTMLDivElement, Props>(
   ({ className, variant, size, disabledOverlay, loading, ...props }, ref) => {
     return (
       <div
@@ -49,8 +49,8 @@ const TPLXBrutCard = React.forwardRef<HTMLDivElement, Props>(
           props.children
         ) : (
           <div className="flex flex-col gap-[10px]">
-            <TPLXShimmers className="w-4/12"></TPLXShimmers>
-            <TPLXShimmers className="w-6/12"></TPLXShimmers>
+            <Shimmers className="w-4/12"></Shimmers>
+            <Shimmers className="w-6/12"></Shimmers>
           </div>
         )}
       </div>
@@ -58,6 +58,6 @@ const TPLXBrutCard = React.forwardRef<HTMLDivElement, Props>(
   }
 );
 
-TPLXBrutCard.displayName = 'TPLXBrutCard';
+BrutCard.displayName = 'BrutCard';
 
-export { brutCardVariants, TPLXBrutCard };
+export { BrutCard, brutCardVariants };

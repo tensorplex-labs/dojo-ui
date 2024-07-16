@@ -1,7 +1,7 @@
 import { Button } from '@/components/Button';
 import DragnDrop from '@/components/DragnDrop';
 import LinkContentVisualizer from '@/components/LinkContentVisualizer';
-import TPLXModalContainer from '@/components/ModalContainer';
+import ModalContainer from '@/components/ModalContainer';
 import MultiSelect from '@/components/MultileSelect';
 import Slider from '@/components/Slider';
 import { useJwtToken } from '@/hooks/useJwtToken';
@@ -403,7 +403,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
           </div>
         </>
       )}
-      <TPLXModalContainer
+      <ModalContainer
         className={'h-[206px] w-[512px]'}
         headerClassName={'h-12 pl-4'}
         bodyClassName="p-0"
@@ -426,7 +426,7 @@ const QuestionPage: React.FC<QuestionPageProps> = ({ children }) => {
             onClick={() => handleOnClose()}
           />
         </div>
-      </TPLXModalContainer>
+      </ModalContainer>
     </Layout>
   );
 };

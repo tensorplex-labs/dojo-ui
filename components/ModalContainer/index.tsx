@@ -4,7 +4,7 @@ import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
 import { IconX } from '@tabler/icons-react';
 import React, { HTMLAttributes } from 'react';
-import { TPLXBrutCard } from '../BrutCard';
+import { BrutCard } from '../BrutCard';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   open: boolean;
@@ -15,7 +15,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   headerClassName?: string;
   bodyClassName?: string;
 }
-const TPLXModalContainer = React.forwardRef<HTMLInputElement, Props>(
+const ModalContainer = React.forwardRef<HTMLInputElement, Props>(
   ({ className, headerClassName, bodyClassName, open, onClose, header, children, ...props }, ref) => {
     return (
       <>
@@ -26,7 +26,7 @@ const TPLXModalContainer = React.forwardRef<HTMLInputElement, Props>(
           ></div>
         )}
         {open && (
-          <TPLXBrutCard
+          <BrutCard
             className={cn(
               `${className} p-0 z-10 fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] min-w-[200px]`
             )}
@@ -46,13 +46,13 @@ const TPLXModalContainer = React.forwardRef<HTMLInputElement, Props>(
               </div>
               <div className={cn('p-2', bodyClassName)}>{children}</div>
             </div>
-          </TPLXBrutCard>
+          </BrutCard>
         )}
       </>
     );
   }
 );
 
-TPLXModalContainer.displayName = 'TPLXModalContainer';
+ModalContainer.displayName = 'ModalContainer';
 
-export default TPLXModalContainer;
+export default ModalContainer;

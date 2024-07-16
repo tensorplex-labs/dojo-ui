@@ -9,7 +9,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 
 const yPadding = 8;
 const borderWidth = 2;
-const TPLXAccordion = ({ className, title, children, ...props }: Props) => {
+const Accordion = ({ className, title, children, ...props }: Props) => {
   const childRef = useRef<HTMLDivElement | null>(null);
   const [childHeight, setChildHeight] = useState(0);
   const [headerHeight, setHeaderHeight] = useState(28);
@@ -64,4 +64,4 @@ const TPLXAccordion = ({ className, title, children, ...props }: Props) => {
   );
 };
 
-export default TPLXAccordion;
+export default Accordion;

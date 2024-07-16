@@ -1,10 +1,10 @@
 'use client';
 import Footer from '@/components/Footer';
 import SubscriptionModal from '@/components/SubscriptionModal';
-import { TPLXButton } from '@/components/TPLXButton';
 import UserCard from '@/components/UserCard';
 import { config } from '@/components/Wallet/WagmiWalletConfig';
-import TPLXWeb3Icon from '@/components/Wallet/tplx-web3-icon';
+import Web3Icon from '@/components/Wallet/web3-icon';
+import { CustomButton } from '@/components/utils/custom-button';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import { useEtherScanOpen } from '@/hooks/useEtherScanOpen';
 import { useModal } from '@/hooks/useModal';
@@ -66,24 +66,24 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidt
                       <span
                         className={`${FontManrope.className} flex w-fit items-center justify-start gap-2 overflow-hidden rounded-full p-[10px] text-black hover:cursor-pointer hover:bg-muted `}
                       >
-                        <TPLXWeb3Icon size={20} address={address ?? ''}></TPLXWeb3Icon>
+                        <Web3Icon size={20} address={address ?? ''}></Web3Icon>
                         {getFirstFourLastFour(address ?? '')}
                       </span>
                     </div>
                   </div>
                   <div className="flex items-center justify-start gap-[20px] pl-5">
-                    <TPLXButton onClick={handleCopy} className="h-fit p-0 font-bold text-[#24837B]" variant={'link'}>
+                    <CustomButton onClick={handleCopy} className="h-fit p-0 font-bold text-[#24837B]" variant={'link'}>
                       <span className=" mr-[3px] text-xs underline underline-offset-2">COPY ADDRESS</span>{' '}
                       <IconCopy className="h-4 w-4" />
-                    </TPLXButton>
-                    <TPLXButton
+                    </CustomButton>
+                    <CustomButton
                       onClick={handleEtherscan}
                       className="h-fit p-0 font-bold text-[#24837B]"
                       variant={'link'}
                     >
                       <span className="mr-[3px] text-xs underline underline-offset-2">VIEW ON ETHERSCAN</span>{' '}
                       <IconExternalLink className="h-4 w-4" />
-                    </TPLXButton>
+                    </CustomButton>
                   </div>
                 </div>
                 <div className="flex  w-full items-center justify-between border-b-2 p-4 text-sm">

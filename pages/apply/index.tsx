@@ -1,12 +1,12 @@
 import { Button } from '@/components/Button';
 import { InputField } from '@/components/Fields/InputField';
 import { ConnectWallet } from '@/components/MinerConnect/ConnectWallet';
-import TPLXModalContainer from '@/components/ModalContainer';
+import ModalContainer from '@/components/ModalContainer';
 import NavigationBar from '@/components/NavigationBar';
 import SubscriptionModal from '@/components/SubscriptionModal';
-import { TPLXButton } from '@/components/TPLXButton';
 import UserCard from '@/components/UserCard';
-import TPLXWeb3Icon from '@/components/Wallet/tplx-web3-icon';
+import Web3Icon from '@/components/Wallet/web3-icon';
+import { CustomButton } from '@/components/utils/custom-button';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import { useEtherScanOpen } from '@/hooks/useEtherScanOpen';
 import { useModal } from '@/hooks/useModal';
@@ -326,7 +326,7 @@ const Page = () => {
                             </div>
                           </div>
                           <div className="mt-4 flex items-center">
-                            <TPLXWeb3Icon size={20} address={selectedAccount?.address ?? ''} />
+                            <Web3Icon size={20} address={selectedAccount?.address ?? ''} />
                             <span className={`${FontManrope.className} ml-4 text-sm font-medium opacity-50`}>
                               {getFirstFourLastFour(selectedAccount?.address ?? '')}
                             </span>
@@ -356,7 +356,7 @@ const Page = () => {
                                         </span>
                                       </div>
                                       <div className="mt-1 flex items-center">
-                                        <TPLXWeb3Icon size={16} address={account.address} />
+                                        <Web3Icon size={16} address={account.address} />
                                         <span
                                           className={`${FontManrope.className} ml-2 text-xs font-medium opacity-50`}
                                         >
@@ -503,7 +503,7 @@ const Page = () => {
             </div>
           )}
         </div>
-        <TPLXModalContainer
+        <ModalContainer
           className={'h-[206px] w-[512px]'}
           headerClassName={'h-12 pl-4'}
           bodyClassName="p-0"
@@ -526,7 +526,7 @@ const Page = () => {
               onClick={() => handleOnClose()}
             />
           </div>
-        </TPLXModalContainer>
+        </ModalContainer>
         {showUserCard && (
           <UserCard closeModal={setShowUserCard}>
             <div className="flex w-full flex-col gap-[5px] border-b-2  p-5 py-3.5">
@@ -539,20 +539,20 @@ const Page = () => {
                   <span
                     className={`${FontManrope.className} flex w-fit items-center justify-start gap-2 overflow-hidden rounded-full p-[10px] text-black hover:cursor-pointer hover:bg-muted `}
                   >
-                    <TPLXWeb3Icon size={20} address={address ?? ''}></TPLXWeb3Icon>
+                    <Web3Icon size={20} address={address ?? ''}></Web3Icon>
                     {getFirstFourLastFour(address ?? '')}
                   </span>
                 </div>
               </div>
               <div className="flex items-center justify-start gap-[20px] pl-5">
-                <TPLXButton onClick={handleCopy} className="h-fit p-0 font-bold text-[#24837B]" variant={'link'}>
+                <CustomButton onClick={handleCopy} className="h-fit p-0 font-bold text-[#24837B]" variant={'link'}>
                   <span className=" mr-[3px] text-xs underline underline-offset-2">COPY ADDRESS</span>{' '}
                   <IconCopy className="size-4" />
-                </TPLXButton>
-                <TPLXButton onClick={handleEtherscan} className="h-fit p-0 font-bold text-[#24837B]" variant={'link'}>
+                </CustomButton>
+                <CustomButton onClick={handleEtherscan} className="h-fit p-0 font-bold text-[#24837B]" variant={'link'}>
                   <span className="mr-[3px] text-xs underline underline-offset-2">VIEW ON ETHERSCAN</span>{' '}
                   <IconExternalLink className="size-4" />
-                </TPLXButton>
+                </CustomButton>
               </div>
             </div>
             <div className="flex  w-full items-center justify-between border-b-2 p-4 text-sm">

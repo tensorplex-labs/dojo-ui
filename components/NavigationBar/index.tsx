@@ -2,7 +2,7 @@
 import { FontManrope } from '@/utils/typography';
 import Link from 'next/link';
 import GetStartedButton from '../Button/GetStarted';
-import { TPLXWalletButton } from '../Wallet/tplx-wallet-button-entry';
+import { WalletButton } from '../Wallet/wallet-button-entry';
 
 type NavigationBarProps = {
   openModal: () => void;
@@ -37,7 +37,7 @@ const NavigationBar = ({ openModal, isHomePage }: NavigationBarProps) => {
               {!isHomePage ? (
                 <>
                   <div className="flex items-center justify-center gap-[8px]">
-                    <TPLXWalletButton openModal={openModal}></TPLXWalletButton>
+                    <WalletButton openModal={openModal}></WalletButton>
                   </div>
                 </>
               ) : (

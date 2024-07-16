@@ -1,7 +1,7 @@
 'use client';
 import { cn } from '@/utils/tw';
 import { HTMLAttributes } from 'react';
-import { TPLXBrutCard, brutCardVariants } from '../BrutCard';
+import { BrutCard, brutCardVariants } from '../BrutCard';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   logo?: string;
@@ -10,9 +10,9 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   selected?: boolean;
 }
 
-const TPLXWalletNetworkCard = ({ logo, Description, className, disabled, selected, ...props }: Props) => {
+const WalletNetworkCard = ({ logo, Description, className, disabled, selected, ...props }: Props) => {
   return (
-    <TPLXBrutCard
+    <BrutCard
       className={cn(
         'py-[10px] w-full h-full',
         disabled ? '' : 'hover:cursor-pointer hover:border-primary hover:bg-secondary hover:shadow-brut-sm-primary',
@@ -26,8 +26,8 @@ const TPLXWalletNetworkCard = ({ logo, Description, className, disabled, selecte
         <img className="aspect-square w-[25px]" src={logo ?? ''} alt="L"></img>
         <span>{Description}</span>
       </div>
-    </TPLXBrutCard>
+    </BrutCard>
   );
 };
 
-export default TPLXWalletNetworkCard;
+export default WalletNetworkCard;

@@ -1,14 +1,14 @@
 'use client';
 import { Button } from '@/components/Button';
 import { CategoryItem } from '@/components/CategoryItem';
+import Datatable from '@/components/Datatable';
 import { DropdownContainer } from '@/components/DropDown';
 import NavigationBar from '@/components/NavigationBar';
 import { Pagination } from '@/components/Pagination';
 import SubscriptionModal from '@/components/SubscriptionModal';
-import { TPLXButton } from '@/components/TPLXButton';
-import TPLXDatatable from '@/components/TPLXDatatable';
 import UserCard from '@/components/UserCard';
-import TPLXWeb3Icon from '@/components/Wallet/tplx-web3-icon';
+import Web3Icon from '@/components/Wallet/web3-icon';
+import { CustomButton } from '@/components/utils/custom-button';
 import { categories, columnDef, dropdownOptions } from '@/data';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import { useEtherScanOpen } from '@/hooks/useEtherScanOpen';
@@ -344,7 +344,7 @@ export default function Home() {
             </span>
           ) : null}
         </div>
-        <TPLXDatatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} isLoading={loading} />
+        <Datatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} isLoading={loading} />
         <div className="mt-3"></div>
         <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange} />
         {isAuthenticated ? (
@@ -371,20 +371,20 @@ export default function Home() {
                 <span
                   className={`${FontManrope.className} flex w-fit items-center justify-start gap-2 overflow-hidden rounded-full p-[10px] text-black hover:cursor-pointer hover:bg-muted `}
                 >
-                  <TPLXWeb3Icon size={20} address={address ?? ''}></TPLXWeb3Icon>
+                  <Web3Icon size={20} address={address ?? ''}></Web3Icon>
                   {getFirstFourLastFour(address ?? '')}
                 </span>
               </div>
             </div>
             <div className="flex items-center justify-start gap-[20px] pl-5">
-              <TPLXButton onClick={handleCopy} className="h-fit p-0 font-bold text-[#24837B]" variant={'link'}>
+              <CustomButton onClick={handleCopy} className="h-fit p-0 font-bold text-[#24837B]" variant={'link'}>
                 <span className=" mr-[3px] text-xs underline underline-offset-2">COPY ADDRESS</span>{' '}
                 <IconCopy className="size-4" />
-              </TPLXButton>
-              <TPLXButton onClick={handleEtherscan} className="h-fit p-0 font-bold text-[#24837B]" variant={'link'}>
+              </CustomButton>
+              <CustomButton onClick={handleEtherscan} className="h-fit p-0 font-bold text-[#24837B]" variant={'link'}>
                 <span className="mr-[3px] text-xs underline underline-offset-2">VIEW ON ETHERSCAN</span>{' '}
                 <IconExternalLink className="size-4" />
-              </TPLXButton>
+              </CustomButton>
             </div>
           </div>
           <div className="flex  w-full items-center justify-between border-b-2 p-4 text-sm">

@@ -1,7 +1,7 @@
 import { cn } from '@/utils/tw';
 import { HTMLAttributes } from 'react';
 interface Props extends HTMLAttributes<HTMLOrSVGElement> {}
-const TPLXFooterDiscordLogo = ({ className, ...props }: Props) => {
+const FooterDiscordLogo = ({ className, ...props }: Props) => {
   return (
     <div
       className={cn(
@@ -24,4 +24,4 @@ const TPLXFooterDiscordLogo = ({ className, ...props }: Props) => {
   );
 };
 
-export default TPLXFooterDiscordLogo;
+export default FooterDiscordLogo;

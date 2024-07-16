@@ -5,7 +5,7 @@ import { useModal } from '@/hooks/useModal';
 import { MODAL } from '@/providers/modals';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
-import { TPLXButton } from '../TPLXButton';
+import { CustomButton } from '../utils/custom-button';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 
@@ -15,7 +15,7 @@ const WalletConnect = (props: Props) => {
 
   return (
     <>
-      <TPLXButton
+      <CustomButton
         className={cn(
           FontSpaceMono.className,
           'text-xs md:text-sm bg-primary rounded-none border-[2px] border-black text-font-secondary hover:shadow-brut-sm',
@@ -24,7 +24,7 @@ const WalletConnect = (props: Props) => {
         onClick={openModal}
       >
         CONNECT WALLET
-      </TPLXButton>
+      </CustomButton>
     </>
   );
 };

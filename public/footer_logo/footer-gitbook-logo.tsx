@@ -1,13 +1,13 @@
-import React, { HTMLAttributes } from 'react';
 import { cn } from '@/utils/tw';
+import { HTMLAttributes } from 'react';
 
 interface Props extends HTMLAttributes<HTMLOrSVGElement> {}
-const TPLXFooterGitbookLogo = ({ className, ...props }: Props) => {
+const FooterGitbookLogo = ({ className, ...props }: Props) => {
   return (
     <div
       className={cn(
         'flex items-center justify-center group hover:cursor-pointer hover:bg-[#E3E3D2] rounded-[12px]',
-        className,
+        className
       )}
     >
       <svg
@@ -31,4 +31,4 @@ const TPLXFooterGitbookLogo = ({ className, ...props }: Props) => {
   );
 };
 
-export default TPLXFooterGitbookLogo;
+export default FooterGitbookLogo;

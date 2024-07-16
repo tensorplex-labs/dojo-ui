@@ -4,7 +4,7 @@ interface Props {
   address: string;
   size?: number;
 }
-const TPLXWeb3Icon = ({ address, size }: Props) => {
+const Web3Icon = ({ address, size }: Props) => {
   const avatarRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!address || !avatarRef) return;
@@ -23,4 +23,4 @@ const TPLXWeb3Icon = ({ address, size }: Props) => {
   );
 };
 
-export default TPLXWeb3Icon;
+export default Web3Icon;

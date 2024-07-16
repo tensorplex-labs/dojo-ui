@@ -35,7 +35,7 @@ export interface ButtonProps
   loading?: boolean;
 }
 
-const TPLXButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const CustomButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, children, loading, ...props }, ref) => {
     return (
       <button
@@ -65,6 +65,6 @@ const TPLXButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 
-TPLXButton.displayName = 'TPLXButton';
+CustomButton.displayName = 'CustomButton';
 
-export { TPLXButton, buttonVariants };
+export { CustomButton, buttonVariants };
