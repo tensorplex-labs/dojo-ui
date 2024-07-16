@@ -1,6 +1,5 @@
 import { brutCardVariants } from '@/components/Common/BrutCard';
 import { buttonVariants } from '@/components/Common/CustomButton';
-import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { ColumnDef } from '@tanstack/react-table';
 import { VariantProps } from 'class-variance-authority';
 import { HTMLAttributes, InputHTMLAttributes, ReactNode } from 'react';
@@ -51,10 +50,6 @@ export type LabelledInputProps = {
   placeholder?: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-};
-
-export type ConnectWalletProps = {
-  onAccounts: (accounts: InjectedAccountWithMeta[]) => void;
 };
 
 export type ModalProps = {
