@@ -1,4 +1,4 @@
-import NavigationBar from '@/components/NavigationBar';
+import NavigationBar from '@/components/Common/NavigationBar';
 // import useIntersectionObserver from '@/components/track';
 import MainFooter from '@/components/Common/Footer/MainFooter';
 import { HeroCardSection, StepCard } from '@/components/HomePageComponents';
