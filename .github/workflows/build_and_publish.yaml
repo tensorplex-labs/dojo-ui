@@ -4,11 +4,15 @@ on:
   release:
     types:
       - published
-  push:
+  workflow_run:
+    workflows:
+      - "Build Dojo UI"
     branches:
       - dev
       - staging
       - junk/github-action-test
+    types: 
+      - completed
 
 jobs:
   docker_publish:
