@@ -1,14 +1,14 @@
 name: Build and publish
 
-# on:
-#   release:
-#     types: [created, published]
-#     branches: [main]
-
 on:
-  workflow_run:
-    workflows: ["Dojo UI Release"]
-    types: [completed]
+  release:
+    types: [published]
+    # branches: [main]
+
+# on:
+#   workflow_run:
+#     workflows: ["Dojo UI Release"]
+#     types: [completed]
 
 
 jobs:
