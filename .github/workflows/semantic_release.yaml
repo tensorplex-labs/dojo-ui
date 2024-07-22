@@ -1,9 +1,10 @@
-name: Dojo UI Release
+name: Run Semantic Release
 
 on:
   push:
     branches:
       - main
+      - junk/github-action-test
 #  pull_request:
 #    branches: [ "main" ]
 
