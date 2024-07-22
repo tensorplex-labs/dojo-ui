@@ -1,9 +1,15 @@
 name: Build and publish
 
+# on:
+#   release:
+#     types: [created, published]
+#     branches: [main]
+
 on:
-  release:
-    types: [created, published]
-    branches: [main]
+  workflow_run:
+    workflows: ["Dojo UI Release"]
+    types: [completed]
+
 
 jobs:
   docker_publish:
