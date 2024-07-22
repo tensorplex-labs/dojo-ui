@@ -1,12 +1,14 @@
 name: Run Semantic Release
 
 on:
-  push:
+  workflow_run:
+    workflows:
+      - "Build Dojo UI"
     branches:
       - main
       - junk/github-action-test
-#  pull_request:
-#    branches: [ "main" ]
+    types: 
+      - completed
 
 jobs:
   release:
