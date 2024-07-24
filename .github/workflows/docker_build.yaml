@@ -1,0 +1,33 @@
+name: Docker Build
+
+on:
+  release:
+    types:
+      - published
+  workflow_run:
+    workflows:
+      - "Build Dojo UI"
+    branches:
+      - dev
+      - staging
+    types:
+      - completed
+
+jobs:
+  docker_publish:
+    runs-on: self-hosted
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build_artifacts
+      - name: Build and publish a Docker image for ${{ github.repository }}
+        uses: macbre/push-to-ghcr@master
+        with:
+          image_name: ${{ github.repository }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
