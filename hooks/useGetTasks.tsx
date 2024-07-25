@@ -67,7 +67,7 @@ const useGetTasks = (
       return;
     }
 
-    if (!jwtToken && !isAuthenticated && !isConnected) {
+    if (!jwtToken || !isAuthenticated || !isConnected) {
       setTasks([]);
       setPagination(null);
       setError('No JWT token found');
