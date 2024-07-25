@@ -47,6 +47,8 @@ const useGetTasks = (
   taskQuery: string,
   sort: string,
   order: string,
+  isAuthenticated: boolean,
+  isConnected: boolean,
   yieldMin?: number,
   yieldMax?: number
 ) => {
@@ -65,7 +67,7 @@ const useGetTasks = (
       return;
     }
 
-    if (!jwtToken) {
+    if (!jwtToken && !isAuthenticated && !isConnected) {
       setTasks([]);
       setPagination(null);
       setError('No JWT token found');

@@ -93,6 +93,8 @@ export default function Home() {
     taskTypes ? (taskTypes as string) : 'All', // 'All' as default task type if not provided
     sort ? (sort as string) : 'createdAt',
     order ? (order as string) : 'desc',
+    isAuthenticated,
+    isConnected,
     yieldMin ? parseInt(yieldMin as string) : undefined,
     yieldMax ? parseInt(yieldMax as string) : undefined
   );
