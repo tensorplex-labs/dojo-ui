@@ -1,6 +1,6 @@
 'use client';
+import NavigationBar from '@/components/Common/NavigationBar';
 import Datatable from '@/components/Datatable';
-import NavigationBar from '@/components/NavigationBar';
 import { WalletManagement } from '@/components/TaskListPageComponents';
 import TaskListHeader from '@/components/TaskListPageComponents/TaskListPageHeader';
 import { categories, columnDef, dropdownOptions } from '@/data';

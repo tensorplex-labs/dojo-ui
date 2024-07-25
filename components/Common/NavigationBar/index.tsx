@@ -1,38 +1,45 @@
 'use client';
-import { useSIWE } from '@/hooks/useSIWE';
-import { NavigationBarProps } from '@/types/CommonTypes';
-import { FontManrope } from '@/utils/typography';
+import { cn } from '@/utils/tw';
 import Link from 'next/link';
 import GetStartedButton from '../Button/GetStarted';
 import { WalletButton } from '../Wallet/WalletButton';
 
-const NavigationBar = ({ openModal, isHomePage }: NavigationBarProps) => {
-  useSIWE(() => {
-    console.log('Successfully signed in');
-  });
+type NavigationBarProps = {
+  openModal: () => void;
+  isHomePage?: boolean;
+  className?: string;
+};
 
+const NavigationBar = ({ openModal, isHomePage, className }: NavigationBarProps) => {
   const headerItems = [
-    { title: 'Task List', url: '/task-list' },
+    { title: 'Task List', url: '/task-list?sort=numCriteria&order=desc' },
     { title: 'FAQ', url: '/faq' },
   ];
 
   return (
     <div className="flex items-center justify-center py-4">
-      <nav className="h-[75px] w-full max-w-[1075px] justify-center rounded-[16px] border border-black bg-background">
-        <div className="mx-auto max-w-6xl px-4">
+      <nav
+        className={cn(
+          ' w-full px-[20px] py-[12px] border-[1px] border-black rounded-md max-w-[1075px] justify-center bg-background h-[56px]',
+          className
+        )}
+      >
+        <div className="">
           <div className="flex justify-between">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center gap-[30px]">
               <div>
-                <Link href="/" className="flex items-center px-2 py-5 text-gray-700 hover:text-gray-900">
-                  <img src="./logo.svg" alt="logo" className="h-[20px]" />
+                <Link href="/">
+                  <img className="h-[23px] md:h-[30px]" src="/logo.svg" alt="logo" />
                 </Link>
               </div>
-              <div className="hidden items-center space-x-3 md:flex">
+              <div className="hidden items-center gap-[10px] md:flex">
                 {headerItems.map((item, index) => (
                   <Link
                     key={index}
                     href={item.url}
-                    className={`px-4 py-5 text-xl font-bold text-black opacity-75 hover:text-black hover:underline hover:underline-offset-2 hover:opacity-100 ${FontManrope.className} tracking-tight	`}
+                    className={cn(
+                      'text-font-primary hover:cursor-pointer visited:text-font-primary hover:underline hover:text-primary'
+                    )}
                   >
                     {item.title}
                   </Link>
