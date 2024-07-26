@@ -1,4 +1,4 @@
-import { CustomButton } from '@/components/CustomButton';
+import { CustomButton } from '@/components/Common/CustomButton';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
 import { useRouter } from 'next/router';

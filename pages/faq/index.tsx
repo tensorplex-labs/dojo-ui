@@ -1,6 +1,6 @@
+import NavigationBar from '@/components/Common/NavigationBar';
 import SubscriptionModal from '@/components/Common/SubscriptionModal';
 import { FAQHero, FAQList } from '@/components/FAQPage';
-import NavigationBar from '@/components/NavigationBar';
 import { WalletManagement } from '@/components/TaskListPageComponents';
 import { useJwtToken } from '@/hooks/useJwtToken';
 import { useModal } from '@/hooks/useModal';
