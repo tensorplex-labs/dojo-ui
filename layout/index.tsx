@@ -1,19 +1,10 @@
 'use client';
-<<<<<<< HEAD
-import Footer from '@/components/Footer';
-import SubscriptionModal from '@/components/SubscriptionModal';
-import UserCard from '@/components/UserCard';
-import { config } from '@/components/Wallet/WagmiWalletConfig';
-import Web3Icon from '@/components/Wallet/web3-icon';
-import { CustomButton } from '@/components/utils/custom-button';
-=======
 import Footer from '@/components/Common/Footer';
 import SubscriptionModal from '@/components/Common/SubscriptionModal';
 import UserCard from '@/components/Common/UserCard';
 import { config } from '@/components/Common/Wallet/WagmiWalletConfig';
 import Web3Icon from '@/components/Common/Wallet/web3-icon';
 import { CustomButton } from '@/components/CustomButton';
->>>>>>> 6edf9430 (refactored codebase and tailwindConfig)
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import { useEtherScanOpen } from '@/hooks/useEtherScanOpen';
 import { useModal } from '@/hooks/useModal';
@@ -38,12 +29,7 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidt
   const { openModal } = useModal(MODAL.wallet);
   const [showUserCard, setShowUserCard] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-<<<<<<< HEAD
-
-  const { address, status } = useAccount();
-=======
   const { address } = useAccount();
->>>>>>> 6edf9430 (refactored codebase and tailwindConfig)
 
   const handleViewClick = () => {
     setShowUserCard(false);
@@ -85,14 +71,9 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidt
                       </span>
                     </div>
                   </div>
-<<<<<<< HEAD
-                  <div className="flex items-center justify-start gap-[20px] pl-5">
-                    <CustomButton onClick={handleCopy} className="h-fit p-0 font-bold text-[#24837B]" variant={'link'}>
-=======
 
                   <div className="flex items-center justify-start gap-[20px] pl-5">
                     <CustomButton onClick={handleCopy} className="h-fit p-0 font-bold text-darkGreen" variant={'link'}>
->>>>>>> 6edf9430 (refactored codebase and tailwindConfig)
                       <span className=" mr-[3px] text-xs underline underline-offset-2">COPY ADDRESS</span>{' '}
                       <IconCopy className="h-4 w-4" />
                     </CustomButton>

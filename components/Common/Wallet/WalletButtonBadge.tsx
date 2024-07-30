@@ -6,11 +6,7 @@ import Web3Icon from './web3-icon';
 interface Props {
   account?: string;
 }
-<<<<<<<< HEAD:components/Common/Wallet/wallet-button-badge.tsx
 const WalletButtonBadge = (props: Props) => {
-========
-const WalletBadgeButton = (props: Props) => {
->>>>>>>> 6edf9430 (refactored codebase and tailwindConfig):components/Common/Wallet/WalletButtonBadge.tsx
   const account = props.account;
 
   return (
@@ -21,8 +17,4 @@ const WalletBadgeButton = (props: Props) => {
   );
 };
 
-<<<<<<<< HEAD:components/Common/Wallet/wallet-button-badge.tsx
 export default WalletButtonBadge;
-========
-export default WalletBadgeButton;
->>>>>>>> 6edf9430 (refactored codebase and tailwindConfig):components/Common/Wallet/WalletButtonBadge.tsx

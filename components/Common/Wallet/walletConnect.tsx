@@ -1,15 +1,10 @@
 'use client';
-import { HTMLAttributes } from 'react';
-
 import { useModal } from '@/hooks/useModal';
 import { MODAL } from '@/types/ProvidersTypes';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
-<<<<<<< HEAD:components/Wallet/walletConnect.tsx
-import { CustomButton } from '../utils/custom-button';
-=======
+import { HTMLAttributes } from 'react';
 import { CustomButton } from '../CustomButton';
->>>>>>> 6edf9430 (refactored codebase and tailwindConfig):components/Common/Wallet/walletConnect.tsx
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 

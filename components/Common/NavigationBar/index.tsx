@@ -1,32 +1,27 @@
 'use client';
-import { useSIWE } from '@/hooks/useSIWE';
-import { NavigationBarProps } from '@/types/CommonTypes';
 import { FontManrope } from '@/utils/typography';
 import Link from 'next/link';
 import GetStartedButton from '../Button/GetStarted';
 import { WalletButton } from '../Wallet/WalletButton';
 
+type NavigationBarProps = {
+  openModal: () => void;
+  isHomePage?: boolean;
+};
+// NavigationBar component
 const NavigationBar = ({ openModal, isHomePage }: NavigationBarProps) => {
-  useSIWE(() => {
-    console.log('Successfully signed in');
-  });
-
   const headerItems = [
-    { title: 'Task List', url: '/task-list' },
+    { title: 'Task List', url: '/' },
     { title: 'FAQ', url: '/faq' },
   ];
 
   return (
     <div className="flex items-center justify-center py-4">
-      <nav className="h-[75px] w-full max-w-[1075px] justify-center rounded-[16px] border border-black bg-background">
+      <nav className="h-[75px] w-full max-w-[1075px] justify-center rounded-[16px] border border-black bg-[#fffff5]">
         <div className="mx-auto max-w-6xl px-4">
           <div className="flex justify-between">
             <div className="flex items-center space-x-4">
-              <div>
-                <Link href="/" className="flex items-center px-2 py-5 text-gray-700 hover:text-gray-900">
-                  <img src="./logo.svg" alt="logo" className="h-[20px]" />
-                </Link>
-              </div>
+              <div></div>
               <div className="hidden items-center space-x-3 md:flex">
                 {headerItems.map((item, index) => (
                   <Link

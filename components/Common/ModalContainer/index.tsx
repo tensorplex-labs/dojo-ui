@@ -4,26 +4,10 @@ import { ModalContainerProps } from '@/types/CommonTypes';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
 import { IconX } from '@tabler/icons-react';
-<<<<<<< HEAD:components/ModalContainer/index.tsx
-import React, { HTMLAttributes } from 'react';
-import { BrutCard } from '../BrutCard';
-
-interface Props extends HTMLAttributes<HTMLDivElement> {
-  open: boolean;
-  onClose: () => void;
-  onSave: () => void;
-  children: React.ReactNode;
-  header?: React.ReactNode;
-  headerClassName?: string;
-  bodyClassName?: string;
-}
-const ModalContainer = React.forwardRef<HTMLInputElement, Props>(
-=======
 import React from 'react';
 import { BrutCard } from '../BrutCard';
 
 const ModalContainer = React.forwardRef<HTMLInputElement, ModalContainerProps>(
->>>>>>> 6edf9430 (refactored codebase and tailwindConfig):components/Common/ModalContainer/index.tsx
   ({ className, headerClassName, bodyClassName, open, onClose, header, children, ...props }, ref) => {
     return (
       <>

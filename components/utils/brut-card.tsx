@@ -1,11 +1,7 @@
 import { cn } from '@/utils/tw';
 import { cva, type VariantProps } from 'class-variance-authority';
 import React, { ReactNode } from 'react';
-<<<<<<<< HEAD:components/utils/brut-card.tsx
 import Shimmers from './shimmers';
-========
-import Shimmers from './Shimmers';
->>>>>>>> 6edf9430 (refactored codebase and tailwindConfig):components/Common/BrutCard.tsx
 
 const brutCardVariants = cva('border-2 border-black shadow-brut-sm', {
   variants: {

@@ -9,11 +9,7 @@ import { IconCopy, IconExternalLink } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import { Connector, useDisconnect } from 'wagmi';
 import { BrutCard } from '../BrutCard';
-<<<<<<< HEAD:components/Wallet/wallet-connected-card.tsx
-import { CustomButton } from '../utils/custom-button';
-=======
 import { CustomButton } from '../CustomButton';
->>>>>>> 6edf9430 (refactored codebase and tailwindConfig):components/Common/Wallet/wallet-connected-card.tsx
 import Web3Icon from './web3-icon';
 
 interface Props {
@@ -65,19 +61,11 @@ const WalletConnectedCard = ({ connector, address }: Props) => {
             <span className={FontManrope.className}>{getFirstFourLastFour(address ?? '')}</span>
           </div>
           <div className="flex items-center justify-start gap-[20px]">
-<<<<<<< HEAD:components/Wallet/wallet-connected-card.tsx
-            <CustomButton onClick={handleCopy} className="h-fit p-0 font-bold text-[#24837B]" variant={'link'}>
-              <span className=" mr-[3px] text-xs underline underline-offset-2">COPY ADDRESS</span>{' '}
-              <IconCopy className="size-4" />
-            </CustomButton>
-            <CustomButton onClick={handleEtherscan} className="h-fit p-0 font-bold text-[#24837B]" variant={'link'}>
-=======
             <CustomButton onClick={handleCopy} className="h-fit p-0 font-bold text-darkGreen" variant={'link'}>
               <span className=" mr-[3px] text-xs underline underline-offset-2">COPY ADDRESS</span>{' '}
               <IconCopy className="size-4" />
             </CustomButton>
             <CustomButton onClick={handleEtherscan} className="h-fit p-0 font-bold text-darkGreen" variant={'link'}>
->>>>>>> 6edf9430 (refactored codebase and tailwindConfig):components/Common/Wallet/wallet-connected-card.tsx
               <span className="mr-[3px] text-xs underline underline-offset-2">VIEW ON ETHERSCAN</span>{' '}
               <IconExternalLink className="size-4" />
             </CustomButton>

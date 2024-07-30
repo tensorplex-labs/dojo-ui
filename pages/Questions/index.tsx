@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-import { Button } from '@/components/Button';
-import DragnDrop from '@/components/DragnDrop';
-import LinkContentVisualizer from '@/components/LinkContentVisualizer';
-import ModalContainer from '@/components/ModalContainer';
-import MultiSelect from '@/components/MultileSelect';
-import Slider from '@/components/Slider';
-=======
 import HeadingTitle from '@/components/Common/HeadingTitle';
 import MultiSelect from '@/components/Common/MultileSelect';
 import DragnDrop from '@/components/QuestionPageComponents/DragnDrop';
@@ -14,7 +6,6 @@ import ResponseVisualizer from '@/components/QuestionPageComponents/ResponseVisu
 import SliderQuestion from '@/components/QuestionPageComponents/SliderQuestion';
 import TaskPrompt from '@/components/QuestionPageComponents/TaskPrompt';
 import { taskCriteria } from '@/constants';
->>>>>>> 6edf9430 (refactored codebase and tailwindConfig)
 import { useJwtToken } from '@/hooks/useJwtToken';
 import useRequestTaskByTaskID from '@/hooks/useRequestTaskByTaskID';
 import { useSIWE } from '@/hooks/useSIWE';
@@ -313,34 +304,7 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
           </div>
         </>
       )}
-<<<<<<< HEAD
-      <ModalContainer
-        className={'h-[206px] w-[512px]'}
-        headerClassName={'h-12 pl-4'}
-        bodyClassName="p-0"
-        header={'Error'}
-        open={open}
-        onClose={() => handleOnClose()}
-        onSave={() => handleOnClose()}
-      >
-        <div
-          className={cn(
-            `${FontManrope.className} py-4 px-6 border-b-2 border-black bg-accent opacity-60 text-[16px] leading-[120%] h-[88px] flex items-center`
-          )}
-        >
-          <span>{submissionErr}</span>
-        </div>
-        <div className={'size-full p-1 text-right'}>
-          <Button
-            className={cn('w-[85px] h-[39px] mt-2 mr-4 hover:shadow-brut-sm text-[16px] text-white')}
-            buttonText={'CLOSE'}
-            onClick={() => handleOnClose()}
-          />
-        </div>
-      </ModalContainer>
-=======
       <ErrorModal open={open} onClose={handleOnClose} errorMessage={submissionErr} />
->>>>>>> 6edf9430 (refactored codebase and tailwindConfig)
     </Layout>
   );
 };

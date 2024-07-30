@@ -34,7 +34,7 @@ const Footer: React.FC = () => {
         <div className="flex items-center justify-end space-x-[11px]">
           <Button
             buttonText={'SKIP'}
-            className="bg-muted px-[37px] py-[15px] text-black hover:shadow-brut-sm"
+            className="!bg-muted px-[37px] py-[15px] text-black hover:shadow-brut-sm"
             onClick={async () => handleSkip()}
           />
           <Button
