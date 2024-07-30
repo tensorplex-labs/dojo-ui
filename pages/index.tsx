@@ -1,6 +1,5 @@
 'use client';
-import Datatable from '@/components/Datatable';
-import NavigationBar from '@/components/NavigationBar';
+
 import { WalletManagement } from '@/components/TaskListPageComponents';
 import TaskListHeader from '@/components/TaskListPageComponents/TaskListPageHeader';
 import { categories, columnDef, dropdownOptions } from '@/data';
@@ -19,7 +18,9 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAccount, useDisconnect } from 'wagmi';
 
 import { Button } from '@/components/Common/Button';
+import DataTable from '@/components/Common/DataTable';
 import { DropdownContainer } from '@/components/Common/DropDown';
+import NavigationBar from '@/components/Common/NavigationBar';
 import { Pagination } from '@/components/Common/Pagination';
 import SubscriptionModal from '@/components/Common/SubscriptionModal';
 import CategoryItem from '@/components/TaskListPageComponents/CategoryList/CategoryItem';
@@ -272,7 +273,7 @@ export default function Index() {
             </span>
           ) : null}
         </div>
-        <Datatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} isLoading={loading} />
+        <DataTable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} isLoading={loading} />
         <div className="mt-3"></div>
         <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange} />
         {isAuthenticated ? (

@@ -1,7 +1,7 @@
-import { CustomButton } from '@/components/CustomButton';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
 import { useRouter } from 'next/router';
+import { CustomButton } from '../../CustomButton';
 
 const GetStartedButton = () => {
   const router = useRouter();
