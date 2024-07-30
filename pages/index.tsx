@@ -276,7 +276,7 @@ export default function Index() {
         <DataTable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} isLoading={loading} />
         <div className="mt-3"></div>
         <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange} />
-        {isAuthenticated ? (
+        {isAuthenticated && isConnected ? (
           partners.length === 0 || tasks.length <= 0 ? (
             <div className="text-center">
               <Button
