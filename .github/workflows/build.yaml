@@ -52,6 +52,6 @@ jobs:
           path: |
             .next
   build_image:
-    uses: ./.github/workflows/docker_build.yaml@ref
+    uses: ./.github/workflows/docker_build.yaml
     needs:
       - build_ui
