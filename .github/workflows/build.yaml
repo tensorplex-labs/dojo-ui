@@ -9,8 +9,8 @@ on:
       - "fix/docker-build"
 
 jobs:
-  ui_build:
-    name: UI Build
+  build_ui:
+    name: Build UI
     runs-on: self-hosted
     permissions:
       contents: write
