@@ -5,26 +5,11 @@ on:
     types:
       - published
   workflow_call:
-#    inputs:
-#      name:
-#        required: true
-#        type: string
-#  workflow_run:
-#    workflows: ["Build UI"]
-#    branches:
-#      - dev
-#      - staging
-#      - "fix/docker-build"
-#    types:
-#      - completed
 
 jobs:
   docker_publish:
     name: Docker Build
     runs-on: self-hosted
-#    permissions:
-#      contents: read
-#      packages: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -44,15 +29,19 @@ jobs:
           SANITIZED_BRANCH_NAME=${BRANCH_NAME//\//-}
           echo "BRANCH_NAME=$SANITIZED_BRANCH_NAME" >> $GITHUB_ENV
 
-      - name: Build and tagged > ${{ github.repository }}
-        if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/staging' || github.ref == 'refs/heads/fix/docker-build'
+      - name: Build image with env tag
+        if: github.ref == 'refs/heads/dev'
+          || github.ref == 'refs/heads/staging'
+          || github.ref == 'refs/heads/tensorplex-dev'
+          || github.ref == 'refs/heads/tensorplex-staging'
+          || github.ref == 'refs/heads/tensorplex-prod'
         uses: macbre/push-to-ghcr@master
         with:
           image_name: ${{ github.repository }}
           image_tag: ${{ env.BRANCH_NAME }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and semver tagged > ${{ github.repository }}
+      - name: Build image with semver tag
         if: startsWith(github.ref, 'refs/tags/')
         uses: macbre/push-to-ghcr@master
         with:
