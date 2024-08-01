@@ -51,6 +51,7 @@ jobs:
           name: build_artifacts
           path: |
             .next
+
   build_image:
     name: Build Image
     uses: ./.github/workflows/docker_build.yaml

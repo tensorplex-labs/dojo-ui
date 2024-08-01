@@ -1,11 +1,9 @@
-name: Dojo UI Release
+name: Release
 
 on:
   push:
     branches:
       - main
-#  pull_request:
-#    branches: [ "main" ]
 
 jobs:
   release:
