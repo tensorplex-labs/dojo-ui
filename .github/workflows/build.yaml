@@ -51,3 +51,7 @@ jobs:
           name: build_artifacts
           path: |
             .next
+  build_image:
+    uses: .github/workflows/docker_build.yaml@ref
+    needs:
+      - build_ui

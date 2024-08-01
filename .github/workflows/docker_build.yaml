@@ -4,14 +4,19 @@ on:
   release:
     types:
       - published
-  workflow_run:
-    workflows: ["Build UI"]
-    branches:
-      - dev
-      - staging
-      - "fix/docker-build"
-    types:
-      - completed
+  workflow_call:
+#    inputs:
+#      name:
+#        required: true
+#        type: string
+#  workflow_run:
+#    workflows: ["Build UI"]
+#    branches:
+#      - dev
+#      - staging
+#      - "fix/docker-build"
+#    types:
+#      - completed
 
 jobs:
   docker_publish:
