@@ -1,4 +1,4 @@
-name: Build Dojo UI
+name: Build UI
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
       - staging
       - dev
-      - fix/docker-build
+      - "fix/docker-build"
 
 jobs:
   ui_build:

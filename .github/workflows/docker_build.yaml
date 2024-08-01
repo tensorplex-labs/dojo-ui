@@ -6,11 +6,11 @@ on:
       - published
   workflow_run:
     workflows:
-      - "Build Dojo UI"
+      - "Build UI"
     branches:
       - dev
       - staging
-      - fix/docker-build
+      - "fix/docker-build"
     types:
       - completed
 
