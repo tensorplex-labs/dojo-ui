@@ -6,6 +6,7 @@ on:
       - main
       - staging
       - dev
+      - fix/docker-build
 
 jobs:
   ui_build:
