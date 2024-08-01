@@ -1,11 +1,9 @@
-name: Dojo UI Release
+name: Release
 
 on:
   push:
     branches:
       - main
-#  pull_request:
-#    branches: [ "main" ]
 
 jobs:
   release:
@@ -16,9 +14,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '18.12.0'
+
       - name: Action For Semantic Release
         uses: cycjimmy/semantic-release-action@v4.1.0
         with:
