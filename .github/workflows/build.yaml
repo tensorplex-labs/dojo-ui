@@ -1,4 +1,4 @@
-name: Build UI
+name: Build
 
 on:
   push:
@@ -52,6 +52,6 @@ jobs:
           path: |
             .next
   build_image:
-    uses: .github/workflows/docker_build.yaml@ref
+    uses: ./.github/workflows/docker_build.yaml@ref
     needs:
       - build_ui
