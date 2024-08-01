@@ -19,8 +19,8 @@ jobs:
     permissions:
       contents: read
       packages: write
-      actions: write
-      attestations: write
+      actions: read
+      attestations: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -28,7 +28,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build_artifacts
-          run-id: ${{ github.event.workflow_run.id }}
+#          run-id: ${{ github.event.workflow_run.id }}
       - name: Build and publish a Docker image for ${{ github.repository }}
         uses: macbre/push-to-ghcr@master
         with:
