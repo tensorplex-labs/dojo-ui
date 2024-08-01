@@ -5,8 +5,7 @@ on:
     types:
       - published
   workflow_run:
-    workflows:
-      - "Build UI"
+    workflows: ["Build UI"]
     branches:
       - dev
       - staging
