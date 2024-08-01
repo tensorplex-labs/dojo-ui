@@ -1,27 +1,53 @@
-name: Build and publish
+name: Build UI
 
 on:
-  release:
-    types: [published]
-    # branches: [main]
-
-# on:
-#   workflow_run:
-#     workflows: ["Dojo UI Release"]
-#     types: [completed]
-
+  push:
+    branches:
+      - main
+      - staging
+      - dev
+      - "fix/docker-build"
 
 jobs:
-  docker_publish:
-    runs-on: "ubuntu-20.04"
+  ui_build:
+    name: UI Build
+    runs-on: self-hosted
     permissions:
-      contents: read
-      packages: write
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Build and publish a Docker image for ${{ github.repository }}
-        uses: macbre/push-to-ghcr@master
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          image_name: ${{ github.repository }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          node-version: '21.7.3'
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            ~/.npm
+          key: dojo-ui-node-modules
+          restore-keys: |
+            dojo-ui-node-modules
+
+      - name: NPM Install
+        run: npm install --force
+
+      - name: Run Build
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
+            export NEXT_PUBLIC_BACKEND_URL=${{ env.NEXT_PUBLIC_BACKEND_URL_DEV }}
+          elif [[ "${{ github.ref }}" == "refs/heads/staging" ]]; then
+            export NEXT_PUBLIC_BACKEND_URL=${{ env.NEXT_PUBLIC_BACKEND_URL_STAGING }}
+          fi
+          npm run build
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build_artifacts
+          path: |
+            .next
