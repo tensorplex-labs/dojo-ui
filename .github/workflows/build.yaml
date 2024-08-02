@@ -42,7 +42,6 @@ jobs:
           elif [[ "${{ github.ref }}" == "refs/heads/tensorplex-staging" ]]; then
             export NEXT_PUBLIC_BACKEND_URL=${{ vars.NEXT_PUBLIC_BACKEND_URL_STAGING }}
           fi
-          env
           npm run build
 
       - name: Upload artifacts
