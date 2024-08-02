@@ -37,9 +37,9 @@ jobs:
 
       - name: Run Build
         run: |
-          if [[ "${{ github.ref }}" == "refs/heads/dev" ]]; then
+          if [[ "${{ github.ref }}" == "refs/heads/tensorplex-dev" ]]; then
             export NEXT_PUBLIC_BACKEND_URL=${{ env.NEXT_PUBLIC_BACKEND_URL_DEV }}
-          elif [[ "${{ github.ref }}" == "refs/heads/staging" ]]; then
+          elif [[ "${{ github.ref }}" == "refs/heads/tensorplex-staging" ]]; then
             export NEXT_PUBLIC_BACKEND_URL=${{ env.NEXT_PUBLIC_BACKEND_URL_STAGING }}
           fi
           npm run build
