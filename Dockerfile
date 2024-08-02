@@ -6,4 +6,4 @@ COPY . .
 
 RUN chmod +x entrypoint.sh
 
-ENTRYPOINT ["/dojo/entrypoint.sh"]
+ENTRYPOINT ["/dojo-ui/entrypoint.sh"]
