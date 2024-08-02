@@ -47,9 +47,9 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: build_artifacts
+          name: next_artifacts
           path: |
-            .next/
+            .next
 
   build_image:
     name: Build Image
