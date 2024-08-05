@@ -17,9 +17,6 @@ jobs:
         with:
           node-version: '21.7.3'
 
-      - name: Install NextJs
-        run: npm i next
-
       - name: Cache node modules
         uses: actions/cache@v4.0.2
         with:
@@ -30,15 +27,8 @@ jobs:
           restore-keys: |
             dojo-ui-next-node-modules
 
-#      - name: Cache node modules
-#        uses: actions/cache@v4.0.2
-#        with:
-#          path: |
-#            node_modules
-#            ~/.npm
-#          key: dojo-ui-node-modules
-#          restore-keys: |
-#            dojo-ui-node-modules
+      - name: Install NextJs
+        run: npm i next
 
       - name: Download artifacts
         uses: actions/download-artifact@v4.1.8
@@ -57,9 +47,7 @@ jobs:
           echo "BRANCH_NAME=$SANITIZED_BRANCH_NAME" >> $GITHUB_ENV
 
       - name: Build image with env tag
-        if: github.ref == 'refs/heads/dev'
-          || github.ref == 'refs/heads/staging'
-          || github.ref == 'refs/heads/tensorplex-dev'
+        if: github.ref == 'refs/heads/tensorplex-dev'
           || github.ref == 'refs/heads/tensorplex-staging'
           || github.ref == 'refs/heads/tensorplex-prod'
         uses: macbre/push-to-ghcr@master
