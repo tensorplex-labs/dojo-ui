@@ -1,0 +1,16 @@
+
+FROM node:21.7.3
+
+WORKDIR /dojo-ui
+
+COPY . .
+
+RUN npm install -g next
+RUN npm install --force
+RUN NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL npm run build
+RUN chmod 755 entrypoint.sh
+
+HEALTHCHECK --interval=30s --timeout=30s --start-period=10s --retries=3 \
+  CMD curl -f http://localhost:3000 || exit 1
+
+ENTRYPOINT ["/dojo-ui/entrypoint.sh"]
