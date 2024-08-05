@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - tensorplex-dev
-      - tensorplex-stagig
+      - tensorplex-staging
       - tensorplex-prod
 
 jobs:
