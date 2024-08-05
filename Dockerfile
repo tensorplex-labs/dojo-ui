@@ -4,8 +4,6 @@ WORKDIR /dojo-ui
 
 COPY . .
 
-RUN npm i next
-
 RUN chmod +x entrypoint.sh
 
 ENTRYPOINT ["/dojo-ui/entrypoint.sh"]
