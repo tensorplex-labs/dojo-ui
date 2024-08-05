@@ -17,6 +17,9 @@ jobs:
         with:
           node-version: '21.7.3'
 
+      - name: Install NextJs
+        run: npm i next
+
       - name: Cache node modules
         uses: actions/cache@v4.0.2
         with:
