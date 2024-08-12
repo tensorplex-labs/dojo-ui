@@ -1,0 +1,59 @@
+name: Excluded commit hashes checking mechanism TEST
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - test-tensorplex-dev
+
+jobs:
+  check-commits:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Fetch all branches
+        run: git fetch --all
+
+      - name: Check for excluded commits
+        id: check_commits
+        run: |
+          EXCLUDE_COMMIT_HASHES=("4c0918c0" "63014fce" "dd051064" "c2508c5b" "e948fa26" "705eb3c7" "2e220cc2" "0889bba3" "07ec7751" "97c797e0" "8e93b9c9" "b2a676a6" "c49b5722" "106e6692" "dda91245")
+          BASE_BRANCH=${{ github.event.pull_request.base.ref }}
+          CURRENT_BRANCH=${{ github.event.pull_request.head.ref }}
+
+          PR_COMMITS=$(git log origin/$BASE_BRANCH..origin/$CURRENT_BRANCH --pretty=format:"%H")
+          CONFLICT_FOUND=false
+          CONFLICT_COMMIT=""
+          for hash in "${EXCLUDE_COMMIT_HASHES[@]}"; do
+            if echo "$PR_COMMITS" | grep -q "$hash"; then
+              CONFLICT_FOUND=true
+              CONFLICT_COMMIT=$hash
+              echo "conflict=true" >> $GITHUB_OUTPUT
+              echo "conflict_commit=$hash" >> $GITHUB_OUTPUT
+              break
+            fi
+          done
+
+          if [ "$CONFLICT_FOUND" = true ]; then
+            echo "::error::Conflict: Excluded commit $CONFLICT_COMMIT found in the pull request."
+          else
+            echo "conflict=false" >> $GITHUB_OUTPUT
+            echo "::notice::No excluded commits found."
+          fi
+
+      - name: Fail the pull request if conflict found
+        if: steps.check_commits.outputs.conflict == 'true'
+        run: |
+          echo "::error::Excluded commit ${{ steps.check_commits.outputs.conflict_commit }} found in the pull request."
+          echo "::error::Please remove the excluded commit (${{ steps.check_commits.outputs.conflict_commit }}) and push your changes again."
+          exit 1
