@@ -27,7 +27,7 @@ jobs:
       - name: Check for excluded commits
         id: check_commits
         run: |
-          EXCLUDE_COMMIT_HASHES=("4c0918c0" "63014fce" "dd051064" "c2508c5b" "e948fa26" "705eb3c7" "2e220cc2" "0889bba3" "07ec7751" "97c797e0" "8e93b9c9" "b2a676a6" "c49b5722" "106e6692" "dda91245")
+          EXCLUDE_COMMIT_HASHES=("4c0918c0" "afce3073" "63014fce" "dd051064" "c2508c5b" "e948fa26" "705eb3c7" "2e220cc2" "0889bba3" "07ec7751" "97c797e0" "8e93b9c9" "b2a676a6" "c49b5722" "106e6692" "dda91245")
           BASE_BRANCH=${{ github.event.pull_request.base.ref }}
           CURRENT_BRANCH=${{ github.event.pull_request.head.ref }}
 
