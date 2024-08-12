@@ -118,6 +118,6 @@ export const taskCriteria = {
   score: 'score',
 };
 
-export const KEY_MESSAGE_SCROLL_HEIGHT = 800;
+export const KEY_MESSAGE_SCROLL_HEIGHT = 1200;
 
 export const ALL_CATEGORY = 'All';

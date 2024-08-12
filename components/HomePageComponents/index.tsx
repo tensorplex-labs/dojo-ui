@@ -1,6 +1,6 @@
 import LandingPageLayout from '../../layout/LandingPageLayout';
+import HowToGetStartedSection from './GetStartedSection';
 import HeroCardSection from './HeroCardSection';
-import HowToGetStartedSection from './HowToGetStartedSection';
 import KeyMessageSlides from './KeyMessageSlides';
 import RoadMapSection from './RoadMapSection';
 import StepCard from './StepCard';

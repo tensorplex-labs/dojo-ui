@@ -6,9 +6,9 @@ interface LandingPageLayoutProps {
   children: ReactNode;
 }
 
-const LandingPageLayout = ({ children }: LandingPageLayoutProps) => (
-  <div className="min-h-screen bg-primaryBG-bg text-black">
-    <div className="border-b-2 border-black bg-ecru-white text-white">
+const LandingPageLayout = ({ children }: { children: ReactNode }) => (
+  <div className="min-h-screen bg-[#FFFFF4] text-black">
+    <div className="border-b-2 border-black bg-[#F6F6E6] text-white">
       <NavigationBar openModal={() => {}} isHomePage />
     </div>
     <main className="mx-auto">{children}</main>
