@@ -277,8 +277,8 @@ export const faqList = [
     id: '1',
     content: `
     <ol style="list-style-type: decimal" class="pl-5">
-      <li style="margin-bottom: 10px"><strong>Set Up Your Miner</strong>: Visit <a href="https://github.com/tensorplex-labs/dojo-subnet" target="_blank" style="color: #2563eb; text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none;">Dojo GitHub</a> to set up the Dojo Subnet Miner.</li>
-      <li style="margin-bottom: 10px"><strong>Generate and Use Your API Key</strong>: After setting up your miner, generate an API key. Then, visit <a href="https://dojo.tensorplex.ai" target="_blank" style="color: #2563eb; text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none;">dojo.tensorplex.ai</a> and enter your API key to start working.</li>
+      <li style="margin-bottom: 10px"><strong>Set Up Your Miner</strong>: Visit <a href="https://github.com/tensorplex-labs/dojo" target="_blank" style="color: #2563eb; text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none;">Dojo GitHub</a> to set up the Dojo Subnet Miner.</li>
+      <li style="margin-bottom: 10px"><strong>Generate and Use Your API Key</strong>: After setting up your miner, generate an API key. Then, visit <a href="http://dojo-testnet.tensorplex.ai/" target="_blank" style="color: #2563eb; text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none;">dojo-testnet.tensorplex.ai</a> and enter your API key to start working.</li>
       <li><strong>Start Working</strong>: Once logged in, you can start completing tasks and earning rewards immediately.</li>
       </ol>
       `,

@@ -4,6 +4,6 @@ WORKDIR /dojo-ui
 
 COPY . .
 
-RUN chmod 755 entrypoint.sh
+RUN chmod +x entrypoint.sh
 
 ENTRYPOINT ["/dojo-ui/entrypoint.sh"]
