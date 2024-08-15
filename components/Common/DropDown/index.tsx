@@ -1,6 +1,6 @@
 import { DropdownContainerProps } from '@/types/CommonTypes';
 import React from 'react';
-import { DropDownButton } from '../DropDownButton';
+import { DropDownButton } from './DropDownButton';
 
 export const DropdownContainer: React.FC<DropdownContainerProps> = ({
   buttonText,

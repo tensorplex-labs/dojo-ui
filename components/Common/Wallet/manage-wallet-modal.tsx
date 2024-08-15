@@ -4,7 +4,7 @@ import { useAuth } from '@/providers/authContext';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
 import { Connector, useAccount, useChainId, useConnect } from 'wagmi';
-import ModalContainer from '../ModalContainer';
+import ModalContainer from '../Modal/ModalContainer';
 import WalletConnectedCard from './wallet-connected-card';
 import WalletNetworkCard from './walletnetwork-card';
 interface Props {

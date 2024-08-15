@@ -1,8 +1,7 @@
+import { DragnDrop, LinkContentVisualizer } from '@/components/QuestionPageComponents';
 import { MultiSelectQuestionProps } from '@/types/CommonTypes';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import React from 'react';
-import DragnDrop from '../../QuestionPageComponents/DragnDrop';
-import LinkContentVisualizer from '../../QuestionPageComponents/LinkContentVisualizer';
 
 const MultiSelectQuestion: React.FC<MultiSelectQuestionProps> = ({ questionDataPY, options, handleOrderChange }) => {
   return (
