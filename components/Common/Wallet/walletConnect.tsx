@@ -5,7 +5,7 @@ import { useModal } from '@/hooks/useModal';
 import { MODAL } from '@/types/ProvidersTypes';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
-import { CustomButton } from '../CustomButton';
+import { CustomButton } from '../CustomComponents/button';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 

@@ -1,7 +1,7 @@
 'use client';
-import { CustomButton } from '@/components/Common/CustomButton';
+import { CustomButton } from '@/components/Common/CustomComponents/button';
 import Footer from '@/components/Common/Footer';
-import SubscriptionModal from '@/components/Common/SubscriptionModal';
+import SubscriptionModal from '@/components/Common/Modal/SubscriptionModal';
 import UserCard from '@/components/Common/UserCard';
 import { config } from '@/components/Common/Wallet/WagmiWalletConfig';
 import Web3Icon from '@/components/Common/Wallet/web3-icon';

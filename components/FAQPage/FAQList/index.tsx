@@ -1,5 +1,5 @@
-import { brutCardVariants } from '@/components/Common/BrutCard';
 import Accordion from '@/components/Common/CustomComponents/accordian';
+import { brutCardVariants } from '@/components/Common/CustomComponents/brut-card';
 import { faqList } from '@/data';
 import { cn } from '@/utils/tw';
 
