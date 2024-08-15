@@ -260,7 +260,12 @@ export default function Index() {
             </span>
           ) : null}
         </div>
-        <Datatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} isLoading={loading} />
+        <Datatable
+          data={(isConnected && isAuthenticated && tasks) || []}
+          columnDef={columnDef}
+          pageSize={pagination?.pageSize || 10}
+          isLoading={loading}
+        />
         <div className="mt-3"></div>
         <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange} />
         {isAuthenticated ? (
