@@ -29,7 +29,7 @@ const NavigationBar = ({ openModal, isHomePage, className }: NavigationBarProps)
             <div className="flex items-center gap-[30px]">
               <div>
                 <Link href="/">
-                  <img className="h-[23px] md:h-[30px]" src="/logo.svg" alt="logo" />
+                  <img className="h-[20px] w-[220px] md:h-[30px]" src="/logo.svg" alt="logo" />
                 </Link>
               </div>
               <div className="hidden items-center gap-[10px] md:flex">
