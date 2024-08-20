@@ -1,4 +1,4 @@
-import { buttonVariants } from '@/components/Common/CustomButton';
+import { buttonVariants } from '@/components/Common/CustomComponents/button';
 import { cn } from '@/utils/tw';
 import { FontManrope } from '@/utils/typography';
 import Link from 'next/link';

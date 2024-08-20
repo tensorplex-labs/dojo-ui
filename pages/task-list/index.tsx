@@ -1,6 +1,6 @@
 'use client';
+import Datatable from '@/components/Common/DataTable';
 import NavigationBar from '@/components/Common/NavigationBar';
-import Datatable from '@/components/Datatable';
 import { WalletManagement } from '@/components/TaskListPageComponents';
 import TaskListHeader from '@/components/TaskListPageComponents/TaskListPageHeader';
 import { categories, columnDef, dropdownOptions } from '@/data';
@@ -20,8 +20,8 @@ import { useAccount, useDisconnect } from 'wagmi';
 
 import { Button } from '@/components/Common/Button';
 import { DropdownContainer } from '@/components/Common/DropDown';
+import SubscriptionModal from '@/components/Common/Modal/SubscriptionModal';
 import { Pagination } from '@/components/Common/Pagination';
-import SubscriptionModal from '@/components/Common/SubscriptionModal';
 import CategoryItem from '@/components/TaskListPageComponents/CategoryList/CategoryItem';
 import { ALL_CATEGORY } from '@/constants';
 import { useSIWE } from '@/hooks/useSIWE';

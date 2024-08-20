@@ -1,6 +1,6 @@
 import { MultiSelectProps } from '@/types/CommonTypes';
 import React from 'react';
-import MultiSelectItem from '../MultiSelectItem';
+import MultiSelectItem from './MultiSelectItem';
 
 const MultiSelect: React.FC<MultiSelectProps> = ({ options, selectedValues, onSelectionChange }) => {
   return (

@@ -1,5 +1,5 @@
 import { Button } from '@/components/Common/Button';
-import ModalContainer from '@/components/Common/ModalContainer';
+import ModalContainer from '@/components/Common/Modal/ModalContainer';
 import { ErrorModalProps } from '@/types/QuestionPageTypes';
 import { cn } from '@/utils/tw';
 import { FontManrope } from '@/utils/typography';

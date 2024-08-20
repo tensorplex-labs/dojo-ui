@@ -4,7 +4,7 @@ import { FontManrope } from '@/utils/typography';
 const ChatBubble: React.FC<ChatBubbleProps> = ({ message, isSpeaker, userName }) => {
   const chatHead = userName.charAt(0).toUpperCase();
   const bubbleClasses = isSpeaker
-    ? 'self-end rounded-e-lg rounded-tl-lg border border-black bg-primary bg-opacity/10'
+    ? 'self-end rounded-e-lg rounded-tl-lg border border-black bg-primary bg-opacity-10'
     : 'border border-black self-start rounded-e-lg rounded-tl-lg bg-[#ABABAB] bg-opacity-15';
   const chatHeadClasses = isSpeaker ? 'bg-primary text-white' : 'bg-black text-white';
 
@@ -13,7 +13,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message, isSpeaker, userName })
       className={`flex items-start ${isSpeaker ? 'justify-start ' : 'justify-end '} ${FontManrope.className} mb-[19px]`}
     >
       {isSpeaker && (
-        <div className={`mr-2 flex size-8 items-center justify-center rounded-full font-bold ${chatHeadClasses}`}>
+        <div className={`mr-2 flex size-8 items-center justify-center  rounded-full font-bold ${chatHeadClasses}`}>
           {chatHead}
         </div>
       )}
