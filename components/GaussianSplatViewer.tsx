@@ -12,21 +12,27 @@ export default function GaussianSplatViewer() {
     }
 
     const viewer = new GaussianSplats3D.Viewer({
-      cameraUp: [0, -1, -0.6],
-      initialCameraPosition: [-1, -4, 6],
-      initialCameraLookAt: [0, 4, 0],
+      cameraUp: [0, 1, 0],
+      initialCameraPosition: [10, 10, 10],
+      initialCameraLookAt: [0, 0, 0],
       canvas: containerRef.current,
+      sharedMemoryForWorkers: false,
     });
 
+    const s3Url = 'https://dojo-files-dev.tensorplex.dev/donald_duck.ply';
+    // const s3Url = 'https://dojo-files-dev.tensorplex.dev/miniature_godzilla_with_a_blue_skin_and_a_green_face.ply';
+
     viewer
-      .addSplatScene('/donald_duck.ply', {
+      .addSplatScene(s3Url, {
+        format: GaussianSplats3D.SceneFormat.PLY,
         splatAlphaRemovalThreshold: 5,
         showLoadingUI: true,
-        position: [0, 1, 0],
-        rotation: [0, 0, 0, 1],
-        scale: [1.5, 1.5, 1.5],
+        // position: [0, 0, 0],
+        // rotation: [0, 0, 0, 1],
+        scale: [5, 5, 5],
       })
       .then(() => {
+        console.log('Splat scene loaded successfully');
         viewer.start();
       })
       .catch((error: Error) => {
