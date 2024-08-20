@@ -20,11 +20,11 @@ const NavigationBar = ({ openModal, isHomePage, className }: NavigationBarProps)
     <div className="flex items-center justify-center py-4">
       <nav
         className={cn(
-          ' w-full px-[20px] py-[12px] border-[1px] border-black rounded-md max-w-[1075px] justify-center bg-background h-[56px]',
+          'bg-background border-[1px] border-black rounded-md flex px-[20px] py-[12px] w-[1075px]',
           className
         )}
       >
-        <div className="">
+        <div className=" w-full">
           <div className="flex justify-between">
             <div className="flex items-center gap-[30px]">
               <div>
