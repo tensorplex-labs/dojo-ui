@@ -2,7 +2,7 @@ import { Task } from '@/types/QuestionPageTypes';
 import { getFromLocalStorage } from '@/utils/general_helpers';
 import { useEffect, useState } from 'react';
 
-const useRequestTaskByTaskID = (taskId: string, isConnected: boolean, isAuthenticated: boolean) => {
+const useRequestTaskByTaskID = (taskId: string, isConnected?: boolean, isAuthenticated?: boolean) => {
   const [task, setTask] = useState<Task | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
