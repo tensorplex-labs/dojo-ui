@@ -1,7 +1,8 @@
 import { useSubmit } from '@/providers/submitContext';
+import { TaskPageContext } from '@/providers/taskPageContext';
 import { getFromLocalStorage } from '@/utils/general_helpers';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 
 export const taskStatus = {
   IN_PROGRESS: 'IN_PROGRESS',
@@ -60,6 +61,11 @@ const useGetTasks = (
   const { triggerTaskPageReload } = useSubmit();
   const router = useRouter();
   const isFetchingRef = useRef<boolean>(false);
+  const { partnerCount } = useContext(TaskPageContext);
+
+  useEffect(() => {
+    console.log({ partnerCount });
+  }, [partnerCount]);
 
   const fetchTasks = useCallback(async () => {
     if (isFetchingRef.current) {
@@ -118,7 +124,7 @@ const useGetTasks = (
       setError('No JWT token found');
       setLoading(false);
     }
-  }, [fetchTasks, jwtToken, router.isReady]);
+  }, [fetchTasks, jwtToken, router.isReady, partnerCount]);
 
   return { tasks, pagination, loading, error, refetchTasks: fetchTasks };
 };
