@@ -54,13 +54,12 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
   const [multiSelectQuestionData, setMultiSelectQuestionData] = useState<string[]>([]);
   const [rankQuestionData, setRankQuestionData] = useState<string[]>([]);
   const [open, setOpen] = useState(false);
-  const { task, loading: isTaskLoading } = useRequestTaskByTaskID(taskId);
+  const { isAuthenticated, isSignedIn } = useAuth();
+  const { isConnected, address } = useAccount();
+  const { task, loading: isTaskLoading } = useRequestTaskByTaskID(taskId, isConnected, isAuthenticated);
   const [multiScoreOptions, setMultiScoreOptions] = useState<string[]>([]);
   const router = useRouter();
 
-  const { address } = useAccount();
-  const { isAuthenticated, isSignedIn } = useAuth();
-  const { isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const { signInWithEthereum } = useSIWE(() => console.log('post signin'));
   const jwtTokenKey = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
