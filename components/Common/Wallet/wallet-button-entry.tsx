@@ -19,7 +19,7 @@ export const WalletButton = ({ openModal }: WalletButtonProps) => {
       {isConnected && isAuthenticated ? (
         <div
           onClick={openModal}
-          className="flex w-fit items-center justify-start overflow-hidden rounded-full p-[10px] text-black hover:cursor-pointer hover:bg-muted"
+          className="flex w-fit items-center justify-start overflow-hidden rounded-full  text-black hover:cursor-pointer hover:bg-muted"
         >
           <WalletButtonBadge account={address} />
         </div>
