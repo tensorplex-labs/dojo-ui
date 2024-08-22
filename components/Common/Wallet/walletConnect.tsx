@@ -18,7 +18,7 @@ const WalletConnect = (props: Props) => {
       <CustomButton
         className={cn(
           FontSpaceMono.className,
-          'text-xs md:text-sm bg-primary rounded-none border-[2px] border-black text-font-secondary hover:shadow-brut-sm',
+          'text-xs !h-[45px] md:text-sm bg-primary rounded-none border-[2px] border-black text-font-secondary hover:shadow-brut-sm',
           className
         )}
         onClick={openModal}
