@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+  <head>
+    <title>3D Cube Visualization</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+
+      #container {
+        width: 100%;
+        height: 100vh;
+        perspective: 800px;
+      }
+
+      #cube {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        margin: 100px auto;
+        transform-style: preserve-3d;
+      }
+
+      .face {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        opacity: 0.8;
+      }
+
+      #front {
+        background-color: red;
+        transform: translateZ(100px);
+      }
+
+      #back {
+        background-color: green;
+        transform: translateZ(-100px) rotateY(180deg);
+      }
+
+      #right {
+        background-color: blue;
+        transform: rotateY(-90deg) translateZ(100px);
+      }
+
+      #left {
+        background-color: yellow;
+        transform: rotateY(90deg) translateZ(100px);
+      }
+
+      #top {
+        background-color: purple;
+        transform: rotateX(-90deg) translateZ(100px);
+      }
+
+      #bottom {
+        background-color: orange;
+        transform: rotateX(90deg) translateZ(100px);
+      }
+
+      select {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div id="cube">
+        <div id="front" class="face"></div>
+        <div id="back" class="face"></div>
+        <div id="right" class="face"></div>
+        <div id="left" class="face"></div>
+        <div id="top" class="face"></div>
+        <div id="bottom" class="face"></div>
+      </div>
+    </div>
+
+    <select id="colorSelect">
+      <option value="red">Red</option>
+      <option value="green">Green</option>
+      <option value="blue">Blue</option>
+      <option value="yellow">Yellow</option>
+      <option value="purple">Purple</option>
+      <option value="orange">Orange</option>
+    </select>
+
+    <script>
+      (function () {
+        // Clear any existing globals
+        Object.keys(window).forEach((key) => {
+          if (!['document', 'location', 'navigator'].includes(key)) {
+            delete window[key];
+          }
+        });
+
+        // Your original JS code
+        const cube = document.getElementById('cube');
+        const faces = document.querySelectorAll('.face');
+        const colorSelect = document.getElementById('colorSelect');
+
+        let isDragging = false;
+        let startX, startY;
+        let currentX = 0,
+          currentY = 0;
+
+        colorSelect.addEventListener('change', function () {
+          const selectedColor = this.value;
+          faces.forEach((face) => (face.style.backgroundColor = selectedColor));
+        });
+
+        cube.addEventListener('mousedown', startDragging);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', stopDragging);
+        document.addEventListener('mouseleave', stopDragging);
+
+        function startDragging(event) {
+          isDragging = true;
+          startX = event.clientX;
+          startY = event.clientY;
+        }
+
+        function drag(event) {
+          if (!isDragging) return;
+
+          const deltaX = event.clientX - startX;
+          const deltaY = event.clientY - startY;
+
+          currentX += deltaY;
+          currentY += deltaX;
+
+          cube.style.transform = `rotateX(${currentX}deg) rotateY(${currentY}deg)`;
+
+          startX = event.clientX;
+          startY = event.clientY;
+        }
+
+        function stopDragging() {
+          isDragging = false;
+        }
+      })();
+    </script>
+  </body>
+</html>

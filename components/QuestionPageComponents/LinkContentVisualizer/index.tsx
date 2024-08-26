@@ -1,3 +1,4 @@
+import CodegenVis from '@/components/CodegenVis';
 import Slider from '@/components/QuestionPageComponents/Slider'; // Assuming Slider is a reusable component
 import { LinkContentVisualizerProps } from '@/types/QuestionPageTypes';
 import { FontSpaceMono } from '@/utils/typography';
@@ -11,6 +12,8 @@ const LinkContentVisualizer: React.FC<LinkContentVisualizerProps> = ({
   sliderSettings,
   onRatingChange,
   ratingData,
+  contentHtml,
+  contentJs,
 }) => {
   const handleRatingChange = useCallback(
     (rating: number) => {
@@ -20,19 +23,22 @@ const LinkContentVisualizer: React.FC<LinkContentVisualizerProps> = ({
     },
     [onRatingChange]
   );
+  console.log(contentJs?.length);
+  console.log(contentHtml?.length);
   return (
     <div className="flex size-full flex-col justify-center ">
       {showTitle && <p className={`text-start font-bold ${FontSpaceMono.className}`}>{title}</p>}
       <div
         className={`h-auto w-full rounded-none ${showSlider && 'border-2 border-black bg-ecru-white shadow-brut-sm'} `}
       >
-        <iframe
+        {/* <iframe
           src={url}
           className="aspect-[3/4] w-full"
           title="elastic-newton-69zqqk"
           allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
           sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-        />
+        /> */}
+        <CodegenVis encodedHtml={contentHtml ?? ''} encodedJs={contentJs ?? ''} />
         {showSlider && (
           <>
             <div

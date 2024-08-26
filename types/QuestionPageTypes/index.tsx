@@ -66,6 +66,8 @@ export interface LinkContentVisualizerProps {
   };
   ratingData?: number;
   onRatingChange?: (rating: number) => void;
+  contentHtml?: string;
+  contentJs?: string;
 }
 
 export type MultiSelectQuestionProps = {
@@ -85,7 +87,14 @@ export type ResponseVisualizerProps = {
         htmlContent: string;
         title: string;
         showTitle: boolean;
-        completion: { sandbox_url: string };
+        completion: {
+          sandbox_url: string;
+          files: {
+            'index.js'?: { content: string };
+            'script.js'?: { content: string };
+            'index.html': { content: string };
+          };
+        };
       }[];
     };
   };
