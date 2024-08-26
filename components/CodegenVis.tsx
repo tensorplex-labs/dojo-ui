@@ -17,9 +17,11 @@ const CodegenVis = ({ encodedHtml, encodedJs }: CodegenVisProps) => {
   const [iframeSrc, setIframeSrc] = useState<string | null>(null);
 
   useEffect(() => {
-    const decodedHtml = decodeString(encodedHtml);
-    const decodedJs = decodeString(encodedJs);
-    const wrappedJs = `
+    let url = '';
+    try {
+      const decodedHtml = decodeString(encodedHtml);
+      const decodedJs = decodeString(encodedJs);
+      const wrappedJs = `
       (function() {
         // Clear any existing globals
         Object.keys(window).forEach(key => {
@@ -45,8 +47,17 @@ const CodegenVis = ({ encodedHtml, encodedJs }: CodegenVisProps) => {
 
         // Attempt to detect and disable extension content scripts
         if (window.chrome && window.chrome.runtime) {
-        delete window.chrome.runtime;
+            delete window.chrome.runtime;
         }
+
+        // Restrict access to sensitive globals
+        const restrictedGlobals = ['localStorage', 'sessionStorage', 'indexedDB', 'webkitIndexedDB', 'mozIndexedDB', 'msIndexedDB'];
+        restrictedGlobals.forEach(prop => {
+        Object.defineProperty(window, prop, {
+            get: function() { throw new Error('Access denied'); },
+            set: function() { throw new Error('Access denied'); }
+        });
+        });
 
         console.log("iframe window",'ethereum' in window)
 
@@ -55,11 +66,20 @@ const CodegenVis = ({ encodedHtml, encodedJs }: CodegenVisProps) => {
       })();
     `;
 
-    const fullHtml = `
+      const fullHtml = `
       <!DOCTYPE html>
       <html>
         <head>
-          <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline';">
+            <meta http-equiv="Content-Security-Policy" content="
+                default-src 'none';
+                script-src 'unsafe-inline';
+                style-src 'unsafe-inline';
+                img-src data: blob:;
+                connect-src 'none';
+                form-action 'none';
+                frame-ancestors 'none';
+                base-uri 'none';
+            ">
         </head>
         <body>
           ${decodedHtml}
@@ -68,12 +88,12 @@ const CodegenVis = ({ encodedHtml, encodedJs }: CodegenVisProps) => {
       </html>
     `;
 
-    const blob = new Blob([fullHtml], { type: 'text/html' });
-    const url = URL.createObjectURL(blob);
-    setIframeSrc(url);
-
+      const blob = new Blob([fullHtml], { type: 'text/html' });
+      url = URL.createObjectURL(blob);
+      setIframeSrc(url);
+    } catch (err) {}
     return () => {
-      URL.revokeObjectURL(url);
+      url && URL.revokeObjectURL(url);
     };
   }, [encodedHtml, encodedJs]);
 

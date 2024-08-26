@@ -14,6 +14,7 @@ const LinkContentVisualizer: React.FC<LinkContentVisualizerProps> = ({
   ratingData,
   contentHtml,
   contentJs,
+  ...rest
 }) => {
   const handleRatingChange = useCallback(
     (rating: number) => {
@@ -23,8 +24,6 @@ const LinkContentVisualizer: React.FC<LinkContentVisualizerProps> = ({
     },
     [onRatingChange]
   );
-  console.log(contentJs?.length);
-  console.log(contentHtml?.length);
   return (
     <div className="flex size-full flex-col justify-center ">
       {showTitle && <p className={`text-start font-bold ${FontSpaceMono.className}`}>{title}</p>}
