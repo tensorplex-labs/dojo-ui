@@ -1,4 +1,4 @@
-import CodegenVis from '@/components/CodegenVis';
+import useGaussianSplatViewer from '@/hooks/useGaussianViewer';
 
 export const s3Url = 'https://dojo-files-dev.tensorplex.dev/donald_duck.ply';
 export const s3Url2 = 'https://dojo-files-dev.tensorplex.dev/miniature_godzilla_with_a_blue_skin_and_a_green_face.ply';
@@ -9,19 +9,18 @@ const prop = {
     "const cube = document.getElementById('cube');\nconst faces = document.querySelectorAll('.face');\nconst colorSelect = document.getElementById('colorSelect');\n\nlet isDragging = false;\nlet startX, startY;\nlet currentX = 0, currentY = 0;\n\ncolorSelect.addEventListener('change', function() {\n  const selectedColor = this.value;\n  faces.forEach(face =\u003e face.style.backgroundColor = selectedColor);\n});\n\ncube.addEventListener('mousedown', startDragging);\ndocument.addEventListener('mousemove', drag);\ndocument.addEventListener('mouseup', stopDragging);\ndocument.addEventListener('mouseleave', stopDragging);\n\nfunction startDragging(event) {\n  isDragging = true;\n  startX = event.clientX;\n  startY = event.clientY;\n}\n\nfunction drag(event) {\n  if (!isDragging) return;\n  \n  const deltaX = event.clientX - startX;\n  const deltaY = event.clientY - startY;\n  \n  currentX += deltaY;\n  currentY += deltaX;\n  \n  cube.style.transform = `rotateX(${currentX}deg) rotateY(${currentY}deg)`;\n  \n  startX = event.clientX;\n  startY = event.clientY;\n}\n\nfunction stopDragging() {\n  isDragging = false;\n}",
 };
 const GS = () => {
-  // const { containerRef: cr1, ready: r1 } = useGaussianSplatViewer(s3Url);
-  // const { containerRef: cr2, ready: r2 } = useGaussianSplatViewer(s3Url2);
-  // const { containerRef: cr3, ready: r3 } = useGaussianSplatViewer(s3Url2);
+  const { containerRef: cr1, ready: r1 } = useGaussianSplatViewer(s3Url);
+  const { containerRef: cr2, ready: r2 } = useGaussianSplatViewer(s3Url2);
+  const { containerRef: cr3, ready: r3 } = useGaussianSplatViewer(s3Url2);
   // const { containerRef: cr4, ready: r4 } = useGaussianSplatViewer(s3Url);
 
   return (
     <div id="parentContainer" className="grid grid-cols-2 text-black">
-      {/* <div ref={cr1} className="size-[200px]" style={{ visibility: r1 ? 'visible' : 'hidden' }} />
+      <div ref={cr1} className="size-[200px]" style={{ visibility: r1 ? 'visible' : 'hidden' }} />
       <div ref={cr2} className="size-[200px]" style={{ visibility: r2 ? 'visible' : 'hidden' }} />
       <div ref={cr3} className="size-[200px]" style={{ visibility: r3 ? 'visible' : 'hidden' }} />
-      <div ref={cr4} className="size-[200px]" style={{ visibility: r4 ? 'visible' : 'hidden' }} /> */}
-      abcd
-      <CodegenVis {...prop} />
+      {/* <div ref={cr4} className="size-[200px]" style={{ visibility: r4 ? 'visible' : 'hidden' }} /> */}
+      {/* <CodegenVis {...prop} /> */}
     </div>
   );
 };
