@@ -21,7 +21,6 @@ const useRequestTaskByTaskID = (taskId: string, isConnected?: boolean, isAuthent
         const data = await response.json();
         if (response.ok) {
           setTask(data.body);
-          console.log('asdbyatuwd', data.body.taskData.responses[0].completion.files['index.html'].content);
         } else {
           setError(data.error || `HTTP error! status: ${response.status}`);
         }

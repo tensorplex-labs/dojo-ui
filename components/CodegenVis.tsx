@@ -14,15 +14,13 @@ interface CodegenVisProps {
 
 const CodegenVis = ({ encodedHtml, encodedJs }: CodegenVisProps) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [iframeKey, setIframeKey] = useState(0);
+  const [iframeSrc, setIframeSrc] = useState<string | null>(null);
+
   useEffect(() => {
-    console.log('parent window', 'ethereum' in window);
     const decodedHtml = decodeString(encodedHtml);
     const decodedJs = decodeString(encodedJs);
-
     const wrappedJs = `
       (function() {
-      console.log("Iframe window:", 'ethereum' in window);
         // Clear any existing globals
         Object.keys(window).forEach(key => {
           if (!['document', 'location', 'navigator'].includes(key)) {
@@ -30,27 +28,60 @@ const CodegenVis = ({ encodedHtml, encodedJs }: CodegenVisProps) => {
           }
         });
 
+        // Disable cookie access
+        Object.defineProperty(document, 'cookie', {
+        get: function() { return ''; },
+        set: function() { return true; }
+        });
+
+        // Restrict access to parent window
+        window.parent = null;
+        window.top = null;
+
+        // Disable potentially dangerous APIs
+        delete window.XMLHttpRequest;
+        delete window.fetch;
+        delete window.WebSocket;
+
+        // Attempt to detect and disable extension content scripts
+        if (window.chrome && window.chrome.runtime) {
+        delete window.chrome.runtime;
+        }
+
+        console.log("iframe window",'ethereum' in window)
+
         // Your original JS code
         ${decodedJs}
       })();
     `;
 
-    const fullHtml = decodedHtml.replace(/<script[\s\S]*?<\/script>/i, `<script>${wrappedJs}</script>`);
-    if (iframeRef.current) {
-      const doc = iframeRef.current.contentDocument;
-      if (doc) {
-        doc.open();
-        doc.write(fullHtml);
-        doc.close();
-      }
-    }
-  }, []);
+    const fullHtml = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline';">
+        </head>
+        <body>
+          ${decodedHtml}
+          <script>${wrappedJs}</script>
+        </body>
+      </html>
+    `;
+
+    const blob = new Blob([fullHtml], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    setIframeSrc(url);
+
+    return () => {
+      URL.revokeObjectURL(url);
+    };
+  }, [encodedHtml, encodedJs]);
 
   return (
     <iframe
-      key={iframeKey}
       ref={iframeRef}
-      sandbox="allow-scripts allow-same-origin"
+      sandbox="allow-scripts"
+      src={iframeSrc || ''}
       title="Dynamic Visualization"
       width="100%"
       height="500px"
