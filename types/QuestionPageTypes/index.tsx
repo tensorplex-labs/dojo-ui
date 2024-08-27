@@ -90,12 +90,7 @@ export type ResponseVisualizerProps = {
         showTitle: boolean;
         completion: {
           sandbox_url: string;
-          files: {
-            'index.js'?: { content: string };
-            'script.js'?: { content: string };
-            'style.css'?: { content: string };
-            'index.html': { content: string };
-          };
+          files: any;
         };
       }[];
     };

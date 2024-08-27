@@ -32,4 +32,20 @@ const retry = async <T>(
   }
   throw new Error('Max retries exceeded.'); // Throw the error if max retries exceeded
 };
-export { clearLocalStorage, getFromLocalStorage, retry, wait };
+
+type FileType = 'js' | 'css' | 'html';
+const getFileContentFromTask = (filteType: FileType, fileContent: any): string => {
+  switch (filteType) {
+    case 'js':
+      const jsFile = Object.keys(fileContent).find((key) => /^.*\.js$/.test(key)) ?? '';
+      return fileContent[jsFile]?.content || '';
+    case 'css':
+      const cssFile = Object.keys(fileContent).find((key) => /^.*\.css$/.test(key)) ?? '';
+      return fileContent[cssFile]?.content || '';
+    case 'html':
+      const htmlFile = Object.keys(fileContent).find((key) => /^.*\.html$/.test(key)) ?? '';
+      return fileContent[htmlFile]?.content || '';
+  }
+};
+
+export { clearLocalStorage, getFileContentFromTask, getFromLocalStorage, retry, wait };
