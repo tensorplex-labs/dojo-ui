@@ -84,7 +84,8 @@ const CodegenVis = ({ encodedHtml, encodedJs, encodedCss }: CodegenVisProps) => 
                 form-action 'none';
                 base-uri 'none';
             ">
-            <style>${decodedCss}</style>
+            <style>${decodedCss}
+            </style>
         </head>
         <body>
           ${decodedHtml}
@@ -108,9 +109,8 @@ const CodegenVis = ({ encodedHtml, encodedJs, encodedCss }: CodegenVisProps) => 
       sandbox="allow-scripts"
       src={iframeSrc || ''}
       title="Dynamic Visualization"
-      width="100%"
-      height="500px"
-      style={{ border: 'none' }}
+      style={{ border: 'none', display: 'block' }}
+      className="aspect-[3/4] w-full"
     />
   );
 };

@@ -29,7 +29,7 @@ const LinkContentVisualizer: React.FC<LinkContentVisualizerProps> = ({
     <div className="flex size-full flex-col justify-center ">
       {showTitle && <p className={`text-start font-bold ${FontSpaceMono.className}`}>{title}</p>}
       <div
-        className={`h-auto w-full rounded-none ${showSlider && 'border-2 border-black bg-ecru-white shadow-brut-sm'} `}
+        className={`h-fit w-full rounded-none ${showSlider && 'border-2 border-black bg-ecru-white shadow-brut-sm'} `}
       >
         {/* <iframe
           src={url}
