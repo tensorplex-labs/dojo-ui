@@ -188,7 +188,7 @@ export default function Index() {
         <NavigationBar openModal={() => setShowUserCard(true)} />
         <TaskListHeader />
       </div>
-      <div className="mx-auto mt-[18px] flex max-w-[1075px]">
+      <div className="mx-auto mt-[18px] flex max-w-[1075px] md:px-4 md:py-2 lg:px-4 lg:py-2">
         <div className="flex w-full justify-between gap-2">
           <div className="mt-[18px] flex items-center gap-2">
             {categories.map((category) => (
@@ -249,7 +249,7 @@ export default function Index() {
           </div>
         </div>
       </div>
-      <div className="mx-auto mb-[40px] mt-[19px] flex max-w-[1075px] flex-col">
+      <div className="mx-auto mb-[40px] mt-[19px] flex max-w-[1075px] flex-col md:px-4 md:py-2 lg:px-4 lg:py-2">
         <div className="mb-[19px]">
           <h1 className={`${FontSpaceMono.className} text-[22px] font-bold uppercase text-black`}>
             SHOWING {tasks.length} of {pagination?.totalItems || 0} RECORDS

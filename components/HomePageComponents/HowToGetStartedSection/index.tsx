@@ -4,7 +4,7 @@ import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { motion } from 'framer-motion';
 
 const HowToGetStartedSection = () => (
-  <section id="third" className="z-[10000] mb-20 bg-gradient-to-t from-[#FFFFF4] to-[#E1F5F4] ">
+  <section id="third" className="z-[10000] mb-20 bg-gradient-to-t from-[#FFFFF4] to-[#E1F5F4] md:px-4 md:py-2">
     <motion.div className="mx-auto max-w-[1075px] px-5 pt-32 md:px-0">
       <h1 className={`${FontSpaceMono.className} mb-3 text-center text-5xl font-bold uppercase md:text-left`}>
         How to get started?
