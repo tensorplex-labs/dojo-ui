@@ -1,5 +1,6 @@
 import LabelledInput from '@/components/Common/LabelledInput';
 import Modal from '@/components/Common/Modal';
+import { ErrorModal } from '@/components/QuestionPageComponents';
 import { useCreateSubscriptionKey } from '@/hooks/useCreateSubscriptionKey';
 import useDisableMinerByWorker from '@/hooks/useDisableMinerByWorker';
 import { usePartnerList } from '@/hooks/usePartnerList';
@@ -18,8 +19,8 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isModalVisible, s
   const { createSubscriptionKey, response, error } = useCreateSubscriptionKey();
   const [editRowId, setEditRowId] = useState<string | null>(null);
   const [editableData, setEditableData] = useState<SubscriptionData | null>(null);
-  const { updateWorkerPartner } = useUpdateWorkerPartner();
-  const { disableMinerByWorker } = useDisableMinerByWorker();
+  const { updateWorkerPartner, response: resUpdateWorker } = useUpdateWorkerPartner();
+  const { disableMinerByWorker, response: resMinerDisable } = useDisableMinerByWorker();
   const { partners } = usePartnerList(refetchTrigger);
   const [errorMsg, setErrorMsg] = useState('');
   const { isSubscriptionModalLoading, setIsSubscriptionModalLoading, setPartnerCount } = useSubmit();
@@ -51,6 +52,21 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isModalVisible, s
       setIsSubscriptionModalLoading(false);
     }
   };
+  const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
+  const [modalMsg, setModalMsg] = useState('');
+  const [modalHeaderTitle, setModalHeaderTitle] = useState('');
+  useEffect(() => {
+    if (error) {
+      setIsFeedbackModalOpen(true);
+      setModalHeaderTitle('Error');
+      setModalMsg(error);
+    }
+    if (response) {
+      setIsFeedbackModalOpen(true);
+      setModalHeaderTitle('Success');
+      setModalMsg(response.body);
+    }
+  }, [response, error]);
 
   const handleEdit = (item: SubscriptionData) => {
     setIsSubscriptionModalLoading(true);
@@ -61,6 +77,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isModalVisible, s
     setRefetchTrigger((prev) => prev + 1);
     setIsSubscriptionModalLoading(false);
   };
+
   const handleCancel = () => {
     setEditRowId(null);
     setEditableData(null);
@@ -101,155 +118,170 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isModalVisible, s
   useEffect(() => {
     setIsSubscriptionModalLoading(true);
   }, [!partners]);
-  return (
-    <Modal showModal={isModalVisible} setShowModal={setIsModalVisible} title="SUBSCRIPTION KEYS" btnText="Close">
-      <div className="w-full bg-secondary px-[22px] py-[15px] text-black">
-        <div className="pb-[15px]">
-          <h1 className={`${FontSpaceMono.className} text-base font-bold`}>ENTER SUBSCRIPTION KEY</h1>
-          <h2 className={`${FontManrope.className} text-base font-medium opacity-60`}>
-            Obtain subscription key from miners
-          </h2>
-        </div>
-        <div className={`flex-row`}>
-          <div className="flex flex-row justify-between">
-            <div className="mr-2 flex">
-              <LabelledInput
-                id="name"
-                label="Name"
-                type="text"
-                placeholder="Name"
-                value={inputValue1}
-                onChange={handleInputChange1}
-              />
-            </div>
-            <div className="ml-2 flex-1">
-              <LabelledInput
-                id="subscriptionKey"
-                label="SUBSCRIPTION KEY"
-                type="text"
-                placeholder="Enter Subscription Key Here"
-                value={inputValue2}
-                onChange={handleInputChange2}
-              />
-              {error && <p className={` text-red-500 ${FontManrope.className} text-sm font-bold`}>{error}</p>}
-              {errorMsg && <p className={` text-red-500 ${FontManrope.className} text-sm font-bold`}>{errorMsg}</p>}
 
-              {/* <p className=' text-red-500'>Invalid Subscription Key Please Retry</p> */}
+  const modalCloseHandler = () => {
+    setIsFeedbackModalOpen(false);
+    setModalMsg('');
+    setModalHeaderTitle('');
+  };
+  return (
+    <>
+      <ErrorModal
+        open={isFeedbackModalOpen}
+        onClose={modalCloseHandler}
+        errorMessage={modalMsg}
+        headerTitle={modalHeaderTitle}
+        className={'!z-[99]'}
+      />
+      <Modal showModal={isModalVisible} setShowModal={setIsModalVisible} title="SUBSCRIPTION KEYS" btnText="Close">
+        <div className="w-full bg-secondary px-[22px] py-[15px] text-black">
+          <div className="pb-[15px]">
+            <h1 className={`${FontSpaceMono.className} text-base font-bold`}>ENTER SUBSCRIPTION KEY</h1>
+            <h2 className={`${FontManrope.className} text-base font-medium opacity-60`}>
+              Obtain subscription key from miners
+            </h2>
+          </div>
+          <div className={`flex-row`}>
+            <div className="flex flex-row justify-between">
+              <div className="mr-2 flex">
+                <LabelledInput
+                  id="name"
+                  label="Name"
+                  type="text"
+                  placeholder="Name"
+                  value={inputValue1}
+                  onChange={handleInputChange1}
+                />
+              </div>
+              <div className="ml-2 flex-1">
+                <LabelledInput
+                  id="subscriptionKey"
+                  label="SUBSCRIPTION KEY"
+                  type="text"
+                  placeholder="Enter Subscription Key Here"
+                  value={inputValue2}
+                  onChange={handleInputChange2}
+                />
+                {error && <p className={` text-red-500 ${FontManrope.className} text-sm font-bold`}>{error}</p>}
+                {errorMsg && <p className={` text-red-500 ${FontManrope.className} text-sm font-bold`}>{errorMsg}</p>}
+
+                {/* <p className=' text-red-500'>Invalid Subscription Key Please Retry</p> */}
+              </div>
+            </div>
+            <div className="flex justify-end">
+              <button
+                className=" font-spacemono h-auto cursor-pointer border-2 border-black bg-primary px-[18px] py-[10px] text-base font-bold uppercase text-white hover:bg-primary/80 hover:shadow-brut-sm active:border-b-2"
+                onClick={handleSubmit}
+              >
+                Create
+              </button>
             </div>
           </div>
-          <div className="flex justify-end">
-            <button
-              className=" font-spacemono h-auto cursor-pointer border-2 border-black bg-primary px-[18px] py-[10px] text-base font-bold uppercase text-white hover:bg-primary/80 hover:shadow-brut-sm active:border-b-2"
-              onClick={handleSubmit}
-            >
-              Create
-            </button>
-          </div>
         </div>
-      </div>
-      {/* <SubscriptionTable/> */}
-      <table className="w-full table-fixed leading-normal text-black">
-        <thead>
-          <tr className={`${FontSpaceMono.className}`}>
-            <th className="border-b-2 px-5 py-3  text-left text-sm font-bold uppercase tracking-wider opacity-75">
-              Name
-            </th>
-            <th className="w-1/2 border-b-2 px-5  py-3 text-left text-sm font-bold uppercase tracking-wider opacity-75">
-              Subscription Key
-            </th>
-            <th className="border-b-2 px-5 py-3 text-left text-sm font-bold uppercase tracking-wider opacity-75">
-              Created
-            </th>
-            <th className="border-b-2 px-5 py-3 text-right text-sm font-bold uppercase tracking-wider opacity-75">
-              Operations
-            </th>
-          </tr>
-        </thead>
-        <tbody className={`${FontManrope.className} text-opacity-60`}>
-          {!isSubscriptionModalLoading ? (
-            partners.length === 0 ? (
-              <>
-                {[...Array(5)].map((_, i) => (
-                  <tr key={i}>
-                    <td colSpan={4} className="px-5 py-3 text-center">
-                      {i === 2 && (
-                        <div className={`${FontManrope.className} text-lg font-bold text-black opacity-60`}>
-                          No Data Available
-                        </div>
+        {/* <SubscriptionTable/> */}
+        <table className="w-full table-fixed leading-normal text-black">
+          <thead>
+            <tr className={`${FontSpaceMono.className}`}>
+              <th className="border-b-2 px-5 py-3  text-left text-sm font-bold uppercase tracking-wider opacity-75">
+                Name
+              </th>
+              <th className="w-1/2 border-b-2 px-5  py-3 text-left text-sm font-bold uppercase tracking-wider opacity-75">
+                Subscription Key
+              </th>
+              <th className="border-b-2 px-5 py-3 text-left text-sm font-bold uppercase tracking-wider opacity-75">
+                Created
+              </th>
+              <th className="border-b-2 px-5 py-3 text-right text-sm font-bold uppercase tracking-wider opacity-75">
+                Operations
+              </th>
+            </tr>
+          </thead>
+          <tbody className={`${FontManrope.className} text-opacity-60`}>
+            {!isSubscriptionModalLoading ? (
+              partners.length === 0 ? (
+                <>
+                  {[...Array(5)].map((_, i) => (
+                    <tr key={i}>
+                      <td colSpan={4} className="px-5 py-3 text-center">
+                        {i === 2 && (
+                          <div className={`${FontManrope.className} text-lg font-bold text-black opacity-60`}>
+                            No Data Available
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </>
+              ) : (
+                partners.map((item) => (
+                  <tr key={item.id} className="font-medium opacity-60">
+                    <td className="px-5 py-3">
+                      {editRowId === item.id ? (
+                        <input
+                          className="block w-full border-2 border-black p-2"
+                          type="text"
+                          value={editableData?.name}
+                          onChange={(e) => handleChange(e, 'name')}
+                        />
+                      ) : (
+                        item.name
                       )}
                     </td>
-                  </tr>
-                ))}
-              </>
-            ) : (
-              partners.map((item) => (
-                <tr key={item.id} className="font-medium opacity-60">
-                  <td className="px-5 py-3">
-                    {editRowId === item.id ? (
-                      <input
-                        className="block w-full border-2 border-black p-2"
-                        type="text"
-                        value={editableData?.name}
-                        onChange={(e) => handleChange(e, 'name')}
-                      />
-                    ) : (
-                      item.name
-                    )}
-                  </td>
-                  <td className="px-5 py-3">
-                    {editRowId === item.id ? (
-                      <input
-                        className="block w-full border-2 border-black p-2"
-                        type="text"
-                        value={editableData?.subscriptionKey}
-                        onChange={(e) => handleChange(e, 'subscriptionKey')}
-                      />
-                    ) : (
-                      getFirstAndLastCharacters(item.subscriptionKey, 10)
-                    )}
-                  </td>
-                  <td className="px-5 py-3">{formatDate(item.createdAt)}</td>
-                  <td className="px-5 py-3">
-                    <div className="flex size-full items-center justify-end">
+                    <td className="px-5 py-3">
                       {editRowId === item.id ? (
-                        <>
-                          <button onClick={handleSave}>
-                            <IconCheck />
-                          </button>
-                          <button className="ml-4" onClick={handleCancel}>
-                            <IconX />
-                          </button>
-                        </>
+                        <input
+                          className="block w-full border-2 border-black p-2"
+                          type="text"
+                          value={editableData?.subscriptionKey}
+                          onChange={(e) => handleChange(e, 'subscriptionKey')}
+                        />
                       ) : (
-                        <>
-                          <button onClick={() => handleEdit(item)}>
-                            <IconEdit />
-                          </button>
-                          <button className="ml-4" onClick={() => handleDelete(item)}>
-                            <IconTrash />
-                          </button>
-                        </>
+                        getFirstAndLastCharacters(item.subscriptionKey, 10)
                       )}
-                    </div>
-                  </td>
-                </tr>
-              ))
-            )
-          ) : (
-            <tr>
-              <td colSpan={4} className="py-5 text-center">
-                <div className="flex justify-center">
-                  <span className="animate-spin ">
-                    <IconLoader />
-                  </span>
-                  Loading...
-                </div>
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </Modal>
+                    </td>
+                    <td className="px-5 py-3">{formatDate(item.createdAt)}</td>
+                    <td className="px-5 py-3">
+                      <div className="flex size-full items-center justify-end">
+                        {editRowId === item.id ? (
+                          <>
+                            <button onClick={handleSave}>
+                              <IconCheck />
+                            </button>
+                            <button className="ml-4" onClick={handleCancel}>
+                              <IconX />
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button onClick={() => handleEdit(item)}>
+                              <IconEdit />
+                            </button>
+                            <button className="ml-4" onClick={() => handleDelete(item)}>
+                              <IconTrash />
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )
+            ) : (
+              <tr>
+                <td colSpan={4} className="py-5 text-center">
+                  <div className="flex justify-center">
+                    <span className="animate-spin ">
+                      <IconLoader />
+                    </span>
+                    Loading...
+                  </div>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </Modal>
+    </>
   );
 };
 

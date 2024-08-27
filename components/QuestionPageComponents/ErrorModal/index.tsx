@@ -5,13 +5,13 @@ import { cn } from '@/utils/tw';
 import { FontManrope } from '@/utils/typography';
 import React from 'react';
 
-const ErrorModal: React.FC<ErrorModalProps> = ({ open, onClose, errorMessage }) => {
+const ErrorModal: React.FC<ErrorModalProps> = ({ open, onClose, errorMessage, className, headerTitle }) => {
   return (
     <ModalContainer
-      className={'h-[206px] w-[512px]'}
+      className={`h-[206px] w-[512px] ${className}`}
       headerClassName={'h-12 pl-4'}
       bodyClassName="p-0"
-      header={'Error'}
+      header={headerTitle || 'Error'}
       open={open}
       onClose={onClose}
       onSave={onClose}
