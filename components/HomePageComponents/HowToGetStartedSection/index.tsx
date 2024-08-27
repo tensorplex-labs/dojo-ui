@@ -19,13 +19,13 @@ const HowToGetStartedSection = () => (
       </div>
       <p className={`${FontManrope.className} pt-10 text-2xl font-bold opacity-90`}>{'For Miners'}</p>
       <div className="mb-3 mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
-        <div className="col-span-1 md:col-span-1">
+        <div className="col-span-1 md:col-span-3 lg:col-span-1">
           <StepCard {...minerSteps[0]} />
         </div>
-        <div className="col-span-1 md:col-span-1">
+        <div className="col-span-1 md:col-span-3 lg:col-span-1">
           <StepCard {...minerSteps[1]} />
         </div>
-        <div className="col-span-1 md:col-span-1">
+        <div className="col-span-1 md:col-span-3 lg:col-span-1">
           <StepCard {...minerSteps[2]} />
         </div>
         <div className="col-span-1 md:col-span-3">
