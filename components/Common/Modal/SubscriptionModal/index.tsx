@@ -19,8 +19,8 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isModalVisible, s
   const { createSubscriptionKey, response, error } = useCreateSubscriptionKey();
   const [editRowId, setEditRowId] = useState<string | null>(null);
   const [editableData, setEditableData] = useState<SubscriptionData | null>(null);
-  const { updateWorkerPartner, response: resUpdateWorker } = useUpdateWorkerPartner();
-  const { disableMinerByWorker, response: resMinerDisable } = useDisableMinerByWorker();
+  const { updateWorkerPartner, response: resUpdateWorker, error: resUpdateError } = useUpdateWorkerPartner();
+  const { disableMinerByWorker, response: resMinerDisable, error: resMinerDisableError } = useDisableMinerByWorker();
   const { partners } = usePartnerList(refetchTrigger);
   const [errorMsg, setErrorMsg] = useState('');
   const { isSubscriptionModalLoading, setIsSubscriptionModalLoading, setPartnerCount } = useSubmit();
@@ -43,9 +43,11 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isModalVisible, s
       setInputValue2('');
       setRefetchTrigger((prev) => prev + 1);
       if (response?.success) {
-        setErrorMsg('');
+        setModalHeaderTitle('Success');
+        setModalMsg(response.body || 'Subscription Key Created Successfully');
       } else {
-        console.log('this is working', error);
+        setModalHeaderTitle('Error');
+        setModalMsg(response?.error || 'An error occurred');
       }
     } else {
       setErrorMsg(!inputValue1 ? 'Name field is empty' : 'Subscription Key is Required');
@@ -75,9 +77,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isModalVisible, s
     editableData?.subscriptionKey &&
       updateWorkerPartner(item.subscriptionKey, editableData!.subscriptionKey, editableData!.name);
     setRefetchTrigger((prev) => prev + 1);
-    setIsSubscriptionModalLoading(false);
   };
-
   const handleCancel = () => {
     setEditRowId(null);
     setEditableData(null);
@@ -85,7 +85,21 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isModalVisible, s
 
   const handleSave = async () => {
     setIsSubscriptionModalLoading(true);
-    await updateWorkerPartner(editableData!.subscriptionKey, editableData!.subscriptionKey, editableData!.name);
+    const response = await updateWorkerPartner(
+      editableData!.subscriptionKey,
+      editableData!.subscriptionKey,
+      editableData!.name
+    );
+
+    if (response?.success) {
+      setIsFeedbackModalOpen(true);
+      setModalHeaderTitle('Success');
+      setModalMsg('Subscription Key Updated Successfully');
+    } else {
+      setIsFeedbackModalOpen(true);
+      setModalHeaderTitle('Error');
+      setModalMsg(response?.error || "Couldn't update Subscription Key. Please try again");
+    }
     setEditRowId(null);
     setRefetchTrigger((prev) => prev + 1);
     setIsSubscriptionModalLoading(false);
@@ -105,7 +119,16 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isModalVisible, s
 
   const handleDelete = async (item: SubscriptionData) => {
     setIsSubscriptionModalLoading(true);
-    await disableMinerByWorker(item.subscriptionKey, true);
+    const response = await disableMinerByWorker(item.subscriptionKey, true);
+    if (response?.success) {
+      setIsFeedbackModalOpen(true);
+      setModalHeaderTitle('Success');
+      setModalMsg(response.body.message || 'Subscription Key has been removed Successfully');
+    } else {
+      setIsFeedbackModalOpen(true);
+      setModalHeaderTitle('Error');
+      setModalMsg(response?.error || 'An error occurred');
+    }
     setRefetchTrigger((prev) => prev + 1);
     setIsSubscriptionModalLoading(false);
   };
@@ -162,7 +185,6 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isModalVisible, s
                   value={inputValue2}
                   onChange={handleInputChange2}
                 />
-                {error && <p className={` text-red-500 ${FontManrope.className} text-sm font-bold`}>{error}</p>}
                 {errorMsg && <p className={` text-red-500 ${FontManrope.className} text-sm font-bold`}>{errorMsg}</p>}
 
                 {/* <p className=' text-red-500'>Invalid Subscription Key Please Retry</p> */}
