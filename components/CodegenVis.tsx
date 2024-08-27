@@ -10,9 +10,10 @@ const decodeString = (encodedString: string): string => {
 interface CodegenVisProps {
   encodedHtml: string;
   encodedJs: string;
+  encodedCss?: string;
 }
 
-const CodegenVis = ({ encodedHtml, encodedJs }: CodegenVisProps) => {
+const CodegenVis = ({ encodedHtml, encodedJs, encodedCss }: CodegenVisProps) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [iframeSrc, setIframeSrc] = useState<string | null>(null);
 
@@ -21,14 +22,15 @@ const CodegenVis = ({ encodedHtml, encodedJs }: CodegenVisProps) => {
     try {
       const decodedHtml = decodeString(encodedHtml);
       const decodedJs = decodeString(encodedJs);
+      const decodedCss = decodeString(encodedCss ?? '');
       const wrappedJs = `
       (function() {
-        // Clear any existing globals
-        Object.keys(window).forEach(key => {
-          if (!['document', 'location', 'navigator'].includes(key)) {
-            delete window[key];
-          }
-        });
+        // Clear any existing globals if want to be eeven more finegrained. but some prompt response may fail to run
+        // Object.keys(window).forEach(key => {
+        //   if (!['document', 'location', 'navigator','setInterval'].includes(key)) {
+        //     delete window[key];
+        //   }
+        // });
 
         // Disable cookie access
         Object.defineProperty(document, 'cookie', {
@@ -53,13 +55,16 @@ const CodegenVis = ({ encodedHtml, encodedJs }: CodegenVisProps) => {
         // Restrict access to sensitive globals
         const restrictedGlobals = ['localStorage', 'sessionStorage', 'indexedDB', 'webkitIndexedDB', 'mozIndexedDB', 'msIndexedDB'];
         restrictedGlobals.forEach(prop => {
-        Object.defineProperty(window, prop, {
-            get: function() { throw new Error('Access denied'); },
-            set: function() { throw new Error('Access denied'); }
-        });
+            Object.defineProperty(window, prop, {
+                get: function() { return 'Access denied'; },
+                set: function() { return 'Access denied'; }
+            });
         });
 
-        console.log("iframe window",'ethereum' in window)
+        console.log("iframe eth in window",'ethereum' in window)
+        console.log("iframe has cookies",!!document.cookie)
+        console.log("iframe has localstorage",localStorage)
+
 
         // Your original JS code
         ${decodedJs}
@@ -77,9 +82,9 @@ const CodegenVis = ({ encodedHtml, encodedJs }: CodegenVisProps) => {
                 img-src data: blob:;
                 connect-src 'none';
                 form-action 'none';
-                frame-ancestors 'none';
                 base-uri 'none';
             ">
+            <style>${decodedCss}</style>
         </head>
         <body>
           ${decodedHtml}

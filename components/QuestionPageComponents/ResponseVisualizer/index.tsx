@@ -22,6 +22,7 @@ const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
                 ? plot.completion.files['index.js'].content
                 : plot.completion.files['script.js']?.content
             }
+            contentCss={plot.completion.files['style.css']?.content}
             key={`vis-${index}`}
             title={plot.model}
             showTitle={true}

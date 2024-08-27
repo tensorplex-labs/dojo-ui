@@ -14,6 +14,7 @@ const LinkContentVisualizer: React.FC<LinkContentVisualizerProps> = ({
   ratingData,
   contentHtml,
   contentJs,
+  contentCss,
   ...rest
 }) => {
   const handleRatingChange = useCallback(
@@ -37,7 +38,7 @@ const LinkContentVisualizer: React.FC<LinkContentVisualizerProps> = ({
           allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
           sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
         /> */}
-        <CodegenVis encodedHtml={contentHtml ?? ''} encodedJs={contentJs ?? ''} />
+        <CodegenVis encodedCss={contentCss} encodedHtml={contentHtml ?? ''} encodedJs={contentJs ?? ''} />
         {showSlider && (
           <>
             <div
