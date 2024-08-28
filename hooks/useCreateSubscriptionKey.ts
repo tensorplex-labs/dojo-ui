@@ -34,7 +34,6 @@ export const useCreateSubscriptionKey = () => {
       });
 
       const result = await getData.json();
-      console.log(getData);
       if (!getData.ok) {
         throw new Error(result.error || 'Failed to create subscription key');
       }
