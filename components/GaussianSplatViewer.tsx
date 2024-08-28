@@ -10,8 +10,9 @@ const GaussianSplatViewer = ({ url, className, ...rest }: Props) => {
   const { containerRef, ready, error } = useGaussianSplatViewer(url);
 
   return (
-    <div ref={containerRef} className={cn('size-10', className, !ready && 'h-[200px]')} {...rest}>
+    <div className={cn(!ready && 'h-[200px]', className)}>
       {!ready && <IconLoader className="size-20 animate-spin" />}
+      <div ref={containerRef} className={cn('size-full', !ready && 'hidden')} {...rest}></div>
     </div>
   );
 };

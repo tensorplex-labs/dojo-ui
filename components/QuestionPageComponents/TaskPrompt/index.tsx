@@ -4,7 +4,7 @@ import React from 'react';
 
 const TaskPrompt: React.FC<TaskPromptProps> = ({ title, taskType, formattedPrompt }) => {
   return (
-    <div className="mx-auto flex w-[1200px] flex-col">
+    <div className="mx-auto flex w-full flex-col">
       <p className={`text-start ${FontManrope.className} gap-2 text-2xl font-bold`}>
         {title}
         {`  `}
