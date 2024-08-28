@@ -46,7 +46,7 @@ const useGaussianSplatViewer = (plyUrl: string) => {
           }
           setReady(true);
         },
-        { maxRetries: 5, delayMs: 500 }
+        { maxRetries: 5, delayMs: 800 }
       ).catch((err) => {
         //If it reaches here means max retries exceeded yet still not finish loading
       });

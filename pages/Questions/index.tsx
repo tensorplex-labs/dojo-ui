@@ -56,7 +56,11 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
   const [open, setOpen] = useState(false);
   const { isAuthenticated, isSignedIn } = useAuth();
   const { isConnected, address } = useAccount();
-  const { task, loading: isTaskLoading } = useRequestTaskByTaskID(taskId, isConnected, isAuthenticated);
+  const {
+    task,
+    loading: isTaskLoading,
+    error: taskError,
+  } = useRequestTaskByTaskID(taskId, isConnected, isAuthenticated);
   const [multiScoreOptions, setMultiScoreOptions] = useState<string[]>([]);
   const router = useRouter();
 
@@ -168,7 +172,7 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
       const defaultRatings = task.taskData.responses.reduce((acc, _, index) => {
         if (index < multiScoreOptions.length) {
           const modelKey = multiScoreOptions[index];
-          acc[modelKey] = Math.floor(maxValSlider / 2);
+          (acc as any)[modelKey] = Math.floor(maxValSlider / 2);
         }
         return acc;
       }, {});
@@ -252,15 +256,17 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
             subTitle="Draft the respective slider for each output according to how close the interface matches the following prompt"
           />
         )}
-        <ResponseVisualizer
-          task={task!}
-          minValSlider={minValSlider}
-          maxValSlider={maxValSlider}
-          ratings={ratings}
-          multiScoreOptions={multiScoreOptions}
-          isMultiScore={isMultiScore}
-          handleRatingChange={handleRatingChange}
-        />
+        {!isTaskLoading && !taskError && task && (
+          <ResponseVisualizer
+            task={task}
+            minValSlider={minValSlider}
+            maxValSlider={maxValSlider}
+            ratings={ratings}
+            multiScoreOptions={multiScoreOptions}
+            isMultiScore={isMultiScore}
+            handleRatingChange={handleRatingChange}
+          />
+        )}
 
         {!isTaskLoading && isSlider && (
           <>

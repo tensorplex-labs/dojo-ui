@@ -19,11 +19,46 @@ const useRequestTaskByTaskID = (taskId: string, isConnected?: boolean, isAuthent
           },
         });
         const data = await response.json();
-        if (response.ok) {
-          setTask(data.body);
-        } else {
-          setError(data.error || `HTTP error! status: ${response.status}`);
-        }
+        setTask({
+          taskId: 'ea18997e-3ef2-4486-b17b-e70709d25197',
+          title: 'test',
+          body: 'test',
+          expireAt: '2024-12-03T15:04:00Z',
+          type: '3D_MODEL',
+          taskData: {
+            task: '3D_MODEL',
+            prompt: 'Generate an image of a green dog.',
+            criteria: [
+              {
+                max: 100,
+                min: 1,
+                type: 'multi-score',
+                options: ['stabilityai/stable-diffusion-xl-base-1.0', 'runwayml/stable-diffusion-v1-5'],
+              },
+            ],
+            responses: [
+              {
+                model: 'stabilityai/stable-diffusion-xl-base-1.0',
+                completion: { url: 'https://dojo-files-dev.tensorplex.dev/donald_duck.ply' },
+              },
+              {
+                model: 'runwayml/stable-diffusion-v1-5',
+                completion: {
+                  url: 'https://dojo-files-dev.tensorplex.dev/miniature_godzilla_with_a_blue_skin_and_a_green_face.ply',
+                },
+              },
+            ],
+          },
+          status: 'IN_PROGRESS',
+          maxResults: 10,
+          numResults: 0,
+          numCriteria: 4,
+        });
+        // if (response.ok) {
+        //   setTask(data.body);
+        // } else {
+        //   setError(data.error || `HTTP error! status: ${response.status}`);
+        // }
       } catch (e: any) {
         setError(e.message);
       } finally {
