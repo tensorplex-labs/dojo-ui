@@ -35,11 +35,13 @@ const HeroCardSection = () => {
       <div className="flex max-w-[1075px] flex-col gap-6 py-8 md:h-[calc(100vh-100px)] md:flex-row md:gap-10 lg:my-3 lg:h-[calc(100vh-120px)] lg:gap-20 xl:h-[calc(100vh-104px)]">
         <div className="mt-8 flex flex-1 flex-col justify-center p-0 md:mt-0">
           <h1
-            className={`${FontSpaceMono.className} text-3xl font-bold uppercase text-black sm:text-4xl md:text-3xl lg:text-5xl xl:text-6xl`}
+            className={`${FontSpaceMono.className} extra-large-screensize-title text-3xl font-bold uppercase text-black sm:text-4xl md:text-3xl lg:text-5xl xl:text-6xl`}
           >
             Get paid to shape the future of AI
           </h1>
-          <p className={`${FontManrope.className} mt-3 pr-2 text-base font-medium text-gray-500 sm:text-lg lg:text-xl`}>
+          <p
+            className={`${FontManrope.className} extra-large-screensize-subTitle mt-3 pr-2 text-base font-medium text-gray-500 md:text-lg lg:text-xl`}
+          >
             Earn TAO through responding to AI-generated tasks across various domains. Join the crowd-sourced effort to
             build the world&apos;s most powerful multimodal AI models.
           </p>
@@ -50,7 +52,7 @@ const HeroCardSection = () => {
           <div className="mt-6 flex flex-col gap-4 md:flex-row">
             <div>
               <h3
-                className={`uppercase ${FontSpaceMono.className} text-lg font-bold text-gray-500 sm:text-lg md:text-sm xl:text-lg`}
+                className={`uppercase ${FontSpaceMono.className} text-lg font-bold text-gray-500 sm:text-lg md:text-sm xl:text-base`}
               >
                 Average Task Completion Time
               </h3>
@@ -69,7 +71,7 @@ const HeroCardSection = () => {
             </div>
             <div>
               <h3
-                className={`uppercase ${FontSpaceMono.className} text-base font-bold text-gray-500 sm:text-lg md:text-sm xl:text-lg`}
+                className={`uppercase ${FontSpaceMono.className} text-base font-bold text-gray-500 sm:text-lg md:text-sm xl:text-base`}
               >
                 HUMAN TASKS COMPLETED
               </h3>
@@ -81,7 +83,7 @@ const HeroCardSection = () => {
             </div>
             <div>
               <h3
-                className={`uppercase ${FontSpaceMono.className} text-base font-bold text-gray-500 sm:text-lg md:text-sm xl:text-lg`}
+                className={`uppercase ${FontSpaceMono.className} text-base font-bold text-gray-500 sm:text-lg md:text-sm xl:text-base`}
               >
                 NO.OF HUMAN PARTICIPANTS
               </h3>

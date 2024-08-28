@@ -89,3 +89,13 @@ body {
     background-position: -512px -512px;
   }
 }
+
+@media (min-width: 2000px) {
+  .extra-large-screensize-title {
+    font-size: 70px !important;
+  }
+  .extra-large-screensize-subTitle {
+    font-size: 28px !important;
+    line-height: 40px !important;
+  }
+}
