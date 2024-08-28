@@ -173,6 +173,9 @@ export default function Index() {
     [router]
   );
 
+  const handleWalletConnect = async () => {
+    openModal();
+  };
   const handlePageChange = (pageIndex: number | string) => {
     setCurrentPage(pageIndex.toString());
   };
@@ -188,6 +191,40 @@ export default function Index() {
         <NavigationBar openModal={() => setShowUserCard(true)} />
         <TaskListHeader />
       </div>
+      <div className="relative mx-auto mt-[-116px] flex h-[177px] max-w-[1075px] justify-between self-center border-2 border-black bg-[#DBF5E9] shadow-brut-sm">
+        <div className="pl-[29px] pt-[21px]">
+          <h1 className={`${FontManrope.className} text-lg font-extrabold text-black`}>TRY OUT A QUESTION</h1>
+          <p className={`${FontManrope.className} mt-2 text-base font-medium text-black opacity-50`}>
+            Find out how easy it is to earn with Tensorplex Dojo! Try out a sample question!
+          </p>
+          <div className="mt-1">
+            {!isAuthenticated && !isConnected ? (
+              <>
+                <Button buttonText={'Start Demo'} className="mr-[20px] text-white" onClick={handleWalletConnect} />
+                <Button
+                  buttonText={'connect wallet'}
+                  className="text-white disabled:cursor-not-allowed disabled:bg-gray-400"
+                  onClick={handleWalletConnect}
+                />
+              </>
+            ) : (
+              <Button
+                buttonText={'Start Demo'}
+                className="mr-[20px] text-white"
+                onClick={() => {
+                  router.push(`/Questions?taskId=28ea5921-7ff2-4080-b306-b6aa89adc079`);
+                }} // Attach the toggle function to the onClick event
+              />
+            )}
+          </div>
+          <p className={`${FontManrope.className} mt-2 text-sm font-extrabold text-black opacity-50`}>Est 2 mins</p>
+        </div>
+        <div className="relative flex h-full w-[300px] items-center justify-end">
+          <img src="/grid-lines.svg" className="absolute h-[177px]" />
+          <img src="/bitTensor-logo.svg" className="relative z-10 mr-[60px] size-[100px]" />
+        </div>
+      </div>
+
       <div className="mx-auto mt-[18px] flex w-[1075px]">
         <div className="flex w-full justify-between gap-2">
           <div className="mt-[18px] flex items-center gap-2">
