@@ -149,13 +149,17 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ isModalVisible, s
   };
   return (
     <>
-      <ErrorModal
-        open={isFeedbackModalOpen}
-        onClose={modalCloseHandler}
-        errorMessage={modalMsg}
-        headerTitle={modalHeaderTitle}
-        className={'!z-[99]'}
-      />
+      {isFeedbackModalOpen && (
+        <div className="error-modal">
+          <ErrorModal
+            open={isFeedbackModalOpen}
+            onClose={modalCloseHandler}
+            errorMessage={modalMsg}
+            headerTitle={modalHeaderTitle}
+            // className={'error-modal'}
+          />
+        </div>
+      )}
       <Modal showModal={isModalVisible} setShowModal={setIsModalVisible} title="SUBSCRIPTION KEYS" btnText="Close">
         <div className="w-full bg-secondary px-[22px] py-[15px] text-black">
           <div className="pb-[15px]">
