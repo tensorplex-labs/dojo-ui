@@ -2,6 +2,7 @@ import GetStartedButton from '@/components/Common/Button/GetStarted';
 import useAverageTaskCompletionTime from '@/hooks/useAverageTaskCompletionTime';
 import useCompletedTasksCount from '@/hooks/useCompletedTasksCount';
 import useDojoWorkerCount from '@/hooks/useDojoWorkerCount';
+import { cn } from '@/utils/tw';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
@@ -35,12 +36,15 @@ const HeroCardSection = () => {
       <div className="flex max-w-[1075px] flex-col gap-6 py-8 md:h-[calc(100vh-100px)] md:flex-row md:gap-10 lg:my-3 lg:h-[calc(100vh-120px)] lg:gap-20 xl:h-[calc(100vh-104px)]">
         <div className="mt-8 flex flex-1 flex-col justify-center p-0 md:mt-0">
           <h1
-            className={`${FontSpaceMono.className} extra-large-screensize-title text-3xl font-bold uppercase text-black sm:text-4xl md:text-3xl lg:text-5xl xl:text-6xl`}
+            className={cn(
+              `${FontSpaceMono.className} text-3xl font-bold uppercase text-black sm:text-4xl md:text-3xl lg:text-5xl xl:text-6xl`,
+              'extra-large-screensize-title'
+            )}
           >
             Get paid to shape the future of AI
           </h1>
           <p
-            className={`${FontManrope.className} extra-large-screensize-subTitle mt-3 pr-2 text-base font-medium text-gray-500 md:text-lg lg:text-xl`}
+            className={`${FontManrope.className}  mt-3 pr-2 text-base font-medium text-gray-500 md:text-lg lg:text-xl`}
           >
             Earn TAO through responding to AI-generated tasks across various domains. Join the crowd-sourced effort to
             build the world&apos;s most powerful multimodal AI models.
