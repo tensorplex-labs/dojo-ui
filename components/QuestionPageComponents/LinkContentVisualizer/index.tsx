@@ -31,13 +31,6 @@ const LinkContentVisualizer: React.FC<LinkContentVisualizerProps> = ({
       <div
         className={`h-fit w-full rounded-none ${showSlider && 'border-2 border-black bg-ecru-white shadow-brut-sm'} `}
       >
-        {/* <iframe
-          src={url}
-          className="aspect-[3/4] w-full"
-          title="elastic-newton-69zqqk"
-          allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-          sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-        /> */}
         <CodegenVis encodedCss={contentCss} encodedHtml={contentHtml ?? ''} encodedJs={contentJs ?? ''} />
         {showSlider && (
           <>
