@@ -31,7 +31,7 @@ const LinkContentVisualizer: React.FC<LinkContentVisualizerProps> = ({
       <div
         className={`h-fit w-full rounded-none ${showSlider && 'border-2 border-black bg-ecru-white shadow-brut-sm'} `}
       >
-        <CodegenVis encodedCss={contentCss} encodedHtml={contentHtml ?? ''} encodedJs={contentJs ?? ''} />
+        <CodegenVis encodedHtml={contentHtml ?? ''} />
         {showSlider && (
           <>
             <div

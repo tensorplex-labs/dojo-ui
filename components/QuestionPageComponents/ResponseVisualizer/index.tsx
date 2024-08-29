@@ -1,6 +1,5 @@
 import LinkContentVisualizer from '@/components/QuestionPageComponents/LinkContentVisualizer';
 import { ResponseVisualizerProps } from '@/types/QuestionPageTypes';
-import { getFileContentFromTask } from '@/utils/general_helpers';
 import React from 'react';
 
 const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
@@ -17,9 +16,7 @@ const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
       {task?.taskData?.responses?.map((plot, index) => {
         return (
           <LinkContentVisualizer
-            contentHtml={getFileContentFromTask('html', plot.completion.files)}
-            contentJs={getFileContentFromTask('js', plot.completion.files)}
-            contentCss={getFileContentFromTask('css', plot.completion.files)}
+            contentHtml={(plot.completion as any).combined_html}
             key={`vis-${index}`}
             title={plot.model}
             showTitle={true}
