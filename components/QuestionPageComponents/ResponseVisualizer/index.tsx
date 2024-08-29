@@ -12,7 +12,7 @@ const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
   handleRatingChange,
 }) => {
   return (
-    <div className="grid w-full max-w-[1200px] grid-cols-2 gap-x-5 gap-y-10">
+    <div className="grid w-full max-w-[1200px] grid-cols-2 gap-x-5 gap-y-10 md:px-4 md:py-2 lg:px-4 lg:py-2">
       {task?.taskData?.responses?.map((plot, index) => {
         return (
           <LinkContentVisualizer
