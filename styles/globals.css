@@ -90,6 +90,12 @@ body {
   }
 }
 
+@media (min-width: 2000px) {
+  .extra-large-screensize-title {
+    font-size: 72px !important;
+  }
+}
+
 .error-modal {
   position: fixed;
   z-index: 60; /* Higher z-index for the error modal */

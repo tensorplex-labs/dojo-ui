@@ -8,7 +8,7 @@ const RoadMapSection = () => (
       background: 'linear-gradient(to bottom, #FFFFF4, #E1F5F4)',
     }}
   >
-    <div className="mx-auto mt-16 flex max-w-[1075px] flex-col justify-between  md:mt-36 md:flex-row">
+    <div className="mx-auto mt-16 flex max-w-[1075px] flex-col justify-between  md:mt-36 md:flex-row md:px-4 lg:px-4">
       <div className="w-full md:h-full md:w-3/5">
         <h1 className={`${FontSpaceMono.className} text-center text-[46px] font-bold uppercase md:text-left`}>
           Dojo Roadmap
@@ -26,13 +26,13 @@ const RoadMapSection = () => (
             <div className="h-32 w-px border-l-[3px] border-dashed border-black/50"></div>
           </div>
           <div>
-            <h3 className={`${FontSpaceMono.className} my-4 text-xl font-bold uppercase`}>Testnet launch</h3>
+            <h3 className={`${FontSpaceMono.className} my-4 text-lg font-bold uppercase`}>Testnet launch</h3>
             <ul className="">
-              <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>
+              <li className={`${FontManrope.className} mb-2 text-base font-bold opacity-70`}>
                 Synthetic Task Generation
               </li>
-              <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>Worker API Model</li>
-              <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>
+              <li className={`${FontManrope.className} mb-2 text-base font-bold opacity-70`}>Worker API Model</li>
+              <li className={`${FontManrope.className} mb-2 text-base font-bold opacity-70`}>
                 Task Completion Interface
               </li>
             </ul>
@@ -46,10 +46,12 @@ const RoadMapSection = () => (
             <div className="h-32 w-px border-l-[3px] border-dashed border-black/50"></div>
           </div>
           <div>
-            <h3 className={`${FontSpaceMono.className} my-4 text-xl font-bold uppercase`}>MAINNET launch</h3>
+            <h3 className={`${FontSpaceMono.className} my-4 text-lg font-bold uppercase`}>MAINNET launch</h3>
             <ul className="">
-              <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>Cross-Subnet Integration</li>
-              <li className={`${FontManrope.className} mb-2 text-lg font-bold opacity-70`}>Scoring Refinement</li>
+              <li className={`${FontManrope.className} mb-2 text-base font-bold opacity-70`}>
+                Cross-Subnet Integration
+              </li>
+              <li className={`${FontManrope.className} mb-2 text-base font-bold opacity-70`}>Scoring Refinement</li>
             </ul>
           </div>
         </div>
