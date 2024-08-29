@@ -33,11 +33,11 @@ const HeroCardSection = () => {
 
   return (
     <section id="first" className="flex h-auto w-full justify-center overflow-hidden px-4 md:px-5 lg:px-10">
-      <div className="flex max-w-[1075px] flex-col gap-6 py-8 md:h-[calc(100vh-100px)] md:flex-row md:gap-10 lg:my-3 lg:h-[calc(100vh-120px)] lg:gap-20 xl:h-[calc(100vh-104px)]">
+      <div className="flex h-fit min-h-screen max-w-[1075px] flex-col gap-6 py-8 md:flex-row md:gap-10 lg:my-3 lg:gap-20">
         <div className="mt-8 flex flex-1 flex-col justify-center p-0 md:mt-0">
           <h1
             className={cn(
-              `${FontSpaceMono.className} text-3xl font-bold uppercase text-black sm:text-4xl md:text-3xl lg:text-5xl xl:text-6xl`,
+              `${FontSpaceMono.className} text-3xl font-bold uppercase text-black sm:text-4xl md:text-3xl lg:text-5xl xl:text-7xl`,
               'extra-large-screensize-title'
             )}
           >
