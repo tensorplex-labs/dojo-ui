@@ -1,11 +1,21 @@
+import useQueryFunc from '@/hooks/useQueryFuncs';
 import { TaskPromptProps } from '@/types/QuestionPageTypes';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import React from 'react';
 
 const TaskPrompt: React.FC<TaskPromptProps> = ({ title, taskType, formattedPrompt }) => {
+  const { updateQueryString } = useQueryFunc();
   return (
     <div className="mx-auto flex w-full flex-col">
-      <p className={`text-start ${FontManrope.className} gap-2 text-2xl font-bold`}>
+      <p
+        onClick={() => {
+          updateQueryString([
+            { name: 'exp', value: 'demo' },
+            { name: 'addParams', value: '3d' },
+          ]);
+        }}
+        className={`text-start ${FontManrope.className} gap-2 text-2xl font-bold`}
+      >
         {title}
         {`  `}
         <span
