@@ -14,6 +14,7 @@ const NavigationBar = ({ openModal, isHomePage, className }: NavigationBarProps)
   const headerItems = [
     { title: 'Task List', url: '/task-list?sort=numCriteria&order=desc' },
     { title: 'FAQ', url: '/faq' },
+    { title: 'Demo', url: '/task-list?exp=demo&?sort=numCriteria&order=desc' },
   ];
 
   return (

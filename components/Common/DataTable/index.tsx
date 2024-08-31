@@ -1,3 +1,4 @@
+import useFeature from '@/hooks/useFeature';
 import { taskStatus } from '@/hooks/useGetTasks';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import {
@@ -133,12 +134,14 @@ const Datatable = ({
   // Generate the page numbers to display
   const pageNumbers = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
 
-  const [taskId, setTaskId] = useState<string>('');
   const router = useRouter(); // Initialize useRouter
-
+  const { exp } = useFeature({ kw: 'demo' });
   const onStartHandler = (id: string) => {
-    setTaskId(id);
-    router.push(`/Questions?taskId=${id}`);
+    if (exp) {
+      router.push(`/Questions?taskId=${id}&exp=demo`);
+    } else {
+      router.push(`/Questions?taskId=${id}`);
+    }
   };
 
   const tableRows = table.getRowModel().rows;

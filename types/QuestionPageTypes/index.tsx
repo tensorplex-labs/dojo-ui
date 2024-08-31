@@ -139,6 +139,7 @@ export type Task = {
   maxResults: number;
   numResults: number;
   numCriteria: number;
+  isCompletedByWorker: boolean;
 };
 
 export type TaskResponses = {

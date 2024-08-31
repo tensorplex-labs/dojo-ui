@@ -3,7 +3,8 @@
  */
 
 'use client';
-import { Pagination, Task, TasksResponse, taskStatus } from '@/hooks/useGetTasks';
+import { Pagination, TasksResponse, taskStatus } from '@/hooks/useGetTasks';
+import { Task } from '@/types/QuestionPageTypes';
 import { getFromLocalStorage } from '@/utils/general_helpers';
 import { useRouter } from 'next/router';
 import React, { createContext, useCallback, useContext, useState } from 'react';

@@ -1,5 +1,7 @@
+import CodegenViewer from '@/components/CodegenViewer';
 import Slider from '@/components/Common/Slider';
 import GaussianSplatViewer from '@/components/GaussianSplatViewer';
+import useFeature from '@/hooks/useFeature';
 import { ResponseVisualizerProps, TaskResponses } from '@/types/QuestionPageTypes';
 import { TaskType } from '@/utils/states';
 import { cn } from '@/utils/tw';
@@ -16,10 +18,11 @@ const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
   handleRatingChange,
 }) => {
   const showTitle = true;
-
+  const { exp } = useFeature({ kw: 'demo' });
   const renderVisualizer = (taskT: TaskType, plot: TaskResponses, index: number) => {
     switch (taskT) {
       case 'CODE_GENERATION':
+        if (exp) return <CodegenViewer encodedHtml={plot.completion.combined_html} />;
         return (
           <iframe
             src={plot.completion.url || plot.completion.sandbox_url}
