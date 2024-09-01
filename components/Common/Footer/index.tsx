@@ -1,3 +1,4 @@
+import useFeature from '@/hooks/useFeature';
 import useGetNextInProgressTask, { NextTaskResponse } from '@/hooks/useGetNextTask';
 import { useSubmit } from '@/providers/submitContext';
 import { useRouter } from 'next/router';
@@ -9,8 +10,10 @@ const Footer: React.FC = () => {
   const { taskId } = router.query;
   const { handleSubmit } = useSubmit();
   const { fetchNextInProgressTask } = useGetNextInProgressTask();
+  const { exp } = useFeature({ kw: 'demo' });
 
   const handleSkip = async () => {
+    if (exp) return;
     if (!router.isReady) return;
     let nextTaskResponse: NextTaskResponse | null;
 

@@ -51,9 +51,9 @@ const decodedJsSecurity = `
             });
         });
 
-        console.log("iframe eth in window",'ethereum' in window)
-        console.log("iframe has cookies",!!document.cookie)
-        console.log("iframe has localstorage",localStorage)
+        // console.log("iframe eth in window",'ethereum' in window)
+        // console.log("iframe has cookies",!!document.cookie)
+        // console.log("iframe has localstorage",localStorage)
       })();
     `;
 
@@ -62,9 +62,9 @@ const CodegenViewer = ({ encodedHtml }: CodegenVisProps) => {
   const [iframeSrc, setIframeSrc] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log('parent eth in window', 'ethereum' in window);
-    console.log('parent has cookies', !!document.cookie);
-    console.log('parent has localstorage', localStorage);
+    // console.log('parent eth in window', 'ethereum' in window);
+    // console.log('parent has cookies', !!document.cookie);
+    // console.log('parent has localstorage', localStorage);
     let url = '';
     try {
       const decodedHtml = decodeString(encodedHtml);
