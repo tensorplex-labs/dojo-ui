@@ -246,12 +246,14 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
       <div className=" my-4 flex flex-col items-center justify-center">
         <TaskPrompt title={task?.title} taskType={taskType} formattedPrompt={formattedPrompt} />
         <hr className={' mb-8 mt-3 w-full border-2 border-black'} />
-        {isMultiScore && (
-          <HeadingTitle
-            title={`Question 1`}
-            subTitle="Draft the respective slider for each output according to how close the interface matches the following prompt"
-          />
-        )}
+        <div className="  w-full ">
+          {isMultiScore && (
+            <HeadingTitle
+              title={`Question 1`}
+              subTitle="Draft the respective slider for each output according to how close the interface matches the following prompt"
+            />
+          )}
+        </div>
         <ResponseVisualizer
           task={task!}
           minValSlider={minValSlider}
@@ -277,7 +279,7 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
               title={`Question ${isMultiScore && isSlider ? '3' : isSlider || isMultiScore ? '2' : '1'}`}
               subTitle="Please choose the most appropriate option"
             />{' '}
-            <div className=" flex w-[610px] flex-col items-center justify-center rounded-b-xl ">
+            <div className=" flex w-[610px] flex-col items-center justify-center rounded-b-xl md:px-4 md:py-2 lg:px-4 lg:py-2">
               <MultiSelect
                 options={multiSelectQuestionData}
                 selectedValues={selectedMultiSelectValues}
@@ -297,7 +299,9 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
                   title={`Question ${isMultiScore && isSlider && isMultiSelectQuestion ? '4' : isMultiScore && isSlider ? '3' : isMultiScore && isMultiSelectQuestion ? '3' : isSlider && isMultiSelectQuestion ? '3' : isMultiScore ? '2' : isSlider ? '2' : isMultiSelectQuestion ? '2' : '1'}`}
                   subTitle="Rank the following options according to how well they match the prompt"
                 />
-                <DragnDrop options={rankQuestionData} onOrderChange={handleOrderChange} />
+                <div className="md:px-4 md:py-2 lg:px-4 lg:py-2">
+                  <DragnDrop options={rankQuestionData} onOrderChange={handleOrderChange} />
+                </div>
               </div>
             </div>
           </div>

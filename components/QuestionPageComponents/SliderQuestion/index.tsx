@@ -5,7 +5,7 @@ import React from 'react';
 
 const SliderQuestion: React.FC<SliderQuestionProps> = ({ isMultiScore, handleSliderChange }) => {
   return (
-    <div className="mx-auto my-4 flex max-w-[1200px] flex-col justify-center">
+    <div className="mx-auto my-4 flex max-w-[1200px] flex-col justify-center md:px-4 md:py-2 lg:px-4 lg:py-2">
       <HeadingTitle title={`Question ${isMultiScore ? '2' : '1'}`} subTitle="Rate the output" />
       <div className="mt-4 w-[541px]">
         <div className="row-start-2 rounded-br-lg">

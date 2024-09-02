@@ -45,14 +45,14 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidt
   const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
 
   return (
-    <div className="min-h-screen bg-primaryBG-bg text-black">
+    <div className="min-h-screen max-w-screen-lg bg-primaryBG-bg text-black">
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
           <ModalProvider>
             <div className="border-b-2 border-black bg-ecru-white text-white">
               <NavigationBar openModal={() => setShowUserCard(true)} />
             </div>
-            <main className={`${!isFullWidth && 'max-w-[1075px]'} mx-auto`}>{children}</main>
+            <main className={`${!isFullWidth && 'max-w-[1075px] '} mx-auto`}>{children}</main>
             {showFooter && <hr className=" border-black" />}
             {showUserCard && (
               <UserCard closeModal={setShowUserCard}>
