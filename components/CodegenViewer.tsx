@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { generateNonce } from 'siwe';
 const decodeString = (encodedString: string): string => {
   return encodedString
     .replace(/\\u003c/g, '<')
@@ -86,6 +87,7 @@ const CodegenViewer = ({ encodedHtml }: CodegenVisProps) => {
 
   return (
     <iframe
+      key={generateNonce()}
       ref={iframeRef}
       sandbox="allow-scripts"
       src={iframeSrc || ''}

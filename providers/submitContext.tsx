@@ -61,7 +61,6 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   };
   const { submitTask, response, error } = useSubmitTask();
   const handleSubmit = async () => {
-    if (exp) return;
     if (!router.isReady) return;
 
     const taskId = String(router.query.taskId || '');
