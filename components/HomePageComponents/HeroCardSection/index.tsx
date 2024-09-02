@@ -41,7 +41,7 @@ const HeroCardSection = () => {
               'extra-large-screensize-title'
             )}
           >
-            Accelerate Decentralized AI, <span className="text-primary">get paid</span>.
+            Accelerate Decentralized AI, <span className="inline-block text-primary">get paid</span>.
           </h1>
           <p
             className={`${FontManrope.className}  mt-3 pr-2 text-base font-medium text-gray-500 md:text-lg lg:text-xl`}
