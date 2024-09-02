@@ -226,7 +226,7 @@ export default function Index() {
             </div>
             <p className={`${FontManrope.className} mt-2 text-sm font-extrabold text-black opacity-50`}>Est 2 mins</p>
           </div>
-          <div className="relative lg:flex sm:hidden h-full w-[300px] items-center justify-end md:hidden">
+          <div className="relative h-full w-[300px] items-center justify-end hidden lg:flex">
             <img src="/grid-lines.svg" className="absolute h-[177px]" />
             <img src="/bitTensor-logo.svg" className="relative z-10 mr-[60px] size-[100px]" />
           </div>
