@@ -226,14 +226,14 @@ export default function Index() {
             </div>
             <p className={`${FontManrope.className} mt-2 text-sm font-extrabold text-black opacity-50`}>Est 2 mins</p>
           </div>
-          <div className="relative flex h-full w-[300px] items-center justify-end">
+          <div className="relative lg:flex sm:hidden h-full w-[300px] items-center justify-end md:hidden">
             <img src="/grid-lines.svg" className="absolute h-[177px]" />
             <img src="/bitTensor-logo.svg" className="relative z-10 mr-[60px] size-[100px]" />
           </div>
         </div>
       )}
 
-      <div className="mx-auto mt-[18px] flex w-[1075px]">
+      <div className="mx-auto mt-[18px] flex max-w-[1075px] px-4">
         <div className="flex w-full justify-between gap-2">
           <div className="mt-[18px] flex items-center gap-2">
             {categories.map((category) => (
