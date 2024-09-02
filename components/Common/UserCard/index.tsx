@@ -13,7 +13,7 @@ const UserCard: React.FC<UserCardProps> = ({ closeModal, children }) => {
       <div className="fixed inset-0 z-40" onClick={handleCloseModal}></div>
 
       {/* Modal Container */}
-      <div className="fixed inset-0 z-50 m-auto mt-[90px] flex w-[1115px] items-start justify-end p-4">
+      <div className="fixed inset-0 z-50 m-auto mt-[90px] flex max-w-[1115px] items-start justify-end p-4">
         {/* Modal */}
         <div className="relative h-auto w-full max-w-[401px] overflow-auto border-2 border-black bg-card-background text-black shadow-brut-sm">
           <div className="border-blueGray-200 flex items-start justify-between border-solid">

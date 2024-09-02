@@ -6,16 +6,8 @@ import React from 'react';
 const TaskPrompt: React.FC<TaskPromptProps> = ({ title, taskType, formattedPrompt }) => {
   const { updateQueryString } = useQueryFunc();
   return (
-    <div className="mx-auto flex w-full flex-col">
-      <p
-        onClick={() => {
-          updateQueryString([
-            { name: 'exp', value: 'demo' },
-            { name: 'addParams', value: '3d' },
-          ]);
-        }}
-        className={`text-start ${FontManrope.className} gap-2 text-2xl font-bold`}
-      >
+    <div className="mx-auto flex max-w-[1200px] flex-col md:px-4 md:py-2 lg:px-4 lg:py-2">
+      <p className={`text-start ${FontManrope.className} gap-2 text-2xl font-bold`}>
         {title}
         {`  `}
         <span
