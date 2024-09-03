@@ -115,7 +115,7 @@ const useGetTasks = (
         pageNumber: 1,
         pageSize: 10,
         totalPages: 1,
-        totalItems: 5,
+        totalItems: tasklistFull.length,
       });
       setLoading(false);
       return;
