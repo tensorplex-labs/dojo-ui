@@ -72,7 +72,7 @@ const CodegenViewer = ({ encodedHtml }: CodegenVisProps) => {
         [
           decodedHtml
             .replace(/<head>/, `<head>${decodedCSP}`)
-            .replace(/<script>/, `<script>${decodedJsSecurity}</script><script>`),
+            .replace(/<script/, `<script>${decodedJsSecurity}</script><script`),
         ],
         { type: 'text/html' }
       );
