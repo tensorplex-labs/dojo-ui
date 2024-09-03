@@ -1,9 +1,9 @@
 import HeadingTitle from '@/components/Common/HeadingTitle';
 import MultiSelect from '@/components/Common/MultileSelect';
+import { SliderQuestion } from '@/components/QuestionPageComponents';
 import DragnDrop from '@/components/QuestionPageComponents/DragnDrop';
 import ErrorModal from '@/components/QuestionPageComponents/ErrorModal';
 import ResponseVisualizer from '@/components/QuestionPageComponents/ResponseVisualizer';
-import SliderQuestion from '@/components/QuestionPageComponents/SliderQuestion';
 import TaskPrompt from '@/components/QuestionPageComponents/TaskPrompt';
 import { taskCriteria } from '@/constants';
 import { useJwtToken } from '@/hooks/useJwtToken';
@@ -12,7 +12,7 @@ import { useSIWE } from '@/hooks/useSIWE';
 import Layout from '@/layout';
 import { useAuth } from '@/providers/authContext';
 import { useSubmit } from '@/providers/submitContext';
-import { QuestionPageProps, RankOrder } from '@/types/QuestionPageTypes';
+import { QuestionPageProps, RankOrder, TaskType } from '@/types/QuestionPageTypes';
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useAccount, useDisconnect } from 'wagmi';
@@ -256,6 +256,7 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
         </div>
         <ResponseVisualizer
           task={task!}
+          taskType={taskType as TaskType}
           minValSlider={minValSlider}
           maxValSlider={maxValSlider}
           ratings={ratings}
@@ -267,14 +268,17 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
         {!isTaskLoading && isSlider && (
           <>
             <hr className={'mt-4 w-full border border-black opacity-10'} />
-            <SliderQuestion isMultiScore={isMultiScore} handleSliderChange={handleSliderChange} />
+            <div className="mx-auto my-4 flex w-full max-w-[1200px] flex-col justify-center">
+              <HeadingTitle title={`Question ${isMultiScore ? '2' : '1'}`} subTitle="Rate the output" />
+              <SliderQuestion isMultiScore={isMultiScore} handleSliderChange={handleSliderChange} />
+            </div>
           </>
         )}
       </div>
       {!isTaskLoading && isMultiSelectQuestion && (
         <>
           <hr className={'w-full border border-black opacity-10'} />
-          <div className=" mx-auto my-4 flex max-w-[1200px] flex-col justify-center">
+          <div className=" mx-auto my-4 flex w-full max-w-[1200px] flex-col justify-center">
             <HeadingTitle
               title={`Question ${isMultiScore && isSlider ? '3' : isSlider || isMultiScore ? '2' : '1'}`}
               subTitle="Please choose the most appropriate option"
@@ -292,7 +296,7 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
       {!isTaskLoading && isRankQuestion && (
         <>
           <hr className={'w-full border border-black opacity-10'} />
-          <div className="mx-auto my-4 flex max-w-[1200px] flex-col items-center justify-center">
+          <div className="mx-auto my-4 flex w-full max-w-[1200px] flex-col items-center justify-center">
             <div className="flex w-full justify-start">
               <div className="w-[780px] bg-primaryBG-bg">
                 <HeadingTitle

@@ -1,5 +1,5 @@
 import Slider from '@/components/QuestionPageComponents/Slider'; // Assuming Slider is a reusable component
-import { LinkContentVisualizerProps } from '@/types/QuestionPageTypes';
+import { CodeGenerationCompletion, LinkContentVisualizerProps } from '@/types/QuestionPageTypes';
 import { FontSpaceMono } from '@/utils/typography';
 import React, { useCallback } from 'react';
 
@@ -10,6 +10,7 @@ const LinkContentVisualizer: React.FC<LinkContentVisualizerProps> = ({
   showSlider,
   sliderSettings,
   onRatingChange,
+  taskType,
   ratingData,
 }) => {
   const handleRatingChange = useCallback(
@@ -26,13 +27,16 @@ const LinkContentVisualizer: React.FC<LinkContentVisualizerProps> = ({
       <div
         className={`h-auto w-full rounded-none ${showSlider && 'border-2 border-black bg-ecru-white shadow-brut-sm'} `}
       >
-        <iframe
-          src={url}
-          className="aspect-[3/4] w-full"
-          title="elastic-newton-69zqqk"
-          allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-          sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-        />
+        {taskType === 'CODE GENERATION' && (
+          <iframe
+            src={(url as CodeGenerationCompletion).sandbox_url}
+            className="aspect-[3/4] w-full"
+            title="elastic-newton-69zqqk"
+            allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+            sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+          />
+        )}
+        {taskType === 'TEXT TO IMAGE' && <img src={`https://${url}`} alt="generated-image" className="h-auto w-full" />}
         {showSlider && (
           <>
             <div

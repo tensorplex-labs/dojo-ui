@@ -4,6 +4,7 @@ import React from 'react';
 
 const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
   task,
+  taskType,
   minValSlider,
   maxValSlider,
   ratings,
@@ -18,7 +19,8 @@ const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
           key={plot.id}
           title={plot.model}
           showTitle={true}
-          url={plot.completion.sandbox_url}
+          url={plot.completion}
+          taskType={taskType}
           sliderSettings={{
             min: minValSlider,
             max: maxValSlider,

@@ -4,9 +4,8 @@ import React from 'react';
 
 const MultiSelectItem: React.FC<MultiSelectItemProps> = ({ option, isSelected, onSelectionChange }) => {
   const selectedStyles = isSelected
-    ? 'border-2 border-primary bg-opacity-15 bg-primary opacity-[14]'
+    ? 'border-primary  bg-secondary text-black cursor-pointer border-2 hover:border-2 hover:border-primary hover:bg-secondary'
     : 'border-2 border-gray-300 bg-ecru-white opacity-[14]';
-
   return (
     <div className="my-2.5 w-full ">
       <label className={`flex w-full cursor-pointer items-center space-x-2 ${selectedStyles} p-[9px]`}>

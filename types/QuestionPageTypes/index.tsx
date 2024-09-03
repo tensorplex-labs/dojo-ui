@@ -55,10 +55,31 @@ export type ImageComponentProps = {
   fallbackSrc: string;
 };
 
+export type MultiSelectQuestionProps = {
+  isMultiScore?: boolean;
+  isSlider?: boolean;
+  multiSelectQuestionData: string[];
+  selectedMultiSelectValues: string[];
+  handleSelectionChange: (newValue: string) => void;
+};
+
+// types/QuestionPageTypes/index.tsx
+export type TaskType = 'CODE GENERATION' | 'TEXT TO IMAGE';
+export type CodeGenerationCompletion = {
+  sandbox_url: string;
+};
+
+export type ImageGenerationCompletion = string;
+
 export interface LinkContentVisualizerProps {
   title: string;
   showTitle: boolean;
-  url: string;
+  url: TaskType extends 'CODE_GENERATION'
+    ? CodeGenerationCompletion
+    : TaskType extends 'IMAGE_GENERATION'
+      ? ImageGenerationCompletion
+      : never;
+  taskType: TaskType;
   showSlider?: boolean;
   sliderSettings?: {
     min: number;
@@ -70,27 +91,26 @@ export interface LinkContentVisualizerProps {
   onRatingChange?: (rating: number) => void;
 }
 
-export type MultiSelectQuestionProps = {
-  isMultiScore?: boolean;
-  isSlider?: boolean;
-  multiSelectQuestionData: string[];
-  selectedMultiSelectValues: string[];
-  handleSelectionChange: (newValue: string) => void;
+export type ResponseData = {
+  id: React.Key | null | undefined;
+  model: string;
+  htmlContent: string;
+  title: string;
+  showTitle: boolean;
+  completion: TaskType extends 'CODE_GENERATION'
+    ? CodeGenerationCompletion
+    : TaskType extends 'IMAGE_GENERATION'
+      ? ImageGenerationCompletion
+      : never;
 };
 
 export type ResponseVisualizerProps = {
   task?: {
     taskData: {
-      responses: {
-        id: React.Key | null | undefined;
-        model: string;
-        htmlContent: string;
-        title: string;
-        showTitle: boolean;
-        completion: { sandbox_url: string };
-      }[];
+      responses: ResponseData[];
     };
   };
+  taskType: TaskType;
   minValSlider: number;
   maxValSlider: number;
   ratings: { [key: string]: number };
