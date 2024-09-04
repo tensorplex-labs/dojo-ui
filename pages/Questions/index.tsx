@@ -54,13 +54,12 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
   const [multiSelectQuestionData, setMultiSelectQuestionData] = useState<string[]>([]);
   const [rankQuestionData, setRankQuestionData] = useState<string[]>([]);
   const [open, setOpen] = useState(false);
-  const { task, loading: isTaskLoading } = useRequestTaskByTaskID(taskId);
+  const { isAuthenticated, isSignedIn } = useAuth();
+  const { isConnected, address } = useAccount();
+  const { task, loading: isTaskLoading } = useRequestTaskByTaskID(taskId, isConnected, isAuthenticated);
   const [multiScoreOptions, setMultiScoreOptions] = useState<string[]>([]);
   const router = useRouter();
 
-  const { address } = useAccount();
-  const { isAuthenticated, isSignedIn } = useAuth();
-  const { isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const { signInWithEthereum } = useSIWE(() => console.log('post signin'));
   const jwtTokenKey = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
@@ -247,12 +246,14 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
       <div className=" my-4 flex flex-col items-center justify-center">
         <TaskPrompt title={task?.title} taskType={taskType} formattedPrompt={formattedPrompt} />
         <hr className={' mb-8 mt-3 w-full border-2 border-black'} />
-        {isMultiScore && (
-          <HeadingTitle
-            title={`Question 1`}
-            subTitle="Draft the respective slider for each output according to how close the interface matches the following prompt"
-          />
-        )}
+        <div className="  w-full ">
+          {isMultiScore && (
+            <HeadingTitle
+              title={`Question 1`}
+              subTitle="Draft the respective slider for each output according to how close the interface matches the following prompt"
+            />
+          )}
+        </div>
         <ResponseVisualizer
           task={task!}
           minValSlider={minValSlider}
@@ -278,7 +279,7 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
               title={`Question ${isMultiScore && isSlider ? '3' : isSlider || isMultiScore ? '2' : '1'}`}
               subTitle="Please choose the most appropriate option"
             />{' '}
-            <div className=" flex w-[610px] flex-col items-center justify-center rounded-b-xl ">
+            <div className=" flex w-[610px] flex-col items-center justify-center rounded-b-xl md:px-4 md:py-2 lg:px-4 lg:py-2">
               <MultiSelect
                 options={multiSelectQuestionData}
                 selectedValues={selectedMultiSelectValues}
@@ -298,7 +299,9 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
                   title={`Question ${isMultiScore && isSlider && isMultiSelectQuestion ? '4' : isMultiScore && isSlider ? '3' : isMultiScore && isMultiSelectQuestion ? '3' : isSlider && isMultiSelectQuestion ? '3' : isMultiScore ? '2' : isSlider ? '2' : isMultiSelectQuestion ? '2' : '1'}`}
                   subTitle="Rank the following options according to how well they match the prompt"
                 />
-                <DragnDrop options={rankQuestionData} onOrderChange={handleOrderChange} />
+                <div className="md:px-4 md:py-2 lg:px-4 lg:py-2">
+                  <DragnDrop options={rankQuestionData} onOrderChange={handleOrderChange} />
+                </div>
               </div>
             </div>
           </div>

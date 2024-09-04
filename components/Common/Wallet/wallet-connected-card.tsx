@@ -1,3 +1,5 @@
+import { BrutCard } from '@/components/Common/CustomComponents/brut-card';
+import { CustomButton } from '@/components/Common/CustomComponents/button';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import { useEtherScanOpen } from '@/hooks/useEtherScanOpen';
 import { useAuth } from '@/providers/authContext';
@@ -8,8 +10,6 @@ import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { IconCopy, IconExternalLink } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import { Connector, useDisconnect } from 'wagmi';
-import { BrutCard } from '../BrutCard';
-import { CustomButton } from '../CustomButton';
 import Web3Icon from './web3-icon';
 
 interface Props {

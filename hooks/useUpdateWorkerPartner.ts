@@ -15,8 +15,15 @@ const useUpdateWorkerPartner = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const updateWorkerPartner = async (minerSubscriptionKey: string, newMinerSubscriptionKey: string, name: string) => {
+  const updateWorkerPartner = async (
+    minerSubscriptionKey: string,
+    newMinerSubscriptionKey: string,
+    name: string
+  ): Promise<UpdateWorkerPartnerResponse | null> => {
     setLoading(true);
+    setResponse(null); // Clear the response cache
+    setError(null); // Clear any previous errors
+
     try {
       const payload = {
         minerSubscriptionKey: minerSubscriptionKey,
@@ -38,11 +45,16 @@ const useUpdateWorkerPartner = () => {
 
       if (response.ok) {
         setResponse(data);
+        console.log('response', data);
+        return data;
       } else {
+        console.log('response', data.error);
+        setError(data.error);
         throw new Error(data.error || `HTTP error! status: ${response.status}`);
       }
     } catch (e: any) {
       setError(e.message);
+      return null;
     } finally {
       setLoading(false);
     }

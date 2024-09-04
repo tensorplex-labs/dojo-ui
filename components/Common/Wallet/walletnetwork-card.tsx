@@ -1,7 +1,7 @@
 'use client';
 import { cn } from '@/utils/tw';
 import { HTMLAttributes } from 'react';
-import { BrutCard, brutCardVariants } from '../BrutCard';
+import { BrutCard, brutCardVariants } from '../CustomComponents/brut-card';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   logo?: string;

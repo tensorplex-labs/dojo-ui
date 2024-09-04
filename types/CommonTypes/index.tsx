@@ -1,5 +1,5 @@
-import { brutCardVariants } from '@/components/Common/BrutCard';
-import { buttonVariants } from '@/components/Common/CustomButton';
+import { brutCardVariants } from '@/components/Common/CustomComponents/brut-card';
+import { buttonVariants } from '@/components/Common/CustomComponents/button';
 import { ColumnDef } from '@tanstack/react-table';
 import { VariantProps } from 'class-variance-authority';
 import { HTMLAttributes, InputHTMLAttributes, ReactNode } from 'react';

@@ -22,7 +22,7 @@ export const WalletButton = ({ openModal }: WalletButtonEntryProps) => {
         // eslint-disable-next-line jsx-a11y/click-events-have-key-events
         <div
           onClick={openModal}
-          className="flex w-fit items-center justify-start overflow-hidden rounded-full p-[10px] text-black hover:cursor-pointer hover:bg-muted"
+          className="flex w-fit items-center justify-start overflow-hidden rounded-full p-[4px] text-black hover:cursor-pointer hover:bg-muted"
         >
           <WalletBadgeButton account={address} />
         </div>

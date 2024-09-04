@@ -1,4 +1,4 @@
-import { CustomButton } from '@/components/Common/CustomButton';
+import { CustomButton } from '@/components/Common/CustomComponents/button';
 import UserCard from '@/components/Common/UserCard';
 import Web3Icon from '@/components/Common/Wallet/web3-icon';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';

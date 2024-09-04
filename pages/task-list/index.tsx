@@ -1,6 +1,6 @@
 'use client';
-import Datatable from '@/components/Datatable';
-import NavigationBar from '@/components/NavigationBar';
+import Datatable from '@/components/Common/DataTable';
+import NavigationBar from '@/components/Common/NavigationBar';
 import { WalletManagement } from '@/components/TaskListPageComponents';
 import TaskListHeader from '@/components/TaskListPageComponents/TaskListPageHeader';
 import { categories, columnDef, dropdownOptions } from '@/data';
@@ -20,8 +20,8 @@ import { useAccount, useDisconnect } from 'wagmi';
 
 import { Button } from '@/components/Common/Button';
 import { DropdownContainer } from '@/components/Common/DropDown';
+import SubscriptionModal from '@/components/Common/Modal/SubscriptionModal';
 import { Pagination } from '@/components/Common/Pagination';
-import SubscriptionModal from '@/components/Common/SubscriptionModal';
 import CategoryItem from '@/components/TaskListPageComponents/CategoryList/CategoryItem';
 import { ALL_CATEGORY } from '@/constants';
 import { useSIWE } from '@/hooks/useSIWE';
@@ -75,6 +75,8 @@ export default function Index() {
     taskTypes ? (taskTypes as string) : 'All',
     sort ? (sort as string) : 'createdAt',
     order ? (order as string) : 'desc',
+    isConnected,
+    isAuthenticated,
     yieldMin ? parseInt(yieldMin as string) : undefined,
     yieldMax ? parseInt(yieldMax as string) : undefined
   );
@@ -186,7 +188,7 @@ export default function Index() {
         <NavigationBar openModal={() => setShowUserCard(true)} />
         <TaskListHeader />
       </div>
-      <div className="mx-auto mt-[18px] flex w-[1075px]">
+      <div className="mx-auto mt-[18px] flex max-w-[1075px] md:px-4 md:py-2 lg:px-4 lg:py-2">
         <div className="flex w-full justify-between gap-2">
           <div className="mt-[18px] flex items-center gap-2">
             {categories.map((category) => (
@@ -247,7 +249,7 @@ export default function Index() {
           </div>
         </div>
       </div>
-      <div className="mx-auto mb-[40px] mt-[19px] flex w-[1075px] flex-col">
+      <div className="mx-auto mb-[40px] mt-[19px] flex max-w-[1075px] flex-col md:px-4 md:py-2 lg:px-4 lg:py-2">
         <div className="mb-[19px]">
           <h1 className={`${FontSpaceMono.className} text-[22px] font-bold uppercase text-black`}>
             SHOWING {tasks.length} of {pagination?.totalItems || 0} RECORDS
@@ -258,7 +260,12 @@ export default function Index() {
             </span>
           ) : null}
         </div>
-        <Datatable data={tasks} columnDef={columnDef} pageSize={pagination?.pageSize || 10} isLoading={loading} />
+        <Datatable
+          data={(isConnected && isAuthenticated && tasks) || []}
+          columnDef={columnDef}
+          pageSize={pagination?.pageSize || 10}
+          isLoading={loading}
+        />
         <div className="mt-3"></div>
         <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange} />
         {isAuthenticated ? (

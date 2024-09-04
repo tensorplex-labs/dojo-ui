@@ -5,7 +5,7 @@ import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
 import { IconX } from '@tabler/icons-react';
 import React from 'react';
-import { BrutCard } from '../BrutCard';
+import { BrutCard } from '../../CustomComponents/brut-card';
 
 const ModalContainer = React.forwardRef<HTMLInputElement, ModalContainerProps>(
   ({ className, headerClassName, bodyClassName, open, onClose, header, children, ...props }, ref) => {

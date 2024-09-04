@@ -1,7 +1,8 @@
-import { ColumnFilter, DatatableProps } from '@/types/QuestionPageTypes';
-import { generateBtnState } from '@/utils/generateBtnState';
+import { taskStatus } from '@/hooks/useGetTasks';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import {
+  ColumnDef,
+  Row,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -9,11 +10,59 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button } from '../Button';
-import LoadingSkeleton from '../LoadingSkeleton';
+export interface FilterDef {
+  filterType: 'global' | 'column';
+  columnIdToFilter?: string;
+  filterInputType?: 'string' | 'date';
+  displayLabel?: string;
+}
 
-const DataTable = ({
+interface Props {
+  canLoad?: boolean;
+  loadingState?: boolean;
+  data: any[];
+  columnDef: ColumnDef<any, any>[];
+  filterControlsDef?: FilterDef[];
+  dateFilterControlType?: 'past' | 'future' | 'none';
+  pageSize?: number;
+  headerClassName?: string;
+  headerCellClassName?: string;
+  styled?: boolean;
+  tooltipShowingXofY?: boolean;
+  cellsClassName?: string;
+  tableClassName?: string;
+  defaultColumnSize?: number;
+  columnVisibility?: Record<string, boolean>;
+  isLoading?: boolean;
+  cellRenderer?: (cell: any, cellIndex: number, row: any, rowIndex: number) => React.ReactNode;
+  rowRenderer?: (row: any, rowIndex: number, cells: any[]) => React.ReactNode;
+}
+
+type ColumnFilter = {
+  id: string;
+  value: any;
+};
+
+type ButtonState = {
+  disabled: boolean;
+  text: string;
+};
+
+const generateBtnState = (row: Row<any>): ButtonState => {
+  if (new Date(row.original.expireAt).getTime() < Date.now() || row.original.status === taskStatus.EXPIRED)
+    return { disabled: true, text: 'Expired' };
+
+  if (row.original.isCompletedByWorker) return { disabled: true, text: 'Completed' };
+
+  if (row.original.maxResults === row.original.numResults || row.original.status == taskStatus.COMPLETED)
+    return { disabled: true, text: 'Filled' };
+
+  return { disabled: false, text: 'Start' };
+};
+
+const Datatable = ({
   isLoading,
   canLoad,
   loadingState,
@@ -33,11 +82,13 @@ const DataTable = ({
   cellRenderer,
   rowRenderer,
   ...props
-}: DatatableProps) => {
+}: Props) => {
+  // State and refs
   const [globalFilter, setGlobalFilter] = useState('');
   const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
   const tableContainerRef = useRef<HTMLDivElement>(null);
 
+  // Table instance
   const table = useReactTable({
     data,
     columns: columnDef,
@@ -58,16 +109,19 @@ const DataTable = ({
       },
     },
   });
-
+  // Assuming you have a maximum number of pagination buttons you want to show
   const maxPageButtons = 5;
 
+  // Calculate the total number of pages
   const pageCount = Math.ceil(table.getPreFilteredRowModel().rows.length / pageSize);
 
+  // Calculate the range of page numbers to display
   const currentPage = table.getState().pagination.pageIndex + 1;
   const halfMaxPageButtons = Math.floor(maxPageButtons / 2);
   let startPage = Math.max(currentPage - halfMaxPageButtons, 1);
   let endPage = Math.min(startPage + maxPageButtons - 1, pageCount);
 
+  // Adjust the range if we're at the start or end
   if (endPage - startPage + 1 < maxPageButtons) {
     if (currentPage <= halfMaxPageButtons) {
       endPage = Math.min(maxPageButtons, pageCount);
@@ -76,10 +130,11 @@ const DataTable = ({
     }
   }
 
+  // Generate the page numbers to display
   const pageNumbers = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
 
   const [taskId, setTaskId] = useState<string>('');
-  const router = useRouter();
+  const router = useRouter(); // Initialize useRouter
 
   const onStartHandler = (id: string) => {
     setTaskId(id);
@@ -87,13 +142,8 @@ const DataTable = ({
   };
 
   const tableRows = table.getRowModel().rows;
-  useEffect(() => {
-    tableRows.forEach((row) => {
-      const criteriaCount = row.original.taskData.criteria;
-      console.log(row.id, { criteriaCount });
-    });
-  }, [data]);
 
+  // Render the UI for your table
   return (
     <div {...props} ref={tableContainerRef} className="flex flex-col gap-4">
       <div className={`overflow-x-auto border-2 border-black bg-card-background shadow-brut-sm`}>
@@ -123,7 +173,30 @@ const DataTable = ({
           </thead>
           {isLoading ? (
             <tbody>
-              <LoadingSkeleton />
+              {[...Array(10)].map((_, i) => (
+                <tr key={i}>
+                  <td className="px-4 py-2">
+                    <div className="h-4 w-1/2 animate-pulse rounded bg-gray-300"></div>
+                  </td>
+                  <td className="px-4 py-2">
+                    <div className="h-4 animate-pulse rounded bg-gray-300"></div>
+                  </td>
+                  <td className="px-4 py-2">
+                    <div className="h-4 w-1/3 animate-pulse rounded bg-gray-300"></div>
+                  </td>
+                  <td className="px-4 py-2">
+                    <div className="h-4 w-1/4 animate-pulse rounded bg-gray-300"></div>
+                  </td>
+                  <td className="px-4 py-2">
+                    <div className="relative right-0 flex">
+                      <div className="h-8 w-20 animate-pulse rounded bg-gray-300"></div>
+                      <div className="justify-right absolute inset-0 flex items-center">
+                        {/* <div className="w-4 h-4 bg-white rounded-full animate-bounce"></div> */}
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           ) : tableRows.length === 0 ? (
             <>
@@ -156,7 +229,7 @@ const DataTable = ({
                         key={cell.id}
                         className={`px-4 py-2 text-black ${cellsClassName} capitalize ${FontManrope.className}`}
                       >
-                        <div className=" w-fit rounded-[64px] bg-primary bg-opacity-[0.22] px-[11px] py-1.5 text-sm font-semibold text-primary">
+                        <div className=" w-fit rounded-[64px] bg-primary/[0.22] px-[11px] py-1.5 text-sm font-semibold text-primary">
                           {flexRender(cell.column.columnDef.cell, cell.getContext())}
                         </div>
                       </td>
@@ -182,7 +255,7 @@ const DataTable = ({
                       >
                         {new Date(row.original.expireAt).getTime() < Date.now() ? (
                           <div
-                            className={` rounded-2xl  px-[10px] py-[5px] text-center ${FontManrope.className} bg-opacity/20 bg-red-400 text-sm font-semibold text-red-600 text-opacity-100`}
+                            className={` rounded-2xl  px-[10px] py-[5px] text-center ${FontManrope.className} bg-red-400/20 text-sm font-semibold text-red-600 text-opacity-100`}
                           >
                             Expired
                           </div>
@@ -227,4 +300,4 @@ const DataTable = ({
   );
 };
 
-export default DataTable;
+export default Datatable;

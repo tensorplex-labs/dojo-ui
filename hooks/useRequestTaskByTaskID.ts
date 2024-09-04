@@ -2,7 +2,7 @@ import { Task } from '@/types/QuestionPageTypes';
 import { getFromLocalStorage } from '@/utils/general_helpers';
 import { useEffect, useState } from 'react';
 
-const useRequestTaskByTaskID = (taskId: string) => {
+const useRequestTaskByTaskID = (taskId: string, isConnected?: boolean, isAuthenticated?: boolean) => {
   const [task, setTask] = useState<Task | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -31,10 +31,12 @@ const useRequestTaskByTaskID = (taskId: string) => {
       }
     };
 
-    if (taskId) {
+    if (isConnected && isAuthenticated && taskId) {
       fetchTask();
+    } else {
+      setTask(null);
     }
-  }, [taskId]); // jwtToken is not a dependency anymore since it's fetched inside the effect
+  }, [taskId, isConnected, isAuthenticated]); // jwtToken is not a dependency anymore since it's fetched inside the effect
 
   return { task, loading, error };
 };

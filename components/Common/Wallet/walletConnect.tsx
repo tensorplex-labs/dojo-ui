@@ -5,7 +5,7 @@ import { useModal } from '@/hooks/useModal';
 import { MODAL } from '@/types/ProvidersTypes';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
-import { CustomButton } from '../CustomButton';
+import { CustomButton } from '../CustomComponents/button';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {}
 
@@ -18,7 +18,7 @@ const WalletConnect = (props: Props) => {
       <CustomButton
         className={cn(
           FontSpaceMono.className,
-          'text-xs md:text-sm bg-primary rounded-none border-[2px] border-black text-font-secondary hover:shadow-brut-sm',
+          'text-xs !h-[45px] md:text-sm bg-primary rounded-none border-[2px] border-black text-font-secondary hover:shadow-brut-sm',
           className
         )}
         onClick={openModal}

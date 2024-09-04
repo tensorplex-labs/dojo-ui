@@ -1,10 +1,10 @@
 'use client';
+import { CustomButton } from '@/components/Common/CustomComponents/button';
 import Footer from '@/components/Common/Footer';
-import SubscriptionModal from '@/components/Common/SubscriptionModal';
+import SubscriptionModal from '@/components/Common/Modal/SubscriptionModal';
 import UserCard from '@/components/Common/UserCard';
 import { config } from '@/components/Common/Wallet/WagmiWalletConfig';
 import Web3Icon from '@/components/Common/Wallet/web3-icon';
-import { CustomButton } from '@/components/CustomButton';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import { useEtherScanOpen } from '@/hooks/useEtherScanOpen';
 import { useModal } from '@/hooks/useModal';
@@ -45,14 +45,14 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidt
   const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
 
   return (
-    <div className="min-h-screen bg-primaryBG-bg text-black">
+    <div className="min-h-screen max-w-screen-lg bg-primaryBG-bg text-black">
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
           <ModalProvider>
             <div className="border-b-2 border-black bg-ecru-white text-white">
               <NavigationBar openModal={() => setShowUserCard(true)} />
             </div>
-            <main className={`${!isFullWidth && 'max-w-[1075px]'} mx-auto`}>{children}</main>
+            <main className={`${!isFullWidth && 'max-w-[1075px] '} mx-auto`}>{children}</main>
             {showFooter && <hr className=" border-black" />}
             {showUserCard && (
               <UserCard closeModal={setShowUserCard}>

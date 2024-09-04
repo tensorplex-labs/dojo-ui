@@ -1,11 +1,11 @@
-import { buttonVariants } from '@/components/Common/CustomButton';
+import { buttonVariants } from '@/components/Common/CustomComponents/button';
 import { cn } from '@/utils/tw';
 import { FontManrope } from '@/utils/typography';
 import Link from 'next/link';
 
 const FAQHero = () => {
   return (
-    <div className="relative mx-auto mt-[-116px] flex h-[177px] w-[1075px] justify-between self-center border-2 border-black bg-secondary shadow-brut-sm">
+    <div className="relative mx-auto mt-[-116px] flex h-[177px] max-w-[1075px] justify-between self-center border-2 border-black bg-secondary shadow-brut-sm">
       <div className="pl-[29px] pt-[21px]">
         <h1 className={`${FontManrope.className} text-lg font-extrabold text-black`}>
           {`Not what you're looking for?`}
