@@ -58,8 +58,23 @@ const useGetTasks = (
   }, [partnerCount]);
 
   const fetchDemoTasks = useCallback(async () => {
-    setTasks(tasklistFull);
-  }, [setTasks]);
+    if (taskQuery.toLowerCase() === 'all') {
+      setTasks(tasklistFull);
+      return;
+    } else {
+      const filteredTaskList: Task[] = [];
+      taskQuery.split(',').forEach((task) => {
+        console.log('Task:', task);
+        tasklistFull.filter((t) => {
+          if (t.type.toLowerCase() === task.toLowerCase()) {
+            filteredTaskList.push(t);
+          }
+        });
+      });
+      console.log('filteredTaskList:', filteredTaskList);
+      setTasks(filteredTaskList);
+    }
+  }, [setTasks, taskQuery]);
 
   const fetchTasks = useCallback(async () => {
     if (isFetchingRef.current) {

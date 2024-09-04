@@ -3,7 +3,7 @@ import Datatable from '@/components/Common/DataTable';
 import NavigationBar from '@/components/Common/NavigationBar';
 import { WalletManagement } from '@/components/TaskListPageComponents';
 import TaskListHeader from '@/components/TaskListPageComponents/TaskListPageHeader';
-import { categories, columnDef, dropdownOptions } from '@/data';
+import { categories as cat, columnDef, dropdownOptions } from '@/data';
 import useDropdown from '@/hooks/useDropdown';
 import useGetTasks from '@/hooks/useGetTasks'; // Import the hook
 import { useModal } from '@/hooks/useModal';
@@ -24,6 +24,7 @@ import SubscriptionModal from '@/components/Common/Modal/SubscriptionModal';
 import { Pagination } from '@/components/Common/Pagination';
 import CategoryItem from '@/components/TaskListPageComponents/CategoryList/CategoryItem';
 import { ALL_CATEGORY } from '@/constants';
+import useFeature from '@/hooks/useFeature';
 import { useSIWE } from '@/hooks/useSIWE';
 import { MODAL } from '@/types/ProvidersTypes';
 
@@ -47,6 +48,11 @@ export default function Index() {
   const { disconnect } = useDisconnect();
   const { isSignedIn } = useAuth();
   const { signInWithEthereum } = useSIWE(() => console.log('post signin'));
+  const { exp } = useFeature({ kw: 'demo' });
+
+  //Demo
+  const categories = cat.concat(exp ? [{ label: '3D Model', isActive: false, taskType: '3D_MODEL' }] : []);
+
   const jwtTokenKey = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
   useEffect(() => {
     if (!isAuthenticated && isConnected && isSignedIn) {
@@ -151,7 +157,7 @@ export default function Index() {
         { shallow: true }
       );
     },
-    [activeCategories, router]
+    [activeCategories, router, categories]
   );
 
   const updateOrderSorting = useCallback(
@@ -201,51 +207,53 @@ export default function Index() {
             ))}
           </div>
           <div className="mt-[18px] flex gap-2">
-            <div ref={dropdownRef}>
-              <DropdownContainer
-                buttonText={`Sort By ${params.get('sort') === 'createdAt' ? 'Most Recent' : params.get('sort') === 'numCriteria' ? 'Least Difficult' : 'Most Attempted'}`}
-                imgSrc={`${params.get('order') === 'asc' ? '/top-arrow.svg' : '/down-arrow.svg'}`}
-                className="w-[193.89px]"
-                isOpen={isDropdownOpen}
-                onToggle={handleToggle}
-              >
-                <ul className="text-black opacity-75">
-                  {dropdownOptions.map((option, index) => (
-                    <li
-                      key={index}
-                      className={`flex  text-base font-semibold text-black ${
-                        params.get('sort') === option.value ? 'bg-secondary opacity-100' : 'py-1.5 opacity-75'
-                      } ${FontManrope.className} cursor-pointer items-center justify-between  hover:bg-secondary hover:opacity-100`}
-                    >
-                      <div className="h-full min-w-[80%]  pl-1.5" onClick={() => updateSorting(option.text)}>
-                        {option.text}
-                      </div>
-                      <div className="h-full w-1/5">
-                        {params.get('sort') === option.value ? (
-                          params.get('order') === 'asc' ? (
-                            <div
-                              key={index}
-                              className={`px-2 py-[6px] text-base font-semibold text-black opacity-75 ${FontManrope.className} cursor-pointer hover:bg-secondary hover:opacity-100`}
-                              onClick={() => updateOrderSorting('desc')}
-                            >
-                              <IconArrowNarrowUp />
-                            </div>
-                          ) : (
-                            <div
-                              key={index}
-                              className={`px-2 py-[6px] text-base font-semibold text-black opacity-75 ${FontManrope.className} cursor-pointer hover:bg-secondary hover:opacity-100`}
-                              onClick={() => updateOrderSorting('asc')}
-                            >
-                              <IconArrowNarrowDown />
-                            </div>
-                          )
-                        ) : null}
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </DropdownContainer>
-            </div>
+            {!exp && (
+              <div ref={dropdownRef}>
+                <DropdownContainer
+                  buttonText={`Sort By ${params.get('sort') === 'createdAt' ? 'Most Recent' : params.get('sort') === 'numCriteria' ? 'Least Difficult' : 'Most Attempted'}`}
+                  imgSrc={`${params.get('order') === 'asc' ? '/top-arrow.svg' : '/down-arrow.svg'}`}
+                  className="w-[193.89px]"
+                  isOpen={isDropdownOpen}
+                  onToggle={handleToggle}
+                >
+                  <ul className="text-black opacity-75">
+                    {dropdownOptions.map((option, index) => (
+                      <li
+                        key={index}
+                        className={`flex  text-base font-semibold text-black ${
+                          params.get('sort') === option.value ? 'bg-secondary opacity-100' : 'py-1.5 opacity-75'
+                        } ${FontManrope.className} cursor-pointer items-center justify-between  hover:bg-secondary hover:opacity-100`}
+                      >
+                        <div className="h-full min-w-[80%]  pl-1.5" onClick={() => updateSorting(option.text)}>
+                          {option.text}
+                        </div>
+                        <div className="h-full w-1/5">
+                          {params.get('sort') === option.value ? (
+                            params.get('order') === 'asc' ? (
+                              <div
+                                key={index}
+                                className={`px-2 py-[6px] text-base font-semibold text-black opacity-75 ${FontManrope.className} cursor-pointer hover:bg-secondary hover:opacity-100`}
+                                onClick={() => updateOrderSorting('desc')}
+                              >
+                                <IconArrowNarrowUp />
+                              </div>
+                            ) : (
+                              <div
+                                key={index}
+                                className={`px-2 py-[6px] text-base font-semibold text-black opacity-75 ${FontManrope.className} cursor-pointer hover:bg-secondary hover:opacity-100`}
+                                onClick={() => updateOrderSorting('asc')}
+                              >
+                                <IconArrowNarrowDown />
+                              </div>
+                            )
+                          ) : null}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </DropdownContainer>
+              </div>
+            )}
           </div>
         </div>
       </div>
