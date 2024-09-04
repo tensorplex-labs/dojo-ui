@@ -65,14 +65,12 @@ const useGetTasks = (
     } else {
       const filteredTaskList: Task[] = [];
       taskQuery.split(',').forEach((task) => {
-        console.log('Task:', task);
         tasklistFull.filter((t) => {
           if (t.type.toLowerCase() === task.toLowerCase()) {
             filteredTaskList.push(t);
           }
         });
       });
-      console.log('filteredTaskList:', filteredTaskList);
       setTasks(filteredTaskList);
     }
   }, [setTasks, taskQuery]);

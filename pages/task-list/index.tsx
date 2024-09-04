@@ -111,8 +111,6 @@ export default function Index() {
 
   const handleCategoryClick = useCallback(
     (categoryLabel: string) => {
-      console.log('handleCategoryClick called', categoryLabel);
-
       let updatedCategories: string[] = [];
 
       if (categoryLabel === ALL_CATEGORY) {
