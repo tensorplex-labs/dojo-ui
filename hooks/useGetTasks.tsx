@@ -58,6 +58,7 @@ const useGetTasks = (
   }, [partnerCount]);
 
   const fetchDemoTasks = useCallback(async () => {
+    setTasks([]);
     if (taskQuery.toLowerCase() === 'all') {
       setTasks(tasklistFull);
       return;
@@ -81,6 +82,7 @@ const useGetTasks = (
       console.log('Fetch request already in progress, skipping new request');
       return;
     }
+    setTasks([]);
 
     if (!jwtToken || !isAuthenticated || !isConnected) {
       localStorage.removeItem(`${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`);
