@@ -6,30 +6,41 @@ export type TaskType = 'CODE_GENERATION' | '3D_MODEL';
 export const task3d: Task = {
   taskId: 'demo4-3d',
   title: 'LLM 3D Model Task (Demo)',
-  body: 'Generate an image of a green dog.',
+  body: 'Big brown hard tortoise.',
   expireAt: '2099-12-03T15:04:00Z',
   type: '3D_MODEL',
   taskData: {
     task: '3D_MODEL',
-    prompt: 'Generate an image of a green dog.',
+    prompt: 'Generate an image of a big brown hard tortoise.',
     criteria: [
       {
         max: 100,
         min: 1,
         type: 'multi-score',
-        options: ['stabilityai/stable-diffusion-xl-base-1.0', 'runwayml/stable-diffusion-v1-5'],
+        options: [
+          'stabilityai/stable-diffusion-xl-base-1.0',
+          'runwayml/stable-diffusion-v1-5',
+          'yourm/stable-diffusion-v0-2',
+          'dllm/sd-extra-0.3',
+        ],
       },
     ],
     responses: [
       {
         model: 'stabilityai/stable-diffusion-xl-base-1.0',
-        completion: { url: 'https://dojo-files-dev.tensorplex.dev/donald_duck.ply' },
+        completion: { url: '/models/big_brown_tortoise/big_hard_brown_tortoise_1.ply' },
       },
       {
         model: 'runwayml/stable-diffusion-v1-5',
-        completion: {
-          url: 'https://dojo-files-dev.tensorplex.dev/miniature_godzilla_with_a_blue_skin_and_a_green_face.ply',
-        },
+        completion: { url: '/models/big_brown_tortoise/big_hard_brown_tortoise_2.ply' },
+      },
+      {
+        model: 'yourm/stable-diffusion-v0-2',
+        completion: { url: '/models/big_brown_tortoise/big_hard_brown_tortoise_3.ply' },
+      },
+      {
+        model: 'dllm/sd-extra-0.3',
+        completion: { url: '/models/big_brown_tortoise/big_hard_brown_tortoise_4.ply' },
       },
     ],
   },

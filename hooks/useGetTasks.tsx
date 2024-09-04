@@ -58,20 +58,19 @@ const useGetTasks = (
   }, [partnerCount]);
 
   const fetchDemoTasks = useCallback(async () => {
+    setTasks([]);
     if (taskQuery.toLowerCase() === 'all') {
       setTasks(tasklistFull);
       return;
     } else {
       const filteredTaskList: Task[] = [];
       taskQuery.split(',').forEach((task) => {
-        console.log('Task:', task);
         tasklistFull.filter((t) => {
           if (t.type.toLowerCase() === task.toLowerCase()) {
             filteredTaskList.push(t);
           }
         });
       });
-      console.log('filteredTaskList:', filteredTaskList);
       setTasks(filteredTaskList);
     }
   }, [setTasks, taskQuery]);
@@ -81,6 +80,7 @@ const useGetTasks = (
       console.log('Fetch request already in progress, skipping new request');
       return;
     }
+    setTasks([]);
 
     if (!jwtToken || !isAuthenticated || !isConnected) {
       localStorage.removeItem(`${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`);
