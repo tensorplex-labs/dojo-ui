@@ -1,7 +1,6 @@
 import CodegenViewer from '@/components/CodegenViewer';
 import Slider from '@/components/Common/Slider';
 import GaussianSplatViewer from '@/components/GaussianSplatViewer';
-import useFeature from '@/hooks/useFeature';
 import { ResponseVisualizerProps, TaskResponses } from '@/types/QuestionPageTypes';
 import { TaskType } from '@/utils/states';
 import { cn } from '@/utils/tw';
@@ -18,20 +17,10 @@ const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
   handleRatingChange,
 }) => {
   const showTitle = true;
-  const { exp } = useFeature({ kw: 'demo' });
   const renderVisualizer = (taskT: TaskType, plot: TaskResponses, index: number) => {
     switch (taskT) {
       case 'CODE_GENERATION':
-        if (exp) return <CodegenViewer encodedHtml={plot.completion.combined_html} />;
-        return (
-          <iframe
-            src={plot.completion.url || plot.completion.sandbox_url}
-            className="aspect-[3/4] w-full"
-            title="elastic-newton-69zqqk"
-            allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-            sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-          />
-        );
+        return <CodegenViewer encodedHtml={plot.completion.combined_html} />;
       case '3D_MODEL':
         return (
           <GaussianSplatViewer
