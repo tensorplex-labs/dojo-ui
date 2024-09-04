@@ -56,7 +56,11 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
   const [open, setOpen] = useState(false);
   const { isAuthenticated, isSignedIn } = useAuth();
   const { isConnected, address } = useAccount();
-  const { task, loading: isTaskLoading } = useRequestTaskByTaskID(taskId, isConnected, isAuthenticated);
+  const {
+    task,
+    loading: isTaskLoading,
+    error: taskError,
+  } = useRequestTaskByTaskID(taskId, isConnected, isAuthenticated);
   const [multiScoreOptions, setMultiScoreOptions] = useState<string[]>([]);
   const router = useRouter();
 
@@ -168,7 +172,7 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
       const defaultRatings = task.taskData.responses.reduce((acc, _, index) => {
         if (index < multiScoreOptions.length) {
           const modelKey = multiScoreOptions[index];
-          acc[modelKey] = Math.floor(maxValSlider / 2);
+          (acc as any)[modelKey] = Math.floor(maxValSlider / 2);
         }
         return acc;
       }, {});
@@ -244,25 +248,27 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
   return (
     <Layout isFullWidth>
       <div className=" my-4 flex flex-col items-center justify-center">
-        <TaskPrompt title={task?.title} taskType={taskType} formattedPrompt={formattedPrompt} />
-        <hr className={' mb-8 mt-3 w-full border-2 border-black'} />
-        <div className="  w-full ">
-          {isMultiScore && (
-            <HeadingTitle
-              title={`Question 1`}
-              subTitle="Draft the respective slider for each output according to how close the interface matches the following prompt"
-            />
-          )}
+        <div className="w-full max-w-[1200px] px-4">
+          <TaskPrompt title={task?.title} taskType={taskType} formattedPrompt={formattedPrompt} />
         </div>
-        <ResponseVisualizer
-          task={task!}
-          minValSlider={minValSlider}
-          maxValSlider={maxValSlider}
-          ratings={ratings}
-          multiScoreOptions={multiScoreOptions}
-          isMultiScore={isMultiScore}
-          handleRatingChange={handleRatingChange}
-        />
+        <hr className={' mb-8 mt-3 w-full border-2 border-black'} />
+        {isMultiScore && (
+          <HeadingTitle
+            title={`Question 1`}
+            subTitle="Draft the respective slider for each output according to how close the interface matches the following prompt"
+          />
+        )}
+        {!isTaskLoading && !taskError && task && (
+          <ResponseVisualizer
+            task={task}
+            minValSlider={minValSlider}
+            maxValSlider={maxValSlider}
+            ratings={ratings}
+            multiScoreOptions={multiScoreOptions}
+            isMultiScore={isMultiScore}
+            handleRatingChange={handleRatingChange}
+          />
+        )}
 
         {!isTaskLoading && isSlider && (
           <>

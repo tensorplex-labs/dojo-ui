@@ -1,8 +1,11 @@
 import { useSubmit } from '@/providers/submitContext';
 import { TaskPageContext } from '@/providers/taskPageContext';
+import { Task } from '@/types/QuestionPageTypes';
 import { getFromLocalStorage } from '@/utils/general_helpers';
+import { tasklistFull } from '@/utils/states';
 import { useRouter } from 'next/router';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import useFeature from './useFeature';
 
 export const taskStatus = {
   IN_PROGRESS: 'IN_PROGRESS',
@@ -11,20 +14,6 @@ export const taskStatus = {
 } as const;
 
 export type TaskStatus = (typeof taskStatus)[keyof typeof taskStatus];
-
-export interface Task {
-  taskId: string;
-  title: string;
-  body: string;
-  expireAt: string;
-  type: string;
-  taskData: any[];
-  status: TaskStatus;
-  numResults: number;
-  maxResults: number;
-  numCriteria: number;
-  isCompletedByWorker: boolean;
-}
 
 export interface Pagination {
   pageNumber: number;
@@ -62,10 +51,30 @@ const useGetTasks = (
   const router = useRouter();
   const isFetchingRef = useRef<boolean>(false);
   const { partnerCount } = useContext(TaskPageContext);
+  const { exp } = useFeature({ kw: 'demo' });
 
   useEffect(() => {
     console.log({ partnerCount });
   }, [partnerCount]);
+
+  const fetchDemoTasks = useCallback(async () => {
+    if (taskQuery.toLowerCase() === 'all') {
+      setTasks(tasklistFull);
+      return;
+    } else {
+      const filteredTaskList: Task[] = [];
+      taskQuery.split(',').forEach((task) => {
+        console.log('Task:', task);
+        tasklistFull.filter((t) => {
+          if (t.type.toLowerCase() === task.toLowerCase()) {
+            filteredTaskList.push(t);
+          }
+        });
+      });
+      console.log('filteredTaskList:', filteredTaskList);
+      setTasks(filteredTaskList);
+    }
+  }, [setTasks, taskQuery]);
 
   const fetchTasks = useCallback(async () => {
     if (isFetchingRef.current) {
@@ -114,8 +123,18 @@ const useGetTasks = (
   }, [page, limit, taskQuery, sort, order, yieldMin, yieldMax, jwtToken]);
 
   useEffect(() => {
-    console.log('useEffect inside useGetTasks', router);
     if (!router.isReady) return;
+    if (exp) {
+      fetchDemoTasks();
+      setPagination({
+        pageNumber: 1,
+        pageSize: 10,
+        totalPages: 1,
+        totalItems: tasklistFull.length,
+      });
+      setLoading(false);
+      return;
+    }
     if (jwtToken) {
       fetchTasks();
     } else {
@@ -124,9 +143,9 @@ const useGetTasks = (
       setError('No JWT token found');
       setLoading(false);
     }
-  }, [fetchTasks, jwtToken, router.isReady, partnerCount]);
+  }, [exp, fetchTasks, jwtToken, router.isReady, partnerCount]);
 
-  return { tasks, pagination, loading, error, refetchTasks: fetchTasks };
+  return { tasks, pagination, loading, error, refetchTasks: exp ? fetchDemoTasks : fetchTasks };
 };
 
 export default useGetTasks;

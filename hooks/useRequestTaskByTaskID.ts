@@ -1,15 +1,31 @@
 import { Task } from '@/types/QuestionPageTypes';
 import { getFromLocalStorage } from '@/utils/general_helpers';
+import { task3d, tasklistFull } from '@/utils/states';
 import { useEffect, useState } from 'react';
+import useFeature from './useFeature';
 
 const useRequestTaskByTaskID = (taskId: string, isConnected?: boolean, isAuthenticated?: boolean) => {
   const [task, setTask] = useState<Task | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const { exp } = useFeature({ kw: 'demo' });
+  const { exp: exp3d } = useFeature({ kw: 'demo', addParams: '3d' });
 
   useEffect(() => {
     const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
     const jwtToken = getFromLocalStorage(tokenType);
+    const fetchDemoTask = () => {
+      if (exp3d) {
+        // Demo response with 3d model
+        setTask(task3d);
+        return;
+      } else if (exp) {
+        // FInd one demo response if not just return the first one
+        const filteredTask = tasklistFull.find((t) => t.taskId === taskId);
+        setTask(filteredTask ?? tasklistFull[0]);
+        return;
+      }
+    };
     const fetchTask = async () => {
       setLoading(true);
       try {
@@ -30,13 +46,14 @@ const useRequestTaskByTaskID = (taskId: string, isConnected?: boolean, isAuthent
         setLoading(false);
       }
     };
-
-    if (isConnected && isAuthenticated && taskId) {
+    if (exp || exp3d) {
+      fetchDemoTask();
+    } else if (isConnected && isAuthenticated && taskId) {
       fetchTask();
     } else {
       setTask(null);
     }
-  }, [taskId, isConnected, isAuthenticated]); // jwtToken is not a dependency anymore since it's fetched inside the effect
+  }, [taskId, isConnected, isAuthenticated, exp, exp3d]); // jwtToken is not a dependency anymore since it's fetched inside the effect
 
   return { task, loading, error };
 };

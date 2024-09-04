@@ -1,7 +1,10 @@
+import useFeature from '@/hooks/useFeature';
 import useGetNextInProgressTask, { NextTaskResponse } from '@/hooks/useGetNextTask';
+import useScrollRestoration from '@/hooks/useScrollRestoration';
 import { useSubmit } from '@/providers/submitContext';
+import { tasklistFull } from '@/utils/states';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Button } from '../Button';
 
 const Footer: React.FC = () => {
@@ -9,6 +12,25 @@ const Footer: React.FC = () => {
   const { taskId } = router.query;
   const { handleSubmit } = useSubmit();
   const { fetchNextInProgressTask } = useGetNextInProgressTask();
+  const { exp } = useFeature({ kw: 'demo' });
+  const { saveScrollPosition, restoreScrollPosition } = useScrollRestoration();
+
+  const handleDemoTasklistRotation = useCallback(
+    (taskId: string, backward: boolean = false) => {
+      const currTask = tasklistFull.find((t) => t.taskId === taskId);
+      if (!currTask) return;
+      const currIdx = tasklistFull.indexOf(currTask);
+      let nextIdx = currIdx + 1 >= tasklistFull.length ? 0 : currIdx + 1;
+      if (backward) {
+        nextIdx = currIdx - 1 < 0 ? tasklistFull.length - 1 : currIdx - 1;
+      }
+      saveScrollPosition();
+      router.push(`/Questions?taskId=${tasklistFull[nextIdx].taskId}&exp=demo`).then(() => {
+        restoreScrollPosition();
+      });
+    },
+    [router]
+  );
 
   const handleSkip = async () => {
     if (!router.isReady) return;
@@ -22,9 +44,8 @@ const Footer: React.FC = () => {
       router.push('/task-list');
       return;
     }
-    router.push(`/Questions?taskId=${nextTaskResponse.nextInProgressTaskId}`);
+    router.replace(`/Questions?taskId=${nextTaskResponse.nextInProgressTaskId}`);
   };
-
   return (
     <div className="mx-auto max-w-[1075px] p-4">
       {/* <div className="mb-2">
@@ -86,12 +107,22 @@ const Footer: React.FC = () => {
           <Button
             buttonText={'SKIP'}
             className="!bg-muted px-[37px] py-[15px] text-black hover:shadow-brut-sm"
-            onClick={async () => handleSkip()}
+            onClick={async () => {
+              if (!exp) handleSkip();
+              else {
+                handleDemoTasklistRotation(taskId as string, true);
+              }
+            }}
           />
           <Button
             buttonText={'PROCEED'}
             className="bg-primary px-[37px] py-[15px] text-white hover:shadow-brut-sm"
-            onClick={() => handleSubmit()}
+            onClick={() => {
+              if (!exp) handleSubmit();
+              else {
+                handleDemoTasklistRotation(taskId as string);
+              }
+            }}
           />
         </div>
       </div>

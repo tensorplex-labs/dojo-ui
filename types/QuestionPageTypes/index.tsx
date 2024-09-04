@@ -1,4 +1,5 @@
 import { taskCriteria } from '@/constants';
+import { TaskType } from '@/utils/states';
 import { ColumnDef } from '@tanstack/react-table';
 import { ReactNode } from 'react';
 import { FilterDef } from '../CommonTypes';
@@ -55,7 +56,7 @@ export type ImageComponentProps = {
   fallbackSrc: string;
 };
 
-export interface LinkContentVisualizerProps {
+export interface MultiScoreContentVisualizerProps {
   title: string;
   showTitle: boolean;
   url: string;
@@ -79,18 +80,7 @@ export type MultiSelectQuestionProps = {
 };
 
 export type ResponseVisualizerProps = {
-  task?: {
-    taskData: {
-      responses: {
-        id: React.Key | null | undefined;
-        model: string;
-        htmlContent: string;
-        title: string;
-        showTitle: boolean;
-        completion: { sandbox_url: string };
-      }[];
-    };
-  };
+  task: Task;
   minValSlider: number;
   maxValSlider: number;
   ratings: { [key: string]: number };
@@ -135,7 +125,7 @@ export type Task = {
   title: string;
   body: string;
   expireAt: string;
-  type: string;
+  type: TaskType;
   taskData: {
     task: string;
     prompt: string;
@@ -145,8 +135,16 @@ export type Task = {
       max?: number;
       min?: number;
     }>;
-    responses: Array<any>;
+    responses: Array<TaskResponses>;
   };
   status: string;
   maxResults: number;
+  numResults: number;
+  numCriteria: number;
+  isCompletedByWorker: boolean;
+};
+
+export type TaskResponses = {
+  model: string;
+  completion: Record<string, any>;
 };

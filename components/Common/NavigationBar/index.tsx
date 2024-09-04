@@ -10,12 +10,14 @@ type NavigationBarProps = {
   className?: string;
 };
 
-const NavigationBar = ({ openModal, isHomePage, className }: NavigationBarProps) => {
-  const headerItems = [
-    { title: 'Task List', url: '/task-list?sort=numCriteria&order=desc' },
-    { title: 'FAQ', url: '/faq' },
-  ];
+export const headerItems = [
+  { title: 'Task List', url: '/task-list?sort=numCriteria&order=desc' },
+  { title: 'FAQ', url: '/faq' },
+  { title: 'Demo', url: '/task-list?exp=demo&?sort=numCriteria&order=desc' },
+  { title: 'Docs', url: 'https://docs.tensorplex.ai/tensorplex-docs' },
+];
 
+const NavigationBar = ({ openModal, isHomePage, className }: NavigationBarProps) => {
   return (
     <div className="flex items-center justify-center p-4">
       <nav

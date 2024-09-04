@@ -1,3 +1,4 @@
+import useFeature from '@/hooks/useFeature';
 import useSubmitTask from '@/hooks/useSubmitTask';
 import { RankOrder, SubmitContextType } from '@/types/ProvidersTypes';
 import { useRouter } from 'next/router';
@@ -30,6 +31,8 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
   const [maxMultiScore, setMaxMultiScore] = useState<number>(0);
   const [minMultiScore, setMinMultiScore] = useState<number>(0);
+
+  const { exp } = useFeature({ kw: 'demo' });
 
   const handleMaxMultiScore = (value: number) => {
     setMaxMultiScore(value);
