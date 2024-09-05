@@ -11,7 +11,7 @@ export const task3d: Task = {
   type: '3D_MODEL',
   taskData: {
     task: '3D_MODEL',
-    prompt: 'Generate an image of a big brown hard tortoise.',
+    prompt: 'Big brown hard tortoise.',
     criteria: [
       {
         max: 100,
