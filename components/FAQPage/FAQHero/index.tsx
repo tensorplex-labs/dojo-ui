@@ -10,8 +10,8 @@ const FAQHero = () => {
         <h1 className={`${FontManrope.className} text-lg font-extrabold text-black`}>
           {`Not what you're looking for?`}
         </h1>
-        <p className={`${FontManrope.className} mt-3 text-base font-medium text-black`}>
-          Dojo is a decentralized platform that leverages the collective power of human insights to train AI models.
+        <p className={`${FontManrope.className} mt-3 text-base font-medium text-black/60`}>
+          Dojo enables contributions from users of all technical levels to Decentralized AI
         </p>
         <div className="mt-3">
           <Link

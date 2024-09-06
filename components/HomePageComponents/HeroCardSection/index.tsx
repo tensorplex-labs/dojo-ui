@@ -46,8 +46,9 @@ const HeroCardSection = () => {
           <p
             className={`${FontManrope.className}  mt-3 pr-2 text-base font-medium text-gray-500 md:text-lg lg:text-xl`}
           >
-            Earn TAO through responding to AI-generated tasks across various domains. Join the crowd-sourced effort to
-            build the world&apos;s most powerful multimodal AI models.
+            Complete diverse tasks to advance AI development. Contribute to powerful multimodal models through
+            crowd-sourced intelligence. Accelerate decentralized AI while earning rewards.
+            <span className="inline-block font-bold text-primary">&nbsp;Welcome to Dojo Network</span>.
           </p>
           <div className="mb-5 mt-4">
             <GetStartedButton />

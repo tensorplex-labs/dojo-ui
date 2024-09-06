@@ -22,16 +22,7 @@ const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
   const renderVisualizer = (taskT: TaskType, plot: TaskResponses, index: number) => {
     switch (taskT) {
       case 'CODE_GENERATION':
-        if (exp) return <CodegenViewer encodedHtml={plot.completion.combined_html} />;
-        return (
-          <iframe
-            src={plot.completion.url || plot.completion.sandbox_url}
-            className="aspect-[3/4] w-full"
-            title="elastic-newton-69zqqk"
-            allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-            sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-          />
-        );
+        return <CodegenViewer encodedHtml={plot.completion.combined_html} />;
       case '3D_MODEL':
         return (
           <GaussianSplatViewer
@@ -39,6 +30,8 @@ const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
             url={plot.completion.url}
           ></GaussianSplatViewer>
         );
+      case 'TEXT_TO_IMAGE':
+        return <img alt="image" src={`https://${plot.completion.url}`} />;
       default:
         return;
     }
@@ -48,7 +41,6 @@ const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
     <div className="grid w-full max-w-[1200px] grid-cols-1 gap-x-5 gap-y-10 px-4 md:grid-cols-2">
       {task.taskData.responses.map((plot, index) => (
         <div key={`${task.type}_${index}`} className="flex w-full flex-col justify-center ">
-          {showTitle && <p className={`text-start font-bold ${FontSpaceMono.className}`}>{plot.model}</p>}
           <div
             className={`flex h-fit w-full flex-col rounded-none  ${isMultiScore && 'border-2 border-black bg-ecru-white shadow-brut-sm'} `}
           >

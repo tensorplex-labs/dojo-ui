@@ -251,7 +251,7 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
         <div className="w-full max-w-[1200px] px-4">
           <TaskPrompt title={task?.title} taskType={taskType} formattedPrompt={formattedPrompt} />
         </div>
-        <hr className={' mb-8 mt-3 w-full border-2 border-black'} />
+        <hr className={' mb-8 mt-3 w-full border-t-2 border-black'} />
         {isMultiScore && (
           <HeadingTitle
             title={`Question 1`}
