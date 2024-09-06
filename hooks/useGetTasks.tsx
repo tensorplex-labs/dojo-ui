@@ -83,7 +83,6 @@ const useGetTasks = (
     }
 
     if (!jwtToken || !isAuthenticated || !isConnected) {
-      localStorage.removeItem(`${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`);
       setTasks([]);
       setPagination(null);
       setError('No JWT token found');
