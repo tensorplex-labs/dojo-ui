@@ -146,5 +146,5 @@ export type Task = {
 
 export type TaskResponses = {
   model: string;
-  completion: Record<string, any>; // The reason why this is like this because backend payload is not consistent. So frontend has to do a if else check everytime we access completion. Which is in every visualization.
+  completion: Record<string, any>;
 };
