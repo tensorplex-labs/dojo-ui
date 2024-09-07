@@ -103,7 +103,7 @@ const useGaussianSplatViewer = (plyUrl: string) => {
           });
       }, 500);
     };
-  }, []);
+  }, [plyUrl]);
 
   return {
     containerRef,

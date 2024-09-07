@@ -1,7 +1,7 @@
 import useQueryFunc from '@/hooks/useQueryFuncs';
 import { TaskPromptProps } from '@/types/QuestionPageTypes';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
-import { IconBulbFilled } from '@tabler/icons-react';
+import { IconTerminal } from '@tabler/icons-react';
 import React from 'react';
 
 const TaskPrompt: React.FC<TaskPromptProps> = ({ title, taskType, formattedPrompt }) => {
@@ -22,7 +22,7 @@ const TaskPrompt: React.FC<TaskPromptProps> = ({ title, taskType, formattedPromp
          rounded-xl border-2 border-black font-bold tracking-wider`}
       >
         <div className="animate-pulse p-2">
-          <IconBulbFilled className="size-7 shrink-0 rounded-full  p-[3px]" />
+          <IconTerminal className="size-7 shrink-0 rounded-full  p-[3px]" />
         </div>
         <div className="flex h-full min-h-[44px] items-center whitespace-pre-wrap  p-2 pl-0">{formattedPrompt}</div>
       </div>

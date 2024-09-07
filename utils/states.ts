@@ -57,53 +57,283 @@ export const taskTTI: Task = {
 };
 
 // Demo data for codes
-export const task3d: Task = {
-  taskId: 'demo4-3d',
-  title: 'LLM 3D Model Task (Demo)',
-  body: 'Big brown hard tortoise.',
-  expireAt: '2099-12-03T15:04:00Z',
-  type: '3D_MODEL',
-  taskData: {
-    task: '3D_MODEL',
-    prompt: 'Big brown hard tortoise.',
-    criteria: [
-      {
-        max: 100,
-        min: 1,
-        type: 'multi-score',
-        options: [
-          'stabilityai/stable-diffusion-xl-base-1.0',
-          'runwayml/stable-diffusion-v1-5',
-          'yourm/stable-diffusion-v0-2',
-          'dllm/sd-extra-0.3',
-        ],
-      },
-    ],
-    responses: [
-      {
-        model: 'stabilityai/stable-diffusion-xl-base-1.0',
-        completion: { url: '/models/big_brown_tortoise/big_hard_brown_tortoise_1.ply' },
-      },
-      {
-        model: 'runwayml/stable-diffusion-v1-5',
-        completion: { url: '/models/big_brown_tortoise/big_hard_brown_tortoise_2.ply' },
-      },
-      {
-        model: 'yourm/stable-diffusion-v0-2',
-        completion: { url: '/models/big_brown_tortoise/big_hard_brown_tortoise_3.ply' },
-      },
-      {
-        model: 'dllm/sd-extra-0.3',
-        completion: { url: '/models/big_brown_tortoise/big_hard_brown_tortoise_4.ply' },
-      },
-    ],
+export const task3d: Task[] = [
+  {
+    taskId: 'demo8-3d',
+    title: 'LLM 3D Model Task (Demo)',
+    body: 'Crisp Lettuce in a bowl.',
+    expireAt: '2099-12-03T15:04:00Z',
+    type: '3D_MODEL',
+    taskData: {
+      task: '3D_MODEL',
+      prompt: 'Crisp Lettuce in a bowl.',
+      criteria: [
+        {
+          max: 100,
+          min: 1,
+          type: 'multi-score',
+          options: [
+            'stabilityai/stable-diffusion-xl-base-1.0',
+            'runwayml/stable-diffusion-v1-5',
+            'yourm/stable-diffusion-v0-2',
+            'dllm/sd-extra-0.3',
+          ],
+        },
+      ],
+      responses: [
+        {
+          model: 'stabilityai/stable-diffusion-xl-base-1.0',
+          completion: {
+            url: 'https://dojo-files-dev.tensorplex.dev/demo/crisp_lettuce_in_bowl.5G6NHLWHx9qqDid5J8w8K8MCyJzny2b1KDYuHtMStjHMpdsL.ply',
+          },
+        },
+        {
+          model: 'runwayml/stable-diffusion-v1-5',
+          completion: {
+            url: 'https://dojo-files-dev.tensorplex.dev/demo/crisp_lettuce_in_bowl.5DCq8TQ4JQh2r5TGoMx18qzgFQadvqHdwmP8EWiTM1eb3VKk.ply',
+          },
+        },
+        {
+          model: 'yourm/stable-diffusion-v0-2',
+          completion: {
+            url: 'https://dojo-files-dev.tensorplex.dev/demo/crisp_lettuce_in_bowl.5EfRE6UGyeJYd8cTPJnZVBc4GwjMpGfik3U4cNBnp6Skjd2T.ply',
+          },
+        },
+        {
+          model: 'dllm/sd-extra-0.3',
+          completion: {
+            url: 'https://dojo-files-dev.tensorplex.dev/demo/crisp_lettuce_in_bowl.5CStaWfMH2E7oVGgGZsC2pDqgGjRjgy3Mjtq8eUrEL5Wwhg1.ply',
+          },
+        },
+      ],
+    },
+    status: 'IN_PROGRESS',
+    maxResults: 10,
+    numResults: 2,
+    numCriteria: 4,
+    isCompletedByWorker: false,
   },
-  status: 'IN_PROGRESS',
-  maxResults: 10,
-  numResults: 9,
-  numCriteria: 4,
-  isCompletedByWorker: false,
-};
+  {
+    taskId: 'demo9-3d',
+    title: 'LLM 3D Model Task (Demo)',
+    body: 'Delicate Ivory dove in flight',
+    expireAt: '2099-12-03T15:04:00Z',
+    type: '3D_MODEL',
+    taskData: {
+      task: '3D_MODEL',
+      prompt: 'Delicate Ivory dove in flight',
+      criteria: [
+        {
+          max: 100,
+          min: 1,
+          type: 'multi-score',
+          options: [
+            'stabilityai/stable-diffusion-xl-base-1.0',
+            'runwayml/stable-diffusion-v1-5',
+            'yourm/stable-diffusion-v0-2',
+            'dllm/sd-extra-0.3',
+          ],
+        },
+      ],
+      responses: [
+        {
+          model: 'stabilityai/stable-diffusion-xl-base-1.0',
+          completion: {
+            url: 'https://dojo-files-dev.tensorplex.dev/demo/delicate_ivory_dove_in_flight_pose.5CAiiURk1jVeLmMNTFyHEhxzR3SU3UnJyZZHnUMMN35aJqGn.ply',
+          },
+        },
+        {
+          model: 'runwayml/stable-diffusion-v1-5',
+          completion: {
+            url: 'https://dojo-files-dev.tensorplex.dev/demo/delicate_ivory_dove_in_flight_pose.5EUprUJg7c2FbL2QRoJQBH2yDGqJtWSuDEjiCgYzcUfEkHkH.ply',
+          },
+        },
+        {
+          model: 'yourm/stable-diffusion-v0-2',
+          completion: {
+            url: 'https://dojo-files-dev.tensorplex.dev/demo/delicate_ivory_dove_in_flight_pose.5FjreG2tJURByXbFUhQ1R9o3TdXgqKFgjGmVaYwFrVpzmEWH.ply',
+          },
+        },
+        {
+          model: 'dllm/sd-extra-0.3',
+          completion: {
+            url: 'https://dojo-files-dev.tensorplex.dev/demo/delicate_ivory_dove_in_flight_pose.5H3WL3VFN3kG6aWugfSgZThkwgpnKWuQrpNFp8VMwRVtV6CM.ply',
+          },
+        },
+      ],
+    },
+    status: 'IN_PROGRESS',
+    maxResults: 10,
+    numResults: 5,
+    numCriteria: 4,
+    isCompletedByWorker: false,
+  },
+  {
+    taskId: 'demo10-3d',
+    title: 'LLM 3D Model Task (Demo)',
+    body: 'Black fururistic flying taxi drone',
+    expireAt: '2099-12-03T15:04:00Z',
+    type: '3D_MODEL',
+    taskData: {
+      task: '3D_MODEL',
+      prompt: 'Black fururistic flying taxi drone',
+      criteria: [
+        {
+          max: 100,
+          min: 1,
+          type: 'multi-score',
+          options: [
+            'stabilityai/stable-diffusion-xl-base-1.0',
+            'runwayml/stable-diffusion-v1-5',
+            'yourm/stable-diffusion-v0-2',
+            'dllm/sd-extra-0.3',
+          ],
+        },
+      ],
+      responses: [
+        {
+          model: 'stabilityai/stable-diffusion-xl-base-1.0',
+          completion: {
+            url: 'https://dojo-files-dev.tensorplex.dev/demo/black_futuristic_flying_taxi_drone.5D7Hab1M1NRiDUGnpoJiFMR2r2tSZjn8WfWbYeoF7BBJQ8nW.ply',
+          },
+        },
+        {
+          model: 'runwayml/stable-diffusion-v1-5',
+          completion: {
+            url: 'https://dojo-files-dev.tensorplex.dev/demo/black_futuristic_flying_taxi_drone.5DFyGvRohJ94m6eiJMueNBDUJe5H2QM3jFxBvtaQs6grMCpQ.ply',
+          },
+        },
+        {
+          model: 'yourm/stable-diffusion-v0-2',
+          completion: {
+            url: 'https://dojo-files-dev.tensorplex.dev/demo/black_futuristic_flying_taxi_drone.5DWziseiAWej3yj2ZktR2vLDkvAq38fc32r4ADmMCeA54ZaG.ply',
+          },
+        },
+        {
+          model: 'dllm/sd-extra-0.3',
+          completion: {
+            url: 'https://dojo-files-dev.tensorplex.dev/demo/black_futuristic_flying_taxi_drone.5GYak58BXQJDEt3szXC3eKBV81kvhTqKXsTpVBCnbPRGPRGi.ply',
+          },
+        },
+      ],
+    },
+    status: 'IN_PROGRESS',
+    maxResults: 10,
+    numResults: 7,
+    numCriteria: 4,
+    isCompletedByWorker: false,
+  },
+  {
+    taskId: 'demo11-3d',
+    title: 'LLM 3D Model Task (Demo)',
+    body: 'Zebra with Stripes running through plains.',
+    expireAt: '2099-12-03T15:04:00Z',
+    type: '3D_MODEL',
+    taskData: {
+      task: '3D_MODEL',
+      prompt: 'Zebra with Stripes running through plains.',
+      criteria: [
+        {
+          max: 100,
+          min: 1,
+          type: 'multi-score',
+          options: [
+            'stabilityai/stable-diffusion-xl-base-1.0',
+            'runwayml/stable-diffusion-v1-5',
+            'yourm/stable-diffusion-v0-2',
+            'dllm/sd-extra-0.3',
+          ],
+        },
+      ],
+      responses: [
+        {
+          model: 'stabilityai/stable-diffusion-xl-base-1.0',
+          completion: {
+            url: 'https://dojo-files-dev.tensorplex.dev/demo/zebra_with_stripes_running_through_plains.5DCbyAdY3wst6JHbJmpwNSegeKDpQrvciedLFcDap9ieRDav.ply',
+          },
+        },
+        {
+          model: 'runwayml/stable-diffusion-v1-5',
+          completion: {
+            url: 'https://dojo-files-dev.tensorplex.dev/demo/zebra_with_stripes_running_through_plains.5EkRJfcGTf8qXEspk1zFpcTfVZhA3E2W8Rc7MRbdE7WuBeKP.ply',
+          },
+        },
+        {
+          model: 'yourm/stable-diffusion-v0-2',
+          completion: {
+            url: 'https://dojo-files-dev.tensorplex.dev/demo/zebra_with_stripes_running_through_plains.5Et482RACNeu5NBhWxNkGiFX9ZbfFERcDGgq9ecSbs4dSN2W.ply',
+          },
+        },
+        {
+          model: 'dllm/sd-extra-0.3',
+          completion: {
+            url: 'https://dojo-files-dev.tensorplex.dev/demo/zebra_with_stripes_running_through_plains.5HNU3CX1UD4rM3nuxAHV76Sypdc5ggukWsKDbRZ1xdqLNGry.ply',
+          },
+        },
+      ],
+    },
+    status: 'IN_PROGRESS',
+    maxResults: 10,
+    numResults: 1,
+    numCriteria: 4,
+    isCompletedByWorker: false,
+  },
+  {
+    taskId: 'demo12-3d',
+    title: 'LLM 3D Model Task (Demo)',
+    body: 'Black and yellow gaming chair',
+    expireAt: '2099-12-03T15:04:00Z',
+    type: '3D_MODEL',
+    taskData: {
+      task: '3D_MODEL',
+      prompt: 'Black and yellow gaming chair',
+      criteria: [
+        {
+          max: 100,
+          min: 1,
+          type: 'multi-score',
+          options: [
+            'stabilityai/stable-diffusion-xl-base-1.0',
+            'runwayml/stable-diffusion-v1-5',
+            'yourm/stable-diffusion-v0-2',
+            'dllm/sd-extra-0.3',
+          ],
+        },
+      ],
+      responses: [
+        {
+          model: 'stabilityai/stable-diffusion-xl-base-1.0',
+          completion: {
+            url: 'https://dojo-files-dev.tensorplex.dev/demo/black_and_yellow_curved_gaming_chair.5DAAKc3EMwY4axcUWiguzEVM3j459iV3Q2EdeFGKsotgNn8m.ply',
+          },
+        },
+        {
+          model: 'runwayml/stable-diffusion-v1-5',
+          completion: {
+            url: 'https://dojo-files-dev.tensorplex.dev/demo/black_and_yellow_curved_gaming_chair.5DoBghUER3kRpkVbSfRjCx4vUyhaiRMjC6dgnEAqf2eWtART.ply',
+          },
+        },
+        {
+          model: 'yourm/stable-diffusion-v0-2',
+          completion: {
+            url: 'https://dojo-files-dev.tensorplex.dev/demo/black_and_yellow_curved_gaming_chair.5E2DF4pFKhtfDHmDSG3mCA33PNMeBeNoExTLp4JLjPg4pz2M.ply',
+          },
+        },
+        {
+          model: 'dllm/sd-extra-0.3',
+          completion: {
+            url: 'https://dojo-files-dev.tensorplex.dev/demo/black_and_yellow_curved_gaming_chair.5EPFaPcqs78JoktAZ2R1MC7GAKMhzXiS8ZyBQr3EKANfpfWU.ply',
+          },
+        },
+      ],
+    },
+    status: 'IN_PROGRESS',
+    maxResults: 10,
+    numResults: 1,
+    numCriteria: 4,
+    isCompletedByWorker: false,
+  },
+];
 
 export const tasklistCodegen: Task[] = [
   {

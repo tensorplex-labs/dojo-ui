@@ -1,7 +1,6 @@
 import CodegenViewer from '@/components/CodegenViewer';
 import Slider from '@/components/Common/Slider';
 import GaussianSplatViewer from '@/components/GaussianSplatViewer';
-import useFeature from '@/hooks/useFeature';
 import { ResponseVisualizerProps, TaskResponses } from '@/types/QuestionPageTypes';
 import { TaskType } from '@/utils/states';
 import { cn } from '@/utils/tw';
@@ -17,13 +16,13 @@ const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
   isMultiScore,
   handleRatingChange,
 }) => {
-  const showTitle = true;
-  const { exp } = useFeature({ kw: 'demo' });
   const renderVisualizer = (taskT: TaskType, plot: TaskResponses, index: number) => {
+    let ttiUrl = '';
     switch (taskT) {
       case 'CODE_GENERATION':
         return <CodegenViewer encodedHtml={plot.completion.combined_html} />;
       case '3D_MODEL':
+        console.log('rendering', plot.completion.url);
         return (
           <GaussianSplatViewer
             className={cn('max-h-[700px] h-full w-auto max-w-full aspect-square')}
@@ -31,7 +30,10 @@ const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
           ></GaussianSplatViewer>
         );
       case 'TEXT_TO_IMAGE':
-        return <img alt="image" src={`https://${plot.completion.url}`} />;
+        ttiUrl = (plot.completion.url as string).startsWith('http')
+          ? plot.completion.url
+          : `https://${plot.completion.url}`;
+        return <img alt="image" src={ttiUrl} />;
       default:
         return;
     }
