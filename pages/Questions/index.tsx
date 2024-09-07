@@ -248,10 +248,10 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
   return (
     <Layout isFullWidth>
       <div className=" my-4 flex flex-col items-center justify-center">
-        <div className="w-full max-w-[1200px] px-4">
+        <div className="w-full max-w-[1200px]">
           <TaskPrompt title={task?.title} taskType={taskType} formattedPrompt={formattedPrompt} />
         </div>
-        <hr className={' mb-8 mt-3 w-full border-2 border-black'} />
+        <hr className={' mb-8 mt-3 w-full border-t-2 border-black'} />
         {isMultiScore && (
           <HeadingTitle
             title={`Question 1`}

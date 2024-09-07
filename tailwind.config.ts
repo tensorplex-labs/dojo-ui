@@ -19,8 +19,15 @@ const config: Config = {
           '0%, 100%': { transform: 'translateY(0) scale(1.4)' },
           '50%': { transform: 'translateY(-12px) scale(1.9)' },
         },
+        blinkingBg: {
+          '0%': { opacity: '1' },
+          '49%': { opacity: '1' },
+          '50%': { opacity: '0' },
+          '100%': { opacity: '0' },
+        },
       },
       animation: {
+        blinkingBg: 'blinkingBg 1s ease-in-out infinite',
         pulseY: 'pulseY 2s ease-in-out infinite',
         pulseYandScale: 'pulseYandScale 2s ease-in-out infinite',
       },

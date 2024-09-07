@@ -1,11 +1,11 @@
 import CodegenViewer from '@/components/CodegenViewer';
-import Slider from '@/components/Common/Slider';
 import GaussianSplatViewer from '@/components/GaussianSplatViewer';
 import { ResponseVisualizerProps, TaskResponses } from '@/types/QuestionPageTypes';
 import { TaskType } from '@/utils/states';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
 import React from 'react';
+import Slider from '../Slider';
 
 const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
   task,
@@ -16,18 +16,24 @@ const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
   isMultiScore,
   handleRatingChange,
 }) => {
-  const showTitle = true;
   const renderVisualizer = (taskT: TaskType, plot: TaskResponses, index: number) => {
+    let ttiUrl = '';
     switch (taskT) {
       case 'CODE_GENERATION':
         return <CodegenViewer encodedHtml={plot.completion.combined_html} />;
       case '3D_MODEL':
+        console.log('rendering', plot.completion.url);
         return (
           <GaussianSplatViewer
             className={cn('max-h-[700px] h-full w-auto max-w-full aspect-square')}
             url={plot.completion.url}
           ></GaussianSplatViewer>
         );
+      case 'TEXT_TO_IMAGE':
+        ttiUrl = (plot.completion.url as string).startsWith('http')
+          ? plot.completion.url
+          : `https://${plot.completion.url}`;
+        return <img alt="image" src={ttiUrl} />;
       default:
         return;
     }
@@ -37,7 +43,6 @@ const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
     <div className="grid w-full max-w-[1200px] grid-cols-1 gap-x-5 gap-y-10 px-4 md:grid-cols-2">
       {task.taskData.responses.map((plot, index) => (
         <div key={`${task.type}_${index}`} className="flex w-full flex-col justify-center ">
-          {showTitle && <p className={`text-start font-bold ${FontSpaceMono.className}`}>{plot.model}</p>}
           <div
             className={`flex h-fit w-full flex-col rounded-none  ${isMultiScore && 'border-2 border-black bg-ecru-white shadow-brut-sm'} `}
           >

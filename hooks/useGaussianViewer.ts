@@ -60,7 +60,7 @@ const useGaussianSplatViewer = (plyUrl: string) => {
       //dynamically import gaussian splats 3d
       viewer = new GaussianSplats3D.Viewer({
         cameraUp: [0, 1, 0],
-        initialCameraPosition: [0, 0, 10],
+        initialCameraPosition: [0, 0, 7],
         initialCameraLookAt: [0, 0, 0],
         rootElement: containerRef.current,
         sharedMemoryForWorkers: false,
@@ -103,7 +103,7 @@ const useGaussianSplatViewer = (plyUrl: string) => {
           });
       }, 500);
     };
-  }, []);
+  }, [plyUrl]);
 
   return {
     containerRef,

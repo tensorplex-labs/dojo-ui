@@ -41,11 +41,11 @@ const Slider: React.FC<SliderProps> = ({
         step={step}
         value={value}
         onChange={handleSliderChange}
-        className={`border-end h-1.5 w-full cursor-pointer appearance-none border border-e border-black bg-transparent focus:outline-none disabled:pointer-events-none disabled:opacity-50
+        className={`border-end h-1.5 w-full cursor-pointer appearance-none border border-e border-black bg-transparent focus:outline-none disabled:pointer-events-none
+        disabled:opacity-50
         [&::-webkit-slider-thumb]:z-50
-        [&::-webkit-slider-thumb]:-ml-0.5
-        [&::-webkit-slider-thumb]:-mt-0.5
-        [&::-webkit-slider-thumb]:size-[13px]
+        [&::-webkit-slider-thumb]:size-[14px]
+        [&::-webkit-slider-thumb]:translate-x-[-30%]
         [&::-webkit-slider-thumb]:appearance-none
         [&::-webkit-slider-thumb]:rounded-full
         [&::-webkit-slider-thumb]:bg-muted
