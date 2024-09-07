@@ -1,11 +1,11 @@
 import CodegenViewer from '@/components/CodegenViewer';
-import Slider from '@/components/Common/Slider';
 import GaussianSplatViewer from '@/components/GaussianSplatViewer';
 import { ResponseVisualizerProps, TaskResponses } from '@/types/QuestionPageTypes';
 import { TaskType } from '@/utils/states';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
 import React from 'react';
+import Slider from '../Slider';
 
 const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
   task,
