@@ -56,28 +56,26 @@ const Page = () => {
 
   return (
     <div className="h-full bg-background text-black">
-      <div>
-        <div className="h-[320px] border-b-2 border-black bg-background-accent">
-          <NavigationBar openModal={() => setShowUserCard(true)} />
-          <h1
-            className={`${FontSpaceMono.className} my-2 mt-5 text-center text-4xl font-bold tracking-wide text-font-primary`}
-          >
-            FREQUENTLY ASKED QUESTIONS
-          </h1>
-        </div>
-        <FAQHero />
-        <FAQList />
-        {showUserCard && (
-          <WalletManagement
-            address={address || ''}
-            openModal={openModal}
-            closeModal={setShowUserCard}
-            setShowUserCard={setShowUserCard}
-            setShowSubscriptionCard={setIsModalVisible}
-          />
-        )}{' '}
-        {isModalVisible && <SubscriptionModal setIsModalVisible={setIsModalVisible} isModalVisible={isModalVisible} />}
+      <div className="h-[320px] border-b-2 border-black bg-background-accent">
+        <NavigationBar openModal={() => setShowUserCard(true)} />
+        <h1
+          className={`${FontSpaceMono.className} my-2 mt-5 text-center text-4xl font-bold tracking-wide text-font-primary`}
+        >
+          FREQUENTLY ASKED QUESTIONS
+        </h1>
       </div>
+      <FAQHero />
+      <FAQList />
+      {showUserCard && (
+        <WalletManagement
+          address={address || ''}
+          openModal={openModal}
+          closeModal={setShowUserCard}
+          setShowUserCard={setShowUserCard}
+          setShowSubscriptionCard={setIsModalVisible}
+        />
+      )}{' '}
+      {isModalVisible && <SubscriptionModal setIsModalVisible={setIsModalVisible} isModalVisible={isModalVisible} />}
     </div>
   );
 };
