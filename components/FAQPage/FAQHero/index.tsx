@@ -6,8 +6,8 @@ import Link from 'next/link';
 const FAQHero = () => {
   return (
     <div className="px-4">
-      <div className="relative mx-auto mt-[-116px] flex h-[177px] max-w-[1075px] justify-between self-center border-2 border-black bg-secondary shadow-brut-sm">
-        <div className="pl-[29px] pt-[21px]">
+      <div className="relative mx-auto mt-[-116px] flex h-fit max-w-[1075px] justify-between self-center border-2 border-black bg-secondary shadow-brut-sm">
+        <div className="px-[29px] py-[21px]">
           <h1 className={`${FontManrope.className} text-lg font-extrabold text-black`}>
             {`Not what you're looking for?`}
           </h1>
