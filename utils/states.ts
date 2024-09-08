@@ -1284,5 +1284,9 @@ export const tasklistCodegen: Task[] = [
     isCompletedByWorker: false,
   },
 ];
-
-export const tasklistFull: Task[] = tasklistCodegen.concat(task3d).concat(taskTTI);
+export const tasklistFull: Task[] = tasklistCodegen
+  .concat(task3d)
+  .concat(taskTTI)
+  .map((task, idx) => {
+    return { ...task, taskId: `demo_${idx}` };
+  });
