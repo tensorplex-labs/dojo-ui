@@ -34,6 +34,7 @@ const useGaussianSplatViewer = (plyUrl: string) => {
   }, []);
 
   useEffect(() => {
+    setReady(false);
     const load = async () => {
       await retry(
         async () => {

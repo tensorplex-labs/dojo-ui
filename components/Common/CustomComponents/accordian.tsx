@@ -32,7 +32,7 @@ const Accordion = ({ className, title, children, ...props }: Props) => {
       }}
       className={cn(
         FontManrope.className,
-        'relative overflow-hidden transition-all duration-300 py-[8px] px-[16px]',
+        'relative overflow-hidden transition-all w-full duration-300 py-[8px] px-[16px]',
         className
       )}
     >
