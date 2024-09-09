@@ -329,7 +329,6 @@ export const faqList = [
 ];
 
 export const categories = [
-  { label: 'All', isActive: true },
   { label: 'Code Generation', isActive: false, taskType: 'CODE_GENERATION' },
   { label: 'Text To Image', isActive: false, taskType: 'TEXT_TO_IMAGE' },
   { label: 'Dialogue', isActive: false, taskType: 'DIALOGUE' },
