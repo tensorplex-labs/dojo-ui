@@ -22,7 +22,6 @@ const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
       case 'CODE_GENERATION':
         return <CodegenViewer encodedHtml={plot.completion.combined_html} />;
       case '3D_MODEL':
-        console.log('rendering', plot.completion.url);
         return (
           <GaussianSplatViewer
             className={cn('max-h-[700px] h-full w-auto max-w-full aspect-square')}
