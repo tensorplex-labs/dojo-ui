@@ -35,6 +35,8 @@ const useGaussianSplatViewer = (plyUrl: string) => {
 
   useEffect(() => {
     setReady(false);
+    let rotationInterval: NodeJS.Timeout;
+
     const load = async () => {
       await retry(
         async () => {
@@ -45,6 +47,16 @@ const useGaussianSplatViewer = (plyUrl: string) => {
           if (viewerRef.current.isLoadingOrUnloading()) {
             throw new Error('viewer is still loading');
           }
+          const sceneIndex = 0; // Assuming the first scene added
+          const scene = viewer.getSplatScene(sceneIndex);
+
+          // Rotate the scene by 45 degrees on the Y-axis
+          const angle = Math.PI / 512;
+          scene.rotateOnAxis({ x: 0, y: 1, z: 0 }, angle);
+          rotationInterval = setInterval(() => {
+            scene.rotateOnAxis({ x: 0, y: 1, z: 0 }, angle);
+          }, 12);
+
           setReady(true);
         },
         { maxRetries: 5, delayMs: 500 }
@@ -65,6 +77,7 @@ const useGaussianSplatViewer = (plyUrl: string) => {
         initialCameraLookAt: [0, 0, 0],
         rootElement: containerRef.current,
         sharedMemoryForWorkers: false,
+        dynamicScene: true,
       });
       viewerRef.current = viewer;
 
@@ -74,7 +87,7 @@ const useGaussianSplatViewer = (plyUrl: string) => {
           splatAlphaRemovalThreshold: 5,
           showLoadingUI: true,
           // position: [0, 0, 0],
-          // rotation: [0, 0, 0, 1],
+          rotation: [0, 0, 0, 1],
           scale: [5, 5, 5],
         })
         .then(() => {
@@ -86,9 +99,15 @@ const useGaussianSplatViewer = (plyUrl: string) => {
           setError(error);
         });
     } catch (err) {}
+
     // loadViewer(); //This is to init the viewer
     load(); //This is to constantly poll if the viewer is still loading anot
+
     return () => {
+      if (rotationInterval) {
+        clearInterval(rotationInterval);
+      }
+
       //   Timeout is set because .dispose will pass a empty reason to abortHandler if it's still loading. This is library's fault.
       //   Workaround is to ensure that the viewer is disposed only after everything is loaded.
       //   By waiting for everything to be loaded, we ensure the viewer is disposed without aborting anything.
