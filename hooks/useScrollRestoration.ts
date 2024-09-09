@@ -11,14 +11,16 @@ const useScrollRestoration = () => {
   }, []);
 
   const saveScrollPosition = useCallback(() => {
-    sessionStorage.setItem(`scrollPosition_${router.asPath}`, JSON.stringify({ x: window.scrollX, y: window.scrollY }));
+    const scrollPercentage = (window.scrollY + window.innerHeight) / document.documentElement.scrollHeight;
+    sessionStorage.setItem(`scrollPosition_${router.asPath}`, JSON.stringify(scrollPercentage));
   }, [router.asPath]);
 
   const restoreScrollPosition = useCallback(() => {
     const scrollData = sessionStorage.getItem(`scrollPosition_${router.asPath}`);
     if (scrollData) {
-      const { x, y } = JSON.parse(scrollData);
-      window.scrollTo(x, y);
+      const scrollPercentage = JSON.parse(scrollData);
+      const scrollY = scrollPercentage * document.documentElement.scrollHeight - window.innerHeight;
+      window.scrollTo(0, scrollY);
     }
   }, [router.asPath]);
 

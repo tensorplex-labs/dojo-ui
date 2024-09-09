@@ -2,6 +2,7 @@ import useFeature from '@/hooks/useFeature';
 import useGetNextInProgressTask, { NextTaskResponse } from '@/hooks/useGetNextTask';
 import useScrollRestoration from '@/hooks/useScrollRestoration';
 import { useSubmit } from '@/providers/submitContext';
+import { wait } from '@/utils/general_helpers';
 import { tasklistFull } from '@/utils/states';
 import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
@@ -25,7 +26,8 @@ const Footer: React.FC = () => {
         nextIdx = currIdx - 1 < 0 ? tasklistFull.length - 1 : currIdx - 1;
       }
       saveScrollPosition();
-      router.push(`/Questions?taskId=${tasklistFull[nextIdx].taskId}&exp=demo`).then(() => {
+      router.push(`/Questions?taskId=${tasklistFull[nextIdx].taskId}&exp=demo`).then(async () => {
+        await wait(100);
         restoreScrollPosition();
       });
     },
