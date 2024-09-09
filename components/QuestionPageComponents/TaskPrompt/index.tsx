@@ -7,12 +7,12 @@ import React from 'react';
 const TaskPrompt: React.FC<TaskPromptProps> = ({ title, taskType, formattedPrompt }) => {
   const { updateQueryString } = useQueryFunc();
   return (
-    <div className="flex max-w-[1200px] flex-col justify-center gap-[15px] md:px-4 md:py-2 lg:px-4 lg:py-2">
-      <div className={`flex items-center text-start ${FontManrope.className} gap-2 text-2xl font-bold`}>
-        {title}
+    <div className="flex max-w-[1200px] flex-col justify-center gap-[15px] px-4 md:py-2">
+      <div className={`flex flex-wrap items-center text-start ${FontManrope.className} gap-2 text-2xl font-bold`}>
+        <span className="">{title}</span>
         {`  `}
         <div
-          className={`${FontSpaceMono.className} h-fit rounded-[20px] border border-black bg-goldenYellow px-2.5 text-[13px] font-bold text-white`}
+          className={`${FontSpaceMono.className} h-fit  rounded-[20px] border border-black bg-goldenYellow px-2.5 text-[13px] font-bold text-white`}
         >
           {taskType} PROMPT
         </div>
