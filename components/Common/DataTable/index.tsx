@@ -88,7 +88,7 @@ const Datatable = ({
   const [globalFilter, setGlobalFilter] = useState('');
   const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
   const tableContainerRef = useRef<HTMLDivElement>(null);
-
+  const initialPageSize = pageSize;
   // Table instance
   const table = useReactTable({
     data,
@@ -97,19 +97,18 @@ const Datatable = ({
       globalFilter,
       columnFilters,
       columnVisibility,
+      pagination: {
+        pageSize: initialPageSize,
+        pageIndex: 0,
+      },
     },
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    initialState: {
-      pagination: {
-        pageSize: pageSize,
-        // pageIndex: 0,
-      },
-    },
   });
+
   // Assuming you have a maximum number of pagination buttons you want to show
   const maxPageButtons = 5;
 
@@ -145,7 +144,6 @@ const Datatable = ({
   };
 
   const tableRows = table.getRowModel().rows;
-
   // Render the UI for your table
   return (
     <div {...props} ref={tableContainerRef} className="flex flex-col gap-4">

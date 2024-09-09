@@ -28,6 +28,34 @@ import useFeature from '@/hooks/useFeature';
 import { useSIWE } from '@/hooks/useSIWE';
 import { MODAL } from '@/types/ProvidersTypes';
 
+const getCategoryObjectsFromUrlQuery = (query: string | string[] | undefined, baseCategories: any[]) => {
+  if (!query) return [];
+  if (typeof query === 'string') {
+    const queryCategories = query.split(',');
+    return baseCategories.filter((bcat) => queryCategories.includes(bcat.taskType));
+  }
+  if (Array.isArray(query)) {
+    return baseCategories.filter((bcat) => query[0] === bcat.taskType);
+  }
+
+  return [];
+};
+
+const getUrlQueryFromCategoryObjects = (categories: any[]) => {
+  return categories.map((cat) => cat.taskType).join(',');
+};
+
+const categoryIsActive = (taskType: string, query: string | string[] | undefined) => {
+  if (!query) return false;
+  if (typeof query === 'string') {
+    return query.split(',').includes(taskType);
+  }
+  if (Array.isArray(query)) {
+    return query.includes(taskType);
+  }
+  return false;
+};
+
 export default function Index() {
   const [activeCategories, setActiveCategories] = useState<string[]>([ALL_CATEGORY]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -50,7 +78,7 @@ export default function Index() {
   const { signInWithEthereum } = useSIWE(() => console.log('post signin'));
   const { exp } = useFeature({ kw: 'demo' });
 
-  //Demo
+  //Demo, shift it to cat when is done
   const categories = cat.concat(exp ? [{ label: '3D Model', isActive: false, taskType: '3D_MODEL' }] : []);
 
   const jwtTokenKey = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
@@ -111,51 +139,34 @@ export default function Index() {
 
   const handleCategoryClick = useCallback(
     (categoryLabel: string) => {
-      let updatedCategories: string[] = [];
-
-      if (categoryLabel === ALL_CATEGORY) {
-        setActiveCategories([ALL_CATEGORY]);
-      } else {
-        updatedCategories = activeCategories.includes(categoryLabel)
-          ? activeCategories.filter((cat) => cat !== categoryLabel && cat !== ALL_CATEGORY)
-          : [...activeCategories.filter((cat) => cat !== ALL_CATEGORY), categoryLabel];
-
-        if (updatedCategories.length === 0) {
-          updatedCategories = [ALL_CATEGORY];
-        }
-        setActiveCategories(updatedCategories);
+      if (categoryLabel.toLowerCase() === 'all') {
+        router.replace(
+          {
+            pathname: router.pathname,
+            query: { ...router.query, tasks: undefined },
+          },
+          undefined,
+          { shallow: true }
+        );
+        return;
       }
-      const taskFilter = updatedCategories.includes(ALL_CATEGORY)
-        ? categories
-            .map((cat) => cat.taskType)
-            .filter(Boolean)
-            .join(',')
-        : categories
-            .filter((cat) => updatedCategories.includes(cat.label))
-            .map((category) => category.taskType)
-            .filter(Boolean)
-            .join(',');
-
-      const updatedTaskTypes = categories
-        .filter((cat) => updatedCategories.includes(cat.label))
-        .map((category) => category.taskType)
-        .filter((type) => type !== undefined);
-
-      const newQuery = {
-        ...router.query,
-        tasks: updatedTaskTypes.join(','),
-      };
+      if (!router) return;
+      const activeCats = getCategoryObjectsFromUrlQuery(router.query.tasks, categories);
+      // If the category is already active, remove it, else add it
+      const updatedCategories = activeCats.some((cat) => cat.label.toLowerCase() === categoryLabel.toLowerCase())
+        ? activeCats.filter((cat) => cat.label.toLowerCase() !== categoryLabel.toLowerCase())
+        : [...activeCats, categories.find((cat) => cat.label.toLowerCase() === categoryLabel.toLowerCase())];
 
       router.replace(
         {
           pathname: router.pathname,
-          query: { ...router.query, tasks: taskFilter },
+          query: { ...router.query, tasks: getUrlQueryFromCategoryObjects(updatedCategories) },
         },
         undefined,
         { shallow: true }
       );
     },
-    [activeCategories, router, categories]
+    [router, categories]
   );
 
   const updateOrderSorting = useCallback(
@@ -195,11 +206,17 @@ export default function Index() {
       <div className="mx-auto mt-[18px] flex max-w-[1075px] md:px-4 md:py-2 lg:px-4 lg:py-2">
         <div className="flex w-full justify-between gap-2">
           <div className="mt-[18px] flex items-center gap-2">
+            <CategoryItem
+              key={'all'}
+              label={'All'}
+              isActive={router.query.tasks === undefined || router.query.tasks === ''}
+              onClick={() => handleCategoryClick('all')}
+            />
             {categories.map((category) => (
               <CategoryItem
                 key={category.label}
                 label={category.label}
-                isActive={activeCategories.includes(category.label)}
+                isActive={categoryIsActive(category.taskType, router.query.tasks)}
                 onClick={() => handleCategoryClick(category.label)}
               />
             ))}
