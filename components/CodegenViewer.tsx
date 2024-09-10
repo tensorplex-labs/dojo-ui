@@ -88,6 +88,7 @@ const CodegenViewer = ({ encodedHtml }: CodegenVisProps) => {
 
   return (
     <iframe
+      allowFullScreen={false}
       key={urlString}
       ref={iframeRef}
       sandbox="allow-scripts"

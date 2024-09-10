@@ -26,7 +26,12 @@ const Footer: React.FC = () => {
         nextIdx = currIdx - 1 < 0 ? tasklistFull.length - 1 : currIdx - 1;
       }
       saveScrollPosition();
-      router.push(`/Questions?taskId=${tasklistFull[nextIdx].taskId}&exp=demo`).then(async () => {
+      const obj = tasklistFull[nextIdx];
+      let newQuestionUrl = `/Questions?taskId=${obj.taskId}&exp=demo`;
+      if (obj.type.toLowerCase() === 'text_to_image') {
+        newQuestionUrl = `/Questionsv2?taskId=${obj.taskId}&exp=demo`;
+      }
+      router.push(newQuestionUrl).then(async () => {
         await wait(100);
         restoreScrollPosition();
       });

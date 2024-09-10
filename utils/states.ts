@@ -14,23 +14,39 @@ export const taskTTI: Task[] = [
       prompt: 'an image of a green dog.',
       criteria: [
         {
-          type: 'ranking',
-          options: ['Image 1', 'Image 2'],
-        },
-        {
           type: 'multi-select',
-          options: ['The image is Safe For Work (SFW).', 'The image is high quality.'],
+          label: 'Choose the most appropriate options',
+          options: [
+            'The image is Safe For Work (SFW).',
+            'The image is high quality.',
+            "I have no idea what i'm looking at.",
+          ],
         },
         {
-          max: 10,
-          min: 1,
-          type: 'score',
+          type: 'single-select',
+          label: 'I would use this image for a dog shampoo commercial.',
+          options: ['Agree', 'Disagree', 'Neutral'],
         },
         {
           max: 10,
           min: 1,
           type: 'multi-score',
-          options: ['Image 1', 'Image 2'],
+          label: 'Quality',
+          options: ['stabilityai/stable-diffusion-xl-base-1.0'],
+        },
+        {
+          max: 10,
+          min: 1,
+          type: 'multi-score',
+          label: 'Realism',
+          options: ['stabilityai/stable-diffusion-xl-base-1.0'],
+        },
+        {
+          max: 10,
+          min: 1,
+          type: 'multi-score',
+          label: 'Noise',
+          options: ['stabilityai/stable-diffusion-xl-base-1.0'],
         },
       ],
       responses: [
@@ -38,13 +54,6 @@ export const taskTTI: Task[] = [
           model: 'stabilityai/stable-diffusion-xl-base-1.0',
           completion: {
             url: 'dojo-files-dev.tensorplex.dev/green_dog1_1725473319573771791.png',
-            filename: 'green_dog1.png',
-          },
-        },
-        {
-          model: 'runwayml/stable-diffusion-v1-5',
-          completion: {
-            url: 'dojo-files-dev.tensorplex.dev/green_dog2_1725473319722089490.png',
             filename: 'green_dog1.png',
           },
         },

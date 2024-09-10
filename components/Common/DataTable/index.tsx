@@ -135,9 +135,10 @@ const Datatable = ({
 
   const router = useRouter(); // Initialize useRouter
   const { exp } = useFeature({ kw: 'demo' });
-  const onStartHandler = (id: string) => {
+  const onStartHandler = (id: string, type: string) => {
     if (exp) {
-      router.push(`/Questions?taskId=${id}&exp=demo`);
+      if (type.toLowerCase() === 'text_to_image') router.push(`/Questionsv2?taskId=${id}&exp=demo`);
+      else router.push(`/Questions?taskId=${id}&exp=demo`);
     } else {
       router.push(`/Questions?taskId=${id}`);
     }
@@ -286,7 +287,7 @@ const Datatable = ({
                           disabled={generateBtnState(row).disabled}
                           buttonText={generateBtnState(row).text}
                           className={`h-[40px] w-[113px] text-white disabled:cursor-not-allowed disabled:bg-gray-400`}
-                          onClick={() => onStartHandler(row.original.taskId)}
+                          onClick={() => onStartHandler(row.original.taskId, row.original.type)}
                         />
                       </td>
                     ) : null
