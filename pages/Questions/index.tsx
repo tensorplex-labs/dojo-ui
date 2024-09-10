@@ -36,6 +36,7 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
   const [isRankQuestion, setIsRankQuestion] = useState<boolean>(false);
   const [isSlider, setisSlider] = useState<boolean>(false);
   const [isMultiScore, setIsMultiScore] = useState<boolean>(false);
+  const [isRHF, setIsRHF] = useState<boolean>(false);
   const [minValSlider, setMinValSlider] = useState<number>(1);
   const [maxValSlider, setMaxValSlider] = useState<number>(10);
   const [taskType, setTaskType] = useState<string>('');
@@ -139,6 +140,9 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
           criterion.min && setMinValSlider(criterion.min);
           criterion.max && setMaxValSlider(criterion.max);
           break;
+        case 'rich-human-feedback':
+          setIsRHF(true);
+          break;
         default:
           console.log(`Unhandled criterion type: ${criterion.type}`);
       }
@@ -164,6 +168,8 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
       handleSetIsSlider(false);
       setMinValSlider(1);
       setMaxValSlider(10);
+
+      setIsRHF(false);
     };
   }, [task]);
 
@@ -248,7 +254,7 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
   return (
     <Layout isFullWidth>
       <div className=" my-4 flex flex-col items-center justify-center">
-        <div className="w-full max-w-[1200px]">
+        <div className="w-full max-w-[1200px] px-4 ">
           <TaskPrompt title={task?.title} taskType={taskType} formattedPrompt={formattedPrompt} />
         </div>
         <hr className={' mb-8 mt-3 w-full border-t-2 border-black'} />
@@ -263,6 +269,7 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
             task={task}
             minValSlider={minValSlider}
             maxValSlider={maxValSlider}
+            rhf={isRHF}
             ratings={ratings}
             multiScoreOptions={multiScoreOptions}
             isMultiScore={isMultiScore}

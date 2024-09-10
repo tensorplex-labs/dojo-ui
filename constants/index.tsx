@@ -116,6 +116,7 @@ export const taskCriteria = {
   multiSelect: 'multi-select',
   ranking: 'ranking',
   score: 'score',
+  type: 'rich-human-feedback',
 };
 
 export const KEY_MESSAGE_SCROLL_HEIGHT = 800;

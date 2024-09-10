@@ -83,6 +83,7 @@ export type ResponseVisualizerProps = {
   task: Task;
   minValSlider: number;
   maxValSlider: number;
+  rhf: boolean;
   ratings: { [key: string]: number };
   multiScoreOptions: string[];
   isMultiScore: boolean;

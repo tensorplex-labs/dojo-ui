@@ -1501,9 +1501,44 @@ export const tasklistCodegen: Task[] = [
     isCompletedByWorker: false,
   },
 ];
+
+export const taskListImgEvaluation: Task[] = [
+  {
+    taskId: 'a4e72fb1-3bf0-4904-9254-b5e5e95e427a',
+    title: 'Text to Image Task',
+    body: 'Generate an image of a green dog.',
+    expireAt: '2024-12-03T15:04:00Z',
+    type: 'TEXT_TO_IMAGE',
+    taskData: {
+      task: 'TEXT_TO_IMAGE',
+      prompt: 'Generate an image of a green dog.',
+      criteria: [
+        {
+          type: 'rich-human-feedback',
+        },
+      ],
+      responses: [
+        {
+          model: 'stabilityai/stable-diffusion-xl-base-1.0',
+          completion: {
+            url: 'dojo-files-dev.tensorplex.dev/green_dog1_1725619348375226861.png',
+            filename: 'green_dog1.png',
+          },
+        },
+      ],
+    },
+    status: 'IN_PROGRESS',
+    numResults: 0,
+    maxResults: 10,
+    numCriteria: 4,
+    isCompletedByWorker: false,
+  },
+];
+
 export const tasklistFull: Task[] = tasklistCodegen
   .concat(task3d)
   .concat(taskTTI)
+  .concat(taskListImgEvaluation)
   .map((task, idx) => {
     return { ...task, taskId: `demo_${idx}` };
   });

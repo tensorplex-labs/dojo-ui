@@ -5,12 +5,14 @@ import { TaskType } from '@/utils/states';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
 import React from 'react';
+import ImageAnnotator from '../ImageAnnotator/ImageAnnotator';
 import Slider from '../Slider';
 
 const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
   task,
   minValSlider,
   maxValSlider,
+  rhf,
   ratings,
   multiScoreOptions,
   isMultiScore,
@@ -42,34 +44,51 @@ const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
   return (
     <div className="grid w-full max-w-[1200px] grid-cols-1 gap-x-5 gap-y-10 px-4 md:grid-cols-2">
       {task.taskData.responses.map((plot, index) => (
-        <div key={`${task.type}_${index}`} className="flex w-full flex-col justify-center ">
-          <div
-            className={`flex h-fit w-full flex-col rounded-none  ${isMultiScore && 'border-2 border-black bg-ecru-white shadow-brut-sm'} `}
-          >
-            {renderVisualizer(task.type, plot, index)}
-            {isMultiScore && (
-              <>
-                <div
-                  className={` w-full justify-between px-4 text-base ${FontSpaceMono.className} border-t-2 border-black py-2  font-bold uppercase`}
-                >
-                  response quality
-                </div>
-                <div className={`px-4`}>
-                  <Slider
-                    min={minValSlider}
-                    max={maxValSlider}
-                    step={1}
-                    initialValue={ratings[multiScoreOptions[index]]}
-                    onChange={(rating) => {
-                      handleRatingChange(multiScoreOptions[index], rating);
-                    }}
-                    showSections
-                  />
-                </div>
-              </>
-            )}
-          </div>
-        </div>
+        <>
+          {!rhf ? (
+            <div key={`${task.type}_${index}`} className="flex w-full flex-col justify-center ">
+              <div
+                className={`flex h-fit w-full flex-col rounded-none  ${isMultiScore && 'border-2 border-black bg-ecru-white shadow-brut-sm'} `}
+              >
+                {renderVisualizer(task.type, plot, index)}
+                {isMultiScore && (
+                  <>
+                    <div
+                      className={` w-full justify-between px-4 text-base ${FontSpaceMono.className} border-t-2 border-black py-2  font-bold uppercase`}
+                    >
+                      response quality
+                    </div>
+                    <div className={`px-4`}>
+                      <Slider
+                        min={minValSlider}
+                        max={maxValSlider}
+                        step={1}
+                        initialValue={ratings[multiScoreOptions[index]]}
+                        onChange={(rating) => {
+                          handleRatingChange(multiScoreOptions[index], rating);
+                        }}
+                        showSections
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div
+              className={`col-span-2 w-full justify-between text-base ${FontSpaceMono.className} font-bold uppercase`}
+            >
+              <ImageAnnotator
+                src={
+                  (plot.completion.url as string).startsWith('http')
+                    ? plot.completion.url
+                    : `https://${plot.completion.url}`
+                }
+                onAnnotationsChange={(annotations: any) => console.log(annotations)}
+              />
+            </div>
+          )}
+        </>
       ))}
     </div>
   );
