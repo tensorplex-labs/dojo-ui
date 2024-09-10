@@ -1,6 +1,5 @@
 import { MultiSelectItemProps } from '@/types/CommonTypes';
 import { cn } from '@/utils/tw';
-import { IconCheck } from '@tabler/icons-react';
 import React from 'react';
 
 const MultiSelectItemV2: React.FC<MultiSelectItemProps> = ({ option, isSelected, onSelectionChange, singleSelect }) => {
@@ -12,8 +11,9 @@ const MultiSelectItemV2: React.FC<MultiSelectItemProps> = ({ option, isSelected,
     <div className={cn('w-full flex flex-col', !ss && 'w-fit shrink-0')}>
       <label
         className={cn(
-          `flex w-full cursor-pointer items-center space-x-2 ${selectedStyles} px-[8px] py-[4px]`,
-          !ss && 'space-x-0'
+          `flex w-full cursor-pointer items-center space-x-2 border-[1px] border-black/10 rounded-md bg-ecru-white hover:border-black/50 hover:bg-secondary px-[8px] py-[4px]`,
+          !ss && 'space-x-0',
+          isSelected && 'bg-primary hover:bg-primary '
         )}
       >
         <span className="relative">
@@ -24,13 +24,13 @@ const MultiSelectItemV2: React.FC<MultiSelectItemProps> = ({ option, isSelected,
             onChange={() => onSelectionChange(option)}
             className="sr-only" // Hide the default checkbox
           />
-          {ss && <span className={`block size-4 bg-white ${selectedStyles}`}></span>}
+          {ss && <span className={`block size-4 rounded-full border border-black/30 bg-white`}></span>}
           {isSelected && ss && (
             <div
               className="absolute left-1/2 top-1/2 block rounded-full"
               style={{ transform: 'translate(-50%, -50%)' }}
             >
-              <IconCheck className="size-3 bg-primary text-lg text-white" />
+              <div className="size-[10px] rounded-full bg-primary text-lg " />
             </div>
           )}
         </span>

@@ -16,11 +16,7 @@ export const taskTTI: Task[] = [
         {
           type: 'multi-select',
           label: 'Choose the most appropriate options',
-          options: [
-            'The image is Safe For Work (SFW).',
-            'The image is high quality.',
-            "I have no idea what i'm looking at.",
-          ],
+          options: ['Safe For Work (SFW)', 'High quality', "I have no idea what i'm looking at", 'Almost there'],
         },
         {
           type: 'single-select',
@@ -67,220 +63,220 @@ export const taskTTI: Task[] = [
   },
 ];
 
-export const taskTTIBackup: Task[] = [
-  {
-    taskId: 'demo6',
-    title: 'Text to Image Task',
-    body: 'Text to Image',
-    expireAt: '2024-12-03T15:04:00Z',
-    type: 'TEXT_TO_IMAGE',
-    taskData: {
-      task: 'TEXT_TO_IMAGE',
-      prompt: 'A bottle with the cap half opened.',
-      criteria: [
-        {
-          type: 'ranking',
-          options: ['Image 1', 'Image 2'],
-        },
-        {
-          type: 'multi-select',
-          options: ['The image is Safe For Work (SFW).', 'The image is high quality.'],
-        },
-        {
-          max: 10,
-          min: 1,
-          type: 'score',
-        },
-        {
-          max: 10,
-          min: 1,
-          type: 'multi-score',
-          options: ['Image 1', 'Image 2'],
-        },
-      ],
-      responses: [
-        {
-          model: 'stabilityai/stable-diffusion-xl-base-1.0',
-          completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/bottleCapHalfOpened1.png',
-            filename: 'bottleCapHalfOpened1.png',
-          },
-        },
-        {
-          model: 'runwayml/stable-diffusion-v1-5',
-          completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/bottleCapHalfOpened2.png',
-            filename: 'green_dog1.bottleCapHalfOpened2',
-          },
-        },
-      ],
-    },
-    status: 'IN_PROGRESS',
-    numResults: 0,
-    maxResults: 10,
-    numCriteria: 4,
-    isCompletedByWorker: false,
-  },
-  {
-    taskId: 'demo6',
-    title: 'Text to Image Task',
-    body: 'Text to Image',
-    expireAt: '2024-12-03T15:04:00Z',
-    type: 'TEXT_TO_IMAGE',
-    taskData: {
-      task: 'TEXT_TO_IMAGE',
-      prompt: 'an image of a green dog.',
-      criteria: [
-        {
-          type: 'ranking',
-          options: ['Image 1', 'Image 2'],
-        },
-        {
-          type: 'multi-select',
-          options: ['The image is Safe For Work (SFW).', 'The image is high quality.'],
-        },
-        {
-          max: 10,
-          min: 1,
-          type: 'score',
-        },
-        {
-          max: 10,
-          min: 1,
-          type: 'multi-score',
-          options: ['Image 1', 'Image 2'],
-        },
-      ],
-      responses: [
-        {
-          model: 'stabilityai/stable-diffusion-xl-base-1.0',
-          completion: {
-            url: 'dojo-files-dev.tensorplex.dev/green_dog1_1725473319573771791.png',
-            filename: 'green_dog1.png',
-          },
-        },
-        {
-          model: 'runwayml/stable-diffusion-v1-5',
-          completion: {
-            url: 'dojo-files-dev.tensorplex.dev/green_dog2_1725473319722089490.png',
-            filename: 'green_dog1.png',
-          },
-        },
-      ],
-    },
-    status: 'IN_PROGRESS',
-    numResults: 0,
-    maxResults: 10,
-    numCriteria: 4,
-    isCompletedByWorker: false,
-  },
-  {
-    taskId: 'demo6',
-    title: 'Text to Image Task',
-    body: 'Text to Image',
-    expireAt: '2024-12-03T15:04:00Z',
-    type: 'TEXT_TO_IMAGE',
-    taskData: {
-      task: 'TEXT_TO_IMAGE',
-      prompt: 'an office with full height windows with the cityline in the background.',
-      criteria: [
-        {
-          type: 'ranking',
-          options: ['Image 1', 'Image 2'],
-        },
-        {
-          type: 'multi-select',
-          options: ['The image is Safe For Work (SFW).', 'The image is high quality.'],
-        },
-        {
-          max: 10,
-          min: 1,
-          type: 'score',
-        },
-        {
-          max: 10,
-          min: 1,
-          type: 'multi-score',
-          options: ['Image 1', 'Image 2'],
-        },
-      ],
-      responses: [
-        {
-          model: 'stabilityai/stable-diffusion-xl-base-1.0',
-          completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/officeFullWindowCityline2.png',
-            filename: 'officeFullWindowCityline2.png',
-          },
-        },
-        {
-          model: 'runwayml/stable-diffusion-v1-5',
-          completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/officeFullWindowCityline1.png',
-            filename: 'officeFullWindowCityline1.png',
-          },
-        },
-      ],
-    },
-    status: 'IN_PROGRESS',
-    numResults: 0,
-    maxResults: 10,
-    numCriteria: 4,
-    isCompletedByWorker: false,
-  },
-  {
-    taskId: 'demo6',
-    title: 'Text to Image Task',
-    body: 'Text to Image',
-    expireAt: '2024-12-03T15:04:00Z',
-    type: 'TEXT_TO_IMAGE',
-    taskData: {
-      task: 'TEXT_TO_IMAGE',
-      prompt: 'NYSE floor with emotions and red and green charts.',
-      criteria: [
-        {
-          type: 'ranking',
-          options: ['Image 1', 'Image 2'],
-        },
-        {
-          type: 'multi-select',
-          options: ['The image is Safe For Work (SFW).', 'The image is high quality.'],
-        },
-        {
-          max: 10,
-          min: 1,
-          type: 'score',
-        },
-        {
-          max: 10,
-          min: 1,
-          type: 'multi-score',
-          options: ['Image 1', 'Image 2'],
-        },
-      ],
-      responses: [
-        {
-          model: 'stabilityai/stable-diffusion-xl-base-1.0',
-          completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/NYSEWithEmotionsAndRedGreenCharts1.png',
-            filename: 'NYSEWithEmotionsAndRedGreenCharts1.png',
-          },
-        },
-        {
-          model: 'runwayml/stable-diffusion-v1-5',
-          completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/NYSEWithEmotionsAndRedGreenCharts2.png',
-            filename: 'NYSEWithEmotionsAndRedGreenCharts2.png',
-          },
-        },
-      ],
-    },
-    status: 'IN_PROGRESS',
-    numResults: 0,
-    maxResults: 10,
-    numCriteria: 4,
-    isCompletedByWorker: false,
-  },
-];
+// export const taskTTIBackup: Task[] = [
+//   {
+//     taskId: 'demo6',
+//     title: 'Text to Image Task',
+//     body: 'Text to Image',
+//     expireAt: '2024-12-03T15:04:00Z',
+//     type: 'TEXT_TO_IMAGE',
+//     taskData: {
+//       task: 'TEXT_TO_IMAGE',
+//       prompt: 'A bottle with the cap half opened.',
+//       criteria: [
+//         {
+//           type: 'ranking',
+//           options: ['Image 1', 'Image 2'],
+//         },
+//         {
+//           type: 'multi-select',
+//           options: ['The image is Safe For Work (SFW).', 'The image is high quality.'],
+//         },
+//         {
+//           max: 10,
+//           min: 1,
+//           type: 'score',
+//         },
+//         {
+//           max: 10,
+//           min: 1,
+//           type: 'multi-score',
+//           options: ['Image 1', 'Image 2'],
+//         },
+//       ],
+//       responses: [
+//         {
+//           model: 'stabilityai/stable-diffusion-xl-base-1.0',
+//           completion: {
+//             url: 'https://dojo-files-dev.tensorplex.dev/demo/bottleCapHalfOpened1.png',
+//             filename: 'bottleCapHalfOpened1.png',
+//           },
+//         },
+//         {
+//           model: 'runwayml/stable-diffusion-v1-5',
+//           completion: {
+//             url: 'https://dojo-files-dev.tensorplex.dev/demo/bottleCapHalfOpened2.png',
+//             filename: 'green_dog1.bottleCapHalfOpened2',
+//           },
+//         },
+//       ],
+//     },
+//     status: 'IN_PROGRESS',
+//     numResults: 0,
+//     maxResults: 10,
+//     numCriteria: 4,
+//     isCompletedByWorker: false,
+//   },
+//   {
+//     taskId: 'demo6',
+//     title: 'Text to Image Task',
+//     body: 'Text to Image',
+//     expireAt: '2024-12-03T15:04:00Z',
+//     type: 'TEXT_TO_IMAGE',
+//     taskData: {
+//       task: 'TEXT_TO_IMAGE',
+//       prompt: 'an image of a green dog.',
+//       criteria: [
+//         {
+//           type: 'ranking',
+//           options: ['Image 1', 'Image 2'],
+//         },
+//         {
+//           type: 'multi-select',
+//           options: ['The image is Safe For Work (SFW).', 'The image is high quality.'],
+//         },
+//         {
+//           max: 10,
+//           min: 1,
+//           type: 'score',
+//         },
+//         {
+//           max: 10,
+//           min: 1,
+//           type: 'multi-score',
+//           options: ['Image 1', 'Image 2'],
+//         },
+//       ],
+//       responses: [
+//         {
+//           model: 'stabilityai/stable-diffusion-xl-base-1.0',
+//           completion: {
+//             url: 'dojo-files-dev.tensorplex.dev/green_dog1_1725473319573771791.png',
+//             filename: 'green_dog1.png',
+//           },
+//         },
+//         {
+//           model: 'runwayml/stable-diffusion-v1-5',
+//           completion: {
+//             url: 'dojo-files-dev.tensorplex.dev/green_dog2_1725473319722089490.png',
+//             filename: 'green_dog1.png',
+//           },
+//         },
+//       ],
+//     },
+//     status: 'IN_PROGRESS',
+//     numResults: 0,
+//     maxResults: 10,
+//     numCriteria: 4,
+//     isCompletedByWorker: false,
+//   },
+//   {
+//     taskId: 'demo6',
+//     title: 'Text to Image Task',
+//     body: 'Text to Image',
+//     expireAt: '2024-12-03T15:04:00Z',
+//     type: 'TEXT_TO_IMAGE',
+//     taskData: {
+//       task: 'TEXT_TO_IMAGE',
+//       prompt: 'an office with full height windows with the cityline in the background.',
+//       criteria: [
+//         {
+//           type: 'ranking',
+//           options: ['Image 1', 'Image 2'],
+//         },
+//         {
+//           type: 'multi-select',
+//           options: ['The image is Safe For Work (SFW).', 'The image is high quality.'],
+//         },
+//         {
+//           max: 10,
+//           min: 1,
+//           type: 'score',
+//         },
+//         {
+//           max: 10,
+//           min: 1,
+//           type: 'multi-score',
+//           options: ['Image 1', 'Image 2'],
+//         },
+//       ],
+//       responses: [
+//         {
+//           model: 'stabilityai/stable-diffusion-xl-base-1.0',
+//           completion: {
+//             url: 'https://dojo-files-dev.tensorplex.dev/demo/officeFullWindowCityline2.png',
+//             filename: 'officeFullWindowCityline2.png',
+//           },
+//         },
+//         {
+//           model: 'runwayml/stable-diffusion-v1-5',
+//           completion: {
+//             url: 'https://dojo-files-dev.tensorplex.dev/demo/officeFullWindowCityline1.png',
+//             filename: 'officeFullWindowCityline1.png',
+//           },
+//         },
+//       ],
+//     },
+//     status: 'IN_PROGRESS',
+//     numResults: 0,
+//     maxResults: 10,
+//     numCriteria: 4,
+//     isCompletedByWorker: false,
+//   },
+//   {
+//     taskId: 'demo6',
+//     title: 'Text to Image Task',
+//     body: 'Text to Image',
+//     expireAt: '2024-12-03T15:04:00Z',
+//     type: 'TEXT_TO_IMAGE',
+//     taskData: {
+//       task: 'TEXT_TO_IMAGE',
+//       prompt: 'NYSE floor with emotions and red and green charts.',
+//       criteria: [
+//         {
+//           type: 'ranking',
+//           options: ['Image 1', 'Image 2'],
+//         },
+//         {
+//           type: 'multi-select',
+//           options: ['The image is Safe For Work (SFW).', 'The image is high quality.'],
+//         },
+//         {
+//           max: 10,
+//           min: 1,
+//           type: 'score',
+//         },
+//         {
+//           max: 10,
+//           min: 1,
+//           type: 'multi-score',
+//           options: ['Image 1', 'Image 2'],
+//         },
+//       ],
+//       responses: [
+//         {
+//           model: 'stabilityai/stable-diffusion-xl-base-1.0',
+//           completion: {
+//             url: 'https://dojo-files-dev.tensorplex.dev/demo/NYSEWithEmotionsAndRedGreenCharts1.png',
+//             filename: 'NYSEWithEmotionsAndRedGreenCharts1.png',
+//           },
+//         },
+//         {
+//           model: 'runwayml/stable-diffusion-v1-5',
+//           completion: {
+//             url: 'https://dojo-files-dev.tensorplex.dev/demo/NYSEWithEmotionsAndRedGreenCharts2.png',
+//             filename: 'NYSEWithEmotionsAndRedGreenCharts2.png',
+//           },
+//         },
+//       ],
+//     },
+//     status: 'IN_PROGRESS',
+//     numResults: 0,
+//     maxResults: 10,
+//     numCriteria: 4,
+//     isCompletedByWorker: false,
+//   },
+// ];
 
 // Demo data for codes
 export const task3d: Task[] = [

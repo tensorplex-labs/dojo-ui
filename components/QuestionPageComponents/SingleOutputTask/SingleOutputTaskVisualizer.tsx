@@ -6,7 +6,7 @@ import GaussianSplatViewer from '@/components/GaussianSplatViewer';
 import { Criterion, CriterionWithResponses, Task } from '@/types/QuestionPageTypes';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
-import { IconSparkles } from '@tabler/icons-react';
+import { IconCheck, IconProgress, IconSparkles } from '@tabler/icons-react';
 import Image from 'next/image';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { generateNonce } from 'siwe';
@@ -59,6 +59,7 @@ const renderVisualizer = (task: Task) => {
     case 'CODE_GENERATION':
       return <CodegenViewer encodedHtml={taskResponse.completion.combined_html} />;
     case '3D_MODEL':
+      if (taskResponse.completion.url === undefined) return;
       return (
         <GaussianSplatViewer
           className={cn('max-h-[700px] h-full w-auto max-w-full aspect-square')}
@@ -66,6 +67,7 @@ const renderVisualizer = (task: Task) => {
         ></GaussianSplatViewer>
       );
     case 'TEXT_TO_IMAGE':
+      if (taskResponse.completion.url === undefined) return;
       ttiUrl = (taskResponse.completion.url as string).startsWith('http')
         ? taskResponse.completion.url
         : `https://${taskResponse.completion.url}`;
@@ -165,18 +167,33 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
               </span>
               <CopyBtn copyString={task.taskId} className="size-[14px]" />
             </div>
-            type: {task.type}
+            type: {task.type.replaceAll('_', ' ')}
           </div>
-          <span>{!task.isCompletedByWorker ? 'In Progress' : 'Completed'}</span>
+          <span>
+            {!task.isCompletedByWorker ? (
+              <div className="flex gap-[3px]">
+                In Progress
+                <IconProgress size={16} />
+              </div>
+            ) : (
+              <div className="flex gap-[3px]">
+                Completed
+                <IconCheck
+                  size={16}
+                  className="rounded-full border border-black/10 bg-green-300 p-[2px] text-font-primary"
+                />
+              </div>
+            )}
+          </span>
         </div>
 
         <VisualizerContentBox>
           <div className="flex gap-[5px]">
-            <IconSparkles className="my-[2px] size-[20px] shrink-0"></IconSparkles>
+            <IconSparkles className="my-[2px] size-[20px] shrink-0 animate-pulse"></IconSparkles>
             <div className="">{task.taskData.prompt}</div>
           </div>
         </VisualizerContentBox>
-        <VisualizerContentBox className="flex flex-col items-stretch">
+        <VisualizerContentBox className="flex flex-col items-stretch gap-[10px]">
           <>
             <div className="w-full">Response:</div>
             <BrutCard className={cn('p-0 flex size-fit rounded-md', props.visualizerClassName)}>

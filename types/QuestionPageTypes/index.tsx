@@ -139,7 +139,7 @@ export type Task = {
   isCompletedByWorker: boolean;
 };
 
-export type CriterionType = 'multi-select' | 'single-select' | 'multi-score';
+export type CriterionType = 'multi-select' | 'single-select' | 'multi-score' | 'ranking';
 
 export type Criterion = {
   type: CriterionType;
