@@ -129,12 +129,7 @@ export type Task = {
   taskData: {
     task: string;
     prompt: string;
-    criteria: Array<{
-      type: string;
-      options?: string[];
-      max?: number;
-      min?: number;
-    }>;
+    criteria: Array<Criterion>;
     responses: Array<TaskResponses>;
   };
   status: string;
@@ -142,6 +137,20 @@ export type Task = {
   numResults: number;
   numCriteria: number;
   isCompletedByWorker: boolean;
+};
+
+export type CriterionType = 'multi-select' | 'single-select' | 'multi-score' | 'ranking';
+
+export type Criterion = {
+  type: CriterionType;
+  label?: string;
+  options?: string[];
+  max?: number;
+  min?: number;
+};
+
+export type CriterionWithResponses = Criterion & {
+  responses: string[];
 };
 
 export type TaskResponses = {

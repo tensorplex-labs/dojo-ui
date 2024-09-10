@@ -75,12 +75,14 @@ export interface MultiSelectProps {
   options: string[];
   selectedValues: string[];
   onSelectionChange: (value: string) => void;
+  singleSelect?: boolean;
 }
 
 export interface MultiSelectItemProps {
   option: string;
   isSelected: boolean;
   onSelectionChange: (value: string) => void;
+  singleSelect?: boolean;
 }
 
 export interface MultiSelectQuestionProps {

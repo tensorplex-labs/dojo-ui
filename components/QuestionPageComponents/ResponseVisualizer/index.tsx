@@ -22,6 +22,7 @@ const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
       case 'CODE_GENERATION':
         return <CodegenViewer encodedHtml={plot.completion.combined_html} />;
       case '3D_MODEL':
+        if (plot.completion.url === undefined) return;
         return (
           <GaussianSplatViewer
             className={cn('max-h-[700px] h-full w-auto max-w-full aspect-square')}
@@ -29,6 +30,7 @@ const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
           ></GaussianSplatViewer>
         );
       case 'TEXT_TO_IMAGE':
+        if (plot.completion.url === undefined) return;
         ttiUrl = (plot.completion.url as string).startsWith('http')
           ? plot.completion.url
           : `https://${plot.completion.url}`;
