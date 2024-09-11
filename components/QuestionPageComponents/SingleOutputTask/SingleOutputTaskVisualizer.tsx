@@ -10,6 +10,7 @@ import { IconCheck, IconProgress, IconSparkles, IconTrash } from '@tabler/icons-
 import Image from 'next/image';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { generateNonce } from 'siwe';
+import FormattedPrompt from '../FormattedPrompt';
 import { Annotation } from '../ImageAnnotator/ImageAnnotator';
 import Slider from '../Slider';
 
@@ -93,8 +94,8 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
       const handleRHFImageClick = (e: React.MouseEvent<HTMLImageElement>) => {
         if (annotations.length >= 10) return;
         const imageRect = e.currentTarget.getBoundingClientRect();
-        const x = e.clientX - imageRect.left;
-        const y = e.clientY - imageRect.top;
+        const x = ((e.clientX - imageRect.left) / imageRect.width) * 100;
+        const y = ((e.clientY - imageRect.top) / imageRect.height) * 100;
         setAnnotations((prev) => {
           const updatedAnnotations = [
             ...prev,
@@ -141,8 +142,8 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
                 className="w-full"
               />
               {annotations.map((annotation, index) => (
-                <div key={index} className="absolute" style={{ top: annotation.y - 10, left: annotation.x - 10 }}>
-                  <div className="flex size-5 items-center justify-center rounded-full bg-red-500 font-bold text-white">
+                <div key={index} className="absolute" style={{ top: `${annotation.y}%`, left: `${annotation.x}%` }}>
+                  <div className="flex size-5 translate-x-[-50%] translate-y-[-50%] items-center justify-center rounded-full bg-red-500 font-bold text-white">
                     {index + 1}
                   </div>
                 </div>
@@ -307,7 +308,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
         <VisualizerContentBox>
           <div className="flex gap-[5px]">
             <IconSparkles className="my-[2px] size-[20px] shrink-0 animate-pulse"></IconSparkles>
-            <div className="">{task.taskData.prompt}</div>
+            <FormattedPrompt className="h-fit min-h-fit p-0">{task.taskData.prompt}</FormattedPrompt>
           </div>
         </VisualizerContentBox>
         <VisualizerContentBox className="flex flex-col items-stretch gap-[10px]">
