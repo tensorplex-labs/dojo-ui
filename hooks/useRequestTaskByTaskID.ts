@@ -17,11 +17,9 @@ const useRequestTaskByTaskID = (taskId: string, isConnected?: boolean, isAuthent
       if (exp) {
         // FInd one demo response if not just return the first one
         setLoading(true);
-        console.log('fetching demo task!', taskId);
-        await wait(1200);
+        await wait(200);
         const filteredTask = tasklistFull.find((t) => t.taskId === taskId);
         setTask(filteredTask ?? tasklistFull[0]);
-        console.log('fetched demo task!', filteredTask);
         setLoading(false);
         return;
       }

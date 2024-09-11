@@ -225,7 +225,6 @@ const RenderButton = (id: string, state: ButtonState, router: NextRouter, exp: b
     <button
       onClick={() => {
         if (exp) {
-          console.log('pushing from table button!', id);
           if (type.toLowerCase() === 'text_to_image') router.push(`/Questionsv2?taskId=${id}&exp=demo`);
           else router.push(`/Questions?taskId=${id}&exp=demo`);
         } else {

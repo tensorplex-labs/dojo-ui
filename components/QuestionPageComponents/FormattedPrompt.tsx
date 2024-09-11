@@ -24,8 +24,6 @@ const FormattedPrompt = ({
   const divRef = useRef<HTMLDivElement>(null);
   const aht = autoHideHeightThreshold ?? 75;
   useEffect(() => {
-    console.log('children', children);
-    console.log('rerendering formatted prompt height', divRef.current?.clientHeight, aht);
     if (divRef.current && divRef.current.clientHeight > aht) {
       setIsCollapsible(true);
       setIsCollapsed(true);
@@ -36,7 +34,6 @@ const FormattedPrompt = ({
   }, [divRef, children]);
 
   const toggleCollapse = () => {
-    console.log('clicked toggle');
     if (isCollapsible) {
       setIsCollapsed((prev) => !prev);
     }
