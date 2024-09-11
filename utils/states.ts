@@ -1326,7 +1326,7 @@ export const tasklistCodegen: Task[] = [
     taskData: {
       task: 'CODE_GENERATION',
       prompt:
-        'Create a web application using only HTML, CSS, and JavaScript that showcases threejs or plotly graph visualization library.',
+        'Create a web application using only HTML, CSS, and JavaScript that showcases threejs or plotly graph visualization library.Create a web application using only HTML, CSS, and JavaScript that showcases threejs or plotly graph visualization library.Create a web application using only HTML, CSS, and JavaScript that showcases threejs or plotly graph visualization library.',
       criteria: [
         {
           max: 100,

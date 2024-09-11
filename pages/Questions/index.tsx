@@ -14,7 +14,7 @@ import { useAuth } from '@/providers/authContext';
 import { useSubmit } from '@/providers/submitContext';
 import { QuestionPageProps, RankOrder } from '@/types/QuestionPageTypes';
 import { useRouter } from 'next/router';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useAccount, useDisconnect } from 'wagmi';
 
 const QuestionPage: React.FC<QuestionPageProps> = () => {
@@ -41,6 +41,7 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
   const [taskType, setTaskType] = useState<string>('');
   const [ratings, setRatings] = useState<{ [key: string]: number }>({});
   const [selectedMultiSelectValues, setSelectedMultiSelectValues] = useState<string[]>([]);
+  const router = useRouter();
 
   const handleOrderChange = (newOrder: string[]) => {
     const newRankAnswer: RankOrder = {};
@@ -49,6 +50,11 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
     });
     updateRanking(newOrder);
   };
+  const getTaskIdFromRouter = useCallback(() => {
+    if (!router) return '';
+    if (typeof router.query.taskId === 'string') return router.query.taskId;
+    return '';
+  }, [router]);
 
   const [taskId, setTaskId] = useState<string>('');
   const [multiSelectQuestionData, setMultiSelectQuestionData] = useState<string[]>([]);
@@ -60,9 +66,8 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
     task,
     loading: isTaskLoading,
     error: taskError,
-  } = useRequestTaskByTaskID(taskId, isConnected, isAuthenticated);
+  } = useRequestTaskByTaskID(getTaskIdFromRouter(), isConnected, isAuthenticated);
   const [multiScoreOptions, setMultiScoreOptions] = useState<string[]>([]);
-  const router = useRouter();
 
   const { disconnect } = useDisconnect();
   const { signInWithEthereum } = useSIWE(() => console.log('post signin'));
@@ -207,20 +212,11 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
   const handleSliderChange = (value: number) => {
     updateScore(value);
   };
-  const formattedPrompt = useMemo(() => {
-    return task?.taskData?.prompt?.split('\\n').map((line, index) => (
-      <React.Fragment key={index}>
-        {line}
-        <br />
-      </React.Fragment>
-    ));
-  }, [task]);
-  const route = useRouter();
 
   const handleOnClose = () => {
     setSubmissionErr(null);
     setOpen(false);
-    route.push('/');
+    router.push('/');
   };
   const handleRatingChange = (model: string, newRating: number) => {
     setRatings((prevRatings) => {
@@ -249,7 +245,9 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
     <Layout isFullWidth>
       <div className=" my-4 flex flex-col items-center justify-center">
         <div className="w-full max-w-[1200px]">
-          <TaskPrompt title={task?.title} taskType={taskType} formattedPrompt={formattedPrompt} />
+          {task && !isTaskLoading && (
+            <TaskPrompt title={task?.title} taskType={taskType} formattedPrompt={task.taskData.prompt} />
+          )}
         </div>
         <hr className={' mb-8 mt-3 w-full border-t-2 border-black'} />
         {isMultiScore && (

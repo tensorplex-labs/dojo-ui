@@ -19,13 +19,21 @@ const TaskPrompt: React.FC<TaskPromptProps> = ({ title, taskType, formattedPromp
         </div>
       </div>
       <div
-        className={`${FontManrope.className} flex min-h-[48px] w-fit
+        className={`${FontManrope.className} flex min-h-[48px] w-fit overflow-hidden
          rounded-xl border-2 border-black`}
       >
         <div className="animate-pulse p-2">
           <IconSparkles className="size-7 shrink-0 rounded-full  p-[3px]" />
         </div>
-        <FormattedPrompt>{formattedPrompt}</FormattedPrompt>
+        <FormattedPrompt
+          autoHideHeightThreshold={90}
+          bottomFadeDivClassName="h-[30px]"
+          className="h-fit min-h-[44px] pr-8"
+          collapsedClassName="max-h-[53px]"
+          collapsableBtnClassName="size-6 top-[10px] right-[10px]"
+        >
+          {formattedPrompt}
+        </FormattedPrompt>
       </div>
     </div>
   );
