@@ -5,8 +5,8 @@ export type TaskType = 'CODE_GENERATION' | '3D_MODEL' | 'TEXT_TO_IMAGE';
 export const taskTTI: Task[] = [
   {
     taskId: 'demo6',
-    title: 'Text to Image Task',
-    body: 'Text to Image',
+    title: 'Text to Image ',
+    body: 'an image of a green dog.',
     expireAt: '2024-12-03T15:04:00Z',
     type: 'TEXT_TO_IMAGE',
     taskData: {
@@ -1804,12 +1804,13 @@ export const taskListImgEvaluation: Task[] = [
   {
     taskId: 'a4e72fb1-3bf0-4904-9254-b5e5e95e427a',
     title: 'Text to Image Task',
-    body: 'Generate an image of a green dog.',
+    body: 'Generate an image of a photogenic brown dog riding a horse. The dog is holding on to chopsticks to help with riding on the horse.',
     expireAt: '2024-12-03T15:04:00Z',
     type: 'TEXT_TO_IMAGE',
     taskData: {
       task: 'TEXT_TO_IMAGE',
-      prompt: 'Generate an image of a green dog.',
+      prompt:
+        'Generate an image of a photogenic brown dog riding a horse. The dog is holding on to chopsticks to help with riding on the horse.',
       criteria: [
         {
           type: 'rich-human-feedback',
@@ -1820,8 +1821,8 @@ export const taskListImgEvaluation: Task[] = [
         {
           model: 'stabilityai/stable-diffusion-xl-base-1.0',
           completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/NYSEWithEmotionsAndRedGreenCharts2.png',
-            filename: 'green_dog1.png',
+            url: 'https://dojo-files-dev.tensorplex.dev/demo/dog_ride_horse_w_chopstick.png',
+            filename: 'DogOnHorse.png',
           },
         },
       ],
