@@ -118,9 +118,9 @@ const ImageAnnotator: React.FC<Props> = ({ src, onAnnotationsChange }) => {
     const circleRadius = 10;
 
     return (
-      <div className="absolute top-[-2px] left-[-2px] w-full h-full pointer-events-none">
+      <div className="pointer-events-none absolute left-[-2px] top-[-2px] size-full">
         <div
-          className="absolute  border-[0.5px] border-red-500 bg-white origin-left"
+          className="absolute  origin-left border-[0.5px] border-red-500 bg-white"
           style={{
             width: length,
             height: '2px',
@@ -130,7 +130,7 @@ const ImageAnnotator: React.FC<Props> = ({ src, onAnnotationsChange }) => {
           }}
         />
         <div
-          className="absolute border-2 border-red-500 bg-opacity-75 rounded-full bg-white"
+          className="absolute rounded-full border-2 border-red-500 bg-white bg-opacity-75"
           style={{
             width: circleRadius * 2,
             height: circleRadius * 2,
@@ -241,7 +241,7 @@ const ImageAnnotator: React.FC<Props> = ({ src, onAnnotationsChange }) => {
             ref={(el) => {
               annotationRefs.current[index] = el;
             }}
-            className={`relative mb-4 ${selectedAnnotation === index ? 'bg-green-100 rounded-md p-2' : ''}`}
+            className={`relative mb-4 ${selectedAnnotation === index ? 'rounded-md bg-green-100 p-2' : ''}`}
           >
             <div className={`flex items-center justify-between text-black ${index !== 0 && 'pt-2.5'}`}>
               <div>
@@ -273,7 +273,7 @@ const ImageAnnotator: React.FC<Props> = ({ src, onAnnotationsChange }) => {
               onFocus={() => handleTextareaFocus(index)}
               rows={3}
               maxLength={55}
-              className={`${FontManrope.className} h-20 w-full resize-none border-2 border-black p-3 text-base font-bold text-black bg-[#d7d7d7] focus:shadow-brut-sm focus:bg-white`}
+              className={`${FontManrope.className} h-20 w-full resize-none border-2 border-black bg-[#d7d7d7] p-3 text-base font-bold text-black focus:bg-white focus:shadow-brut-sm`}
             />
           </div>
         ))}
