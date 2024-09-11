@@ -130,6 +130,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
           return (
             <>
               <Image
+                draggable={false}
                 onClick={(e) => {
                   if (task.taskData.criteria.find((c) => c.type === 'rich-human-feedback')) {
                     handleRHFImageClick(e);

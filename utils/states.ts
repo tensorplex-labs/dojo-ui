@@ -393,12 +393,12 @@ export const task3d: Task[] = [
   {
     taskId: 'demo10-3d',
     title: 'LLM 3D Model Task (Demo)',
-    body: 'Black fururistic flying taxi drone',
+    body: 'Black futuristic flying taxi drone',
     expireAt: '2099-12-03T15:04:00Z',
     type: '3D_MODEL',
     taskData: {
       task: '3D_MODEL',
-      prompt: 'Black fururistic flying taxi drone',
+      prompt: 'Black futuristic flying taxi drone',
       criteria: [
         {
           max: 100,
