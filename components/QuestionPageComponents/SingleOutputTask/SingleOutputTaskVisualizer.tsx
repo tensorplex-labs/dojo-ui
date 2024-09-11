@@ -208,11 +208,11 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
                   <div key={index} className="relative mb-4">
                     <div className={`flex items-center justify-between text-black ${index !== 0 && 'pt-2.5'}`}>
                       <div>
-                        <h1 className={`${FontSpaceMono.className} text-base font-bold`}>POINTER {index + 1}</h1>
+                        <h1 className={`${FontSpaceMono.className} text-base font-bold`}>#{index + 1}</h1>
                         <p
                           className={`${FontManrope.className} pb-2 text-xs font-semibold normal-case text-black text-opacity-60`}
                         >
-                          Include instructions and guidelines here.
+                          What is the error and how should it be improved?
                         </p>
                       </div>
                       <button
@@ -234,9 +234,9 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
                   </div>
                 ))
               ) : (
-                <div className="flex size-full flex-col items-center justify-center text-xl font-bold text-font-primary/40">
-                  <span>Click on the image </span>
-                  <span>to add some pointers!</span>
+                <div className="flex size-full flex-col items-center justify-center text-lg font-bold text-font-primary/40">
+                  <span>Click on the response image to</span>
+                  <span>annotate the flaws in the output.</span>
                 </div>
               )}
             </div>

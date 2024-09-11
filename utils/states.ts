@@ -15,7 +15,7 @@ export const taskTTI: Task[] = [
       criteria: [
         {
           type: 'multi-select',
-          label: 'Choose the most appropriate options',
+          label: 'Choose all appropriate options',
           options: ['Safe For Work (SFW)', 'High quality', "I have no idea what i'm looking at", 'Almost there'],
         },
         {
@@ -567,7 +567,7 @@ export const tasklistCodegen: Task[] = [
     taskData: {
       task: 'CODE_GENERATION',
       prompt:
-        "Create a web application using only HTML, CSS, and JavaScript that visualizes a clock. The clock should display the current time and update every second. The user should be able to interact with the clock in the following ways: 1. Start or stop the clock's time progression. 2. Switch between a 12-hour and a 24-hour display format. 3. Change the color of the clock's hands. 4. Toggle the visibility of the second hand. Ensure that the clock is visually appealing and accurately represents the current time. The user interactions should be intuitive and provide immediate feedback. No external libraries are allowed; use only built-in JavaScript functions.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
+        "Create a web page that displays an interactive guitar visualization using HTML, CSS, and JavaScript. The guitar should have 6 strings and a fretboard. Implement the following user interactions:\n\n1. When the user hovers over a string, it should visually highlight to indicate it can be played.\n\n2. Clicking on a string should produce a plucking animation and play a corresponding guitar note sound.\n\n3. Implement a slider that adjusts the guitar's tuning, affecting the pitch of the notes played when strings are clicked.\n\nEnsure the visualization is responsive and works well on different screen sizes. Use only built-in JavaScript libraries and features for this implementation.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
       criteria: [
         {
           max: 100,
@@ -1125,7 +1125,7 @@ export const tasklistCodegen: Task[] = [
     },
     status: 'IN_PROGRESS',
     numResults: 2,
-    maxResults: 2,
+    maxResults: 3,
     numCriteria: 1,
     isCompletedByWorker: false,
   },
@@ -1315,7 +1315,7 @@ export const tasklistCodegen: Task[] = [
     numResults: 1,
     maxResults: 4,
     numCriteria: 1,
-    isCompletedByWorker: true,
+    isCompletedByWorker: false,
   },
   {
     taskId: 'demo5',
@@ -1805,7 +1805,7 @@ export const taskListImgEvaluation: Task[] = [
     taskId: 'a4e72fb1-3bf0-4904-9254-b5e5e95e427a',
     title: 'Text to Image Task',
     body: 'Generate an image of a photogenic brown dog riding a horse. The dog is holding on to chopsticks to help with riding on the horse.',
-    expireAt: '2024-12-03T15:04:00Z',
+    expireAt: '2099-12-03T15:04:00Z',
     type: 'TEXT_TO_IMAGE',
     taskData: {
       task: 'TEXT_TO_IMAGE',
@@ -1814,7 +1814,7 @@ export const taskListImgEvaluation: Task[] = [
       criteria: [
         {
           type: 'rich-human-feedback',
-          label: 'Image Pointers',
+          label: 'Errors / flaws in the image',
         },
       ],
       responses: [
@@ -1822,6 +1822,38 @@ export const taskListImgEvaluation: Task[] = [
           model: 'stabilityai/stable-diffusion-xl-base-1.0',
           completion: {
             url: 'https://dojo-files-dev.tensorplex.dev/demo/dog_ride_horse_w_chopstick.png',
+            filename: 'DogOnHorse.png',
+          },
+        },
+      ],
+    },
+    status: 'IN_PROGRESS',
+    numResults: 0,
+    maxResults: 10,
+    numCriteria: 4,
+    isCompletedByWorker: false,
+  },
+  {
+    taskId: 'a4e72fb1-3bf0-4904-9254-b5e5e95e427a',
+    title: 'Text to Image Task',
+    body: 'Generate a minimalist scene featuring a bright red ladder standing against the corner where two blue walls meet. The entire environment is clean, with a smooth, monochromatic blue background. The ladder casts a sharp shadow along one of the walls, creating a sense of depth and contrast. The lighting is soft, emphasizing the simplicity and geometric form of the scene. The overall color palette consists of shades of blue and the striking red of the ladder, giving the composition a bold yet minimalistic feel.',
+    expireAt: '2099-12-03T15:04:00Z',
+    type: 'TEXT_TO_IMAGE',
+    taskData: {
+      task: 'TEXT_TO_IMAGE',
+      prompt:
+        'Generate a minimalist scene featuring a bright red ladder standing against the corner where two blue walls meet. The entire environment is clean, with a smooth, monochromatic blue background. The ladder casts a sharp shadow along one of the walls, creating a sense of depth and contrast. The lighting is soft, emphasizing the simplicity and geometric form of the scene. The overall color palette consists of shades of blue and the striking red of the ladder, giving the composition a bold yet minimalistic feel.',
+      criteria: [
+        {
+          type: 'rich-human-feedback',
+          label: 'Errors / flaws in the image',
+        },
+      ],
+      responses: [
+        {
+          model: 'stabilityai/stable-diffusion-xl-base-1.0',
+          completion: {
+            url: 'https://dojo-files-dev.tensorplex.dev/demo/LadderWithLighting.png',
             filename: 'DogOnHorse.png',
           },
         },
