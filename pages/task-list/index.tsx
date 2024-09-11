@@ -1,5 +1,4 @@
 'use client';
-import Datatable from '@/components/Common/DataTable';
 import NavigationBar from '@/components/Common/NavigationBar';
 import { WalletManagement } from '@/components/TaskListPageComponents';
 import TaskListHeader from '@/components/TaskListPageComponents/TaskListPageHeader';
@@ -19,6 +18,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAccount, useDisconnect } from 'wagmi';
 
 import { Button } from '@/components/Common/Button';
+import Datatablev2 from '@/components/Common/DataTable/Datatablev2';
 import { DropdownContainer } from '@/components/Common/DropDown';
 import SubscriptionModal from '@/components/Common/Modal/SubscriptionModal';
 import { Pagination } from '@/components/Common/Pagination';
@@ -27,6 +27,7 @@ import { ALL_CATEGORY } from '@/constants';
 import useFeature from '@/hooks/useFeature';
 import { useSIWE } from '@/hooks/useSIWE';
 import { MODAL } from '@/types/ProvidersTypes';
+import { cn } from '@/utils/tw';
 
 const getCategoryObjectsFromUrlQuery = (query: string | string[] | undefined, baseCategories: any[]) => {
   if (!query) return [];
@@ -283,7 +284,17 @@ export default function Index() {
             </span>
           ) : null}
         </div>
-        <Datatable data={tasks || []} columnDef={columnDef} pageSize={pagination?.pageSize || 10} isLoading={loading} />
+        <Datatablev2
+          tooltipShowingXofY={false}
+          headerCellClassName={cn('py-2 uppercase', FontSpaceMono.className)}
+          minColumnSize={10}
+          defaultColumnSize={0}
+          tableClassName={cn('w-[1039px]', FontManrope.className)}
+          data={tasks || []}
+          columnDef={columnDef}
+          pageSize={pagination?.pageSize || 10}
+          loadingState={loading}
+        />
         <div className="mt-3"></div>
         <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange} />
         {isAuthenticated ? (

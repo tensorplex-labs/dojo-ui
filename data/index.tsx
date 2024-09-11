@@ -2,8 +2,15 @@ import CreateTaskAnimation from '@/components/HomePageComponents/CreateTaskAnima
 import DistributeSubscriptionKeyAnimation from '@/components/HomePageComponents/DistributeSubscriptionKeyAnimation';
 import EarnStepAnimation from '@/components/HomePageComponents/EarnStepAnimation';
 import { StepCardProps } from '@/components/HomePageComponents/StepCard';
-import { CellContext } from '@tanstack/react-table';
+import { taskStatus } from '@/hooks/useGetTasks';
+import RouterProvider from '@/providers/routerProvider';
+import { ButtonState } from '@/types/CommonTypes';
+import { Task } from '@/types/QuestionPageTypes';
+import { cn } from '@/utils/tw';
+import { FontSpaceMono } from '@/utils/typography';
+import { CellContext, ColumnDef, Row } from '@tanstack/react-table';
 import Image from 'next/image';
+import { NextRouter } from 'next/router';
 
 interface HeaderItem {
   title: string;
@@ -207,27 +214,50 @@ export const frequentlyAccessedData: FrequentlyAccessedProps[] = [
     route: 'https://stream.tensorplex.ai',
   },
 ];
-// const categoryTypes = [
-//   { label: "Object Detection", isActive: false },
-//   { label: "Content Classification", isActive: false },
-//   { label: "Semantic Segmentation", isActive: false },
-//   { label: "Named Entity Recognition", isActive: false },
-//   { label: "Object & Event Detection", isActive: false },
-// ];
-// export const mockData = new Array(50).fill(null).map((_, index) => {
-//   // Generate a random number for the time remaining
-//   const randomNumber = Math.floor(Math.random() * 60); // Random number between 0 and 59
-//   let expiry;
 
-export const columnDef = [
+const RenderPill = (pillContent: string) => {
+  return <div className="w-fit rounded-full bg-primary/20 px-3 py-2 text-xs font-bold text-primary">{pillContent}</div>;
+};
+
+const RenderButton = (id: string, state: ButtonState, router: NextRouter, exp: boolean, meta?: any) => {
+  const type = (meta && meta.type) ?? '';
+  return (
+    <button
+      onClick={() => {
+        if (exp) {
+          if (type.toLowerCase() === 'text_to_image') router.push(`/Questionsv2?taskId=${id}&exp=demo`);
+          else router.push(`/Questions?taskId=${id}&exp=demo`);
+        } else {
+          router.push(`/Questions?taskId=${id}`);
+        }
+      }}
+      disabled={state.disabled}
+      className={cn(
+        'uppercase h-[40px] font-bold border-[2px] border-black disabled:bg-gray-400 w-[113px] bg-primary text-white disabled:cursor-not-allowed',
+        FontSpaceMono.className
+      )}
+    >
+      {state.text}
+    </button>
+  );
+};
+
+export const columnDef: ColumnDef<Task, any>[] = [
   {
-    accessorKey: 'title',
+    accessorKey: 'body',
     header: 'Name',
+    size: 130,
+    cell: (info: CellContext<any, any>) => {
+      return <div className=" truncate">{info.getValue()}</div>;
+    },
   },
   {
     accessorKey: 'type',
     header: 'Type',
-    cell: (info: CellContext<any, any>) => info.getValue().replace(/_/g, ' '),
+    size: 70,
+    cell: (info) => {
+      return RenderPill(info.getValue().replace(/_/g, ' '));
+    },
   },
   // {
   //   accessorKey: "yield",
@@ -236,6 +266,7 @@ export const columnDef = [
   {
     accessorKey: 'expireAt',
     header: 'Expiry',
+    size: 40,
     accessorFn: (row: any) => {
       const expiryDate = new Date(row.expireAt);
       const now = new Date();
@@ -253,16 +284,41 @@ export const columnDef = [
       }
       return formattedExpiry;
     },
+    cell: (info) => {
+      return <div className="w-fit">{info.getValue()}</div>;
+    },
   },
   {
     accessorKey: 'slotsFilled',
     header: 'Slots Filled',
+    size: 50,
     accessorFn: (row: any) => `${row.numResults}/${row.maxResults}`,
   },
   {
     accessorKey: 'operations',
-    header: 'Operations',
-    cell: ({}) => 'Start', // Render JSX for the button
+    header: '',
+    size: 50,
+    cell: (info) => {
+      const generateBtnState = (row: Row<any>): ButtonState => {
+        if (new Date(row.original.expireAt).getTime() < Date.now() || row.original.status === taskStatus.EXPIRED)
+          return { disabled: true, text: 'Expired' };
+
+        if (row.original.isCompletedByWorker) return { disabled: true, text: 'Completed' };
+
+        if (row.original.maxResults === row.original.numResults || row.original.status == taskStatus.COMPLETED)
+          return { disabled: true, text: 'Filled' };
+
+        return { disabled: false, text: 'Start' };
+      };
+      const state = generateBtnState(info.row);
+      return (
+        <RouterProvider>
+          {(router, exp) =>
+            RenderButton(info.row.original.taskId, state, router, exp, { type: info.row.original.type })
+          }
+        </RouterProvider>
+      );
+    }, // Render JSX for the button
   },
 ];
 
