@@ -21,7 +21,7 @@ const Questionsv2 = () => {
   } = useRequestTaskByTaskID(getTaskIdFromRouter(), isConnected, isAuthenticated);
   return (
     <Layout isFullWidth={true}>
-      <div className="flex grow justify-center p-4">
+      <div className="flex grow justify-center px-4 py-8">
         <div className="flex w-full max-w-[1075px]">{task && <SingleOutputTaskVisualizer task={task} />}</div>
       </div>
     </Layout>
