@@ -5,11 +5,13 @@ import MultiSelectV2 from '@/components/Common/MultileSelect/MultiSelectV2';
 import GaussianSplatViewer from '@/components/GaussianSplatViewer';
 import { Criterion, CriterionWithResponses, Task } from '@/types/QuestionPageTypes';
 import { cn } from '@/utils/tw';
-import { FontSpaceMono } from '@/utils/typography';
-import { IconCheck, IconProgress, IconSparkles } from '@tabler/icons-react';
+import { FontManrope, FontSpaceMono } from '@/utils/typography';
+import { IconCheck, IconProgress, IconSparkles, IconTrash } from '@tabler/icons-react';
 import Image from 'next/image';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { generateNonce } from 'siwe';
+import FormattedPrompt from '../FormattedPrompt';
+import { Annotation } from '../ImageAnnotator/ImageAnnotator';
 import Slider from '../Slider';
 
 interface Props extends React.HTMLProps<HTMLDivElement> {
@@ -44,39 +46,13 @@ const CriterionContentBox: React.FC<VisualizerContentBoxProps> = ({
 }: VisualizerContentBoxProps) => (
   <div
     className={cn(
-      'flex w-full flex-wrap items-start gap-[5px] rounded-md border-0 border-font-primary/10 bg-background p-3',
+      'flex w-full flex-wrap items-start gap-[5px] rounded-md border-font-primary/10 bg-background border-[0px] ',
       className
     )}
   >
     {children}
   </div>
 );
-
-const renderVisualizer = (task: Task) => {
-  let ttiUrl = '';
-  const taskResponse = task.taskData.responses[0];
-  switch (task.type) {
-    case 'CODE_GENERATION':
-      return <CodegenViewer encodedHtml={taskResponse.completion.combined_html} />;
-    case '3D_MODEL':
-      if (taskResponse.completion.url === undefined) return;
-      return (
-        <GaussianSplatViewer
-          className={cn('max-h-[700px] h-full w-auto max-w-full aspect-square')}
-          url={taskResponse.completion.url}
-        ></GaussianSplatViewer>
-      );
-    case 'TEXT_TO_IMAGE':
-      if (taskResponse.completion.url === undefined) return;
-      ttiUrl = (taskResponse.completion.url as string).startsWith('http')
-        ? taskResponse.completion.url
-        : `https://${taskResponse.completion.url}`;
-      return <Image alt="image" width={300} height={300} src={ttiUrl} className="w-full" />;
-    default:
-      return;
-  }
-};
-
 /**
  * This single out visualizer only can visualize scores and multi select, single-select for now.
  * We should add RHF into here after it's done.
@@ -84,7 +60,103 @@ const renderVisualizer = (task: Task) => {
 const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
   const [criterionForResponse, setCriterionForResponse] = useState<CriterionWithResponses[]>([]);
   const idRef = useRef<string>(generateNonce());
+  const [annotations, setAnnotations] = useState<Annotation[]>([]);
+  const rhfLabelContainerRef = useRef<HTMLDivElement>(null);
+  const prevAnnotationsLengthRef = useRef<number>(annotations.length); // To know when things are added or removed
+
+  useEffect(() => {
+    if (annotations.length > prevAnnotationsLengthRef.current && rhfLabelContainerRef.current) {
+      rhfLabelContainerRef.current.scrollTop = rhfLabelContainerRef.current.scrollHeight;
+    }
+    prevAnnotationsLengthRef.current = annotations.length;
+  }, [annotations]);
+  const handleLabelChange = (index: number, value: string) => {
+    setAnnotations((prev) => {
+      const updatedAnnotations = prev.map((annotation, i) =>
+        i === index ? { ...annotation, label: value } : annotation
+      );
+      //  onAnnotationsChange(updatedAnnotations);
+      return updatedAnnotations;
+    });
+  };
+
+  const handleDelete = (index: number) => {
+    setAnnotations((prev) => {
+      const updatedAnnotations = prev.filter((_, i) => i !== index);
+      //  onAnnotationsChange(updatedAnnotations);
+      return updatedAnnotations;
+    });
+  };
+
   //Renderers
+  const renderVisualizer = useCallback(
+    (task: Task) => {
+      const handleRHFImageClick = (e: React.MouseEvent<HTMLImageElement>) => {
+        if (annotations.length >= 10) return;
+        const imageRect = e.currentTarget.getBoundingClientRect();
+        const x = ((e.clientX - imageRect.left) / imageRect.width) * 100;
+        const y = ((e.clientY - imageRect.top) / imageRect.height) * 100;
+        setAnnotations((prev) => {
+          const updatedAnnotations = [
+            ...prev,
+            {
+              x,
+              y,
+              label: '',
+            },
+          ];
+          // onAnnotationsChange(updatedAnnotations);
+          return updatedAnnotations;
+        });
+      };
+      let ttiUrl = '';
+      const taskResponse = task.taskData.responses[0];
+      switch (task.type) {
+        case 'CODE_GENERATION':
+          return <CodegenViewer encodedHtml={taskResponse.completion.combined_html} />;
+        case '3D_MODEL':
+          if (taskResponse.completion.url === undefined) return;
+          return (
+            <GaussianSplatViewer
+              className={cn('max-h-[700px] h-full w-auto max-w-full aspect-square')}
+              url={taskResponse.completion.url}
+            ></GaussianSplatViewer>
+          );
+        case 'TEXT_TO_IMAGE':
+          if (taskResponse.completion.url === undefined) return;
+          ttiUrl = (taskResponse.completion.url as string).startsWith('http')
+            ? taskResponse.completion.url
+            : `https://${taskResponse.completion.url}`;
+          return (
+            <>
+              <Image
+                onClick={(e) => {
+                  if (task.taskData.criteria.find((c) => c.type === 'rich-human-feedback')) {
+                    handleRHFImageClick(e);
+                  }
+                }}
+                alt="image"
+                width={300}
+                height={300}
+                src={ttiUrl}
+                className="w-full"
+              />
+              {annotations.map((annotation, index) => (
+                <div key={index} className="absolute" style={{ top: `${annotation.y}%`, left: `${annotation.x}%` }}>
+                  <div className="flex size-5 translate-x-[-50%] translate-y-[-50%] items-center justify-center rounded-full bg-red-500 font-bold text-white">
+                    {index + 1}
+                  </div>
+                </div>
+              ))}
+            </>
+          );
+        default:
+          return;
+      }
+    },
+    [annotations]
+  );
+
   const renderLabelQuestion = useCallback(
     (crit: Criterion, onchangeHandler: (idx: string, value: string) => void): React.ReactNode => {
       switch (crit.type) {
@@ -125,11 +197,55 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
               }}
             />
           );
+        case 'rich-human-feedback':
+          return (
+            <div
+              ref={rhfLabelContainerRef}
+              className="max-h-[520px] min-h-[200px] w-full overflow-y-auto rounded-md border border-black/10 px-4 py-2"
+            >
+              {annotations.length > 0 ? (
+                annotations.map((annotation, index) => (
+                  <div key={index} className="relative mb-4">
+                    <div className={`flex items-center justify-between text-black ${index !== 0 && 'pt-2.5'}`}>
+                      <div>
+                        <h1 className={`${FontSpaceMono.className} text-base font-bold`}>POINTER {index + 1}</h1>
+                        <p
+                          className={`${FontManrope.className} pb-2 text-xs font-semibold normal-case text-black text-opacity-60`}
+                        >
+                          Include instructions and guidelines here.
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => handleDelete(index)}
+                        className="cursor-pointer border-none bg-transparent text-lg text-black hover:text-red-500"
+                        title="Delete"
+                      >
+                        <IconTrash />
+                      </button>
+                    </div>
+
+                    <textarea
+                      value={annotation.label}
+                      onChange={(e) => handleLabelChange(index, e.target.value)}
+                      rows={1}
+                      style={{ maxHeight: '150px', overflowY: 'auto' }}
+                      className={`${FontManrope.className} w-full resize-none border-2 border-black p-3 text-base font-bold text-black shadow-brut-sm outline-none`}
+                    />
+                  </div>
+                ))
+              ) : (
+                <div className="flex size-full flex-col items-center justify-center text-xl font-bold text-font-primary/40">
+                  <span>Click on the image </span>
+                  <span>to add some pointers!</span>
+                </div>
+              )}
+            </div>
+          );
         default:
           return '';
       }
     },
-    [criterionForResponse]
+    [criterionForResponse, annotations]
   );
 
   // Change handlers
@@ -154,11 +270,13 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
     });
   }, []);
   useEffect(() => {
-    if (task) setCriterionForResponse([...task.taskData.criteria.map((c) => ({ ...c, responses: [] }))]);
+    if (task) setCriterionForResponse([...task.taskData.criteria.map((c) => ({ ...c, responses: [] }))]); //Setting up the initial state with responses
+    setAnnotations([]); //Reset if go next TTI or task
   }, [task]);
   return (
-    <div className={cn('flex w-full flex-col gap-[20px] md:flex-row', props.containerClassName)}>
+    <div className={cn('flex w-full flex-col gap-[30px] md:flex-row items-stretch', props.containerClassName)}>
       <div className="flex h-fit w-full flex-col items-center justify-start gap-[10px] rounded-lg border border-font-primary/10 bg-background-accent p-3 md:w-1/2">
+        {/* LEFT SIDE VISUALIZER BOX */}
         <div className="flex w-full justify-between text-xs">
           <div className="flex flex-col lowercase">
             <div className={cn('flex items-center gap-[5px]', FontSpaceMono.className)}>
@@ -190,21 +308,23 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
         <VisualizerContentBox>
           <div className="flex gap-[5px]">
             <IconSparkles className="my-[2px] size-[20px] shrink-0 animate-pulse"></IconSparkles>
-            <div className="">{task.taskData.prompt}</div>
+            <FormattedPrompt className="h-fit min-h-fit p-0">{task.taskData.prompt}</FormattedPrompt>
           </div>
         </VisualizerContentBox>
         <VisualizerContentBox className="flex flex-col items-stretch gap-[10px]">
           <>
             <div className="w-full">Response:</div>
-            <BrutCard className={cn('p-0 flex size-fit rounded-md', props.visualizerClassName)}>
+            <BrutCard className={cn('relative p-0 flex size-fit rounded-md', props.visualizerClassName)}>
               {renderVisualizer(task)}
             </BrutCard>
           </>
         </VisualizerContentBox>
       </div>
-      <div className={cn('flex flex-col items-stretch w-full md:w-1/2', props.labelsClassName)}>
+
+      {/* RIGHT SIDE QUESTIONS BOX */}
+      <div className={cn('flex flex-col items-stretch w-full md:w-1/2 gap-[24px] p-3', props.labelsClassName)}>
         {task.taskData.criteria.map((criterion, index) => (
-          <CriterionContentBox key={`sotv_visualizer_${index}`} className={cn('flex w-full flex-col')}>
+          <CriterionContentBox key={`sotv_visualizer_${index}`} className={cn('flex w-full flex-col bg-transparent')}>
             <span className={cn(FontSpaceMono.className, 'font-bold')}>
               {index + 1}. {criterion.label}
             </span>

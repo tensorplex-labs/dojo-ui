@@ -3,6 +3,7 @@ import { TaskPromptProps } from '@/types/QuestionPageTypes';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { IconSparkles } from '@tabler/icons-react';
 import React from 'react';
+import FormattedPrompt from '../FormattedPrompt';
 
 const TaskPrompt: React.FC<TaskPromptProps> = ({ title, taskType, formattedPrompt }) => {
   const { updateQueryString } = useQueryFunc();
@@ -18,13 +19,13 @@ const TaskPrompt: React.FC<TaskPromptProps> = ({ title, taskType, formattedPromp
         </div>
       </div>
       <div
-        className={`${FontSpaceMono.className} flex min-h-[48px] w-fit
-         rounded-xl border-2 border-black font-bold tracking-wider`}
+        className={`${FontManrope.className} flex min-h-[48px] w-fit
+         rounded-xl border-2 border-black`}
       >
         <div className="animate-pulse p-2">
           <IconSparkles className="size-7 shrink-0 rounded-full  p-[3px]" />
         </div>
-        <div className="flex h-full min-h-[44px] items-center whitespace-pre-wrap  p-2 pl-0">{formattedPrompt}</div>
+        <FormattedPrompt>{formattedPrompt}</FormattedPrompt>
       </div>
     </div>
   );
