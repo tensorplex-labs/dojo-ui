@@ -41,37 +41,39 @@ const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
   };
 
   return (
-    <div className="grid w-full max-w-[1200px] grid-cols-1 gap-x-5 gap-y-10 px-4 md:grid-cols-2">
-      {task.taskData.responses.map((plot, index) => (
-        <div key={`${task.type}_${index}`} className="flex w-full flex-col justify-center ">
-          <div
-            className={`flex h-fit w-full flex-col rounded-none  ${isMultiScore && 'border-2 border-black bg-ecru-white shadow-brut-sm'} `}
-          >
-            {renderVisualizer(task.type, plot, index)}
-            {isMultiScore && (
-              <>
-                <div
-                  className={` w-full justify-between px-4 text-base ${FontSpaceMono.className} border-t-2 border-black py-2  font-bold uppercase`}
-                >
-                  response quality
-                </div>
-                <div className={`px-4`}>
-                  <Slider
-                    min={minValSlider}
-                    max={maxValSlider}
-                    step={1}
-                    initialValue={ratings[multiScoreOptions[index]]}
-                    onChange={(rating) => {
-                      handleRatingChange(multiScoreOptions[index], rating);
-                    }}
-                    showSections
-                  />
-                </div>
-              </>
-            )}
+    <div className="flex w-full justify-center px-4">
+      <div className="grid w-full max-w-[1075px] grid-cols-1 gap-x-5 gap-y-10 md:grid-cols-2">
+        {task.taskData.responses.map((plot, index) => (
+          <div key={`${task.type}_${index}`} className="flex w-full flex-col justify-center ">
+            <div
+              className={`flex h-fit w-full flex-col rounded-none  ${isMultiScore && 'border-2 border-black bg-ecru-white shadow-brut-sm'} `}
+            >
+              {renderVisualizer(task.type, plot, index)}
+              {isMultiScore && (
+                <>
+                  <div
+                    className={` w-full justify-between px-4 text-base ${FontSpaceMono.className} border-t-2 border-black py-2  font-bold uppercase`}
+                  >
+                    response quality
+                  </div>
+                  <div className={`px-4`}>
+                    <Slider
+                      min={minValSlider}
+                      max={maxValSlider}
+                      step={1}
+                      initialValue={ratings[multiScoreOptions[index]]}
+                      onChange={(rating) => {
+                        handleRatingChange(multiScoreOptions[index], rating);
+                      }}
+                      showSections
+                    />
+                  </div>
+                </>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };

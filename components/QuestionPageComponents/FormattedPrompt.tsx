@@ -1,3 +1,4 @@
+import { useResizeObserver } from '@/hooks/useResizeObserver';
 import { cn } from '@/utils/tw';
 import { IconChevronDown } from '@tabler/icons-react';
 import React, { useEffect, useRef, useState } from 'react';
@@ -5,6 +6,7 @@ import React, { useEffect, useRef, useState } from 'react';
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   collapsedClassName?: string;
+  isCollapsibleClassName?: string;
   collapsableBtnClassName?: string;
   bottomFadeDivClassName?: string;
   autoHideHeightThreshold?: number;
@@ -14,6 +16,7 @@ const FormattedPrompt = ({
   children,
   className,
   collapsedClassName,
+  isCollapsibleClassName,
   collapsableBtnClassName,
   bottomFadeDivClassName,
   autoHideHeightThreshold,
@@ -21,12 +24,15 @@ const FormattedPrompt = ({
 }: Props) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isCollapsible, setIsCollapsible] = useState(false);
-  const divRef = useRef<HTMLDivElement>(null);
+  const divRef = useRef<HTMLDivElement | null>(null);
+  const reObRef = useResizeObserver((e) => {
+    console.log('resizing', e.contentRect.width);
+  });
   const aht = autoHideHeightThreshold ?? 75;
   useEffect(() => {
     if (divRef.current && divRef.current.clientHeight > aht) {
       setIsCollapsible(true);
-      setIsCollapsed(true);
+      // setIsCollapsed(true);
     } else {
       setIsCollapsible(false);
       setIsCollapsed(false);
@@ -41,14 +47,18 @@ const FormattedPrompt = ({
 
   return (
     <div
-      ref={divRef}
+      ref={(e) => {
+        divRef.current = e;
+        reObRef.current = e;
+      }}
       className={cn(
-        'flex relative h-full items-start whitespace-pre-wrap p-2 pl-0 pr-6 text-font-primary/70',
-        isCollapsed && 'overflow-hidden max-h-[40px] cursor-pointer',
-        isCollapsed && collapsedClassName,
-        isCollapsible && 'cursor-pointer',
+        'transition-all duration-300 flex relative h-full items-start whitespace-pre-wrap p-2 pl-0 pr-6 text-font-primary/70',
+        isCollapsible && 'cursor-pointer pr-[48px]',
+        isCollapsible && isCollapsibleClassName,
         !isCollapsed && 'items-center',
-        className
+        className,
+        isCollapsed && 'overflow-hidden h-[40px] cursor-pointer',
+        isCollapsed && collapsedClassName
       )}
       onClick={toggleCollapse}
       {...props}

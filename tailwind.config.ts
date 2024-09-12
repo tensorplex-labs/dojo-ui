@@ -11,6 +11,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      transitionProperty: {
+        width: 'width',
+        height: 'height',
+      },
       keyframes: {
         pulseY: {
           '0%, 100%': { transform: 'translateY(0)' },

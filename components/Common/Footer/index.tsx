@@ -4,6 +4,7 @@ import useScrollRestoration from '@/hooks/useScrollRestoration';
 import { useSubmit } from '@/providers/submitContext';
 import { wait } from '@/utils/general_helpers';
 import { tasklistFull } from '@/utils/states';
+import { cn } from '@/utils/tw';
 import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
 import { Button } from '../Button';
@@ -54,7 +55,7 @@ const Footer: React.FC = () => {
     router.replace(`/Questions?taskId=${nextTaskResponse.nextInProgressTaskId}`);
   };
   return (
-    <div className="mx-auto max-w-[1200px] p-4">
+    <div className=" w-full p-4">
       {/* <div className="mb-2">
         <h1 className={`uppercase ${FontSpaceMono.className} text-xl font-bold mb-1.5`}>
             Rewards
@@ -64,7 +65,7 @@ const Footer: React.FC = () => {
             how this thing would behave so the user is aware on how to use it.
         </p>
         </div> */}
-      <div className="flex justify-end">
+      <div className="mx-auto flex max-w-[1075px] justify-end">
         {/* Stake Amount */}
         {/* <div className=" flex"> */}
         {/* <div className="w-[290px]">
@@ -110,10 +111,10 @@ const Footer: React.FC = () => {
                 </div> */}
         {/* </div> */}
         {/* </div> */}
-        <div className="flex items-center justify-end space-x-[11px]">
+        <div className="flex w-full items-center justify-end space-x-[11px]">
           <Button
             buttonText={'SKIP'}
-            className="!bg-muted px-[37px] py-[15px] text-black hover:shadow-brut-sm"
+            className={cn('!bg-muted px-[37px] py-[15px] text-black hover:shadow-brut-sm', 'w-1/2 sm:w-auto')}
             onClick={async () => {
               if (!exp) handleSkip();
               else {
@@ -123,7 +124,7 @@ const Footer: React.FC = () => {
           />
           <Button
             buttonText={'PROCEED'}
-            className="bg-primary px-[37px] py-[15px] text-white hover:shadow-brut-sm"
+            className={cn('bg-primary px-[37px] py-[15px] text-white hover:shadow-brut-sm', 'w-1/2 sm:w-auto')}
             onClick={() => {
               if (!exp) handleSubmit();
               else {

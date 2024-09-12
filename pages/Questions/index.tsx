@@ -243,13 +243,15 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
 
   return (
     <Layout isFullWidth>
-      <div className=" my-4 flex flex-col items-center justify-center">
-        <div className="w-full max-w-[1200px]">
-          {task && !isTaskLoading && (
-            <TaskPrompt title={task?.title} taskType={taskType} formattedPrompt={task.taskData.prompt} />
-          )}
+      <div className="flex w-full grow flex-col items-center pb-8 pt-2">
+        <div className="flex w-full justify-center px-4">
+          <div className="w-full max-w-[1075px]">
+            {task && !isTaskLoading && (
+              <TaskPrompt title={task?.title} taskType={taskType} formattedPrompt={task.taskData.prompt} />
+            )}
+          </div>
         </div>
-        <hr className={' mb-8 mt-3 w-full border-t-2 border-black'} />
+        <hr className={' mb-5 mt-3 w-full border-t-2 border-black'} />
         {isMultiScore && (
           <HeadingTitle
             title={`Question 1`}
@@ -278,7 +280,7 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
       {!isTaskLoading && isMultiSelectQuestion && (
         <>
           <hr className={'w-full border border-black opacity-10'} />
-          <div className=" mx-auto my-4 flex max-w-[1200px] flex-col justify-center">
+          <div className=" mx-auto my-4 flex max-w-[1075px] flex-col justify-center">
             <HeadingTitle
               title={`Question ${isMultiScore && isSlider ? '3' : isSlider || isMultiScore ? '2' : '1'}`}
               subTitle="Please choose the most appropriate option"
@@ -296,7 +298,7 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
       {!isTaskLoading && isRankQuestion && (
         <>
           <hr className={'w-full border border-black opacity-10'} />
-          <div className="mx-auto my-4 flex max-w-[1200px] flex-col items-center justify-center">
+          <div className="mx-auto my-4 flex max-w-[1075px] flex-col items-center justify-center">
             <div className="flex w-full justify-start">
               <div className="w-[780px] bg-primaryBG-bg">
                 <HeadingTitle
