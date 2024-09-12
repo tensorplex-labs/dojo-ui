@@ -215,8 +215,23 @@ export const frequentlyAccessedData: FrequentlyAccessedProps[] = [
   },
 ];
 
-const RenderPill = (pillContent: string) => {
-  return <div className="w-fit rounded-full bg-primary/20 px-3 py-2 text-xs font-bold text-primary">{pillContent}</div>;
+const RenderPill = (pillContent: string, type: string) => {
+  let colorText = '';
+  switch (type.toUpperCase()) {
+    case 'CODE_GENERATION':
+      colorText = 'bg-red-200';
+      break;
+    case 'TEXT_TO_IMAGE':
+      colorText = 'bg-yellow-200';
+      break;
+    case '3D_MODEL':
+      colorText = 'bg-purple-200';
+  }
+  return (
+    <div className={cn('w-fit rounded-full bg-primary/20 px-3 py-2 text-xs font-bold text-black/80', colorText)}>
+      {pillContent}
+    </div>
+  );
 };
 
 const RenderButton = (id: string, state: ButtonState, router: NextRouter, exp: boolean, meta?: any) => {
@@ -256,7 +271,7 @@ export const columnDef: ColumnDef<Task, any>[] = [
     header: 'Type',
     size: 70,
     cell: (info) => {
-      return RenderPill(info.getValue().replace(/_/g, ' '));
+      return RenderPill(info.getValue().replace(/_/g, ' '), info.row.original.type);
     },
   },
   // {

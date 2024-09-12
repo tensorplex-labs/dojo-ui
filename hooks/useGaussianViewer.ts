@@ -114,11 +114,19 @@ const useGaussianSplatViewer = (plyUrl: string) => {
       //   Follow up with open issue here: https://github.com/mkkellogg/GaussianSplats3D/issues/247
       if (!viewer) return;
       console.log('Removing viewer');
+      viewer.orthographicControls && viewer.orthographicControls.dispose();
+      viewer.perspectiveControls && viewer.perspectiveControls.dispose();
+      viewer.removeEventHandlers();
+      // Remove the container element from the DOM
+
       setTimeout(() => {
         viewer
           .dispose()
-          .then(() => {})
+          .then(() => {
+            console.log('viewer disposed');
+          })
           .catch((err: any) => {
+            console.log("Didn't successfully dispose viewer", err);
             //There might be errors disposing but, no problem, it will still get disposed.
           });
       }, 500);
