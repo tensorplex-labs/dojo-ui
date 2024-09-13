@@ -52,7 +52,7 @@ const AnnotationInput: React.FC<AnnotationInputProps> = ({
   return (
     <div
       ref={inputRef}
-      className="absolute z-50 bg-[#FFFFF4] shadow-brut-sm min-w-80 border-2 border-black"
+      className="absolute z-50 min-w-80 border-2 border-black bg-[#FFFFF4] shadow-brut-sm"
       style={{
         top: creatingAnnotation.y + 20,
         left:
@@ -62,18 +62,18 @@ const AnnotationInput: React.FC<AnnotationInputProps> = ({
         width: '280px',
       }}
     >
-      <div className="flex justify-between items-center px-3 pt-2">
+      <div className="flex items-center justify-between px-3 pt-2">
         <div>
           <h3 className={`${FontManrope.className} text-[15px] font-bold normal-case`}>Annotate</h3>
-          <p className={`${FontManrope.className} text-[13px] text-opacity-60 font-semibold normal-case text-black `}>
+          <p className={`${FontManrope.className} text-[13px] font-semibold normal-case text-black text-opacity-60 `}>
             {`Type what's wrong with this particular area`}
           </p>
         </div>
-        <button onClick={onClose} className="text-gray-500 hover:text-gray-700 self-start">
+        <button onClick={onClose} className="self-start text-gray-500 hover:text-gray-700">
           <IconX />
         </button>
       </div>
-      <div className="p-3 flex flex-col gap-[14px] pb-5">
+      <div className="flex flex-col gap-[14px] p-3 pb-5">
         <textarea
           ref={textareaRef}
           value={creatingAnnotation.label}
@@ -82,7 +82,7 @@ const AnnotationInput: React.FC<AnnotationInputProps> = ({
             autoResizeTextArea();
           }}
           maxLength={70}
-          className={`${FontManrope.className} w-full px-3 py-2 text-base font-semibold text-black focus:outline-none border-2 border-black bg-white resize-none overflow-hidden`}
+          className={`${FontManrope.className} w-full resize-none overflow-hidden border-2 border-black bg-white px-3 py-2 text-base font-semibold text-black focus:outline-none`}
           placeholder="Enter your input"
           onKeyPress={(e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
@@ -95,7 +95,7 @@ const AnnotationInput: React.FC<AnnotationInputProps> = ({
         />
         <button
           onClick={onSubmit}
-          className="w-full mt-2 bg-teal-500 text-white font-bold py-2 shadow-brut-sm border-2 border-black hover:bg-teal-800"
+          className="mt-2 w-full border-2 border-black bg-teal-500 py-2 font-bold text-white shadow-brut-sm hover:bg-teal-800"
         >
           SUBMIT
         </button>

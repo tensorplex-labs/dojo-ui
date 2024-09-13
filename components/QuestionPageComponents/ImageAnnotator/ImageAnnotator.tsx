@@ -194,7 +194,7 @@ const ImageAnnotator: React.FC<Props> = ({ src, onAnnotationsChange }) => {
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       <div className="relative rounded-2xl border-2 border-black border-opacity-10 bg-[#F6F6E6] p-4 pb-5">
         <h1 className="pb-4 text-black">ADD POINTERS</h1>
-        <p className={`${FontManrope.className} pb-4 text-black text-opacity-60 text-sm normal-case`}>
+        <p className={`${FontManrope.className} pb-4 text-sm normal-case text-black text-opacity-60`}>
           Identify issues by adding annotations directly on the image (up to 10)
         </p>
         <div className="relative">
@@ -253,8 +253,8 @@ const ImageAnnotator: React.FC<Props> = ({ src, onAnnotationsChange }) => {
             }}
             className={`relative mb-4 ${selectedAnnotation === index ? 'rounded-md bg-green-100 p-2' : ''}`}
           >
-            <div className={`flex items-center justify-between text-black pt-2.5`}>
-              <div className="flex items-center justify-between w-full">
+            <div className={`flex items-center justify-between pt-2.5 text-black`}>
+              <div className="flex w-full items-center justify-between">
                 <h1 className={`${FontSpaceMono.className} text-base font-bold`}>POINTER {index + 1}</h1>
                 <button
                   onClick={() => handleDelete(index)}

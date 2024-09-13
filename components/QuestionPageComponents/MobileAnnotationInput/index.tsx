@@ -71,7 +71,7 @@ const MobileAnnotationInput: React.FC<MobileAnnotationInputProps> = ({
   return (
     <div
       ref={inputRef}
-      className="absolute z-50 bg-white border-2 border-black p-2 shadow-brut-sm"
+      className="absolute z-50 border-2 border-black bg-white p-2 shadow-brut-sm"
       style={{
         left: '50%',
         top: position.top,
@@ -96,11 +96,11 @@ const MobileAnnotationInput: React.FC<MobileAnnotationInputProps> = ({
           }}
           maxLength={70}
           rows={1}
-          className={`${FontManrope.className} w-full bg-transparent text-black font-semibold placeholder-gray-400 focus:outline-none text-sm`}
+          className={`${FontManrope.className} w-full bg-transparent text-sm font-semibold text-black placeholder:text-gray-400 focus:outline-none`}
           placeholder="Tell us what's wrong here"
           autoFocus
         />
-        <button onClick={onSubmit} className="ml-2 text-white bg-primary p-1 border-2 border-black shadow-brut-sm">
+        <button onClick={onSubmit} className="ml-2 border-2 border-black bg-primary p-1 text-white shadow-brut-sm">
           <IconArrowUp size={20} />
         </button>
       </div>
