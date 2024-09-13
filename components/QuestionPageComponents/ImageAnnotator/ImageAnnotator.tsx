@@ -1,6 +1,8 @@
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { IconTrash } from '@tabler/icons-react';
 import React, { useEffect, useRef, useState } from 'react';
+import AnnotationInput from '../AnnotationInput';
+import MobileAnnotationInput from '../MobileAnnotationInput';
 
 interface Annotation {
   x: number;
@@ -21,8 +23,18 @@ const ImageAnnotator: React.FC<Props> = ({ src, onAnnotationsChange }) => {
     start: { x: number; y: number };
     end: { x: number; y: number };
   } | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
   const annotationRefs = useRef<(HTMLDivElement | null)[]>([]);
   const imageRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleImageClick = (e: React.MouseEvent<HTMLImageElement>) => {
     if (annotations.length >= 10) return;
@@ -34,7 +46,7 @@ const ImageAnnotator: React.FC<Props> = ({ src, onAnnotationsChange }) => {
   };
 
   const handleLabelSubmit = () => {
-    if (creatingAnnotation && creatingAnnotation.label) {
+    if (creatingAnnotation && creatingAnnotation.label.trim()) {
       const updatedAnnotations = [...annotations, creatingAnnotation];
       setAnnotations(updatedAnnotations);
       onAnnotationsChange(updatedAnnotations);
@@ -84,6 +96,7 @@ const ImageAnnotator: React.FC<Props> = ({ src, onAnnotationsChange }) => {
     setCreatingAnnotation(null);
     setSelectedAnnotation(null);
   };
+
   useEffect(() => {
     if (creatingAnnotation) {
       const imageRect = imageRef.current?.getBoundingClientRect();
@@ -107,40 +120,7 @@ const ImageAnnotator: React.FC<Props> = ({ src, onAnnotationsChange }) => {
       setArrowCoordinates(null);
     }
   }, [creatingAnnotation]);
-  const drawArrow = () => {
-    if (!arrowCoordinates) return null;
 
-    const { start, end } = arrowCoordinates;
-    const dx = end.x - start.x;
-    const dy = end.y - start.y;
-    const angle = (Math.atan2(dy, dx) * 180) / Math.PI;
-    const length = Math.sqrt(dx * dx + dy * dy);
-    const circleRadius = 10;
-
-    return (
-      <div className="pointer-events-none absolute left-[-2px] top-[-2px] size-full">
-        <div
-          className="absolute  origin-left border-[0.5px] border-red-500 bg-white"
-          style={{
-            width: length,
-            height: '2px',
-            top: start.y,
-            left: start.x,
-            transform: `rotate(${angle}deg)`,
-          }}
-        />
-        <div
-          className="absolute rounded-full border-2 border-red-500 bg-white bg-opacity-75"
-          style={{
-            width: circleRadius * 2,
-            height: circleRadius * 2,
-            top: start.y - circleRadius,
-            left: start.x - circleRadius,
-          }}
-        />
-      </div>
-    );
-  };
   const handleAnnotationSelect = (index: number) => {
     setSelectedAnnotation(index);
     setTimeout(() => {
@@ -150,7 +130,7 @@ const ImageAnnotator: React.FC<Props> = ({ src, onAnnotationsChange }) => {
         if (container) {
           const containerRect = container.getBoundingClientRect();
           const elementRect = element.getBoundingClientRect();
-          const offset = 20; // Adjust this value to control the top margin
+          const offset = 20;
 
           container.scrollTo({
             top: elementRect.top - containerRect.top + container.scrollTop - offset,
@@ -167,7 +147,6 @@ const ImageAnnotator: React.FC<Props> = ({ src, onAnnotationsChange }) => {
 
   const handleTextareaFocus = (index: number) => {
     setSelectedAnnotation(index);
-    // Scroll the image to show the selected annotation
     const imageContainer = imageRef.current?.parentElement;
     if (imageContainer) {
       const annotation = annotations[index];
@@ -178,10 +157,46 @@ const ImageAnnotator: React.FC<Props> = ({ src, onAnnotationsChange }) => {
       });
     }
   };
+
+  const drawNewAnnotationMarker = () => {
+    if (!creatingAnnotation) return null;
+
+    const circleRadius = 10;
+    const newIndex = annotations.length + 1;
+
+    return (
+      <div className="pointer-events-none absolute left-[-2px] top-[-2px] size-full">
+        <div
+          className="absolute rounded-full border-2 border-red-500 bg-white bg-opacity-75"
+          style={{
+            width: circleRadius * 2,
+            height: circleRadius * 2,
+            top: creatingAnnotation.y - circleRadius,
+            left: creatingAnnotation.x - circleRadius,
+          }}
+        />
+        <div
+          className="absolute flex items-center justify-center rounded-full bg-red-500 font-bold text-white"
+          style={{
+            width: circleRadius * 2,
+            height: circleRadius * 2,
+            top: creatingAnnotation.y - circleRadius,
+            left: creatingAnnotation.x - circleRadius,
+          }}
+        >
+          {newIndex}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       <div className="relative rounded-2xl border-2 border-black border-opacity-10 bg-[#F6F6E6] p-4 pb-5">
         <h1 className="pb-4 text-black">ADD POINTERS</h1>
+        <p className={`${FontManrope.className} pb-4 text-black text-opacity-60 text-sm normal-case`}>
+          Identify issues by adding annotations directly on the image (up to 10)
+        </p>
         <div className="relative">
           <img
             src={src}
@@ -198,42 +213,37 @@ const ImageAnnotator: React.FC<Props> = ({ src, onAnnotationsChange }) => {
               onClick={() => handleAnnotationSelect(index)}
             >
               <div
-                className={`flex size-5 items-center justify-center rounded-full bg-red-500 font-bold text-white ${
-                  selectedAnnotation === index ? 'ring-2 ring-blue-500 ring-offset-2' : ''
+                className={`flex size-5 items-center justify-center rounded-full bg-primary font-bold text-white ${
+                  selectedAnnotation === index ? 'ring-2 ring-black ring-offset-2' : ''
                 }`}
               >
                 {index + 1}
               </div>
             </div>
           ))}
-          {drawArrow()}
-          {creatingAnnotation && (
-            <div
-              className="absolute z-50"
-              style={{
-                top: creatingAnnotation.y + 20,
-                left:
-                  creatingAnnotation.x > (imageRef.current?.clientWidth || 0) / 2
-                    ? creatingAnnotation.x - 160 // Adjust left position if on the right half
-                    : creatingAnnotation.x,
-              }}
-            >
-              <textarea
-                value={creatingAnnotation.label}
-                onChange={(e) => handleLabelChangeDuringCreation(e.target.value)}
-                rows={3}
-                maxLength={55}
-                className={`${FontManrope.className} h-20 w-40 resize-none border-2 border-black p-3 text-base font-bold text-black shadow-brut-sm focus:border-2 focus:border-black focus:border-opacity-50`}
-                placeholder="Add text to your pointer here"
-                onBlur={handleLabelSubmit}
-                onKeyPress={(e) => e.key === 'Enter' && handleLabelSubmit()}
-                autoFocus
-              />
-            </div>
+          {drawNewAnnotationMarker()}
+          {creatingAnnotation && isMobile && (
+            <MobileAnnotationInput
+              x={creatingAnnotation.x}
+              y={creatingAnnotation.y}
+              value={creatingAnnotation.label}
+              onChange={(value) => handleLabelChangeDuringCreation(value)}
+              onSubmit={handleLabelSubmit}
+              onClose={() => setCreatingAnnotation(null)}
+              imageRef={imageRef}
+            />
+          )}
+          {creatingAnnotation && !isMobile && (
+            <AnnotationInput
+              creatingAnnotation={creatingAnnotation}
+              imageRef={imageRef}
+              onClose={() => setCreatingAnnotation(null)}
+              onLabelChange={handleLabelChangeDuringCreation}
+              onSubmit={handleLabelSubmit}
+            />
           )}
         </div>
       </div>
-
       <div className="overflow-y-auto rounded-2xl border-2 px-4 py-2" style={{ maxHeight: 'calc(100vh - 5rem)' }}>
         {annotations.map((annotation, index) => (
           <div
@@ -243,24 +253,23 @@ const ImageAnnotator: React.FC<Props> = ({ src, onAnnotationsChange }) => {
             }}
             className={`relative mb-4 ${selectedAnnotation === index ? 'rounded-md bg-green-100 p-2' : ''}`}
           >
-            <div className={`flex items-center justify-between text-black ${index !== 0 && 'pt-2.5'}`}>
-              <div>
+            <div className={`flex items-center justify-between text-black pt-2.5`}>
+              <div className="flex items-center justify-between w-full">
                 <h1 className={`${FontSpaceMono.className} text-base font-bold`}>POINTER {index + 1}</h1>
-                <p
-                  className={`${FontManrope.className} pb-2 text-base font-semibold normal-case text-black text-opacity-60`}
+                <button
+                  onClick={() => handleDelete(index)}
+                  className="cursor-pointer border-none bg-transparent text-lg text-black hover:text-red-500"
+                  title="Delete"
                 >
-                  Include instructions and guidelines here.
-                </p>
+                  <IconTrash />
+                </button>
               </div>
-              <button
-                onClick={() => handleDelete(index)}
-                className="cursor-pointer border-none bg-transparent text-lg text-black hover:text-red-500"
-                title="Delete"
-              >
-                <IconTrash />
-              </button>
             </div>
-
+            <p
+              className={`${FontManrope.className} pb-2 text-base font-semibold normal-case text-black text-opacity-60`}
+            >
+              Include instructions and guidelines here.
+            </p>
             <textarea
               value={annotation.label}
               onChange={(e) =>
@@ -273,7 +282,7 @@ const ImageAnnotator: React.FC<Props> = ({ src, onAnnotationsChange }) => {
               onFocus={() => handleTextareaFocus(index)}
               rows={3}
               maxLength={55}
-              className={`${FontManrope.className} h-20 w-full resize-none border-2 border-black bg-[#d7d7d7] p-3 text-base font-bold text-black focus:bg-white focus:shadow-brut-sm`}
+              className={`${FontManrope.className} h-20 w-full resize-none border-2 border-black  p-3 text-base font-bold text-black focus:bg-white focus:shadow-brut-sm focus:outline-none`}
             />
           </div>
         ))}
