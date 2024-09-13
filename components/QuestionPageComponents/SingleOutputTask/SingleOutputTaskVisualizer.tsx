@@ -1,6 +1,7 @@
 import CodegenViewer from '@/components/CodegenViewer';
 import CopyBtn from '@/components/Common/CopyButton/CopyBtn';
 import { BrutCard } from '@/components/Common/CustomComponents/brut-card';
+import Shimmers from '@/components/Common/CustomComponents/shimmers';
 import MultiSelectV2 from '@/components/Common/MultileSelect/MultiSelectV2';
 import GaussianSplatViewer from '@/components/GaussianSplatViewer';
 import { Criterion, CriterionWithResponses, Task } from '@/types/QuestionPageTypes';
@@ -130,6 +131,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
           return (
             <>
               <Image
+                draggable={false}
                 onClick={(e) => {
                   if (task.taskData.criteria.find((c) => c.type === 'rich-human-feedback')) {
                     handleRHFImageClick(e);
@@ -201,14 +203,17 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
           return (
             <div
               ref={rhfLabelContainerRef}
-              className="max-h-[520px] min-h-[200px] w-full overflow-y-auto rounded-md border border-black/10 px-4 py-2"
+              className={cn(
+                'flex h-fit min-h-[250px] w-full flex-col gap-[10px] rounded-md border border-black/10 pb-5',
+                annotations.length == 0 && 'max-h-[250px] pb-0'
+              )}
             >
               {annotations.length > 0 ? (
                 annotations.map((annotation, index) => (
-                  <div key={index} className="relative mb-4">
-                    <div className={`flex items-center justify-between text-black ${index !== 0 && 'pt-2.5'}`}>
+                  <div key={index} className="relative px-4 py-2">
+                    <div className={`flex items-center justify-between  text-black`}>
                       <div>
-                        <h1 className={`${FontSpaceMono.className} text-base font-bold`}>#{index + 1}</h1>
+                        <h1 className={`${FontSpaceMono.className} text-base font-bold`}># {index + 1}</h1>
                         <p
                           className={`${FontManrope.className} pb-2 text-xs font-semibold normal-case text-black text-opacity-60`}
                         >
@@ -234,9 +239,26 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
                   </div>
                 ))
               ) : (
-                <div className="flex size-full flex-col items-center justify-center text-lg font-bold text-font-primary/40">
-                  <span>Click on the response image to</span>
-                  <span>annotate the flaws in the output.</span>
+                <div className="relative flex size-full flex-col  overflow-hidden px-4 py-2 text-lg font-bold text-font-primary">
+                  {/* Skeleton */}
+                  {[...Array(2)].map((val, index) => (
+                    <div key={index} className="relative">
+                      <div className={`flex items-center justify-between  text-black`}>
+                        <div className="flex w-full flex-col">
+                          <h1 className={`${FontSpaceMono.className} text-base font-bold`}># {index + 1}</h1>
+                          <Shimmers className="w-full max-w-[200px]" />
+                        </div>
+                      </div>
+
+                      <Shimmers className="mt-[10px] h-[50px] w-full max-w-[300px]" />
+                    </div>
+                  ))}
+
+                  {/* Overlay */}
+                  <div className="absolute left-0 top-0 flex size-full flex-col items-center justify-center rounded-md bg-gradient-to-t from-background from-10% to-background/80 to-100% text-font-primary/70">
+                    <span>Click on the response image to</span>
+                    <span>annotate the flaws in the output.</span>
+                  </div>
                 </div>
               )}
             </div>
@@ -308,13 +330,20 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
         <VisualizerContentBox>
           <div className="flex gap-[5px]">
             <IconSparkles className="my-[2px] size-[20px] shrink-0 animate-pulse"></IconSparkles>
-            <FormattedPrompt className="h-fit min-h-fit p-0">{task.taskData.prompt}</FormattedPrompt>
+            <FormattedPrompt
+              // collapsedClassName="h-[70px]"
+              // autoHideHeightThreshold={75}
+              isCollapsibleClassName="pr-4"
+              className="h-fit min-h-fit py-0 pl-0"
+            >
+              {task.taskData.prompt}
+            </FormattedPrompt>
           </div>
         </VisualizerContentBox>
         <VisualizerContentBox className="flex flex-col items-stretch gap-[10px]">
           <>
             <div className="w-full">Response:</div>
-            <BrutCard className={cn('relative p-0 flex size-fit rounded-md', props.visualizerClassName)}>
+            <BrutCard className={cn('relative p-0 flex aspect-auto w-full rounded-md', props.visualizerClassName)}>
               {renderVisualizer(task)}
             </BrutCard>
           </>
@@ -322,7 +351,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
       </div>
 
       {/* RIGHT SIDE QUESTIONS BOX */}
-      <div className={cn('flex flex-col items-stretch w-full md:w-1/2 gap-[24px] p-3', props.labelsClassName)}>
+      <div className={cn('flex flex-col items-stretch w-full md:w-1/2 gap-[24px] p-0', props.labelsClassName)}>
         {task.taskData.criteria.map((criterion, index) => (
           <CriterionContentBox key={`sotv_visualizer_${index}`} className={cn('flex w-full flex-col bg-transparent')}>
             <span className={cn(FontSpaceMono.className, 'font-bold')}>

@@ -13,7 +13,7 @@ const MultiSelectItemV2: React.FC<MultiSelectItemProps> = ({ option, isSelected,
         className={cn(
           `flex w-full cursor-pointer items-center space-x-2 border-[1px] border-black/10 rounded-md bg-ecru-white hover:border-black/50 hover:bg-secondary px-[8px] py-[4px]`,
           !ss && 'space-x-0',
-          isSelected && 'bg-primary hover:bg-primary '
+          isSelected && 'bg-primary hover:bg-primary text-white'
         )}
       >
         <span className="relative">

@@ -1,6 +1,7 @@
 import { buttonVariants } from '@/components/Common/CustomComponents/button';
 import { cn } from '@/utils/tw';
-import { FontManrope } from '@/utils/typography';
+import { FontManrope, FontSpaceMono } from '@/utils/typography';
+import { IconBrandDiscord, IconBrandX } from '@tabler/icons-react';
 import Link from 'next/link';
 
 const FAQHero = () => {
@@ -9,27 +10,28 @@ const FAQHero = () => {
       <div className="relative mx-auto mt-[-116px] flex h-fit max-w-[1075px] justify-between self-center border-2 border-black bg-secondary shadow-brut-sm">
         <div className="px-[29px] py-[21px]">
           <h1 className={`${FontManrope.className} text-lg font-extrabold text-black`}>
-            {`Not what you're looking for?`}
+            Can&apos;t find what you&apos;re looking for?
           </h1>
           <p className={`${FontManrope.className} mt-3 text-base font-medium text-black/60`}>
-            Dojo enables contributions from users of all technical levels to Decentralized AI
+            Dojo enables contributions from users of all technical levels to Decentralized AI. If you have any further
+            questions or are facing any technical issues, feel free to open a ticket via Discord.
           </p>
-          <div className="mt-3">
+          <div className={cn('mt-3 flex gap-[10px]', FontSpaceMono.className)}>
             <Link
               target="_blank"
               rel="noreferrer"
               href="https://twitter.com/TensorplexLabs"
-              className={cn(buttonVariants(), 'mr-[20px] font-bold capitalize text-white hover:shadow-brut-sm')}
+              className={cn(buttonVariants(), 'font-bold capitalize text-white hover:shadow-brut-sm')}
             >
-              Twitter
+              <IconBrandX /> &nbsp;(Twitter)
             </Link>
             <Link
               target="_blank"
               rel="noreferrer"
               href="https://discord.com/invite/zVZbRdt6U4"
-              className={cn(buttonVariants(), 'mr-[20px] font-bold capitalize text-white hover:shadow-brut-sm')}
+              className={cn(buttonVariants(), 'font-bold capitalize text-white hover:shadow-brut-sm')}
             >
-              Discord
+              <IconBrandDiscord className="rounded-full bg-purple-500/70 p-1" /> &nbsp;Discord
             </Link>
           </div>
         </div>

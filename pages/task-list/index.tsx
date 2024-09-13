@@ -140,6 +140,7 @@ export default function Index() {
 
   const handleCategoryClick = useCallback(
     (categoryLabel: string) => {
+      //If all is clicked, remove all categories and just show all
       if (categoryLabel.toLowerCase() === 'all') {
         router.replace(
           {
@@ -204,110 +205,123 @@ export default function Index() {
         <NavigationBar openModal={() => setShowUserCard(true)} />
         <TaskListHeader />
       </div>
-      <div className="mx-auto mt-[18px] flex max-w-[1075px] md:px-4 md:py-2 lg:px-4 lg:py-2">
-        <div className="flex w-full justify-between gap-2">
-          <div className="mt-[18px] flex items-center gap-2">
-            <CategoryItem
-              key={'all'}
-              label={'All'}
-              isActive={router.query.tasks === undefined || router.query.tasks === ''}
-              onClick={() => handleCategoryClick('all')}
-            />
-            {categories.map((category) => (
-              <CategoryItem
-                key={category.label}
-                label={category.label}
-                isActive={categoryIsActive(category.taskType, router.query.tasks)}
-                onClick={() => handleCategoryClick(category.label)}
-              />
-            ))}
-          </div>
-          <div className="mt-[18px] flex gap-2">
-            {!exp && (
-              <div ref={dropdownRef}>
-                <DropdownContainer
-                  buttonText={`Sort By ${params.get('sort') === 'createdAt' ? 'Most Recent' : params.get('sort') === 'numCriteria' ? 'Least Difficult' : 'Most Attempted'}`}
-                  imgSrc={`${params.get('order') === 'asc' ? '/top-arrow.svg' : '/down-arrow.svg'}`}
-                  className="w-[193.89px]"
-                  isOpen={isDropdownOpen}
-                  onToggle={handleToggle}
-                >
-                  <ul className="text-black opacity-75">
-                    {dropdownOptions.map((option, index) => (
-                      <li
-                        key={index}
-                        className={`flex  text-base font-semibold text-black ${
-                          params.get('sort') === option.value ? 'bg-secondary opacity-100' : 'py-1.5 opacity-75'
-                        } ${FontManrope.className} cursor-pointer items-center justify-between  hover:bg-secondary hover:opacity-100`}
-                      >
-                        <div className="h-full min-w-[80%]  pl-1.5" onClick={() => updateSorting(option.text)}>
-                          {option.text}
-                        </div>
-                        <div className="h-full w-1/5">
-                          {params.get('sort') === option.value ? (
-                            params.get('order') === 'asc' ? (
-                              <div
-                                key={index}
-                                className={`px-2 py-[6px] text-base font-semibold text-black opacity-75 ${FontManrope.className} cursor-pointer hover:bg-secondary hover:opacity-100`}
-                                onClick={() => updateOrderSorting('desc')}
-                              >
-                                <IconArrowNarrowUp />
-                              </div>
-                            ) : (
-                              <div
-                                key={index}
-                                className={`px-2 py-[6px] text-base font-semibold text-black opacity-75 ${FontManrope.className} cursor-pointer hover:bg-secondary hover:opacity-100`}
-                                onClick={() => updateOrderSorting('asc')}
-                              >
-                                <IconArrowNarrowDown />
-                              </div>
-                            )
-                          ) : null}
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </DropdownContainer>
+      <div className="w-full px-4">
+        <div className="mx-auto mt-[18px] flex max-w-[1075px] md:py-2 lg:py-2">
+          <div className="flex w-full flex-col items-start justify-between gap-[6px]">
+            <span className={cn(FontSpaceMono.className, 'font-bold text-[22px] text-font-primary')}>Task Types</span>
+            <div className="flex w-full flex-wrap items-center justify-between gap-2">
+              <div className="flex flex-col items-stretch gap-[8px]">
+                <div className="flex flex-wrap items-center gap-2">
+                  <CategoryItem
+                    className="px-4"
+                    key={'all'}
+                    label={'All'}
+                    isActive={router.query.tasks === undefined || router.query.tasks === ''}
+                    onClick={() => handleCategoryClick('all')}
+                  />
+                  {categories.map((category) => (
+                    <CategoryItem
+                      key={category.label}
+                      label={category.label}
+                      isActive={categoryIsActive(category.taskType, router.query.tasks)}
+                      onClick={() => handleCategoryClick(category.label)}
+                    />
+                  ))}
+                </div>
               </div>
-            )}
+              <div className=" flex gap-2">
+                {!exp && (
+                  <div ref={dropdownRef}>
+                    <DropdownContainer
+                      buttonText={`Sort By ${params.get('sort') === 'createdAt' ? 'Most Recent' : params.get('sort') === 'numCriteria' ? 'Least Difficult' : 'Most Attempted'}`}
+                      imgSrc={`${params.get('order') === 'asc' ? '/top-arrow.svg' : '/down-arrow.svg'}`}
+                      isOpen={isDropdownOpen}
+                      onToggle={handleToggle}
+                    >
+                      <div
+                        className={`DropDownButton-content absolute z-10 mt-[10px] w-full overflow-hidden rounded-[18px] border border-black/10 bg-card-background`}
+                      >
+                        <ul className="text-black opacity-75">
+                          {dropdownOptions.map((option, index) => (
+                            <li
+                              key={index}
+                              className={`flex text-base font-semibold text-black ${
+                                params.get('sort') === option.value ? 'bg-secondary opacity-100' : 'py-1.5 opacity-75'
+                              } ${FontManrope.className} cursor-pointer items-center justify-between  hover:bg-secondary hover:opacity-100`}
+                            >
+                              <div className="h-full min-w-[80%]  pl-[11px]" onClick={() => updateSorting(option.text)}>
+                                {option.text}
+                              </div>
+                              <div className="h-full w-1/5">
+                                {params.get('sort') === option.value ? (
+                                  params.get('order') === 'asc' ? (
+                                    <div
+                                      key={index}
+                                      className={`px-2 py-[6px] text-base font-semibold text-black opacity-75 ${FontManrope.className} cursor-pointer hover:bg-secondary hover:opacity-100`}
+                                      onClick={() => updateOrderSorting('desc')}
+                                    >
+                                      <IconArrowNarrowUp />
+                                    </div>
+                                  ) : (
+                                    <div
+                                      key={index}
+                                      className={`px-2 py-[6px] text-base font-semibold text-black opacity-75 ${FontManrope.className} cursor-pointer hover:bg-secondary hover:opacity-100`}
+                                      onClick={() => updateOrderSorting('asc')}
+                                    >
+                                      <IconArrowNarrowDown />
+                                    </div>
+                                  )
+                                ) : null}
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </DropdownContainer>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div className="mx-auto mb-[40px] mt-[19px] flex max-w-[1075px] flex-col md:px-4 md:py-2 lg:px-4 lg:py-2">
-        <div className="mb-[19px]">
-          <h1 className={`${FontSpaceMono.className} text-[22px] font-bold uppercase text-black`}>
-            SHOWING {tasks.length} of {pagination?.totalItems || 0} RECORDS
-          </h1>
-          {isAuthenticated && isConnected ? (
-            <span className={`${FontSpaceMono.className} text-sm font-bold text-black opacity-60`}>
-              Fetching latest tasks in {countdown}s
-            </span>
+      <div className="w-full px-4">
+        <div className="mx-auto mb-[40px] mt-[19px] flex max-w-[1075px] flex-col md:py-2 lg:py-2">
+          <div className="mb-[19px]">
+            <h1 className={`${FontSpaceMono.className} text-[22px] font-bold uppercase text-black`}>
+              SHOWING {tasks.length} of {pagination?.totalItems || 0} RECORDS
+            </h1>
+            {isAuthenticated && isConnected ? (
+              <span className={`${FontSpaceMono.className} text-sm font-bold text-black opacity-60`}>
+                Fetching latest tasks in {countdown}s
+              </span>
+            ) : null}
+          </div>
+          <Datatablev2
+            tooltipShowingXofY={false}
+            headerCellClassName={cn('py-2 uppercase', FontSpaceMono.className)}
+            minColumnSize={10}
+            defaultColumnSize={0}
+            tableClassName={cn('w-[1071px]', FontManrope.className)}
+            data={tasks || []}
+            columnDef={columnDef}
+            pageSize={pagination?.pageSize || 10}
+            loadingState={loading}
+          />
+          <div className="mt-3"></div>
+          <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange} />
+          {isAuthenticated ? (
+            partners.length === 0 || tasks.length <= 0 ? (
+              <div className="text-center">
+                <Button
+                  onClick={() => handleViewClick()}
+                  buttonText="Enter Subscription Key"
+                  className="cursor-not-allowed bg-primary text-white"
+                />
+              </div>
+            ) : null
           ) : null}
         </div>
-        <Datatablev2
-          tooltipShowingXofY={false}
-          headerCellClassName={cn('py-2 uppercase', FontSpaceMono.className)}
-          minColumnSize={10}
-          defaultColumnSize={0}
-          tableClassName={cn('w-[1039px]', FontManrope.className)}
-          data={tasks || []}
-          columnDef={columnDef}
-          pageSize={pagination?.pageSize || 10}
-          loadingState={loading}
-        />
-        <div className="mt-3"></div>
-        <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange} />
-        {isAuthenticated ? (
-          partners.length === 0 || tasks.length <= 0 ? (
-            <div className="text-center">
-              <Button
-                onClick={() => handleViewClick()}
-                buttonText="Enter Subscription Key"
-                className="cursor-not-allowed bg-primary text-white"
-              />
-            </div>
-          ) : null
-        ) : null}
       </div>
       {showUserCard && (
         <WalletManagement

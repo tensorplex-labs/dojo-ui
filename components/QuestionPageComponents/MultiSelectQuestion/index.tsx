@@ -11,7 +11,7 @@ const MultiSelectQuestion: React.FC<MultiSelectQuestionProps> = ({
   handleSelectionChange,
 }) => {
   return (
-    <div className="mx-auto my-4 flex max-w-[1200px] flex-col justify-center">
+    <div className="mx-auto my-4 flex max-w-[1075px] flex-col justify-center">
       <HeadingTitle
         title={`Question ${isMultiScore && isSlider ? '3' : isSlider || isMultiScore ? '2' : '1'}`}
         subTitle="Please choose the most appropriate option"

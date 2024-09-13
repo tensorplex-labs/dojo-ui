@@ -2,6 +2,12 @@ import { Task } from '@/types/QuestionPageTypes';
 
 export type TaskType = 'CODE_GENERATION' | '3D_MODEL' | 'TEXT_TO_IMAGE';
 
+export const TASKTYPE_COLOR_MAP: Record<string, string> = {
+  CODE_GENERATION: 'bg-red-300',
+  TEXT_TO_IMAGE: 'bg-amber-300',
+  '3D_MODEL': 'bg-purple-300',
+};
+
 export const taskTTI: Task[] = [
   {
     taskId: 'demo6',
@@ -393,12 +399,12 @@ export const task3d: Task[] = [
   {
     taskId: 'demo10-3d',
     title: 'LLM 3D Model Task (Demo)',
-    body: 'Black fururistic flying taxi drone',
+    body: 'Black futuristic flying taxi drone',
     expireAt: '2099-12-03T15:04:00Z',
     type: '3D_MODEL',
     taskData: {
       task: '3D_MODEL',
-      prompt: 'Black fururistic flying taxi drone',
+      prompt: 'Black futuristic flying taxi drone',
       criteria: [
         {
           max: 100,
@@ -1326,7 +1332,7 @@ export const tasklistCodegen: Task[] = [
     taskData: {
       task: 'CODE_GENERATION',
       prompt:
-        'Create a web application using only HTML, CSS, and JavaScript that showcases threejs or plotly graph visualization library.',
+        'Create a web application using only HTML, CSS, and JavaScript that showcases threejs or plotly graph visualization library.Create a web application using only HTML, CSS, and JavaScript that showcases threejs or plotly graph visualization library.Create a web application using only HTML, CSS, and JavaScript that showcases threejs or plotly graph visualization library.',
       criteria: [
         {
           max: 100,

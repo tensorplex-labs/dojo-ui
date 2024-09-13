@@ -35,6 +35,7 @@ export type DropdownButtonProps = {
   imgSrc: string;
   onClick: () => void;
   count?: string;
+  className?: string;
 };
 
 export type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
