@@ -6,6 +6,7 @@ import { taskStatus } from '@/hooks/useGetTasks';
 import RouterProvider from '@/providers/routerProvider';
 import { ButtonState } from '@/types/CommonTypes';
 import { Task } from '@/types/QuestionPageTypes';
+import { TASKTYPE_COLOR_MAP } from '@/utils/states';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
 import { CellContext, ColumnDef, Row } from '@tanstack/react-table';
@@ -216,19 +217,14 @@ export const frequentlyAccessedData: FrequentlyAccessedProps[] = [
 ];
 
 const RenderPill = (pillContent: string, type: string) => {
-  let colorText = '';
-  switch (type.toUpperCase()) {
-    case 'CODE_GENERATION':
-      colorText = 'bg-red-200';
-      break;
-    case 'TEXT_TO_IMAGE':
-      colorText = 'bg-yellow-200';
-      break;
-    case '3D_MODEL':
-      colorText = 'bg-purple-200';
-  }
+  const colorText = TASKTYPE_COLOR_MAP[type];
   return (
-    <div className={cn('w-fit rounded-full bg-primary/20 px-3 py-2 text-xs font-bold text-black/80', colorText)}>
+    <div
+      className={cn(
+        'w-fit flex items-center gap-[6px] rounded-full px-2 py-1 border border-black/30 text-xs font-bold  text-black/80'
+      )}
+    >
+      <div className={cn('size-[10px] rounded-full', colorText)}></div>
       {pillContent}
     </div>
   );
@@ -283,6 +279,7 @@ export const columnDef: ColumnDef<Task, any>[] = [
     header: 'Expiry',
     size: 40,
     accessorFn: (row: any) => {
+      if (new Date(row.expireAt) < new Date()) return 'Expired';
       const expiryDate = new Date(row.expireAt);
       const now = new Date();
       const diffMs = expiryDate.getTime() - now.getTime();
@@ -337,20 +334,14 @@ export const columnDef: ColumnDef<Task, any>[] = [
   },
 ];
 
-export const faqList = [
-  {
-    id: '0',
-    content:
-      'To begin, you’ll need to set up a Bittensor Miner, ideally hosted on a server, to generate an API key. A small amount of TAO is required to enter the Dojo Subnet. Currently, this process requires some technical skills, but we are working towards simplifying it in the future.',
-    title: 'What are the requirements for getting started?',
-  },
+const faqListBase = [
   {
     id: '1',
     content: `
     <ol style="list-style-type: decimal" class="pl-5">
-      <li style="margin-bottom: 10px"><strong>Set Up Your Miner</strong>: Visit <a href="https://github.com/tensorplex-labs/dojo" target="_blank" style="color: #2563eb; text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none;">Dojo GitHub</a> to set up the Dojo Subnet Miner.</li>
-      <li style="margin-bottom: 10px"><strong>Generate and Use Your API Key</strong>: After setting up your miner, generate an API key. Then, visit <a href="http://dojo-testnet.tensorplex.ai/" target="_blank" style="color: #2563eb; text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none;">dojo-testnet.tensorplex.ai</a> and enter your API key to start working.</li>
-      <li><strong>Start Working</strong>: Once logged in, you can start completing tasks and earning rewards immediately.</li>
+    <li style="margin-bottom: 10px"><strong>I want to get rewarded by completing tasks</strong>: <a href="https://docs.tensorplex.ai/tensorplex-docs/tensorplex-dojo-subnet-testnet/guide-contributor" target="_blank" style="color: #2563eb; text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none;">Getting started</a>.</li>
+      <li style="margin-bottom: 10px"><strong>I&apos;m a Miner</strong>: <a href="https://docs.tensorplex.ai/tensorplex-docs/tensorplex-dojo-subnet-testnet/guide-miner" target="_blank" style="color: #2563eb; text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none;">Setup Guide</a>.</li>
+      <li><strong>I&apos;m a validator</strong>: <a href="https://docs.tensorplex.ai/tensorplex-docs/tensorplex-dojo-subnet-testnet/guide-validator" target="_blank" style="color: #2563eb; text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none;">Setup Guide</a>.</li>
       </ol>
       `,
     title: 'How do I get started?',
@@ -398,6 +389,13 @@ export const faqList = [
     title: 'Is there a mobile app?',
   },
 ];
+
+export const faqList = faqListBase.map((faq, idx) => {
+  return {
+    ...faq,
+    id: idx + 1,
+  };
+});
 
 export const categories = [
   { label: 'Code Generation', isActive: false, taskType: 'CODE_GENERATION' },

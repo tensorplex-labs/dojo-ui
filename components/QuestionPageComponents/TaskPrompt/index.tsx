@@ -26,10 +26,10 @@ const TaskPrompt: React.FC<TaskPromptProps> = ({ title, taskType, formattedPromp
           <IconSparkles className="size-7 shrink-0 rounded-full  p-[3px]" />
         </div>
         <FormattedPrompt
-          autoHideHeightThreshold={90}
+          autoHideHeightThreshold={100}
           bottomFadeDivClassName="h-[30px]"
           className="h-fit min-h-[44px]"
-          collapsedClassName="max-h-[53px]"
+          collapsedClassName="h-[100px]"
           collapsableBtnClassName="size-6 top-[10px] right-[10px]"
         >
           {formattedPrompt}

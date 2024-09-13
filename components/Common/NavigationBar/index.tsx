@@ -26,7 +26,7 @@ const NavigationBar = ({ openModal, isHomePage, className }: NavigationBarProps)
           className
         )}
       >
-        <div className=" flex h-[45px] w-full justify-between ">
+        <div className=" flex h-[45px] w-full justify-between gap-[15px]">
           <div className="flex h-full items-center gap-[30px]">
             <div className="">
               <Link href="/">

@@ -343,7 +343,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
         <VisualizerContentBox className="flex flex-col items-stretch gap-[10px]">
           <>
             <div className="w-full">Response:</div>
-            <BrutCard className={cn('relative p-0 flex size-fit rounded-md', props.visualizerClassName)}>
+            <BrutCard className={cn('relative p-0 flex aspect-auto w-full rounded-md', props.visualizerClassName)}>
               {renderVisualizer(task)}
             </BrutCard>
           </>
@@ -351,7 +351,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
       </div>
 
       {/* RIGHT SIDE QUESTIONS BOX */}
-      <div className={cn('flex flex-col items-stretch w-full md:w-1/2 gap-[24px] p-3', props.labelsClassName)}>
+      <div className={cn('flex flex-col items-stretch w-full md:w-1/2 gap-[24px] p-0', props.labelsClassName)}>
         {task.taskData.criteria.map((criterion, index) => (
           <CriterionContentBox key={`sotv_visualizer_${index}`} className={cn('flex w-full flex-col bg-transparent')}>
             <span className={cn(FontSpaceMono.className, 'font-bold')}>

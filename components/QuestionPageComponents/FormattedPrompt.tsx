@@ -1,7 +1,7 @@
 import { useResizeObserver } from '@/hooks/useResizeObserver';
 import { cn } from '@/utils/tw';
 import { IconChevronDown } from '@tabler/icons-react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -25,9 +25,10 @@ const FormattedPrompt = ({
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isCollapsible, setIsCollapsible] = useState(false);
   const divRef = useRef<HTMLDivElement | null>(null);
-  const reObRef = useResizeObserver((e) => {
-    console.log('resizing', e.contentRect.width);
-  });
+  const resizeCB = useCallback((e: ResizeObserverEntry) => {
+    console.log('resizing', e.contentRect.height);
+  }, []);
+  const reObRef = useResizeObserver(resizeCB);
   const aht = autoHideHeightThreshold ?? 75;
   useEffect(() => {
     if (divRef.current && divRef.current.clientHeight > aht) {
@@ -77,7 +78,7 @@ const FormattedPrompt = ({
 
           <IconChevronDown
             className={cn(
-              'absolute right-1 top-1 size-4 rounded-md bg-font-primary/10 text-font-primary opacity-30 hover:opacity-80',
+              'animate-bounce absolute right-1 top-1 size-4 rounded-md bg-font-primary/10 text-font-primary opacity-30 hover:opacity-80',
               collapsableBtnClassName
             )}
           />

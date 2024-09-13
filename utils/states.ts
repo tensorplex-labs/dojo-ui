@@ -2,6 +2,12 @@ import { Task } from '@/types/QuestionPageTypes';
 
 export type TaskType = 'CODE_GENERATION' | '3D_MODEL' | 'TEXT_TO_IMAGE';
 
+export const TASKTYPE_COLOR_MAP: Record<string, string> = {
+  CODE_GENERATION: 'bg-red-300',
+  TEXT_TO_IMAGE: 'bg-amber-300',
+  '3D_MODEL': 'bg-purple-300',
+};
+
 export const taskTTI: Task[] = [
   {
     taskId: 'demo6',
