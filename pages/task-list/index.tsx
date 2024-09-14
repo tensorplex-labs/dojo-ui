@@ -2,18 +2,30 @@
 import NavigationBar from '@/components/Common/NavigationBar';
 import { WalletManagement } from '@/components/TaskListPageComponents';
 import TaskListHeader from '@/components/TaskListPageComponents/TaskListPageHeader';
-import { categories as cat, columnDef, dropdownOptions } from '@/data';
+import { categories as cat, dropdownOptions } from '@/data';
 import useDropdown from '@/hooks/useDropdown';
-import useGetTasks from '@/hooks/useGetTasks'; // Import the hook
+import useGetTasks, { taskStatus } from '@/hooks/useGetTasks'; // Import the hook
 import { useModal } from '@/hooks/useModal';
 import { usePartnerList } from '@/hooks/usePartnerList';
 import useSorting from '@/hooks/useSorting';
 import { useAuth } from '@/providers/authContext';
 import { useSubmit } from '@/providers/submitContext';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
-import { IconArrowNarrowDown, IconArrowNarrowUp } from '@tabler/icons-react';
+import {
+  IconArrowNarrowDown,
+  IconArrowNarrowUp,
+  IconArrowsDoubleSwNe,
+  IconBoxMultiple2,
+  IconBoxMultiple3,
+  IconBoxMultiple4,
+  IconBoxMultiple5,
+  IconBoxMultiple6,
+  IconBoxMultiple7,
+  IconBoxMultiple8,
+  IconSquareNumber1,
+} from '@tabler/icons-react';
 import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/router';
+import { NextRouter, useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAccount, useDisconnect } from 'wagmi';
 
@@ -26,8 +38,12 @@ import CategoryItem from '@/components/TaskListPageComponents/CategoryList/Categ
 import { ALL_CATEGORY } from '@/constants';
 import useFeature from '@/hooks/useFeature';
 import { useSIWE } from '@/hooks/useSIWE';
+import { ButtonState } from '@/types/CommonTypes';
 import { MODAL } from '@/types/ProvidersTypes';
+import { Task } from '@/types/QuestionPageTypes';
+import { tasklistFull, TASKTYPE_COLOR_MAP } from '@/utils/states';
 import { cn } from '@/utils/tw';
+import { ColumnDef, Row } from '@tanstack/react-table';
 
 const getCategoryObjectsFromUrlQuery = (query: string | string[] | undefined, baseCategories: any[]) => {
   if (!query) return [];
@@ -57,6 +73,74 @@ const categoryIsActive = (taskType: string, query: string | string[] | undefined
   return false;
 };
 
+const RenderTaskLengthBadge = (length: number) => {
+  switch (length) {
+    case 1:
+      return <IconSquareNumber1 className="size-5 rounded-sm" />;
+    case 2:
+      return <IconBoxMultiple2 className="size-5 rounded-sm" />;
+    case 3:
+      return <IconBoxMultiple3 className="size-5 rounded-sm" />;
+    case 4:
+      return <IconBoxMultiple4 className="size-5 rounded-sm" />;
+    case 5:
+      return <IconBoxMultiple5 className="size-5 rounded-sm" />;
+    case 6:
+      return <IconBoxMultiple6 className="size-5 rounded-sm" />;
+    case 7:
+      return <IconBoxMultiple7 className="size-5 rounded-sm" />;
+    case 8:
+      return <IconBoxMultiple8 className="size-5 rounded-sm" />;
+    default:
+  }
+};
+
+const RenderPill = ({ type, ...task }: Task) => {
+  const pillContent = type.replace(/_/g, ' ');
+  const colorText = TASKTYPE_COLOR_MAP[type];
+  return (
+    <div className="flex flex-wrap items-stretch gap-[5px] text-font-primary/80">
+      <div
+        className={cn(
+          'w-fit flex items-center gap-[6px] rounded-full px-2 py-1 border border-font-primary/30 text-xs font-bold  '
+        )}
+      >
+        <div className={cn('size-[10px] rounded-full', colorText)}></div>
+        {pillContent}
+      </div>
+      <div className="flex w-fit items-center gap-px rounded-full border border-font-primary/30 px-2 text-xs font-bold text-font-primary/70 ">
+        {RenderTaskLengthBadge(task.taskData.responses.length)}
+        <IconArrowsDoubleSwNe className="size-4" />
+        <div className={cn(FontManrope.className, 'font-bold text-sm')}>{task.taskData.criteria.length}</div>
+      </div>
+    </div>
+  );
+};
+
+const RenderButton = (id: string, state: ButtonState, router: NextRouter, exp: boolean, meta?: any) => {
+  const type = (meta && meta.type) ?? '';
+  return (
+    <button
+      onClick={() => {
+        if (exp) {
+          const currTask = tasklistFull.find((t) => t.taskId === id);
+          if (currTask && currTask.taskData.responses.length == 1) router.push(`/Questionsv2?taskId=${id}&exp=demo`);
+          else router.push(`/Questions?taskId=${id}&exp=demo`);
+        } else {
+          router.push(`/Questions?taskId=${id}`);
+        }
+      }}
+      disabled={state.disabled}
+      className={cn(
+        'uppercase h-[40px] font-bold border-[2px] rounded-sm border-black disabled:bg-gray-400 w-[113px] bg-primary text-white disabled:cursor-not-allowed',
+        FontSpaceMono.className
+      )}
+    >
+      {state.text}
+    </button>
+  );
+};
+
 export default function Index() {
   const [activeCategories, setActiveCategories] = useState<string[]>([ALL_CATEGORY]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -79,6 +163,91 @@ export default function Index() {
   const { signInWithEthereum } = useSIWE(() => console.log('post signin'));
   const { exp } = useFeature({ kw: 'demo' });
 
+  // ColumnDef for tasklists is moved into the component because of demo page.
+  // Demo page requires a router and query params to find out
+  // Whether its a demo page or not. Wrapping in a useMemo is enough to prevent unnecessary rerenders.
+  const columnDef = useMemo(() => {
+    const columnDef: ColumnDef<Task, any>[] = [
+      {
+        accessorKey: 'summary',
+        header: 'Name',
+        size: 130,
+        cell: (info) => {
+          return <div className=" truncate">{info.getValue() ?? info.row.original.title}</div>;
+        },
+      },
+      {
+        accessorKey: 'type',
+        header: 'Type',
+        size: 90,
+        cell: (info) => {
+          return RenderPill(info.row.original);
+        },
+      },
+      // {
+      //   accessorKey: "yield",
+      //   header: "Yield",
+      // },
+      {
+        accessorKey: 'expireAt',
+        header: 'Expiry',
+        size: 40,
+        accessorFn: (row: any) => {
+          if (exp) {
+            // Generate a random number between 1 and 28
+            const randomHours = Math.floor(Math.random() * 28) + 1;
+            return `${randomHours}h`;
+          }
+          if (new Date(row.expireAt) < new Date()) return 'Expired';
+          const expiryDate = new Date(row.expireAt);
+          const now = new Date();
+          const diffMs = expiryDate.getTime() - now.getTime();
+          const diffMins = Math.round(diffMs / 60000); // minutes
+          const diffHrs = Math.floor(diffMins / 60); // hours
+          const diffDays = Math.floor(diffHrs / 24); // days
+          let formattedExpiry;
+          if (diffDays >= 1) {
+            formattedExpiry = `${diffDays}d`;
+          } else if (diffHrs >= 1) {
+            formattedExpiry = `${diffHrs}h`;
+          } else {
+            formattedExpiry = `${diffMins}m`;
+          }
+          return formattedExpiry;
+        },
+        cell: (info) => {
+          return <div className="w-fit">{info.getValue()}</div>;
+        },
+      },
+      {
+        accessorKey: 'slotsFilled',
+        header: 'Slots Filled',
+        size: 50,
+        accessorFn: (row: any) => `${row.numResults}/${row.maxResults}`,
+      },
+      {
+        accessorKey: 'operations',
+        header: '',
+        size: 50,
+        cell: (info) => {
+          const generateBtnState = (row: Row<any>): ButtonState => {
+            if (new Date(row.original.expireAt).getTime() < Date.now() || row.original.status === taskStatus.EXPIRED)
+              return { disabled: true, text: 'Expired' };
+
+            if (row.original.isCompletedByWorker) return { disabled: true, text: 'Completed' };
+
+            if (row.original.maxResults === row.original.numResults || row.original.status == taskStatus.COMPLETED)
+              return { disabled: true, text: 'Filled' };
+
+            return { disabled: false, text: 'Start' };
+          };
+          const state = generateBtnState(info.row);
+          return RenderButton(info.row.original.taskId, state, router, exp, { type: info.row.original.type });
+        }, // Render JSX for the button
+      },
+    ];
+    return columnDef;
+  }, [exp, router]);
   //Demo, shift it to cat when is done
   const categories = cat.concat(exp ? [{ label: '3D Model', isActive: false, taskType: '3D_MODEL' }] : []);
 
