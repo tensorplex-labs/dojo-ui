@@ -4,8 +4,8 @@ export type TaskType = 'CODE_GENERATION' | '3D_MODEL' | 'TEXT_TO_IMAGE';
 
 export const TASKTYPE_COLOR_MAP: Record<string, string> = {
   CODE_GENERATION: 'bg-red-300',
-  TEXT_TO_IMAGE: 'bg-amber-300',
-  '3D_MODEL': 'bg-purple-300',
+  TEXT_TO_IMAGE: 'bg-amber-400',
+  '3D_MODEL': 'bg-purple-400',
 };
 
 export const taskTTI: Task[] = [
@@ -564,6 +564,103 @@ export const task3d: Task[] = [
 ];
 
 export const tasklistCodegen: Task[] = [
+  {
+    taskId: 'demo0',
+    title: 'LLM Code Generation Task (Demo)',
+    body: "Create a web page that displays an interactive guitar visualization using HTML, CSS, and JavaScript. The guitar should have 6 strings and a fretboard. Implement the following user interactions:\n\n1. When the user hovers over a string, it should visually highlight to indicate it can be played.\n\n2. Clicking on a string should produce a plucking animation and play a corresponding guitar note sound.\n\n3. Implement a slider that adjusts the guitar's tuning, affecting the pitch of the notes played when strings are clicked.\n\nEnsure the visualization is responsive and works well on different screen sizes. Use only built-in JavaScript libraries and features for this implementation.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
+    expireAt: '2099-08-30T14:09:13Z',
+    type: 'CODE_GENERATION',
+    taskData: {
+      task: 'CODE_GENERATION',
+      prompt:
+        "Create a web page that displays an interactive guitar visualization using HTML, CSS, and JavaScript. The guitar should have 6 strings and a fretboard. Implement the following user interactions:\n\n1. When the user hovers over a string, it should visually highlight to indicate it can be played.\n\n2. Clicking on a string should produce a plucking animation and play a corresponding guitar note sound.\n\n3. Implement a slider that adjusts the guitar's tuning, affecting the pitch of the notes played when strings are clicked.\n\nEnsure the visualization is responsive and works well on different screen sizes. Use only built-in JavaScript libraries and features for this implementation.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
+      criteria: [
+        {
+          type: 'single-select',
+          label: 'The guitar visualization is accurate and I could use it in my guitar app.',
+          options: ['Agree', 'Disagree', 'Neutral'],
+        },
+        {
+          max: 10,
+          min: 1,
+          type: 'multi-score',
+          label: 'Realism',
+          options: ['stabilityai/stable-diffusion-xl-base-1.0'],
+        },
+        {
+          max: 10,
+          min: 1,
+          type: 'multi-score',
+          label: 'Functionality',
+          options: ['stabilityai/stable-diffusion-xl-base-1.0'],
+        },
+        {
+          max: 10,
+          min: 1,
+          type: 'multi-score',
+          label: 'Expectedness',
+          options: ['stabilityai/stable-diffusion-xl-base-1.0'],
+        },
+        {
+          type: 'multi-select',
+          label: 'Choose all appropriate options',
+          options: [
+            'Safe For Work (SFW)',
+            'High quality',
+            "No idea what i'm looking at",
+            'Usable',
+            'Exceed Expectation',
+          ],
+        },
+      ],
+      responses: [
+        {
+          model: 'anthropic/claude-3.5-sonnet',
+          completion: {
+            files: {
+              'index.js': {
+                content:
+                  "const pianoKeys = [\n    { note: 'A0', type: 'white' }, { note: 'A#0', type: 'black' }, { note: 'B0', type: 'white' },\n    { note: 'C1', type: 'white' }, { note: 'C#1', type: 'black' }, { note: 'D1', type: 'white' },\n    { note: 'D#1', type: 'black' }, { note: 'E1', type: 'white' }, { note: 'F1', type: 'white' },\n    { note: 'F#1', type: 'black' }, { note: 'G1', type: 'white' }, { note: 'G#1', type: 'black' },\n    { note: 'A1', type: 'white' }, { note: 'A#1', type: 'black' }, { note: 'B1', type: 'white' },\n    { note: 'C2', type: 'white' }, { note: 'C#2', type: 'black' }, { note: 'D2', type: 'white' },\n    { note: 'D#2', type: 'black' }, { note: 'E2', type: 'white' }, { note: 'F2', type: 'white' },\n    { note: 'F#2', type: 'black' }, { note: 'G2', type: 'white' }, { note: 'G#2', type: 'black' },\n    { note: 'A2', type: 'white' }, { note: 'A#2', type: 'black' }, { note: 'B2', type: 'white' },\n    { note: 'C3', type: 'white' }, { note: 'C#3', type: 'black' }, { note: 'D3', type: 'white' },\n    { note: 'D#3', type: 'black' }, { note: 'E3', type: 'white' }, { note: 'F3', type: 'white' },\n    { note: 'F#3', type: 'black' }, { note: 'G3', type: 'white' }, { note: 'G#3', type: 'black' },\n    { note: 'A3', type: 'white' }, { note: 'A#3', type: 'black' }, { note: 'B3', type: 'white' },\n    { note: 'C4', type: 'white' }, { note: 'C#4', type: 'black' }, { note: 'D4', type: 'white' },\n    { note: 'D#4', type: 'black' }, { note: 'E4', type: 'white' }, { note: 'F4', type: 'white' },\n    { note: 'F#4', type: 'black' }, { note: 'G4', type: 'white' }, { note: 'G#4', type: 'black' },\n    { note: 'A4', type: 'white' }, { note: 'A#4', type: 'black' }, { note: 'B4', type: 'white' },\n    { note: 'C5', type: 'white' }, { note: 'C#5', type: 'black' }, { note: 'D5', type: 'white' },\n    { note: 'D#5', type: 'black' }, { note: 'E5', type: 'white' }, { note: 'F5', type: 'white' },\n    { note: 'F#5', type: 'black' }, { note: 'G5', type: 'white' }, { note: 'G#5', type: 'black' },\n    { note: 'A5', type: 'white' }, { note: 'A#5', type: 'black' }, { note: 'B5', type: 'white' },\n    { note: 'C6', type: 'white' }, { note: 'C#6', type: 'black' }, { note: 'D6', type: 'white' },\n    { note: 'D#6', type: 'black' }, { note: 'E6', type: 'white' }, { note: 'F6', type: 'white' },\n    { note: 'F#6', type: 'black' }, { note: 'G6', type: 'white' }, { note: 'G#6', type: 'black' },\n    { note: 'A6', type: 'white' }, { note: 'A#6', type: 'black' }, { note: 'B6', type: 'white' },\n    { note: 'C7', type: 'white' }, { note: 'C#7', type: 'black' }, { note: 'D7', type: 'white' },\n    { note: 'D#7', type: 'black' }, { note: 'E7', type: 'white' }, { note: 'F7', type: 'white' },\n    { note: 'F#7', type: 'black' }, { note: 'G7', type: 'white' }, { note: 'G#7', type: 'black' },\n    { note: 'A7', type: 'white' }, { note: 'A#7', type: 'black' }, { note: 'B7', type: 'white' },\n    { note: 'C8', type: 'white' }\n];\n\nconst piano = document.getElementById('piano');\nconst volumeSlider = document.getElementById('volumeSlider');\nlet audioContext;\n\nfunction createKey(note, type) {\n    const key = document.createElement('div');\n    key.className = `key ${type}-key`;\n    key.dataset.note = note;\n    key.addEventListener('mousedown', playNote);\n    key.addEventListener('mouseup', stopNote);\n    key.addEventListener('mouseleave', stopNote);\n    return key;\n}\n\nfunction initializePiano() {\n    pianoKeys.forEach(key =\u003e {\n        piano.appendChild(createKey(key.note, key.type));\n    });\n}\n\nfunction playNote(event) {\n    if (!audioContext) {\n        audioContext = new (window.AudioContext || window.webkitAudioContext)();\n    }\n\n    const note = event.target.dataset.note;\n    const frequency = getFrequency(note);\n\n    const oscillator = audioContext.createOscillator();\n    const gainNode = audioContext.createGain();\n\n    oscillator.type = 'sine';\n    oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);\n\n    gainNode.gain.setValueAtTime(parseFloat(volumeSlider.value), audioContext.currentTime);\n    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1);\n\n    oscillator.connect(gainNode);\n    gainNode.connect(audioContext.destination);\n\n    oscillator.start();\n    oscillator.stop(audioContext.currentTime + 1);\n\n    event.target.classList.add('active');\n}\n\nfunction stopNote(event) {\n    event.target.classList.remove('active');\n}\n\nfunction getFrequency(note) {\n    const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];\n    const octave = parseInt(note.slice(-1));\n    const semitone = notes.indexOf(note.slice(0, -1));\n    return 440 * Math.pow(2, (octave - 4) + (semitone - 9) / 12);\n}\n\ninitializePiano();\n",
+              },
+              'index.html': {
+                content:
+                  '\u003c!DOCTYPE html\u003e\n\u003chtml lang="en"\u003e\n\u003chead\u003e\n    \u003cmeta charset="UTF-8"\u003e\n    \u003cmeta name="viewport" content="width=device-width, initial-scale=1.0"\u003e\n    \u003ctitle\u003eInteractive Piano Visualization\u003c/title\u003e\n    \u003cstyle\u003e\n        body {\n            margin: 0;\n            padding: 0;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            min-height: 100vh;\n            background: linear-gradient(to bottom, #1a2a6c, #b21f1f, #fdbb2d);\n            font-family: Arial, sans-serif;\n        }\n        .piano-container {\n            background-color: #222;\n            border-radius: 10px;\n            padding: 20px;\n            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);\n        }\n        .piano {\n            display: flex;\n            position: relative;\n        }\n        .key {\n            position: relative;\n            cursor: pointer;\n            transition: all 0.1s;\n        }\n        .white-key {\n            width: 40px;\n            height: 200px;\n            background: linear-gradient(to bottom, #f0f0f0, #fff);\n            border: 1px solid #ccc;\n            border-radius: 0 0 5px 5px;\n            z-index: 1;\n        }\n        .black-key {\n            width: 25px;\n            height: 120px;\n            background: linear-gradient(to bottom, #333, #000);\n            margin-left: -12.5px;\n            margin-right: -12.5px;\n            z-index: 2;\n            border-radius: 0 0 3px 3px;\n        }\n        .white-key:hover {\n            background: linear-gradient(to bottom, #e0e0e0, #f5f5f5);\n        }\n        .black-key:hover {\n            background: linear-gradient(to bottom, #444, #222);\n        }\n        .white-key:active, .white-key.active {\n            background: linear-gradient(to bottom, #d0d0d0, #e5e5e5);\n            transform: translateY(2px);\n        }\n        .black-key:active, .black-key.active {\n            background: linear-gradient(to bottom, #555, #333);\n            transform: translateY(2px);\n        }\n        .volume-control {\n            margin-top: 20px;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            color: #fff;\n        }\n        .volume-slider {\n            width: 200px;\n            margin: 0 10px;\n        }\n    \u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n    \u003cdiv class="piano-container"\u003e\n        \u003cdiv class="piano" id="piano"\u003e\u003c/div\u003e\n        \u003cdiv class="volume-control"\u003e\n            \u003cspan\u003eVolume:\u003c/span\u003e\n            \u003cinput type="range" min="0" max="1" step="0.1" value="0.5" class="volume-slider" id="volumeSlider"\u003e\n        \u003c/div\u003e\n    \u003c/div\u003e\n    \u003cscript src="index.js"\u003e\u003c/script\u003e\n\u003c/body\u003e\n\u003c/html\u003e',
+              },
+              'package.json': {
+                content: {
+                  name: 'javascript',
+                  scripts: {
+                    build: 'parcel build ./index.html',
+                    start: 'parcel ./index.html',
+                  },
+                  version: '1.0.0',
+                  keywords: ['css', 'javascript'],
+                  description: 'The JavaScript template',
+                  devDependencies: {
+                    eslint: '^7.2.0',
+                    parcel: '^2.0.0',
+                    'babel-eslint': '^10.1.0',
+                  },
+                },
+              },
+            },
+            environment: 'server',
+            sandbox_url: 'https://rljcqm.csb.app/',
+            combined_html:
+              "\u003c!DOCTYPE html\u003e\n\u003chtml lang=\"en\"\u003e\n\u003chead\u003e\n    \u003cmeta charset=\"UTF-8\"\u003e\n    \u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"\u003e\n    \u003ctitle\u003eInteractive Piano Visualization\u003c/title\u003e\n    \u003cstyle\u003e\n        body {\n            margin: 0;\n            padding: 0;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            min-height: 100vh;\n            background: linear-gradient(to bottom, #1a2a6c, #b21f1f, #fdbb2d);\n            font-family: Arial, sans-serif;\n        }\n        .piano-container {\n            background-color: #222;\n            border-radius: 10px;\n            padding: 20px;\n            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);\n        }\n        .piano {\n            display: flex;\n            position: relative;\n        }\n        .key {\n            position: relative;\n            cursor: pointer;\n            transition: all 0.1s;\n        }\n        .white-key {\n            width: 40px;\n            height: 200px;\n            background: linear-gradient(to bottom, #f0f0f0, #fff);\n            border: 1px solid #ccc;\n            border-radius: 0 0 5px 5px;\n            z-index: 1;\n        }\n        .black-key {\n            width: 25px;\n            height: 120px;\n            background: linear-gradient(to bottom, #333, #000);\n            margin-left: -12.5px;\n            margin-right: -12.5px;\n            z-index: 2;\n            border-radius: 0 0 3px 3px;\n        }\n        .white-key:hover {\n            background: linear-gradient(to bottom, #e0e0e0, #f5f5f5);\n        }\n        .black-key:hover {\n            background: linear-gradient(to bottom, #444, #222);\n        }\n        .white-key:active, .white-key.active {\n            background: linear-gradient(to bottom, #d0d0d0, #e5e5e5);\n            transform: translateY(2px);\n        }\n        .black-key:active, .black-key.active {\n            background: linear-gradient(to bottom, #555, #333);\n            transform: translateY(2px);\n        }\n        .volume-control {\n            margin-top: 20px;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            color: #fff;\n        }\n        .volume-slider {\n            width: 200px;\n            margin: 0 10px;\n        }\n    \u003c/style\u003e\n\u003c/head\u003e\n\u003cbody\u003e\n    \u003cdiv class=\"piano-container\"\u003e\n        \u003cdiv class=\"piano\" id=\"piano\"\u003e\u003c/div\u003e\n        \u003cdiv class=\"volume-control\"\u003e\n            \u003cspan\u003eVolume:\u003c/span\u003e\n            \u003cinput type=\"range\" min=\"0\" max=\"1\" step=\"0.1\" value=\"0.5\" class=\"volume-slider\" id=\"volumeSlider\"\u003e\n        \u003c/div\u003e\n    \u003c/div\u003e\n    \u003cscript src=\"index.js\"\u003e\u003c/script\u003e\n\u003cscript\u003econst pianoKeys = [\n    { note: 'A0', type: 'white' }, { note: 'A#0', type: 'black' }, { note: 'B0', type: 'white' },\n    { note: 'C1', type: 'white' }, { note: 'C#1', type: 'black' }, { note: 'D1', type: 'white' },\n    { note: 'D#1', type: 'black' }, { note: 'E1', type: 'white' }, { note: 'F1', type: 'white' },\n    { note: 'F#1', type: 'black' }, { note: 'G1', type: 'white' }, { note: 'G#1', type: 'black' },\n    { note: 'A1', type: 'white' }, { note: 'A#1', type: 'black' }, { note: 'B1', type: 'white' },\n    { note: 'C2', type: 'white' }, { note: 'C#2', type: 'black' }, { note: 'D2', type: 'white' },\n    { note: 'D#2', type: 'black' }, { note: 'E2', type: 'white' }, { note: 'F2', type: 'white' },\n    { note: 'F#2', type: 'black' }, { note: 'G2', type: 'white' }, { note: 'G#2', type: 'black' },\n    { note: 'A2', type: 'white' }, { note: 'A#2', type: 'black' }, { note: 'B2', type: 'white' },\n    { note: 'C3', type: 'white' }, { note: 'C#3', type: 'black' }, { note: 'D3', type: 'white' },\n    { note: 'D#3', type: 'black' }, { note: 'E3', type: 'white' }, { note: 'F3', type: 'white' },\n    { note: 'F#3', type: 'black' }, { note: 'G3', type: 'white' }, { note: 'G#3', type: 'black' },\n    { note: 'A3', type: 'white' }, { note: 'A#3', type: 'black' }, { note: 'B3', type: 'white' },\n    { note: 'C4', type: 'white' }, { note: 'C#4', type: 'black' }, { note: 'D4', type: 'white' },\n    { note: 'D#4', type: 'black' }, { note: 'E4', type: 'white' }, { note: 'F4', type: 'white' },\n    { note: 'F#4', type: 'black' }, { note: 'G4', type: 'white' }, { note: 'G#4', type: 'black' },\n    { note: 'A4', type: 'white' }, { note: 'A#4', type: 'black' }, { note: 'B4', type: 'white' },\n    { note: 'C5', type: 'white' }, { note: 'C#5', type: 'black' }, { note: 'D5', type: 'white' },\n    { note: 'D#5', type: 'black' }, { note: 'E5', type: 'white' }, { note: 'F5', type: 'white' },\n    { note: 'F#5', type: 'black' }, { note: 'G5', type: 'white' }, { note: 'G#5', type: 'black' },\n    { note: 'A5', type: 'white' }, { note: 'A#5', type: 'black' }, { note: 'B5', type: 'white' },\n    { note: 'C6', type: 'white' }, { note: 'C#6', type: 'black' }, { note: 'D6', type: 'white' },\n    { note: 'D#6', type: 'black' }, { note: 'E6', type: 'white' }, { note: 'F6', type: 'white' },\n    { note: 'F#6', type: 'black' }, { note: 'G6', type: 'white' }, { note: 'G#6', type: 'black' },\n    { note: 'A6', type: 'white' }, { note: 'A#6', type: 'black' }, { note: 'B6', type: 'white' },\n    { note: 'C7', type: 'white' }, { note: 'C#7', type: 'black' }, { note: 'D7', type: 'white' },\n    { note: 'D#7', type: 'black' }, { note: 'E7', type: 'white' }, { note: 'F7', type: 'white' },\n    { note: 'F#7', type: 'black' }, { note: 'G7', type: 'white' }, { note: 'G#7', type: 'black' },\n    { note: 'A7', type: 'white' }, { note: 'A#7', type: 'black' }, { note: 'B7', type: 'white' },\n    { note: 'C8', type: 'white' }\n];\n\nconst piano = document.getElementById('piano');\nconst volumeSlider = document.getElementById('volumeSlider');\nlet audioContext;\n\nfunction createKey(note, type) {\n    const key = document.createElement('div');\n    key.className = `key ${type}-key`;\n    key.dataset.note = note;\n    key.addEventListener('mousedown', playNote);\n    key.addEventListener('mouseup', stopNote);\n    key.addEventListener('mouseleave', stopNote);\n    return key;\n}\n\nfunction initializePiano() {\n    pianoKeys.forEach(key =\u003e {\n        piano.appendChild(createKey(key.note, key.type));\n    });\n}\n\nfunction playNote(event) {\n    if (!audioContext) {\n        audioContext = new (window.AudioContext || window.webkitAudioContext)();\n    }\n\n    const note = event.target.dataset.note;\n    const frequency = getFrequency(note);\n\n    const oscillator = audioContext.createOscillator();\n    const gainNode = audioContext.createGain();\n\n    oscillator.type = 'sine';\n    oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);\n\n    gainNode.gain.setValueAtTime(parseFloat(volumeSlider.value), audioContext.currentTime);\n    gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 1);\n\n    oscillator.connect(gainNode);\n    gainNode.connect(audioContext.destination);\n\n    oscillator.start();\n    oscillator.stop(audioContext.currentTime + 1);\n\n    event.target.classList.add('active');\n}\n\nfunction stopNote(event) {\n    event.target.classList.remove('active');\n}\n\nfunction getFrequency(note) {\n    const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];\n    const octave = parseInt(note.slice(-1));\n    const semitone = notes.indexOf(note.slice(0, -1));\n    return 440 * Math.pow(2, (octave - 4) + (semitone - 9) / 12);\n}\n\ninitializePiano();\n\u003c/script\u003e\u003c/body\u003e\n\u003c/html\u003e",
+            additional_notes:
+              'This solution creates an interactive piano visualization with 88 keys using HTML, CSS, and JavaScript. The piano is responsive and works on different screen sizes. It includes hover effects, key press animations, and sound playback when keys are clicked. A volume slider is implemented to adjust the loudness of the notes. No additional installation is required as it uses only built-in JavaScript features.',
+            installation_commands: '',
+          },
+        },
+      ],
+    },
+    status: 'IN_PROGRESS',
+    numResults: 0,
+    maxResults: 1,
+    numCriteria: 1,
+    isCompletedByWorker: false,
+  },
   {
     taskId: 'demo0',
     title: 'LLM Code Generation Task (Demo)',

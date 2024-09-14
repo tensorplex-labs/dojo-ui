@@ -302,6 +302,7 @@ export default function Index() {
             headerCellClassName={cn('py-2 uppercase', FontSpaceMono.className)}
             minColumnSize={10}
             defaultColumnSize={0}
+            containerClassName="rounded-[4px]"
             tableClassName={cn('w-[1071px]', FontManrope.className)}
             data={tasks || []}
             columnDef={columnDef}

@@ -6,7 +6,7 @@ import { taskStatus } from '@/hooks/useGetTasks';
 import RouterProvider from '@/providers/routerProvider';
 import { ButtonState } from '@/types/CommonTypes';
 import { Task } from '@/types/QuestionPageTypes';
-import { TASKTYPE_COLOR_MAP } from '@/utils/states';
+import { tasklistFull, TASKTYPE_COLOR_MAP } from '@/utils/states';
 import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
 import { CellContext, ColumnDef, Row } from '@tanstack/react-table';
@@ -236,7 +236,8 @@ const RenderButton = (id: string, state: ButtonState, router: NextRouter, exp: b
     <button
       onClick={() => {
         if (exp) {
-          if (type.toLowerCase() === 'text_to_image') router.push(`/Questionsv2?taskId=${id}&exp=demo`);
+          const currTask = tasklistFull.find((t) => t.taskId === id);
+          if (currTask && currTask.taskData.responses.length == 1) router.push(`/Questionsv2?taskId=${id}&exp=demo`);
           else router.push(`/Questions?taskId=${id}&exp=demo`);
         } else {
           router.push(`/Questions?taskId=${id}`);
@@ -244,7 +245,7 @@ const RenderButton = (id: string, state: ButtonState, router: NextRouter, exp: b
       }}
       disabled={state.disabled}
       className={cn(
-        'uppercase h-[40px] font-bold border-[2px] border-black disabled:bg-gray-400 w-[113px] bg-primary text-white disabled:cursor-not-allowed',
+        'uppercase h-[40px] font-bold border-[2px] rounded-[4px] border-black disabled:bg-gray-400 w-[113px] bg-primary text-white disabled:cursor-not-allowed',
         FontSpaceMono.className
       )}
     >

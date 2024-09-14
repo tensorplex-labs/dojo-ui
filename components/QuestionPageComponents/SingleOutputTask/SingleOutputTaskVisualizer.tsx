@@ -343,7 +343,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
         <VisualizerContentBox className="flex flex-col items-stretch gap-[10px]">
           <>
             <div className="w-full">Response:</div>
-            <BrutCard className={cn('relative p-0 flex aspect-auto w-full rounded-md', props.visualizerClassName)}>
+            <BrutCard className={cn('relative p-0 flex aspect-auto w-full rounded-sm', props.visualizerClassName)}>
               {renderVisualizer(task)}
             </BrutCard>
           </>

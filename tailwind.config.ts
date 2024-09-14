@@ -16,6 +16,17 @@ const config: Config = {
         width: 'width',
         height: 'height',
       },
+      borderRadius: {
+        sm: '4px',
+        md: '6px',
+        lg: '12px',
+        xl: '0.75rem',
+        '2xl': '1rem',
+        '3xl': '1.5rem',
+        '4xl': '2rem',
+        '5xl': '2.5rem',
+        full: '9999px',
+      },
       keyframes: {
         pulseY: {
           '0%, 100%': { transform: 'translateY(0)' },

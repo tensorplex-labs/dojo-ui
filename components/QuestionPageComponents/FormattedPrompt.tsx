@@ -26,7 +26,7 @@ const FormattedPrompt = ({
   const [isCollapsible, setIsCollapsible] = useState(false);
   const divRef = useRef<HTMLDivElement | null>(null);
   const resizeCB = useCallback((e: ResizeObserverEntry) => {
-    console.log('resizing', e.contentRect.height);
+    // console.log('resizing', e.contentRect.height);
   }, []);
   const reObRef = useResizeObserver(resizeCB);
   const aht = autoHideHeightThreshold ?? 75;

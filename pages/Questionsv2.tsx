@@ -23,7 +23,7 @@ const Questionsv2 = () => {
     <Layout isFullWidth={true}>
       <div className="flex grow justify-center px-4 py-8">
         <div className="flex w-full max-w-[1075px]">
-          {task && !isTaskLoading && <SingleOutputTaskVisualizer task={task} />}
+          {task && task.taskData.responses.length == 1 && !isTaskLoading && <SingleOutputTaskVisualizer task={task} />}
         </div>
       </div>
     </Layout>

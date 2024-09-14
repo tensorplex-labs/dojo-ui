@@ -29,7 +29,7 @@ const Footer: React.FC = () => {
       saveScrollPosition();
       const obj = tasklistFull[nextIdx];
       let newQuestionUrl = `/Questions?taskId=${obj.taskId}&exp=demo`;
-      if (obj.type.toLowerCase() === 'text_to_image') {
+      if (obj.taskData.responses.length === 1) {
         newQuestionUrl = `/Questionsv2?taskId=${obj.taskId}&exp=demo`;
       }
       router.push(newQuestionUrl).then(async () => {

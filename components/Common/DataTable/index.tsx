@@ -1,5 +1,6 @@
 import useFeature from '@/hooks/useFeature';
 import { taskStatus } from '@/hooks/useGetTasks';
+import { tasklistFull } from '@/utils/states';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import {
   ColumnDef,
@@ -137,7 +138,9 @@ const Datatable = ({
   const { exp } = useFeature({ kw: 'demo' });
   const onStartHandler = (id: string, type: string) => {
     if (exp) {
-      if (type.toLowerCase() === 'text_to_image') router.push(`/Questionsv2?taskId=${id}&exp=demo`);
+      const currTask = tasklistFull.find((t) => t.taskId === id);
+      console.log('pls', currTask);
+      if (currTask && currTask.taskData.responses.length == 1) router.push(`/Questionsv2?taskId=${id}&exp=demo`);
       else router.push(`/Questions?taskId=${id}&exp=demo`);
     } else {
       router.push(`/Questions?taskId=${id}`);
