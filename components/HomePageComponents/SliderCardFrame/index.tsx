@@ -16,7 +16,7 @@ const SliderCardFrame: React.FC<SliderCardFrameProps> = ({ mouseX, mouseY }) => 
       className="absolute right-[60px] z-50 flex h-auto w-[268px] flex-col rounded-lg border-2 border-black bg-white shadow-brut-sm"
       style={transformStyle}
     >
-      <div className="mt-2 h-[105px] w-[250px] self-center rounded-[6px] border-2 border-black bg-muted"></div>
+      <div className="mt-2 h-[105px] w-[250px] self-center rounded-md border-2 border-black bg-muted"></div>
       <div className="flex grow flex-col justify-center gap-1 p-[12px] ">
         <div className="h-[9px] w-[62px] animate-pulse bg-gradient-to-r from-gray-200 via-gray-400 to-gray-200"></div>
         <div className="h-[9px] w-[94px] animate-pulse bg-gradient-to-r from-gray-200 via-gray-400 to-gray-200"></div>

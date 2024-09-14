@@ -245,7 +245,7 @@ const RenderButton = (id: string, state: ButtonState, router: NextRouter, exp: b
       }}
       disabled={state.disabled}
       className={cn(
-        'uppercase h-[40px] font-bold border-[2px] rounded-[4px] border-black disabled:bg-gray-400 w-[113px] bg-primary text-white disabled:cursor-not-allowed',
+        'uppercase h-[40px] font-bold border-[2px] rounded-sm border-black disabled:bg-gray-400 w-[113px] bg-primary text-white disabled:cursor-not-allowed',
         FontSpaceMono.className
       )}
     >

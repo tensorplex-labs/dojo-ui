@@ -22,7 +22,7 @@ const NavigationBar = ({ openModal, isHomePage, className }: NavigationBarProps)
     <div className="flex items-center justify-center p-4">
       <nav
         className={cn(
-          'w-[1075px] h-[67.6px] bg-background border-[2px] border-black rounded-[6px] flex px-[20px] py-[12px] items-center',
+          'w-[1075px] h-[67.6px] bg-background border-[2px] border-black rounded-md flex px-[20px] py-[12px] items-center',
           className
         )}
       >
