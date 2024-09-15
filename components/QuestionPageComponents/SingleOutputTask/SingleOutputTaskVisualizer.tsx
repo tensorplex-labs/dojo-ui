@@ -6,6 +6,7 @@ import Shimmers from '@/components/Common/CustomComponents/shimmers';
 import MultiSelectV2 from '@/components/Common/MultileSelect/MultiSelectV2';
 import GaussianSplatViewer from '@/components/GaussianSplatViewer';
 import { Criterion, CriterionWithResponses, Task } from '@/types/QuestionPageTypes';
+import { RHF_MAX_CHAR } from '@/utils/states';
 import { cn } from '@/utils/tw';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { IconCheck, IconProgress, IconSparkles, IconTrash } from '@tabler/icons-react';
@@ -69,18 +70,16 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
   const idRef = useRef<string>(generateNonce());
   const [annotations, setAnnotations] = useState<Annotation[]>([]);
   const rhfImageRef = useRef<HTMLImageElement>(null);
-  const [rhfCreatingAnnotation, setRhfCreatingAnnotation] = useState<Annotation | null>(null);
-  const rhfLabelContainerRef = useRef<HTMLDivElement>(null);
-  const prevAnnotationsLengthRef = useRef<number>(annotations.length); // To know when things are added or removed
+  const [rhfCreatingAnnotation, setRhfCreatingAnnotation] = useState<Annotation | null>(null); //Save temp annotation while creating but not submitted
+  const rhfLabelContainerRef = useRef<HTMLDivElement>(null); //Actually unused yet
+  const [selectedAnnotation, setSelectedAnnotation] = useState(-1); //index for the selected one, negative to show none
+  const annotationRefs = useRef<(HTMLDivElement | null)[]>([]); //keep track of refs that has been added
+  const textareaRefs = useRef<(HTMLTextAreaElement | null)[]>([]);
 
-  useEffect(() => {
-    if (annotations.length > prevAnnotationsLengthRef.current && rhfLabelContainerRef.current) {
-      rhfLabelContainerRef.current.scrollTop = rhfLabelContainerRef.current.scrollHeight;
-    }
-    prevAnnotationsLengthRef.current = annotations.length;
-  }, [annotations]);
-  const handleLabelChange = (index: number, value: string) => {
-    setAnnotations((prev) => prev.map((annotation, i) => (i === index ? { ...annotation, label: value } : annotation)));
+  const handleLabelChange = (index: number, e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setAnnotations((prev) =>
+      prev.map((annotation, i) => (i === index ? { ...annotation, label: e.target.value } : annotation))
+    );
   };
 
   const handleDelete = (index: number) => {
@@ -89,6 +88,17 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
       //  onAnnotationsChange(updatedAnnotations);
       return updatedAnnotations;
     });
+  };
+
+  const handleAnnotationSelect = (index: number, scrollIntoView?: boolean) => {
+    console.log('Selected annotation: ' + index);
+    setSelectedAnnotation(index);
+    scrollIntoView &&
+      annotationRefs.current[index]?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'center',
+      });
   };
 
   const handleRHFAnnotationSave = useCallback((a: Annotation) => {
@@ -171,8 +181,20 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
                 </div>
               )}
               {annotations.map((annotation, index) => (
-                <div key={index} className="absolute" style={{ top: `${annotation.y}%`, left: `${annotation.x}%` }}>
-                  <div className="flex size-5 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-red-500 font-bold text-white">
+                <div
+                  onClick={() => {
+                    handleAnnotationSelect(index, true);
+                  }}
+                  key={index}
+                  className="absolute"
+                  style={{ top: `${annotation.y}%`, left: `${annotation.x}%` }}
+                >
+                  <div
+                    className={cn(
+                      'flex size-5 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-red-500 font-bold text-white',
+                      selectedAnnotation == index && 'bg-primary'
+                    )}
+                  >
                     {index + 1}
                   </div>
                 </div>
@@ -183,7 +205,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
           return;
       }
     },
-    [annotations, handleRHFAnnotationSave, rhfCreatingAnnotation]
+    [annotations, handleRHFAnnotationSave, rhfCreatingAnnotation, selectedAnnotation]
   );
 
   const renderLabelQuestion = useCallback(
@@ -237,7 +259,13 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
             >
               {annotations.length > 0 ? (
                 annotations.map((annotation, index) => (
-                  <div key={index} className="relative px-4 py-2">
+                  <div
+                    ref={(r) => {
+                      annotationRefs.current[index] = r;
+                    }}
+                    key={index}
+                    className="relative px-4 py-2"
+                  >
                     <div className={`flex items-center justify-between  text-black`}>
                       <div>
                         <h1 className={`${FontSpaceMono.className} text-base font-bold`}># {index + 1}</h1>
@@ -252,16 +280,23 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
                         className="cursor-pointer border-none bg-transparent text-lg text-black hover:text-red-500"
                         title="Delete"
                       >
-                        <IconTrash />
+                        <IconTrash className="size-5" />
                       </button>
                     </div>
 
                     <textarea
+                      ref={(r) => {
+                        textareaRefs.current[index] = r;
+                      }}
                       value={annotation.label}
-                      onChange={(e) => handleLabelChange(index, e.target.value)}
+                      onChange={(e) => {
+                        handleLabelChange(index, e);
+                      }}
+                      onFocus={() => handleAnnotationSelect(index)}
                       rows={1}
-                      style={{ maxHeight: '150px', overflowY: 'auto' }}
-                      className={`${FontManrope.className} w-full resize-none border-2 border-black p-3 text-base font-bold text-black shadow-brut-sm outline-none`}
+                      maxLength={RHF_MAX_CHAR}
+                      style={{}}
+                      className={`${FontManrope.className} w-full resize-none overflow-hidden rounded-sm border-black bg-background px-3 py-2 text-sm font-semibold text-black placeholder:text-sm focus:bg-white focus:outline-none md:border-2`}
                     />
                   </div>
                 ))
@@ -324,6 +359,27 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
     if (task) setCriterionForResponse([...task.taskData.criteria.map((c) => ({ ...c, responses: [] }))]); //Setting up the initial state with responses
     setAnnotations([]); //Reset if go next TTI or task
   }, [task]);
+  useEffect(() => {
+    const adjustHeight = (textarea: HTMLTextAreaElement) => {
+      textarea.style.height = 'auto';
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    };
+
+    textareaRefs.current.forEach((textarea) => {
+      if (textarea) {
+        adjustHeight(textarea);
+        textarea.addEventListener('input', () => adjustHeight(textarea));
+      }
+    });
+
+    return () => {
+      textareaRefs.current.forEach((textarea) => {
+        if (textarea) {
+          textarea.removeEventListener('input', () => adjustHeight(textarea));
+        }
+      });
+    };
+  }, [annotations]);
   return (
     <div className={cn('flex w-full flex-col gap-[30px] md:flex-row items-stretch', props.containerClassName)}>
       <div className="flex h-fit w-full flex-col items-center justify-start gap-[10px] rounded-lg border border-font-primary/10 bg-background-accent p-3 md:w-1/2">
@@ -372,6 +428,9 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
         <VisualizerContentBox className="flex flex-col items-stretch gap-[10px]">
           <>
             <div className="w-full">Response:</div>
+            <span className="mt-[-10px] text-xs text-font-primary/60 md:hidden">
+              Click anywhere to annotate flaws or inaccuracies.
+            </span>
             <BrutCard className={cn('relative p-0 flex aspect-auto w-full rounded-sm', props.visualizerClassName)}>
               {renderVisualizer(task)}
             </BrutCard>
