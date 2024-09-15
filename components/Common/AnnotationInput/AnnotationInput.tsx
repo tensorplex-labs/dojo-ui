@@ -1,3 +1,4 @@
+import { cn } from '@/utils/tw';
 import { FontManrope } from '@/utils/typography';
 import { IconArrowUp, IconX } from '@tabler/icons-react';
 import React, { useEffect, useRef, useState } from 'react';
@@ -102,7 +103,7 @@ const AnnotationInput: React.FC<AnnotationInputProps> = ({
     <>
       <div
         ref={inputRef}
-        className="fixed z-10  min-w-[320px] border-2 border-black bg-[#FFFFF4] shadow-brut-sm"
+        className="fixed z-10  min-w-[320px] rounded-sm border-2 border-black bg-[#FFFFF4] shadow-brut-sm"
         style={{
           top: '50%',
           overflowY: 'auto',
@@ -110,13 +111,12 @@ const AnnotationInput: React.FC<AnnotationInputProps> = ({
       >
         <div className="hidden items-center justify-between px-3 pt-2 md:flex">
           <div className="">
-            <h3 className={`${FontManrope.className} text-[15px] font-bold normal-case`}>Annotate</h3>
-            <p className={`${FontManrope.className} text-[13px] font-semibold normal-case text-black text-opacity-60 `}>
-              {`Type what's wrong with this particular area`}
-            </p>
+            <div className={`${FontManrope.className} text-sm font-bold normal-case`}>
+              What&apos;s inaccurate/missing?
+            </div>
           </div>
           <button onClick={onClose} className="hidden self-start text-gray-500 hover:text-gray-700 md:flex">
-            <IconX />
+            <IconX className="size-4 font-bold" />
           </button>
         </div>
         <div className="flex flex-col gap-[14px] pr-[28px] md:p-3">
@@ -128,8 +128,8 @@ const AnnotationInput: React.FC<AnnotationInputProps> = ({
               autoResizeTextArea();
             }}
             maxLength={70}
-            className={`${FontManrope.className} w-full resize-none overflow-hidden border-black bg-background px-3 py-2 text-sm font-semibold text-black placeholder:text-sm focus:outline-none md:border-2`}
-            placeholder="What's wrong with this area?"
+            className={`${FontManrope.className} w-full resize-none overflow-hidden rounded-sm border-black bg-background px-3 py-2 text-sm font-semibold text-black placeholder:text-sm focus:outline-none md:border-2`}
+            placeholder="Incorrect shadow / representation etc."
             onKeyPress={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -141,9 +141,12 @@ const AnnotationInput: React.FC<AnnotationInputProps> = ({
           />
           <button
             onClick={onSubmit}
-            className="absolute right-2 top-[50%]  flex aspect-square size-fit -translate-y-1/2 items-center justify-center border-2 border-black bg-teal-500 font-bold text-white hover:bg-teal-800 md:relative md:right-auto  md:top-auto md:aspect-auto md:w-full md:translate-y-0 md:py-2"
+            className={cn(
+              FontManrope.className,
+              'absolute right-2 top-[50%] flex  aspect-square size-fit -translate-y-1/2 items-center justify-center rounded-sm border-2 border-black bg-teal-500 text-sm font-bold text-white hover:bg-teal-800 md:relative md:right-auto  md:top-auto md:aspect-auto md:w-full md:translate-y-0 md:py-[6px]'
+            )}
           >
-            <span className="hidden md:flex">SUBMIT</span>
+            <span className="hidden md:flex">Submit</span>
             <IconArrowUp className="md:hidden" />
           </button>
         </div>
