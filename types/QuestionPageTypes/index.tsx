@@ -122,6 +122,7 @@ export type TaskCriteria = (typeof taskCriteria)[keyof typeof taskCriteria];
 
 export type Task = {
   taskId: string;
+  summary?: string;
   title: string;
   body: string;
   expireAt: string;

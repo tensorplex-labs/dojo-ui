@@ -12,7 +12,28 @@ interface CodegenVisProps {
 }
 const csp_source_whitelist = ['https://cdnjs.cloudflare.com', 'https://cdn.jsdelivr.net', 'https://unpkg.com'];
 const decodedCSP = `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' ${csp_source_whitelist.join(' ')}; style-src 'unsafe-inline'; img-src data: blob: https://threejsfundamentals.org; connect-src 'none'; form-action 'none'; base-uri 'none';">`;
-
+const iFrameStyles = `
+body {
+width: 100%;
+}
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: hsla(60, 17%, 0%, 0);
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: hsla(175, 100%, 36%, 0.387);
+  border-radius: 4px;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(175, 100%, 36%);
+}
+`;
 const decodedJsSecurity = `
       (function() {
         // Clear any existing globals if want to be eeven more finegrained. but some prompt response may fail to run
@@ -72,7 +93,8 @@ const CodegenViewer = ({ encodedHtml }: CodegenVisProps) => {
         [
           decodedHtml
             .replace(/<head>/, `<head>${decodedCSP}`)
-            .replace(/<script/, `<script>${decodedJsSecurity}</script><script`),
+            .replace(/<script/, `<script>${decodedJsSecurity}</script><script`)
+            .replace(/<style>/, `<style>${iFrameStyles}`),
         ],
         { type: 'text/html' }
       );

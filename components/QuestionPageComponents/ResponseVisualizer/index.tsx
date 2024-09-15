@@ -46,7 +46,7 @@ const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
         {task.taskData.responses.map((plot, index) => (
           <div key={`${task.type}_${index}`} className="flex w-full flex-col justify-center ">
             <div
-              className={`flex h-fit w-full flex-col rounded-none  ${isMultiScore && 'border-2 border-black bg-ecru-white shadow-brut-sm'} `}
+              className={`flex h-fit w-full flex-col rounded-sm  ${isMultiScore && 'border-2 border-black bg-ecru-white shadow-brut-sm'} `}
             >
               {renderVisualizer(task.type, plot, index)}
               {isMultiScore && (

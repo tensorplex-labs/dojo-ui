@@ -304,7 +304,8 @@ const Datatablev2 = ({
           'p-0 overflow-x-auto relative',
           !loadingState && table.getFilteredRowModel().rows.length <= 0 && 'overflow-x-hidden',
           'sticky-table-container',
-          containerClassName
+          containerClassName,
+          'rounded-sm'
         )}
       >
         {/* Default col size in tanstack table is 150px  */}

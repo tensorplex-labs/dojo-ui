@@ -66,7 +66,7 @@ export function Pagination({ totalPages, handlePageChange }: PaginationProps) {
               handlePageChange(pageNumber as number);
               setCurrentPage(pageNumber as number);
             }}
-            className={`flex h-7 items-center justify-center border-2 border-black bg-primary px-4 font-bold ${isActive ? 'text-white' : 'bg-primary/15 text-black'}`}
+            className={`flex h-7 items-center justify-center rounded-sm border-2 border-black bg-primary px-4 font-bold ${isActive ? 'text-white' : 'bg-primary/15 text-black'}`}
           >
             {pageNumber}
           </button>

@@ -1,4 +1,5 @@
 import CodegenViewer from '@/components/CodegenViewer';
+import AnnotationInput from '@/components/Common/AnnotationInput/AnnotationInput';
 import CopyBtn from '@/components/Common/CopyButton/CopyBtn';
 import { BrutCard } from '@/components/Common/CustomComponents/brut-card';
 import Shimmers from '@/components/Common/CustomComponents/shimmers';
@@ -12,8 +13,13 @@ import Image from 'next/image';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { generateNonce } from 'siwe';
 import FormattedPrompt from '../FormattedPrompt';
-import { Annotation } from '../ImageAnnotator/ImageAnnotator';
 import Slider from '../Slider';
+
+interface Annotation {
+  x: number;
+  y: number;
+  label: string;
+}
 
 interface Props extends React.HTMLProps<HTMLDivElement> {
   task: Task;
@@ -62,6 +68,8 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
   const [criterionForResponse, setCriterionForResponse] = useState<CriterionWithResponses[]>([]);
   const idRef = useRef<string>(generateNonce());
   const [annotations, setAnnotations] = useState<Annotation[]>([]);
+  const rhfImageRef = useRef<HTMLImageElement>(null);
+  const [rhfCreatingAnnotation, setRhfCreatingAnnotation] = useState<Annotation | null>(null);
   const rhfLabelContainerRef = useRef<HTMLDivElement>(null);
   const prevAnnotationsLengthRef = useRef<number>(annotations.length); // To know when things are added or removed
 
@@ -72,13 +80,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
     prevAnnotationsLengthRef.current = annotations.length;
   }, [annotations]);
   const handleLabelChange = (index: number, value: string) => {
-    setAnnotations((prev) => {
-      const updatedAnnotations = prev.map((annotation, i) =>
-        i === index ? { ...annotation, label: value } : annotation
-      );
-      //  onAnnotationsChange(updatedAnnotations);
-      return updatedAnnotations;
-    });
+    setAnnotations((prev) => prev.map((annotation, i) => (i === index ? { ...annotation, label: value } : annotation)));
   };
 
   const handleDelete = (index: number) => {
@@ -89,6 +91,10 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
     });
   };
 
+  const handleRHFAnnotationSave = useCallback((a: Annotation) => {
+    setAnnotations((prev) => [...prev, a]);
+    setRhfCreatingAnnotation(null);
+  }, []);
   //Renderers
   const renderVisualizer = useCallback(
     (task: Task) => {
@@ -97,19 +103,9 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
         const imageRect = e.currentTarget.getBoundingClientRect();
         const x = ((e.clientX - imageRect.left) / imageRect.width) * 100;
         const y = ((e.clientY - imageRect.top) / imageRect.height) * 100;
-        setAnnotations((prev) => {
-          const updatedAnnotations = [
-            ...prev,
-            {
-              x,
-              y,
-              label: '',
-            },
-          ];
-          // onAnnotationsChange(updatedAnnotations);
-          return updatedAnnotations;
-        });
+        setRhfCreatingAnnotation({ x, y, label: '' });
       };
+
       let ttiUrl = '';
       const taskResponse = task.taskData.responses[0];
       switch (task.type) {
@@ -131,6 +127,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
           return (
             <>
               <Image
+                ref={rhfImageRef}
                 draggable={false}
                 onClick={(e) => {
                   if (task.taskData.criteria.find((c) => c.type === 'rich-human-feedback')) {
@@ -143,9 +140,39 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
                 src={ttiUrl}
                 className="w-full"
               />
+              {rhfCreatingAnnotation && (
+                <AnnotationInput
+                  onLabelChange={(e) =>
+                    setRhfCreatingAnnotation((prev) => {
+                      if (prev) {
+                        return { ...prev, label: e };
+                      }
+                      return prev;
+                    })
+                  }
+                  onSubmit={() => {
+                    handleRHFAnnotationSave(rhfCreatingAnnotation);
+                  }}
+                  onClose={() => {
+                    setRhfCreatingAnnotation(null);
+                  }}
+                  imageRef={rhfImageRef}
+                  creatingAnnotation={rhfCreatingAnnotation}
+                />
+              )}
+              {rhfCreatingAnnotation && (
+                <div
+                  className="absolute"
+                  style={{ top: `${rhfCreatingAnnotation.y}%`, left: `${rhfCreatingAnnotation.x}%` }}
+                >
+                  <div className="flex size-5 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-primary font-bold text-white">
+                    {annotations.length + 1}
+                  </div>
+                </div>
+              )}
               {annotations.map((annotation, index) => (
                 <div key={index} className="absolute" style={{ top: `${annotation.y}%`, left: `${annotation.x}%` }}>
-                  <div className="flex size-5 translate-x-[-50%] translate-y-[-50%] items-center justify-center rounded-full bg-red-500 font-bold text-white">
+                  <div className="flex size-5 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-red-500 font-bold text-white">
                     {index + 1}
                   </div>
                 </div>
@@ -156,7 +183,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
           return;
       }
     },
-    [annotations]
+    [annotations, handleRHFAnnotationSave, rhfCreatingAnnotation]
   );
 
   const renderLabelQuestion = useCallback(
@@ -256,8 +283,8 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
 
                   {/* Overlay */}
                   <div className="absolute left-0 top-0 flex size-full flex-col items-center justify-center rounded-md bg-gradient-to-t from-background from-10% to-background/80 to-100% text-font-primary/70">
-                    <span>Click on the response image to</span>
-                    <span>annotate the flaws in the output.</span>
+                    <span>Click on specific points of the output image</span>
+                    <span>to annotate the flaws / inaccuracies.</span>
                   </div>
                 </div>
               )}
@@ -272,6 +299,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
 
   // Change handlers
   // Current impl: index is just the criterion label since each label has to be unique.
+  // Everything will be added into response field as list of string
   const handleChange = useCallback((index: string, value: string) => {
     setCriterionForResponse((prev) => {
       const updated = prev.map((c) => {
@@ -343,7 +371,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
         <VisualizerContentBox className="flex flex-col items-stretch gap-[10px]">
           <>
             <div className="w-full">Response:</div>
-            <BrutCard className={cn('relative p-0 flex aspect-auto w-full rounded-md', props.visualizerClassName)}>
+            <BrutCard className={cn('relative p-0 flex aspect-auto w-full rounded-sm', props.visualizerClassName)}>
               {renderVisualizer(task)}
             </BrutCard>
           </>

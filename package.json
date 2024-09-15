@@ -5,7 +5,6 @@
   "scripts": {
     "dev_dev": "NEXT_PUBLIC_BACKEND_URL=***REMOVED*** next dev",
     "testnet": "NEXT_PUBLIC_BACKEND_URL=https://dojo-api-testnet.tensorplex.ai next dev",
-    "devnet": "NEXT_PUBLIC_BACKEND_URL=https://dojo-api-dev.tensorplex.dev next dev",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
