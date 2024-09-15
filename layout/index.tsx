@@ -46,7 +46,7 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidt
   const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
 
   return (
-    <div className="flex min-h-screen max-w-screen-lg flex-col items-stretch bg-primaryBG-bg text-black">
+    <div className="flex min-h-screen max-w-screen-lg flex-col items-stretch overflow-x-hidden bg-primaryBG-bg text-black">
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
           <ModalProvider>
