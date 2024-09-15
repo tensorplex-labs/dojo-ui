@@ -86,6 +86,11 @@ const AnnotationInput: React.FC<AnnotationInputProps> = ({
     // Initial position update
     updatePosition();
 
+    // Auto focus the text area everything coordinates change
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
+
     // Update position on window resize
     window.addEventListener('resize', updatePosition);
 

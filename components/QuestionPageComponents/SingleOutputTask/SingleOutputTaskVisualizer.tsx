@@ -283,8 +283,9 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
 
                   {/* Overlay */}
                   <div className="absolute left-0 top-0 flex size-full flex-col items-center justify-center rounded-md bg-gradient-to-t from-background from-10% to-background/80 to-100% text-font-primary/70">
-                    <span>Click on specific points of the output image</span>
-                    <span>to annotate the flaws / inaccuracies.</span>
+                    <div className="max-w-[80%] text-center">
+                      Click on specific points of the output image to annotate the flaws / inaccuracies.
+                    </div>
                   </div>
                 </div>
               )}
