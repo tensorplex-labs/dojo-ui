@@ -109,7 +109,9 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
   };
 
   const handleRHFAnnotationSave = useCallback((a: Annotation) => {
-    setAnnotations((prev) => [...prev, a]);
+    if (a.label) {
+      setAnnotations((prev) => [...prev, a]);
+    }
     setRhfCreatingAnnotation(null);
   }, []);
   //Renderers
@@ -199,7 +201,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
                   <div
                     className={cn(
                       'flex size-5 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-red-500 font-bold text-white',
-                      selectedAnnotation == index && 'bg-primary'
+                      selectedAnnotation == index && 'bg-primary outline outline-2 outline-offset-1 outline-white'
                     )}
                   >
                     {index + 1}
