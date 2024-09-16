@@ -107,3 +107,21 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: hsla(60, 17%, 0%, 0);
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: hsla(175, 100%, 36%, 0.387);
+  border-radius: 4px;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(175, 100%, 36%);
+}

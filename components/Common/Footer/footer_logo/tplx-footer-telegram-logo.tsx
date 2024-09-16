@@ -6,7 +6,7 @@ const TPLXFooterTelegramLogo = ({ className, ...props }: Props) => {
   return (
     <div
       className={cn(
-        'flex items-center justify-center group hover:cursor-pointer hover:bg-[#E3E3D2] rounded-[12px]',
+        'flex items-center justify-center group hover:cursor-pointer hover:bg-[#E3E3D2] rounded-lg',
         className
       )}
     >

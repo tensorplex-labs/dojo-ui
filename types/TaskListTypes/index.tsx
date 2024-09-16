@@ -2,6 +2,7 @@ export type CategoryItemProps = {
   label: string;
   isActive: boolean;
   onClick: () => void;
+  className?: string;
 };
 
 export interface CategoryListProps {

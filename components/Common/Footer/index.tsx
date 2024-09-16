@@ -2,7 +2,9 @@ import useFeature from '@/hooks/useFeature';
 import useGetNextInProgressTask, { NextTaskResponse } from '@/hooks/useGetNextTask';
 import useScrollRestoration from '@/hooks/useScrollRestoration';
 import { useSubmit } from '@/providers/submitContext';
+import { wait } from '@/utils/general_helpers';
 import { tasklistFull } from '@/utils/states';
+import { cn } from '@/utils/tw';
 import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
 import { Button } from '../Button';
@@ -25,7 +27,13 @@ const Footer: React.FC = () => {
         nextIdx = currIdx - 1 < 0 ? tasklistFull.length - 1 : currIdx - 1;
       }
       saveScrollPosition();
-      router.push(`/Questions?taskId=${tasklistFull[nextIdx].taskId}&exp=demo`).then(() => {
+      const obj = tasklistFull[nextIdx];
+      let newQuestionUrl = `/Questions?taskId=${obj.taskId}&exp=demo`;
+      if (obj.taskData.responses.length === 1) {
+        newQuestionUrl = `/Questionsv2?taskId=${obj.taskId}&exp=demo`;
+      }
+      router.push(newQuestionUrl).then(async () => {
+        await wait(100);
         restoreScrollPosition();
       });
     },
@@ -47,7 +55,7 @@ const Footer: React.FC = () => {
     router.replace(`/Questions?taskId=${nextTaskResponse.nextInProgressTaskId}`);
   };
   return (
-    <div className="mx-auto max-w-[1075px] p-4">
+    <div className=" w-full p-4">
       {/* <div className="mb-2">
         <h1 className={`uppercase ${FontSpaceMono.className} text-xl font-bold mb-1.5`}>
             Rewards
@@ -57,10 +65,10 @@ const Footer: React.FC = () => {
             how this thing would behave so the user is aware on how to use it.
         </p>
         </div> */}
-      <div className="flex justify-between">
+      <div className="mx-auto flex max-w-[1075px] justify-end">
         {/* Stake Amount */}
-        <div className=" flex">
-          {/* <div className="w-[290px]">
+        {/* <div className=" flex"> */}
+        {/* <div className="w-[290px]">
                     <div className="flex justify-between items-center mb-4">
                         <h1 className={`uppercase ${FontSpaceMono.className} text-base font-bold`}>
                             Stake Amount
@@ -84,9 +92,9 @@ const Footer: React.FC = () => {
                     />
                 </div>
             <   div className="w-px bg-gray-300 mx-4 my-2"></div>  */}
-          {/* Risk & Rewards */}
-          <div className="flex w-[250px] flex-col">
-            {/* <h1 className={`uppercase ${FontSpaceMono.className} text-base font-bold mb-4`}> Risk & Rewards </h1>
+        {/* Risk & Rewards */}
+        {/* <div className="flex w-[250px] flex-col"> */}
+        {/* <h1 className={`uppercase ${FontSpaceMono.className} text-base font-bold mb-4`}> Risk & Rewards </h1>
                     <div className="flex justify-between gap-5">
                     <div className="flex flex-col">
                         <h2 className={`${FontManrope.className} text-[13px] font-semibold opacity-50`}>Potential Gains</h2>
@@ -101,12 +109,12 @@ const Footer: React.FC = () => {
                         </p>
                     </div>
                 </div> */}
-          </div>
-        </div>
-        <div className="flex items-center justify-end space-x-[11px]">
+        {/* </div> */}
+        {/* </div> */}
+        <div className="flex w-full items-center justify-end space-x-[11px]">
           <Button
             buttonText={'SKIP'}
-            className="!bg-muted px-[37px] py-[15px] text-black hover:shadow-brut-sm"
+            className={cn('!bg-muted px-[37px] py-[15px] text-black hover:shadow-brut-sm', 'w-1/2 sm:w-auto')}
             onClick={async () => {
               if (!exp) handleSkip();
               else {
@@ -116,7 +124,7 @@ const Footer: React.FC = () => {
           />
           <Button
             buttonText={'PROCEED'}
-            className="bg-primary px-[37px] py-[15px] text-white hover:shadow-brut-sm"
+            className={cn('bg-primary px-[37px] py-[15px] text-white hover:shadow-brut-sm', 'w-1/2 sm:w-auto')}
             onClick={() => {
               if (!exp) handleSubmit();
               else {

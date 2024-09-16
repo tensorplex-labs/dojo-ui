@@ -11,6 +11,7 @@ import { useModal } from '@/hooks/useModal';
 import ModalProvider from '@/providers/modals';
 import { MODAL } from '@/types/ProvidersTypes';
 import { getFirstFourLastFour } from '@/utils/math_helpers';
+import { cn } from '@/utils/tw';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { IconCopy, IconExternalLink } from '@tabler/icons-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -45,14 +46,14 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidt
   const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
 
   return (
-    <div className="min-h-screen max-w-screen-lg bg-primaryBG-bg text-black">
+    <div className="flex min-h-screen max-w-screen-lg flex-col items-stretch overflow-x-hidden bg-primaryBG-bg text-black">
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
           <ModalProvider>
             <div className="border-b-2 border-black bg-ecru-white text-white">
               <NavigationBar openModal={() => setShowUserCard(true)} />
             </div>
-            <main className={`${!isFullWidth && 'max-w-[1075px] '} mx-auto`}>{children}</main>
+            <main className={cn(!isFullWidth ? 'max-w-[1075px]' : 'w-full', `mx-auto grow`)}>{children}</main>
             {showFooter && <hr className=" border-black" />}
             {showUserCard && (
               <UserCard closeModal={setShowUserCard}>
@@ -75,7 +76,7 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidt
                   <div className="flex items-center justify-start gap-[20px] pl-5">
                     <CustomButton onClick={handleCopy} className="h-fit p-0 font-bold text-darkGreen" variant={'link'}>
                       <span className=" mr-[3px] text-xs underline underline-offset-2">COPY ADDRESS</span>{' '}
-                      <IconCopy className="h-4 w-4" />
+                      <IconCopy className="size-4" />
                     </CustomButton>
                     <CustomButton
                       onClick={handleEtherscan}
@@ -83,7 +84,7 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidt
                       variant={'link'}
                     >
                       <span className="mr-[3px] text-xs underline underline-offset-2">VIEW ON ETHERSCAN</span>{' '}
-                      <IconExternalLink className="h-4 w-4" />
+                      <IconExternalLink className="size-4" />
                     </CustomButton>
                   </div>
                 </div>

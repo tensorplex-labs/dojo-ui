@@ -7,9 +7,26 @@ const config: Config = {
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './data/**/*.{js,ts,jsx,tsx,mdx}',
+    './utils/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
+      transitionProperty: {
+        width: 'width',
+        height: 'height',
+      },
+      borderRadius: {
+        sm: '4px',
+        md: '6px',
+        lg: '12px',
+        xl: '0.75rem',
+        '2xl': '1rem',
+        '3xl': '1.5rem',
+        '4xl': '2rem',
+        '5xl': '2.5rem',
+        full: '9999px',
+      },
       keyframes: {
         pulseY: {
           '0%, 100%': { transform: 'translateY(0)' },
@@ -19,8 +36,15 @@ const config: Config = {
           '0%, 100%': { transform: 'translateY(0) scale(1.4)' },
           '50%': { transform: 'translateY(-12px) scale(1.9)' },
         },
+        blinkingBg: {
+          '0%': { opacity: '1' },
+          '49%': { opacity: '1' },
+          '50%': { opacity: '0' },
+          '100%': { opacity: '0' },
+        },
       },
       animation: {
+        blinkingBg: 'blinkingBg 1s ease-in-out infinite',
         pulseY: 'pulseY 2s ease-in-out infinite',
         pulseYandScale: 'pulseYandScale 2s ease-in-out infinite',
       },

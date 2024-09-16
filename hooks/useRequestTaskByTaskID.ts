@@ -1,6 +1,6 @@
 import { Task } from '@/types/QuestionPageTypes';
-import { getFromLocalStorage } from '@/utils/general_helpers';
-import { task3d, tasklistFull } from '@/utils/states';
+import { getFromLocalStorage, wait } from '@/utils/general_helpers';
+import { tasklistFull } from '@/utils/states';
 import { useEffect, useState } from 'react';
 import useFeature from './useFeature';
 
@@ -9,20 +9,18 @@ const useRequestTaskByTaskID = (taskId: string, isConnected?: boolean, isAuthent
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const { exp } = useFeature({ kw: 'demo' });
-  const { exp: exp3d } = useFeature({ kw: 'demo', addParams: '3d' });
 
   useEffect(() => {
     const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
     const jwtToken = getFromLocalStorage(tokenType);
-    const fetchDemoTask = () => {
-      if (exp3d) {
-        // Demo response with 3d model
-        setTask(task3d);
-        return;
-      } else if (exp) {
+    const fetchDemoTask = async () => {
+      if (exp) {
         // FInd one demo response if not just return the first one
+        setLoading(true);
+        await wait(200);
         const filteredTask = tasklistFull.find((t) => t.taskId === taskId);
         setTask(filteredTask ?? tasklistFull[0]);
+        setLoading(false);
         return;
       }
     };
@@ -46,14 +44,14 @@ const useRequestTaskByTaskID = (taskId: string, isConnected?: boolean, isAuthent
         setLoading(false);
       }
     };
-    if (exp || exp3d) {
+    if (exp) {
       fetchDemoTask();
     } else if (isConnected && isAuthenticated && taskId) {
       fetchTask();
     } else {
       setTask(null);
     }
-  }, [taskId, isConnected, isAuthenticated, exp, exp3d]); // jwtToken is not a dependency anymore since it's fetched inside the effect
+  }, [taskId, isConnected, isAuthenticated, exp]); // jwtToken is not a dependency anymore since it's fetched inside the effect
 
   return { task, loading, error };
 };

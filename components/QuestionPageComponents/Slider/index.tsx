@@ -1,4 +1,5 @@
 import { SliderProps } from '@/types/QuestionPageTypes';
+import { cn } from '@/utils/tw';
 import { FontManrope } from '@/utils/typography';
 import React, { useEffect, useState } from 'react';
 
@@ -11,6 +12,7 @@ const Slider: React.FC<SliderProps> = ({
   minLabel,
   maxLabel,
   showSections,
+  ...props
 }) => {
   const [value, setValue] = useState(initialValue);
   useEffect(() => {
@@ -33,7 +35,7 @@ const Slider: React.FC<SliderProps> = ({
     background: `linear-gradient(to right, #00B6A6 0%, #00B6A6 ${percentage}%, #ccc ${percentage}%, #ccc ${percentage}%)`,
   };
   return (
-    <div className="relative mb-6">
+    <div className={cn('relative mb-6', props.className)}>
       <input
         type="range"
         min={min}
@@ -41,11 +43,10 @@ const Slider: React.FC<SliderProps> = ({
         step={step}
         value={value}
         onChange={handleSliderChange}
-        className={`border-end h-1.5 w-full cursor-pointer appearance-none border border-e border-black bg-transparent focus:outline-none disabled:pointer-events-none disabled:opacity-50
+        className={`border-end h-1.5 w-full cursor-pointer appearance-none border border-e border-black bg-transparent focus:outline-none disabled:pointer-events-none
+        disabled:opacity-50
         [&::-webkit-slider-thumb]:z-50
-        [&::-webkit-slider-thumb]:-ml-0.5
-        [&::-webkit-slider-thumb]:-mt-0.5
-        [&::-webkit-slider-thumb]:size-[13px]
+        [&::-webkit-slider-thumb]:size-[14px]
         [&::-webkit-slider-thumb]:appearance-none
         [&::-webkit-slider-thumb]:rounded-full
         [&::-webkit-slider-thumb]:bg-muted
@@ -63,7 +64,7 @@ const Slider: React.FC<SliderProps> = ({
               <span
                 className={`bg-primary ${
                   stepValue === value ? 'bg-transparent opacity-0' : ''
-                } block h-[11px] w-[5px] border border-black dark:text-gray-400`}
+                } block h-[11px] w-[5px] rounded-md border border-black dark:text-gray-400`}
               />
               <p className={`${FontManrope.className} mr-[-0.75px] mt-1 text-xs font-semibold`}>{stepValue}</p>
             </div>

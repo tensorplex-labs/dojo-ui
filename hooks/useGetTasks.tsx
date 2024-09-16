@@ -53,27 +53,27 @@ const useGetTasks = (
   const { partnerCount } = useContext(TaskPageContext);
   const { exp } = useFeature({ kw: 'demo' });
 
-  useEffect(() => {
-    console.log({ partnerCount });
-  }, [partnerCount]);
-
   const fetchDemoTasks = useCallback(async () => {
+    setTasks([]);
     if (taskQuery.toLowerCase() === 'all') {
       setTasks(tasklistFull);
-      return;
     } else {
       const filteredTaskList: Task[] = [];
       taskQuery.split(',').forEach((task) => {
-        console.log('Task:', task);
         tasklistFull.filter((t) => {
           if (t.type.toLowerCase() === task.toLowerCase()) {
             filteredTaskList.push(t);
           }
         });
       });
-      console.log('filteredTaskList:', filteredTaskList);
       setTasks(filteredTaskList);
     }
+    setPagination({
+      pageNumber: 1,
+      pageSize: 20,
+      totalPages: Math.ceil(tasklistFull.length / 20),
+      totalItems: tasklistFull.length,
+    });
   }, [setTasks, taskQuery]);
 
   const fetchTasks = useCallback(async () => {
@@ -81,6 +81,7 @@ const useGetTasks = (
       console.log('Fetch request already in progress, skipping new request');
       return;
     }
+    setTasks([]);
 
     if (!jwtToken || !isAuthenticated || !isConnected) {
       setTasks([]);
@@ -92,8 +93,6 @@ const useGetTasks = (
 
     isFetchingRef.current = true;
     try {
-      console.log('fetchTasks called', page, limit, taskQuery, sort, yieldMin, yieldMax);
-
       const yieldMinQuery = yieldMin ? `&yieldMin=${yieldMin}` : '';
       const yieldMaxQuery = yieldMax ? `&yieldMax=${yieldMax}` : '';
       const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/?page=${page}&limit=${limit}&task=${taskQuery}&sort=${sort}${yieldMinQuery}${yieldMaxQuery}&order=${order}`;
@@ -125,12 +124,6 @@ const useGetTasks = (
     if (!router.isReady) return;
     if (exp) {
       fetchDemoTasks();
-      setPagination({
-        pageNumber: 1,
-        pageSize: 10,
-        totalPages: 1,
-        totalItems: tasklistFull.length,
-      });
       setLoading(false);
       return;
     }
