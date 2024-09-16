@@ -99,6 +99,13 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
         block: 'center',
         inline: 'center',
       });
+    const annotationDiv = annotationRefs.current[index];
+    if (annotationDiv) {
+      const textarea = annotationDiv.querySelector('textarea');
+      if (textarea instanceof HTMLTextAreaElement) {
+        textarea.focus();
+      }
+    }
   };
 
   const handleRHFAnnotationSave = useCallback((a: Annotation) => {
@@ -266,38 +273,48 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
                     key={index}
                     className="relative px-4 py-2"
                   >
-                    <div className={`flex items-center justify-between  text-black`}>
-                      <div>
+                    <div className={`flex flex-col  text-black`}>
+                      <div className="flex w-full items-center justify-between">
                         <h1 className={`${FontSpaceMono.className} text-base font-bold`}># {index + 1}</h1>
-                        <p
-                          className={`${FontManrope.className} pb-2 text-xs font-semibold normal-case text-black text-opacity-60`}
+                        <button
+                          onClick={() => handleDelete(index)}
+                          className="cursor-pointer border-none bg-transparent text-lg text-black hover:text-red-500"
+                          title="Delete"
                         >
-                          What is the error and how should it be improved?
-                        </p>
+                          <IconTrash className="size-5" />
+                        </button>
                       </div>
-                      <button
-                        onClick={() => handleDelete(index)}
-                        className="cursor-pointer border-none bg-transparent text-lg text-black hover:text-red-500"
-                        title="Delete"
+                      <p
+                        className={`${FontManrope.className} pb-2 text-xs font-semibold normal-case text-black text-opacity-60`}
                       >
-                        <IconTrash className="size-5" />
-                      </button>
+                        What is the error and how should it be improved?
+                      </p>
                     </div>
 
-                    <textarea
-                      ref={(r) => {
-                        textareaRefs.current[index] = r;
-                      }}
-                      value={annotation.label}
-                      onChange={(e) => {
-                        handleLabelChange(index, e);
-                      }}
-                      onFocus={() => handleAnnotationSelect(index)}
-                      rows={1}
-                      maxLength={RHF_MAX_CHAR}
-                      style={{}}
-                      className={`${FontManrope.className} w-full resize-none overflow-hidden rounded-sm border-black bg-background px-3 py-2 text-sm font-semibold text-black placeholder:text-sm focus:bg-white focus:outline-none md:border-2`}
-                    />
+                    <div
+                      className={cn(
+                        'overflow-hidden rounded-sm border-2 border-black',
+                        selectedAnnotation === index && 'shadow-brut-sm'
+                      )}
+                    >
+                      <textarea
+                        ref={(r) => {
+                          textareaRefs.current[index] = r;
+                        }}
+                        value={annotation.label}
+                        onChange={(e) => {
+                          handleLabelChange(index, e);
+                        }}
+                        onFocus={() => handleAnnotationSelect(index)}
+                        onBlur={() => handleAnnotationSelect(-1)}
+                        rows={1}
+                        maxLength={RHF_MAX_CHAR}
+                        style={{}}
+                        className={cn(
+                          `${FontManrope.className} block w-full resize-none overflow-hidden rounded-sm border-black bg-background px-3 py-2 text-sm font-semibold text-black placeholder:text-sm focus:bg-white focus:outline-none md:border-0`
+                        )}
+                      />
+                    </div>
                   </div>
                 ))
               ) : (
@@ -330,7 +347,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
           return '';
       }
     },
-    [criterionForResponse, annotations]
+    [criterionForResponse, annotations, selectedAnnotation]
   );
 
   // Change handlers

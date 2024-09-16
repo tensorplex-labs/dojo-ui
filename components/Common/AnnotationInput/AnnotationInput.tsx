@@ -121,26 +121,28 @@ const AnnotationInput: React.FC<AnnotationInputProps> = ({
             <IconX className="size-4 font-bold" />
           </button>
         </div>
-        <div className="flex flex-col gap-[14px] pr-[28px] md:p-3">
-          <textarea
-            ref={textareaRef}
-            value={creatingAnnotation.label}
-            onChange={(e) => {
-              onLabelChange(e.target.value);
-              autoResizeTextArea();
-            }}
-            maxLength={RHF_MAX_CHAR}
-            className={`${FontManrope.className} w-full resize-none overflow-hidden rounded-sm border-black bg-background px-3 py-2 text-sm font-semibold text-black placeholder:text-sm focus:outline-none md:border-2`}
-            placeholder="Incorrect shadow / representation etc."
-            onKeyPress={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                onSubmit();
-              }
-            }}
-            rows={1}
-            autoFocus
-          />
+        <div className="flex flex-col gap-[14px] pr-[28px] md:p-3 ">
+          <div className="overflow-hidden rounded-sm border-black md:border-2">
+            <textarea
+              ref={textareaRef}
+              value={creatingAnnotation.label}
+              onChange={(e) => {
+                onLabelChange(e.target.value);
+                autoResizeTextArea();
+              }}
+              maxLength={RHF_MAX_CHAR}
+              className={`${FontManrope.className} block w-full resize-none overflow-hidden rounded-sm border-black bg-white px-3 py-2 text-sm font-semibold text-black placeholder:text-sm focus:outline-none`}
+              placeholder="Incorrect shadow / representation etc."
+              onKeyPress={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  onSubmit();
+                }
+              }}
+              rows={1}
+              autoFocus
+            />
+          </div>
           <button
             onClick={onSubmit}
             className={cn(
