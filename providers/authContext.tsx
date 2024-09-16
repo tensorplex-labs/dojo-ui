@@ -1,13 +1,11 @@
-// context/AuthContext.js
 import { useJwtToken } from '@/hooks/useJwtToken';
 import useWorkerLoginAuth, { LoginAuthPayload } from '@/hooks/useWorkerLoginAuth';
-// import { AuthContextType } from '@/types/ProvidersTypes';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useDisconnect } from 'wagmi';
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  workerLogin: (loginPayload: any) => Promise<void>; // Adjust the type of `loginPayload` as needed
+  workerLogin: (loginPayload: LoginAuthPayload) => Promise<void>;
   workerLogout: () => void;
   loading: boolean;
   error: string | null;
@@ -15,10 +13,9 @@ interface AuthContextType {
   setIsSignedIn: (isSignedIn: boolean) => void;
 }
 
-// Set the default values and types for the context
 const defaultContextValue: AuthContextType = {
   isAuthenticated: false,
-  workerLogin: async () => {}, // Implement or mock as necessary
+  workerLogin: async () => {},
   workerLogout: () => {},
   loading: false,
   error: null,
@@ -30,32 +27,34 @@ const AuthContext = createContext<AuthContextType>(defaultContextValue);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { workerLoginAuth, loading, error } = useWorkerLoginAuth();
+  const [lastAuthenticatedAddress, setLastAuthenticatedAddress] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const { disconnect } = useDisconnect();
   const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
-  // Attempt to retrieve the auth token from localStorage on initial load
   const token = useJwtToken();
+
   useEffect(() => {
-    setIsAuthenticated(!!token); // Convert the presence of token to a boolean to set authenticated state
+    setIsAuthenticated(!!token);
   }, [token]);
 
   const workerLogin = async (loginPayload: LoginAuthPayload) => {
     try {
       await workerLoginAuth(loginPayload);
-
-      const token = localStorage.getItem(tokenType);
-      if (!token) disconnect(); // means the login failed, so disconnect the user
-      setIsAuthenticated(!!token);
-    } catch (err) {
-      console.error('Error while worker login', err);
-      disconnect();
+      setIsAuthenticated(true);
+      setLastAuthenticatedAddress(loginPayload.walletAddress);
+      localStorage.setItem('lastAuthenticatedAddress', loginPayload.walletAddress);
+    } catch (error) {
+      console.error('Login error:', error);
+      setIsAuthenticated(false);
     }
   };
 
   const workerLogout = () => {
-    localStorage.removeItem(tokenType); // Remove the token from localStorage
+    localStorage.removeItem(tokenType);
+    localStorage.removeItem('lastAuthenticatedAddress');
     setIsAuthenticated(false);
+    setLastAuthenticatedAddress(null);
     disconnect();
   };
 
