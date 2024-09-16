@@ -14,14 +14,12 @@ export function AuthCheckWrapper({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   useEffect(() => {
-    console.log('first');
     const checkAuthStatus = () => {
       const storedAddress = getFromLocalStorage('lastAuthenticatedAddress');
       const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
       const storedToken = getFromLocalStorage(tokenType);
 
       if (isAuthenticated && address !== storedAddress) {
-        // console.log('Wallet address changed. Logging out...');
         disconnect();
         workerLogout();
         router.reload();
@@ -32,8 +30,9 @@ export function AuthCheckWrapper({ Component, pageProps }: AppProps) {
         try {
           const payload = JSON.parse(atob(storedToken.split('.')[1]));
           const expirationTime = payload.exp * 1000;
-          //   console.log('Expiration time:', Date.now());
-          if (Date.now() >= expirationTime) {
+          const currentTime = Date.now();
+
+          if (currentTime >= expirationTime) {
             disconnect();
             workerLogout();
             router.reload();
@@ -47,7 +46,6 @@ export function AuthCheckWrapper({ Component, pageProps }: AppProps) {
     checkAuthStatus();
 
     const intervalId = setInterval(checkAuthStatus, 60000);
-
     return () => clearInterval(intervalId);
   }, [address, isAuthenticated, disconnect, workerLogout, jwtToken, router]);
 
