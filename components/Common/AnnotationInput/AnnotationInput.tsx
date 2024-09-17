@@ -1,7 +1,8 @@
+import { RHF_MAX_CHAR } from '@/utils/states';
 import { cn } from '@/utils/tw';
 import { FontManrope } from '@/utils/typography';
 import { IconArrowUp, IconX } from '@tabler/icons-react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 
 interface AnnotationInputProps {
   creatingAnnotation: { x: number; y: number; label: string };
@@ -25,7 +26,6 @@ const AnnotationInput: React.FC<AnnotationInputProps> = ({
 }) => {
   const inputRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [position, setPosition] = useState({ top: 0, left: 0 });
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -45,16 +45,13 @@ const AnnotationInput: React.FC<AnnotationInputProps> = ({
     };
   }, [onClose, imageRef]);
 
-  function autoResizeTextArea() {
+  const autoResizeTextArea = useCallback(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto'; // Reset the height to auto
       textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px'; // Set the height to match the content
     }
-  }
+  }, [textareaRef]);
 
-  useEffect(() => {
-    autoResizeTextArea();
-  }, [creatingAnnotation.label]);
   useEffect(() => {
     const updatePosition = () => {
       if (inputRef.current && imageRef.current) {
@@ -85,6 +82,11 @@ const AnnotationInput: React.FC<AnnotationInputProps> = ({
 
     // Initial position update
     updatePosition();
+
+    // Auto focus the text area everything coordinates change
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
 
     // Update position on window resize
     window.addEventListener('resize', updatePosition);
@@ -119,26 +121,28 @@ const AnnotationInput: React.FC<AnnotationInputProps> = ({
             <IconX className="size-4 font-bold" />
           </button>
         </div>
-        <div className="flex flex-col gap-[14px] pr-[28px] md:p-3">
-          <textarea
-            ref={textareaRef}
-            value={creatingAnnotation.label}
-            onChange={(e) => {
-              onLabelChange(e.target.value);
-              autoResizeTextArea();
-            }}
-            maxLength={70}
-            className={`${FontManrope.className} w-full resize-none overflow-hidden rounded-sm border-black bg-background px-3 py-2 text-sm font-semibold text-black placeholder:text-sm focus:outline-none md:border-2`}
-            placeholder="Incorrect shadow / representation etc."
-            onKeyPress={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                onSubmit();
-              }
-            }}
-            rows={1}
-            autoFocus
-          />
+        <div className="flex flex-col gap-[14px] pr-[28px] md:p-3 ">
+          <div className="overflow-hidden rounded-sm border-black md:border-2">
+            <textarea
+              ref={textareaRef}
+              value={creatingAnnotation.label}
+              onChange={(e) => {
+                onLabelChange(e.target.value);
+                autoResizeTextArea();
+              }}
+              maxLength={RHF_MAX_CHAR}
+              className={`${FontManrope.className} block w-full resize-none overflow-hidden rounded-sm border-black bg-white px-3 py-2 text-sm font-semibold text-black placeholder:text-sm focus:outline-none`}
+              placeholder="Incorrect shadow / representation etc."
+              onKeyPress={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  onSubmit();
+                }
+              }}
+              rows={1}
+              autoFocus
+            />
+          </div>
           <button
             onClick={onSubmit}
             className={cn(

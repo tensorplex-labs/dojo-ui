@@ -6,6 +6,7 @@ import Shimmers from '@/components/Common/CustomComponents/shimmers';
 import MultiSelectV2 from '@/components/Common/MultileSelect/MultiSelectV2';
 import GaussianSplatViewer from '@/components/GaussianSplatViewer';
 import { Criterion, CriterionWithResponses, Task } from '@/types/QuestionPageTypes';
+import { RHF_MAX_CHAR } from '@/utils/states';
 import { cn } from '@/utils/tw';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { IconCheck, IconProgress, IconSparkles, IconTrash } from '@tabler/icons-react';
@@ -69,18 +70,16 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
   const idRef = useRef<string>(generateNonce());
   const [annotations, setAnnotations] = useState<Annotation[]>([]);
   const rhfImageRef = useRef<HTMLImageElement>(null);
-  const [rhfCreatingAnnotation, setRhfCreatingAnnotation] = useState<Annotation | null>(null);
-  const rhfLabelContainerRef = useRef<HTMLDivElement>(null);
-  const prevAnnotationsLengthRef = useRef<number>(annotations.length); // To know when things are added or removed
+  const [rhfCreatingAnnotation, setRhfCreatingAnnotation] = useState<Annotation | null>(null); //Save temp annotation while creating but not submitted
+  const rhfLabelContainerRef = useRef<HTMLDivElement>(null); //Actually unused yet
+  const [selectedAnnotation, setSelectedAnnotation] = useState(-1); //index for the selected one, negative to show none
+  const annotationRefs = useRef<(HTMLDivElement | null)[]>([]); //keep track of refs that has been added
+  const textareaRefs = useRef<(HTMLTextAreaElement | null)[]>([]);
 
-  useEffect(() => {
-    if (annotations.length > prevAnnotationsLengthRef.current && rhfLabelContainerRef.current) {
-      rhfLabelContainerRef.current.scrollTop = rhfLabelContainerRef.current.scrollHeight;
-    }
-    prevAnnotationsLengthRef.current = annotations.length;
-  }, [annotations]);
-  const handleLabelChange = (index: number, value: string) => {
-    setAnnotations((prev) => prev.map((annotation, i) => (i === index ? { ...annotation, label: value } : annotation)));
+  const handleLabelChange = (index: number, e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setAnnotations((prev) =>
+      prev.map((annotation, i) => (i === index ? { ...annotation, label: e.target.value } : annotation))
+    );
   };
 
   const handleDelete = (index: number) => {
@@ -91,8 +90,28 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
     });
   };
 
+  const handleAnnotationSelect = (index: number, scrollIntoView?: boolean) => {
+    console.log('Selected annotation: ' + index);
+    setSelectedAnnotation(index);
+    scrollIntoView &&
+      annotationRefs.current[index]?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'center',
+      });
+    const annotationDiv = annotationRefs.current[index];
+    if (annotationDiv) {
+      const textarea = annotationDiv.querySelector('textarea');
+      if (textarea instanceof HTMLTextAreaElement) {
+        textarea.focus();
+      }
+    }
+  };
+
   const handleRHFAnnotationSave = useCallback((a: Annotation) => {
-    setAnnotations((prev) => [...prev, a]);
+    if (a.label) {
+      setAnnotations((prev) => [...prev, a]);
+    }
     setRhfCreatingAnnotation(null);
   }, []);
   //Renderers
@@ -171,8 +190,20 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
                 </div>
               )}
               {annotations.map((annotation, index) => (
-                <div key={index} className="absolute" style={{ top: `${annotation.y}%`, left: `${annotation.x}%` }}>
-                  <div className="flex size-5 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-red-500 font-bold text-white">
+                <div
+                  onClick={() => {
+                    handleAnnotationSelect(index, true);
+                  }}
+                  key={index}
+                  className="absolute"
+                  style={{ top: `${annotation.y}%`, left: `${annotation.x}%` }}
+                >
+                  <div
+                    className={cn(
+                      'flex size-5 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-red-500 font-bold text-white',
+                      selectedAnnotation == index && 'bg-primary outline outline-2 outline-offset-1 outline-white'
+                    )}
+                  >
                     {index + 1}
                   </div>
                 </div>
@@ -183,7 +214,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
           return;
       }
     },
-    [annotations, handleRHFAnnotationSave, rhfCreatingAnnotation]
+    [annotations, handleRHFAnnotationSave, rhfCreatingAnnotation, selectedAnnotation]
   );
 
   const renderLabelQuestion = useCallback(
@@ -237,32 +268,55 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
             >
               {annotations.length > 0 ? (
                 annotations.map((annotation, index) => (
-                  <div key={index} className="relative px-4 py-2">
-                    <div className={`flex items-center justify-between  text-black`}>
-                      <div>
+                  <div
+                    ref={(r) => {
+                      annotationRefs.current[index] = r;
+                    }}
+                    key={index}
+                    className="relative px-4 py-2"
+                  >
+                    <div className={`flex flex-col  text-black`}>
+                      <div className="flex w-full items-center justify-between">
                         <h1 className={`${FontSpaceMono.className} text-base font-bold`}># {index + 1}</h1>
-                        <p
-                          className={`${FontManrope.className} pb-2 text-xs font-semibold normal-case text-black text-opacity-60`}
+                        <button
+                          onClick={() => handleDelete(index)}
+                          className="cursor-pointer border-none bg-transparent text-lg text-black hover:text-red-500"
+                          title="Delete"
                         >
-                          What is the error and how should it be improved?
-                        </p>
+                          <IconTrash className="size-5" />
+                        </button>
                       </div>
-                      <button
-                        onClick={() => handleDelete(index)}
-                        className="cursor-pointer border-none bg-transparent text-lg text-black hover:text-red-500"
-                        title="Delete"
+                      <p
+                        className={`${FontManrope.className} pb-2 text-xs font-semibold normal-case text-black text-opacity-60`}
                       >
-                        <IconTrash />
-                      </button>
+                        What is the error and how should it be improved?
+                      </p>
                     </div>
 
-                    <textarea
-                      value={annotation.label}
-                      onChange={(e) => handleLabelChange(index, e.target.value)}
-                      rows={1}
-                      style={{ maxHeight: '150px', overflowY: 'auto' }}
-                      className={`${FontManrope.className} w-full resize-none border-2 border-black p-3 text-base font-bold text-black shadow-brut-sm outline-none`}
-                    />
+                    <div
+                      className={cn(
+                        'overflow-hidden rounded-sm border-2 border-black',
+                        selectedAnnotation === index && 'shadow-brut-sm'
+                      )}
+                    >
+                      <textarea
+                        ref={(r) => {
+                          textareaRefs.current[index] = r;
+                        }}
+                        value={annotation.label}
+                        onChange={(e) => {
+                          handleLabelChange(index, e);
+                        }}
+                        onFocus={() => handleAnnotationSelect(index)}
+                        onBlur={() => handleAnnotationSelect(-1)}
+                        rows={1}
+                        maxLength={RHF_MAX_CHAR}
+                        style={{}}
+                        className={cn(
+                          `${FontManrope.className} block w-full resize-none overflow-hidden rounded-sm border-black bg-background px-3 py-2 text-sm font-semibold text-black placeholder:text-sm focus:bg-white focus:outline-none md:border-0`
+                        )}
+                      />
+                    </div>
                   </div>
                 ))
               ) : (
@@ -283,8 +337,9 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
 
                   {/* Overlay */}
                   <div className="absolute left-0 top-0 flex size-full flex-col items-center justify-center rounded-md bg-gradient-to-t from-background from-10% to-background/80 to-100% text-font-primary/70">
-                    <span>Click on specific points of the output image</span>
-                    <span>to annotate the flaws / inaccuracies.</span>
+                    <div className="max-w-[80%] text-center">
+                      Click on specific points of the output image to annotate the flaws / inaccuracies.
+                    </div>
                   </div>
                 </div>
               )}
@@ -294,7 +349,7 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
           return '';
       }
     },
-    [criterionForResponse, annotations]
+    [criterionForResponse, annotations, selectedAnnotation]
   );
 
   // Change handlers
@@ -323,6 +378,27 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
     if (task) setCriterionForResponse([...task.taskData.criteria.map((c) => ({ ...c, responses: [] }))]); //Setting up the initial state with responses
     setAnnotations([]); //Reset if go next TTI or task
   }, [task]);
+  useEffect(() => {
+    const adjustHeight = (textarea: HTMLTextAreaElement) => {
+      textarea.style.height = 'auto';
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    };
+
+    textareaRefs.current.forEach((textarea) => {
+      if (textarea) {
+        adjustHeight(textarea);
+        textarea.addEventListener('input', () => adjustHeight(textarea));
+      }
+    });
+
+    return () => {
+      textareaRefs.current.forEach((textarea) => {
+        if (textarea) {
+          textarea.removeEventListener('input', () => adjustHeight(textarea));
+        }
+      });
+    };
+  }, [annotations]);
   return (
     <div className={cn('flex w-full flex-col gap-[30px] md:flex-row items-stretch', props.containerClassName)}>
       <div className="flex h-fit w-full flex-col items-center justify-start gap-[10px] rounded-lg border border-font-primary/10 bg-background-accent p-3 md:w-1/2">
@@ -371,6 +447,9 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: Props) => {
         <VisualizerContentBox className="flex flex-col items-stretch gap-[10px]">
           <>
             <div className="w-full">Response:</div>
+            <span className="mt-[-10px] text-xs text-font-primary/60 md:hidden">
+              Click anywhere to annotate flaws or inaccuracies.
+            </span>
             <BrutCard className={cn('relative p-0 flex aspect-auto w-full rounded-sm', props.visualizerClassName)}>
               {renderVisualizer(task)}
             </BrutCard>

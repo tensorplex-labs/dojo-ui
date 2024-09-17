@@ -8,6 +8,8 @@ export const TASKTYPE_COLOR_MAP: Record<string, string> = {
   '3D_MODEL': 'bg-purple-400',
 };
 
+export const RHF_MAX_CHAR = 70;
+
 export const taskTTI: Task[] = [
   {
     taskId: 'demo6',

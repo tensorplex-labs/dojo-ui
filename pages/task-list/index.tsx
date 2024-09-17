@@ -408,13 +408,13 @@ export default function Index() {
                       onToggle={handleToggle}
                     >
                       <div
-                        className={`DropDownButton-content absolute z-10 mt-[10px] w-full overflow-hidden rounded-[18px] border border-black/10 bg-card-background`}
+                        className={`DropDownButton-content absolute z-20 mt-[10px] w-full overflow-hidden rounded-[18px] border border-black/10 bg-card-background`}
                       >
                         <ul className="text-black opacity-75">
                           {dropdownOptions.map((option, index) => (
                             <li
                               key={index}
-                              className={`flex text-base font-semibold text-black ${
+                              className={`flex text-base text-black ${
                                 params.get('sort') === option.value ? 'bg-secondary opacity-100' : 'py-1.5 opacity-75'
                               } ${FontManrope.className} cursor-pointer items-center justify-between  hover:bg-secondary hover:opacity-100`}
                             >
