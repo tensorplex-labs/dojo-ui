@@ -69,22 +69,22 @@ const PerformanceChart: React.FC<{ data: number[] }> = ({ data }) => {
 const Leaderboard: React.FC = () => {
   return (
     <>
-      <div className="bg-white p-4 border-2 rounded-sm border-black shadow-brut-sm max-w-4xl mx-auto mb-6">
+      <div className="mx-auto mb-6 max-w-4xl rounded-sm border-2 border-black bg-white p-4 shadow-brut-sm">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[500px]">
             <thead>
               <tr className={`${FontSpaceMono.className} border-b-2 border-gray-200`}>
-                <th className="text-left pb-2 pr-4">POSITION</th>
-                <th className="text-left pb-2 pr-4">MINER</th>
-                <th className="text-left pb-2 pr-4">SCORE</th>
-                <th className="text-left pb-2">PERFORMANCE</th>
+                <th className="pb-2 pr-4 text-left">POSITION</th>
+                <th className="pb-2 pr-4 text-left">MINER</th>
+                <th className="pb-2 pr-4 text-left">SCORE</th>
+                <th className="pb-2 text-left">PERFORMANCE</th>
               </tr>
             </thead>
             <tbody>
               {leaderboardData.map((entry) => (
                 <tr
                   key={entry.position}
-                  className={`${FontManrope.className} border-b border-gray-100 font-bold text-lg  h-11`}
+                  className={`${FontManrope.className} h-11 border-b border-gray-100 text-lg  font-bold`}
                 >
                   <td className="w-10">#{entry.position}</td>
                   <td className="w-10">{entry.miner}</td>

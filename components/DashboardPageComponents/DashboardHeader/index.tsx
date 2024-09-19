@@ -10,7 +10,7 @@ const DashboardHeader = ({ setShowUserCard }: { setShowUserCard: (show: boolean)
       Dashboard
     </h1>
     <p
-      className={`${FontManrope.className} min-w-[300px] max-w-sm mx-auto my-2 mt-5 text-center text-sm tracking-wide text-font-primary`}
+      className={`${FontManrope.className} mx-auto my-2 mt-5 min-w-[300px] max-w-sm text-center text-sm tracking-wide text-font-primary`}
     >
       Checkout some awesome data here, and maybe a short introduction of what this section is about
     </p>

@@ -53,7 +53,7 @@ const DashboardPage = () => {
       }}
     >
       <DashboardHeader setShowUserCard={setShowUserCard} />
-      <main className="max-w-4xl mx-5 lg:mx-auto xl:mx-auto mt-5">
+      <main className="mx-5 mt-5 max-w-4xl lg:mx-auto xl:mx-auto">
         <DashboardGraphAndMetrics />
         <LeaderboardSection />
       </main>

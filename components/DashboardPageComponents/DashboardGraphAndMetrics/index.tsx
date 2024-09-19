@@ -154,20 +154,20 @@ function DashboardGraphAndMetrics() {
 
   return (
     <div className="mb-6">
-      <div className="flex flex-col lg:flex-row w-full justify-between gap-3">
-        <div className="flex flex-row lg:flex-col px-3 py-3 lg:p-0 gap-3 overflow-x-auto lg:overflow-x-visible lg:w-1/4">
+      <div className="flex w-full flex-col justify-between gap-3 lg:flex-row">
+        <div className="flex flex-row gap-3 overflow-x-auto p-3 lg:w-1/4 lg:flex-col lg:overflow-x-visible lg:p-0">
           {kpiMetrics.map((metric, index) => (
             <div
               key={index}
-              className="bg-white p-3 lg:p-4 border-2 rounded-sm border-black shadow-brut-sm min-w-[200px] lg:min-w-0 w-full"
+              className="w-full min-w-[200px] rounded-sm border-2 border-black bg-white p-3 shadow-brut-sm lg:min-w-0 lg:p-4"
             >
-              <div className={`${FontSpaceMono.className} font-bold text-sm lg:text-lg mb-1`}>{metric.label}</div>
-              <div className={`${FontSpaceMono.className} text-2xl lg:text-4xl font-bold`}>{metric.value}</div>
+              <div className={`${FontSpaceMono.className} mb-1 text-sm font-bold lg:text-lg`}>{metric.label}</div>
+              <div className={`${FontSpaceMono.className} text-2xl font-bold lg:text-4xl`}>{metric.value}</div>
             </div>
           ))}
         </div>
-        <div className="lg:w-3/4 bg-white border-2 border-black rounded-sm shadow-brut-sm flex-1 min-h-[300px] lg:min-h-[400px]">
-          <div className="p-4 h-full">
+        <div className="min-h-[300px] flex-1 rounded-sm border-2 border-black bg-white shadow-brut-sm lg:min-h-[400px] lg:w-3/4">
+          <div className="h-full p-4">
             <HighchartsReact highcharts={Highcharts} options={chartOptions} constructorType={'stockChart'} />
           </div>
         </div>
