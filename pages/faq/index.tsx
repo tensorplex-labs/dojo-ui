@@ -56,10 +56,10 @@ const Page = () => {
 
   return (
     <div className="h-full bg-background text-black">
-      <div className="h-[320px] border-b-2 border-black bg-background-accent">
+      <div className="flex h-[320px] flex-col gap-4 border-b-2 border-black bg-background-accent">
         <NavigationBar openModal={() => setShowUserCard(true)} />
         <h1
-          className={`${FontSpaceMono.className} my-2 mt-5 text-center text-4xl font-bold tracking-wide text-font-primary`}
+          className={`${FontSpaceMono.className} px-4 text-center text-4xl font-bold tracking-wide text-font-primary`}
         >
           FREQUENTLY ASKED QUESTIONS
         </h1>

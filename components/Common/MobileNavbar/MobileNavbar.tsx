@@ -62,7 +62,6 @@ const MobileNavbar = ({ className, ...props }: Props) => {
     <>
       <div
         onMouseDown={(e) => {
-          console.log('clicked from hamburger');
           e.stopPropagation();
           setNavbarOpen((prev) => !prev);
         }}
