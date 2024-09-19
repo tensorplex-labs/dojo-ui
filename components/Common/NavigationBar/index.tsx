@@ -50,15 +50,15 @@ const NavigationBar = ({ openModal, isHomePage, className }: NavigationBarProps)
           </div>
           <div className="flex items-center gap-3">
             {!isHomePage ? (
-              <div className="flex gap-[5px]">
+              <div className="flex gap-[10px]">
                 <div className="flex items-center justify-center gap-[8px]">
                   <WalletButton openModal={openModal}></WalletButton>
                 </div>
-                <MobileNavbar />
               </div>
             ) : (
               <GetStartedButton />
             )}
+            <MobileNavbar />
           </div>
         </div>
       </nav>
