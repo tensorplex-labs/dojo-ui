@@ -11,6 +11,7 @@ type NavigationBarProps = {
 };
 
 export const headerItems = [
+  { title: 'Dashboard', url: '/dashboard' },
   { title: 'Task List', url: '/task-list?sort=numCriteria&order=desc' },
   { title: 'FAQ', url: '/faq' },
   { title: 'Demo', url: '/task-list?exp=demo&?sort=numCriteria&order=desc' },

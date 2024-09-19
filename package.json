@@ -22,6 +22,8 @@
     "clsx": "^2.1.1",
     "ethers": "^6.12.1",
     "framer-motion": "^11.2.6",
+    "highcharts": "^11.4.8",
+    "highcharts-react-official": "^3.2.1",
     "jazzicon-ts": "^4.0.0",
     "next": "14.2.2",
     "react": "^18.2.0",
