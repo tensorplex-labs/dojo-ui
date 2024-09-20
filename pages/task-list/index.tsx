@@ -279,8 +279,6 @@ export default function Index() {
     taskTypes ? (taskTypes as string) : 'All',
     sort ? (sort as string) : 'createdAt',
     order ? (order as string) : 'desc',
-    isConnected,
-    isAuthenticated,
     yieldMin ? parseInt(yieldMin as string) : undefined,
     yieldMax ? parseInt(yieldMax as string) : undefined
   );
