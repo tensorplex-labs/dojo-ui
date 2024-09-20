@@ -27,7 +27,6 @@ const AuthContext = createContext<AuthContextType>(defaultContextValue);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { workerLoginAuth, loading, error } = useWorkerLoginAuth();
-  const [lastAuthenticatedAddress, setLastAuthenticatedAddress] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const { disconnect } = useDisconnect();
@@ -42,8 +41,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       await workerLoginAuth(loginPayload);
       setIsAuthenticated(true);
-      setLastAuthenticatedAddress(loginPayload.walletAddress);
-      localStorage.setItem('lastAuthenticatedAddress', loginPayload.walletAddress);
     } catch (error) {
       console.error('Login error:', error);
       setIsAuthenticated(false);
@@ -52,9 +49,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const workerLogout = () => {
     localStorage.removeItem(tokenType);
-    localStorage.removeItem('lastAuthenticatedAddress');
     setIsAuthenticated(false);
-    setLastAuthenticatedAddress(null);
     disconnect();
   };
 

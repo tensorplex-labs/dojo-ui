@@ -15,27 +15,19 @@ export function AuthCheckWrapper({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     const checkAuthStatus = () => {
-      const storedAddress = getFromLocalStorage('lastAuthenticatedAddress');
       const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
       const storedToken = getFromLocalStorage(tokenType);
-
-      if (isAuthenticated && address !== storedAddress) {
-        disconnect();
-        workerLogout();
-        router.reload();
-        return;
-      }
 
       if (storedToken) {
         try {
           const payload = JSON.parse(atob(storedToken.split('.')[1]));
           const expirationTime = payload.exp * 1000;
           const currentTime = Date.now();
+          const tokenAddress = payload.sub;
 
-          if (currentTime >= expirationTime) {
+          if (currentTime >= expirationTime || (isAuthenticated && address !== tokenAddress)) {
             disconnect();
             workerLogout();
-            router.reload();
           }
         } catch (error) {
           console.error('Error parsing JWT token:', error);
