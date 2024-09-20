@@ -22,6 +22,7 @@ const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
       case 'CODE_GENERATION':
         return <CodegenViewer encodedHtml={plot.completion.combined_html} />;
       case '3D_MODEL':
+      case 'TEXT_TO_THREE_DEEZ':
         if (plot.completion.url === undefined) return;
         return (
           <GaussianSplatViewer
