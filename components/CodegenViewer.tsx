@@ -14,7 +14,10 @@ const csp_source_whitelist = ['https://cdnjs.cloudflare.com', 'https://cdn.jsdel
 const decodedCSP = `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' ${csp_source_whitelist.join(' ')}; style-src 'unsafe-inline'; img-src data: blob: https://threejsfundamentals.org; connect-src 'none'; form-action 'none'; base-uri 'none';">`;
 const iFrameStyles = `
 body {
-width: 100%;
+
+
+}
+#content-wrapper {
 }
 ::-webkit-scrollbar {
   width: 6px;
@@ -117,7 +120,7 @@ const CodegenViewer = ({ encodedHtml }: CodegenVisProps) => {
       src={iframeSrc || ''}
       title="Dynamic Visualization"
       style={{ border: 'none', display: 'block' }}
-      className="aspect-[3/4] w-full"
+      className="aspect-[16/9] w-full"
     />
   );
 };
