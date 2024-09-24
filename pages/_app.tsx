@@ -1,4 +1,5 @@
 import { config } from '@/components/Common/Wallet/WagmiWalletConfig';
+import { AuthCheckWrapper } from '@/providers/AuthCheckWrapper';
 import { AuthProvider } from '@/providers/authContext';
 import ModalProvider from '@/providers/modals';
 import { SubmitProvider } from '@/providers/submitContext';
@@ -18,7 +19,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <SubmitProvider>
             <TaskPageProvider>
               <ModalProvider>
-                <Component {...pageProps} />
+                <AuthCheckWrapper Component={Component} pageProps={pageProps} router={{} as any} />
               </ModalProvider>
             </TaskPageProvider>
           </SubmitProvider>
