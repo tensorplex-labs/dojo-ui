@@ -43,7 +43,7 @@ const ResponseVisualizer: React.FC<ResponseVisualizerProps> = ({
 
   return (
     <div className="flex w-full justify-center px-4">
-      <div className="grid w-full max-w-[1075px] grid-cols-1 gap-x-5 gap-y-10 md:grid-cols-2">
+      <div className="grid w-full max-w-full grid-cols-1 gap-x-5 gap-y-10 xl:grid-cols-2">
         {task.taskData.responses.map((plot, index) => (
           <div key={`${task.type}_${index}`} className="flex w-full flex-col justify-center ">
             <div
