@@ -1,4 +1,3 @@
-import { useAuth } from '@/providers/authContext';
 import { useSubmit } from '@/providers/submitContext';
 import { TaskPageContext } from '@/providers/taskPageContext';
 import { Task } from '@/types/QuestionPageTypes';
@@ -6,7 +5,6 @@ import { getFromLocalStorage } from '@/utils/general_helpers';
 import { tasklistFull } from '@/utils/states';
 import { useRouter } from 'next/router';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { useAccount } from 'wagmi';
 import useFeature from './useFeature';
 
 export const taskStatus = {
@@ -39,6 +37,8 @@ const useGetTasks = (
   taskQuery: string,
   sort: string,
   order: string,
+  isAuthenticated: boolean,
+  isConnected: boolean,
   yieldMin?: number,
   yieldMax?: number
 ) => {
@@ -52,8 +52,6 @@ const useGetTasks = (
   const isFetchingRef = useRef<boolean>(false);
   const { partnerCount } = useContext(TaskPageContext);
   const { exp } = useFeature({ kw: 'demo' });
-  const { isAuthenticated } = useAuth();
-  const { isConnected } = useAccount();
 
   const fetchDemoTasks = useCallback(async () => {
     setTasks([]);
@@ -84,7 +82,9 @@ const useGetTasks = (
       return;
     }
     setTasks([]);
+
     if (!jwtToken || !isAuthenticated || !isConnected) {
+      localStorage.removeItem(`${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`);
       setTasks([]);
       setPagination(null);
       setError('No JWT token found');

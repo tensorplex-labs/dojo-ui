@@ -279,6 +279,8 @@ export default function Index() {
     taskTypes ? (taskTypes as string) : 'All',
     sort ? (sort as string) : 'createdAt',
     order ? (order as string) : 'desc',
+    isConnected,
+    isAuthenticated,
     yieldMin ? parseInt(yieldMin as string) : undefined,
     yieldMax ? parseInt(yieldMax as string) : undefined
   );
@@ -478,7 +480,7 @@ export default function Index() {
           />
           <div className="mt-3"></div>
           <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange} />
-          {isAuthenticated && !loading ? (
+          {isAuthenticated ? (
             partners.length === 0 || tasks.length <= 0 ? (
               <div className="text-center">
                 <Button
