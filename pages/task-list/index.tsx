@@ -257,22 +257,7 @@ export default function Index() {
       signInWithEthereum(address ?? '');
     }
   }, [isAuthenticated, isConnected, isSignedIn]);
-  useEffect(() => {
-    const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === 'wagmi.io.metamask.disconnected') {
-        window.location.reload();
-      }
-      if (event.key === jwtTokenKey) {
-        window.location.reload();
-      }
-    };
 
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, [disconnect]);
   const { tasks, pagination, loading, refetchTasks } = useGetTasks(
     page ? parseInt(page as string) : parseInt(currentPage),
     limit ? parseInt(limit as string) : 10,
