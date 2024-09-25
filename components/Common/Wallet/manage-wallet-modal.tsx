@@ -60,9 +60,9 @@ const ManageWalletConnectModal = ({ open, onSave, onClose, ...props }: Props) =>
         {status === 'connected' && connector && isAuthenticated && (
           <WalletConnectedCard connector={connector} address={address}></WalletConnectedCard>
         )}
-        <div className="flex flex-col p-2 sm:p-4 pb-[31px] ">
+        <div className="flex flex-col p-2 pb-[31px] sm:p-4 ">
           <span className={cn(FontSpaceMono.className, 'font-bold text-xs sm:text-sm')}>CHOOSE WALLET</span>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-[10px] pt-[3px]">
+          <div className="grid grid-cols-2 gap-2 pt-[3px] sm:grid-cols-3 sm:gap-[10px]">
             <WalletNetworkCard
               onClick={() => {
                 connectWalletHandler('io.metamask');

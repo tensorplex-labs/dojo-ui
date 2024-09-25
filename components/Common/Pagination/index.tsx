@@ -48,11 +48,11 @@ export function Pagination({ totalPages, handlePageChange }: PaginationProps) {
           setCurrentPage(1);
         }}
         disabled={currentPage === 1}
-        className="hidden sm:block rounded-md px-2 py-1 text-base font-bold text-black text-opacity-75 disabled:text-opacity-25"
+        className="hidden rounded-md px-2 py-1 text-base font-bold text-black text-opacity-75 disabled:text-opacity-25 sm:block"
       >
         First
       </button>
-      <div className="flex items-center gap-2 sm:gap-2 overflow-x-auto sm:overflow-x-visible px-2 sm:px-0">
+      <div className="flex items-center gap-2 overflow-x-auto px-2 sm:gap-2 sm:overflow-x-visible sm:px-0">
         {displayedPages.map((pageNumber, index) => {
           if (pageNumber === '...') {
             return (
@@ -85,7 +85,7 @@ export function Pagination({ totalPages, handlePageChange }: PaginationProps) {
           setCurrentPage(totalPages);
         }}
         disabled={currentPage === totalPages}
-        className="hidden sm:block rounded-md px-2 py-1 text-base font-bold text-black text-opacity-75 disabled:text-opacity-25"
+        className="hidden rounded-md px-2 py-1 text-base font-bold text-black text-opacity-75 disabled:text-opacity-25 sm:block"
       >
         Last
       </button>

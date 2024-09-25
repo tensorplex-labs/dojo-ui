@@ -8,11 +8,11 @@ const FAQHero = () => {
   return (
     <div className="px-4">
       <div className="relative mx-auto mt-[-116px] flex h-fit max-w-[1075px] justify-between self-center rounded-sm border-2 border-black bg-secondary shadow-brut-sm">
-        <div className="px-4 sm:px-[29px] py-5 sm:py-[21px]">
-          <h1 className={`${FontManrope.className} text-base sm:text-lg font-extrabold text-black`}>
+        <div className="px-4 py-5 sm:px-[29px] sm:py-[21px]">
+          <h1 className={`${FontManrope.className} text-base font-extrabold text-black sm:text-lg`}>
             Can&apos;t find what you&apos;re looking for?
           </h1>
-          <p className={`${FontManrope.className} mt-2 sm:mt-3 text-sm sm:text-base font-medium text-black/60`}>
+          <p className={`${FontManrope.className} mt-2 text-sm font-medium text-black/60 sm:mt-3 sm:text-base`}>
             Dojo enables contributions from users of all technical levels to Decentralized AI. If you have any further
             questions or are facing any technical issues, feel free to open a ticket via Discord.
           </p>
