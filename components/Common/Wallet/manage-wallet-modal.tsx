@@ -23,7 +23,6 @@ const ManageWalletConnectModal = ({ open, onSave, onClose, ...props }: Props) =>
   const { connectors, connectAsync } = useConnect();
   const { connector, address, status } = useAccount();
   const { setIsSignedIn } = useAuth();
-  // const { workerLoginAuth } = useWorkerLoginAuth();
   const { isAuthenticated } = useAuth();
   const chainId = useChainId();
 

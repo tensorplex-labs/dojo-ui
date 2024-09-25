@@ -1,7 +1,7 @@
 // context/AuthContext.js
 import { useJwtToken } from '@/hooks/useJwtToken';
 import useWorkerLoginAuth, { LoginAuthPayload } from '@/hooks/useWorkerLoginAuth';
-import { getFromLocalStorage, wait } from '@/utils/general_helpers';
+import { getFromLocalStorage } from '@/utils/general_helpers';
 // import { AuthContextType } from '@/types/ProvidersTypes';
 import { decode } from 'jsonwebtoken';
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
@@ -62,9 +62,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const workerLogin = async (loginPayload: LoginAuthPayload) => {
     try {
-      await workerLoginAuth(loginPayload);
-      await wait(10);
-      const token = localStorage.getItem(tokenType);
+      const token = await workerLoginAuth(loginPayload);
       if (!token) {
         localLogout();
       } else {
