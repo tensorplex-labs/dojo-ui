@@ -8,30 +8,36 @@ const FAQHero = () => {
   return (
     <div className="px-4">
       <div className="relative mx-auto mt-[-116px] flex h-fit max-w-[1075px] justify-between self-center rounded-sm border-2 border-black bg-secondary shadow-brut-sm">
-        <div className="px-[29px] py-[21px]">
-          <h1 className={`${FontManrope.className} text-lg font-extrabold text-black`}>
+        <div className="px-4 sm:px-[29px] py-5 sm:py-[21px]">
+          <h1 className={`${FontManrope.className} text-base sm:text-lg font-extrabold text-black`}>
             Can&apos;t find what you&apos;re looking for?
           </h1>
-          <p className={`${FontManrope.className} mt-3 text-base font-medium text-black/60`}>
+          <p className={`${FontManrope.className} mt-2 sm:mt-3 text-sm sm:text-base font-medium text-black/60`}>
             Dojo enables contributions from users of all technical levels to Decentralized AI. If you have any further
             questions or are facing any technical issues, feel free to open a ticket via Discord.
           </p>
-          <div className={cn('mt-3 flex gap-[10px]', FontSpaceMono.className)}>
+          <div className={cn('mt-3 flex flex-col sm:flex-row gap-2 sm:gap-[10px]', FontSpaceMono.className)}>
             <Link
               target="_blank"
               rel="noreferrer"
               href="https://twitter.com/TensorplexLabs"
-              className={cn(buttonVariants(), 'font-bold capitalize text-white hover:shadow-brut-sm')}
+              className={cn(
+                buttonVariants(),
+                'w-full sm:w-auto text-xs sm:text-sm font-bold capitalize text-white hover:shadow-brut-sm justify-center'
+              )}
             >
-              <IconBrandX /> &nbsp;(Twitter)
+              <IconBrandX size={16} /> &nbsp;(Twitter)
             </Link>
             <Link
               target="_blank"
               rel="noreferrer"
               href="https://discord.com/invite/zVZbRdt6U4"
-              className={cn(buttonVariants(), 'font-bold capitalize text-white hover:shadow-brut-sm')}
+              className={cn(
+                buttonVariants(),
+                'w-full sm:w-auto text-xs sm:text-sm font-bold capitalize text-white hover:shadow-brut-sm justify-center'
+              )}
             >
-              <IconBrandDiscord className="rounded-full bg-[#7289DA] p-1" /> &nbsp;Discord
+              <IconBrandDiscord size={16} className="rounded-full bg-[#7289DA] p-1" /> &nbsp;Discord
             </Link>
           </div>
         </div>

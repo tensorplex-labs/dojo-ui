@@ -10,17 +10,17 @@ import { BrutCard } from '../../CustomComponents/brut-card';
 const ModalContainer = React.forwardRef<HTMLInputElement, ModalContainerProps>(
   ({ className, headerClassName, bodyClassName, open, onClose, header, children, ...props }, ref) => {
     return (
-      <>
+      <div className="px-2">
         {open && (
           <div
             onClick={(e) => onClose()}
-            className="fixed left-0 top-0 z-10 size-[10000px] bg-black/40 backdrop-blur-sm"
+            className="fixed left-0 top-0 z-40 size-[10000px] bg-black/40 backdrop-blur-sm"
           ></div>
         )}
         {open && (
           <BrutCard
             className={cn(
-              `${className} p-0 z-10 fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] min-w-[200px]`
+              `${className} p-0 z-40 fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] min-w-[200px] w-[calc(100%-2rem)] sm:w-[calc(100%-3rem)] md:w-[calc(100%-4rem)] max-w-[400px]`
             )}
           >
             <div className="flex flex-col">
@@ -40,7 +40,7 @@ const ModalContainer = React.forwardRef<HTMLInputElement, ModalContainerProps>(
             </div>
           </BrutCard>
         )}
-      </>
+      </div>
     );
   }
 );

@@ -36,7 +36,7 @@ const WalletConnectedCard = ({ connector, address }: Props) => {
   };
 
   return (
-    <div className="p-2">
+    <div className="p-2 w-full max-w-md mx-auto">
       <span className={cn(FontSpaceMono.className, 'text-xs font-bold')}>CONNECTED WALLET</span>
       <BrutCard className={cn(FontSpaceMono.className, 'p-3')}>
         <div className="flex flex-col gap-[5px]">
@@ -58,11 +58,13 @@ const WalletConnectedCard = ({ connector, address }: Props) => {
           </div>
           <div className="flex items-center gap-[5px]">
             <Web3Icon size={20} address={address ?? ''}></Web3Icon>
-            <span className={FontManrope.className}>{getFirstFourLastFour(address ?? '')}</span>
+            <span className={cn(FontManrope.className, 'text-sm sm:text-base')}>
+              {getFirstFourLastFour(address ?? '')}
+            </span>
           </div>
-          <div className="flex items-center justify-start gap-[20px]">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-start gap-[10px] sm:gap-[20px]">
             <CustomButton onClick={handleCopy} className="h-fit p-0 font-bold text-darkGreen" variant={'link'}>
-              <span className=" mr-[3px] text-xs underline underline-offset-2">COPY ADDRESS</span>{' '}
+              <span className="mr-[3px] text-xs underline underline-offset-2">COPY ADDRESS</span>{' '}
               <IconCopy className="size-4" />
             </CustomButton>
             <CustomButton onClick={handleEtherscan} className="h-fit p-0 font-bold text-darkGreen" variant={'link'}>

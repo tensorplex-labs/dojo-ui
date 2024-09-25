@@ -1,4 +1,5 @@
 import { PaginationProps } from '@/types/CommonTypes';
+import { cn } from '@/utils/tw';
 import { FontSpaceMono } from '@/utils/typography';
 import { useEffect, useState } from 'react';
 
@@ -38,47 +39,53 @@ export function Pagination({ totalPages, handlePageChange }: PaginationProps) {
 
     setDisplayedPages(getPageNumbers());
   }, [currentPage, totalPages]);
+
   return (
-    <div className={`flex items-center justify-end gap-2 ${FontSpaceMono.className}`}>
+    <div className={cn('flex items-center justify-end gap-2', FontSpaceMono.className)}>
       <button
         onClick={() => {
           handlePageChange(1);
           setCurrentPage(1);
         }}
         disabled={currentPage === 1}
-        className="rounded-md px-2 py-1 text-base font-bold text-black text-opacity-75 disabled:text-opacity-25"
+        className="hidden sm:block rounded-md px-2 py-1 text-base font-bold text-black text-opacity-75 disabled:text-opacity-25"
       >
         First
       </button>
-      {displayedPages.map((pageNumber, index) => {
-        if (pageNumber === '...') {
+      <div className="flex items-center gap-2 sm:gap-2 overflow-x-auto sm:overflow-x-visible px-2 sm:px-0">
+        {displayedPages.map((pageNumber, index) => {
+          if (pageNumber === '...') {
+            return (
+              <span key={`ellipsis_${index}`} className="mx-1 font-bold text-black">
+                ...
+              </span>
+            );
+          }
+          const isActive = currentPage === pageNumber;
           return (
-            <span key={`ellipsis_${index}`} className="mx-1 font-bold text-black">
-              ...
-            </span>
+            <button
+              key={`pageControlPages_${pageNumber}`}
+              onClick={() => {
+                handlePageChange(pageNumber as number);
+                setCurrentPage(pageNumber as number);
+              }}
+              className={cn(
+                'flex h-7 items-center justify-center rounded-sm border-2 border-black bg-primary px-2 sm:px-4 text-sm sm:text-xs font-bold',
+                isActive ? 'text-white' : 'bg-primary/15 text-black'
+              )}
+            >
+              {pageNumber}
+            </button>
           );
-        }
-        const isActive = currentPage === pageNumber;
-        return (
-          <button
-            key={`pageControlPages_${pageNumber}`}
-            onClick={() => {
-              handlePageChange(pageNumber as number);
-              setCurrentPage(pageNumber as number);
-            }}
-            className={`flex h-7 items-center justify-center rounded-sm border-2 border-black bg-primary px-4 font-bold ${isActive ? 'text-white' : 'bg-primary/15 text-black'}`}
-          >
-            {pageNumber}
-          </button>
-        );
-      })}
+        })}
+      </div>
       <button
         onClick={() => {
           handlePageChange(totalPages);
           setCurrentPage(totalPages);
         }}
         disabled={currentPage === totalPages}
-        className="rounded-md px-2 py-1 text-base font-bold text-black text-opacity-75 disabled:text-opacity-25"
+        className="hidden sm:block rounded-md px-2 py-1 text-base font-bold text-black text-opacity-75 disabled:text-opacity-25"
       >
         Last
       </button>
