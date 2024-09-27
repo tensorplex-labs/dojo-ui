@@ -1,3 +1,4 @@
+import { useAuth } from '@/providers/authContext';
 import { useSubmit } from '@/providers/submitContext';
 import { TaskPageContext } from '@/providers/taskPageContext';
 import { Task } from '@/types/QuestionPageTypes';
@@ -5,6 +6,7 @@ import { getFromLocalStorage } from '@/utils/general_helpers';
 import { tasklistFull } from '@/utils/states';
 import { useRouter } from 'next/router';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useAccount } from 'wagmi';
 import useFeature from './useFeature';
 
 export const taskStatus = {
@@ -50,8 +52,10 @@ const useGetTasks = (
   const { triggerTaskPageReload } = useSubmit();
   const router = useRouter();
   const isFetchingRef = useRef<boolean>(false);
+  const { address } = useAccount();
   const { partnerCount } = useContext(TaskPageContext);
   const { exp } = useFeature({ kw: 'demo' });
+  const { frontendJWTIsValid } = useAuth();
 
   const fetchDemoTasks = useCallback(async () => {
     setTasks([]);
@@ -119,7 +123,7 @@ const useGetTasks = (
       setLoading(false);
       isFetchingRef.current = false;
     }
-  }, [page, limit, taskQuery, sort, order, yieldMin, yieldMax, jwtToken]);
+  }, [page, limit, taskQuery, sort, order, yieldMin, yieldMax, jwtToken, isAuthenticated, isConnected]);
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -128,14 +132,7 @@ const useGetTasks = (
       setLoading(false);
       return;
     }
-    if (jwtToken) {
-      fetchTasks();
-    } else {
-      setTasks([]);
-      setPagination(null);
-      setError('No JWT token found');
-      setLoading(false);
-    }
+    fetchTasks();
   }, [exp, fetchTasks, jwtToken, router.isReady, partnerCount]);
 
   return { tasks, pagination, loading, error, refetchTasks: exp ? fetchDemoTasks : fetchTasks };

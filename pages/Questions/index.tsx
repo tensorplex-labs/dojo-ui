@@ -6,13 +6,14 @@ import ResponseVisualizer from '@/components/QuestionPageComponents/ResponseVisu
 import SliderQuestion from '@/components/QuestionPageComponents/SliderQuestion';
 import TaskPrompt from '@/components/QuestionPageComponents/TaskPrompt';
 import { taskCriteria } from '@/constants';
-import { useJwtToken } from '@/hooks/useJwtToken';
 import useRequestTaskByTaskID from '@/hooks/useRequestTaskByTaskID';
 import { useSIWE } from '@/hooks/useSIWE';
 import Layout from '@/layout';
 import { useAuth } from '@/providers/authContext';
 import { useSubmit } from '@/providers/submitContext';
 import { QuestionPageProps, RankOrder } from '@/types/QuestionPageTypes';
+import { getFromLocalStorage } from '@/utils/general_helpers';
+import { tokenType } from '@/utils/states';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useAccount, useDisconnect } from 'wagmi';
@@ -71,9 +72,9 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
 
   const { disconnect } = useDisconnect();
   const { signInWithEthereum } = useSIWE(() => console.log('post signin'));
-  const jwtTokenKey = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
 
-  const jwtToken = useJwtToken();
+  const jwtToken = getFromLocalStorage(tokenType);
+
   useEffect(() => {
     if (!isAuthenticated && isConnected && isSignedIn) {
       signInWithEthereum(address ?? '');
@@ -90,7 +91,7 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
       if (event.key === 'wagmi.io.metamask.disconnected') {
         window.location.reload();
       }
-      if (event.key === jwtTokenKey) {
+      if (event.key === tokenType) {
         window.location.reload();
       }
     };
