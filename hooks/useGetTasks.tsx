@@ -55,7 +55,7 @@ const useGetTasks = (
   const { address } = useAccount();
   const { partnerCount } = useContext(TaskPageContext);
   const { exp } = useFeature({ kw: 'demo' });
-  const { frontendJWTIsValid } = useAuth();
+  const { frontendJWTIsValid, workerLogout } = useAuth();
 
   const fetchDemoTasks = useCallback(async () => {
     setTasks([]);
@@ -109,6 +109,9 @@ const useGetTasks = (
           Authorization: `Bearer ${jwtToken}`,
         },
       });
+      if (response.status === 401) {
+        workerLogout();
+      }
       const data: TasksResponse = await response.json();
 
       if (response.ok) {
