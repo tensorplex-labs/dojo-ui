@@ -2,11 +2,12 @@ import SubscriptionModal from '@/components/Common/Modal/SubscriptionModal';
 import NavigationBar from '@/components/Common/NavigationBar';
 import { FAQHero, FAQList } from '@/components/FAQPage';
 import { WalletManagement } from '@/components/TaskListPageComponents';
-import { useJwtToken } from '@/hooks/useJwtToken';
 import { useModal } from '@/hooks/useModal';
 import { useSIWE } from '@/hooks/useSIWE';
 import { useAuth } from '@/providers/authContext';
 import { MODAL } from '@/types/ProvidersTypes';
+import { getFromLocalStorage } from '@/utils/general_helpers';
+import { tokenType } from '@/utils/states';
 import { FontSpaceMono } from '@/utils/typography';
 import { useEffect, useState } from 'react';
 import { useAccount, useDisconnect } from 'wagmi';
@@ -25,7 +26,8 @@ const Page = () => {
 
   const { signInWithEthereum } = useSIWE(() => console.log('post signin'));
 
-  const jwtToken = useJwtToken();
+  const jwtToken = getFromLocalStorage(tokenType);
+
   useEffect(() => {
     if (!isAuthenticated && isConnected && isSignedIn) {
       signInWithEthereum(address ?? '');

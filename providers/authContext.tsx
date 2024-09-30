@@ -1,5 +1,4 @@
 // context/AuthContext.js
-import { useJwtToken } from '@/hooks/useJwtToken';
 import useWorkerLoginAuth, { LoginAuthPayload } from '@/hooks/useWorkerLoginAuth';
 import { getFromLocalStorage } from '@/utils/general_helpers';
 // import { AuthContextType } from '@/types/ProvidersTypes';
@@ -41,7 +40,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
   // Attempt to retrieve the auth token from localStorage on initial load
-  const token = useJwtToken();
 
   const frontendJWTIsValid = useCallback(
     (address: string, jwt?: string) => {
@@ -90,12 +88,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   //First render will always check presence of token and whether its valid or not.
   useEffect(() => {
+    const token = getFromLocalStorage(tokenType);
     if (token && address) {
       const authState = frontendJWTIsValid(address, token);
       authState ? localLogin(token) : localLogout();
-      console.log('Have token and address, checking validity');
     }
-  }, [token, address, localLogin, localLogout, frontendJWTIsValid]);
+  }, [address, localLogin, localLogout, frontendJWTIsValid]);
 
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
