@@ -12,13 +12,14 @@ import { Button } from '../Button';
 const Footer: React.FC = () => {
   const router = useRouter();
   const { taskId } = router.query;
-  const { handleSubmit } = useSubmit();
+  const { handleSubmit, handleSubmitNew } = useSubmit();
   const { fetchNextInProgressTask } = useGetNextInProgressTask();
   const { exp } = useFeature({ kw: 'demo' });
   const { saveScrollPosition, restoreScrollPosition } = useScrollRestoration();
 
   const handleDemoTasklistRotation = useCallback(
     (taskId: string, backward: boolean = false) => {
+      handleSubmitNew();
       const currTask = tasklistFull.find((t) => t.taskId === taskId);
       if (!currTask) return;
       const currIdx = tasklistFull.indexOf(currTask);
@@ -28,7 +29,7 @@ const Footer: React.FC = () => {
       }
       saveScrollPosition();
       const obj = tasklistFull[nextIdx];
-      let newQuestionUrl = `/Questions?taskId=${obj.taskId}&exp=demo`;
+      let newQuestionUrl = `/Questionsv2?taskId=${obj.taskId}&exp=demo`;
       if (obj.taskData.responses.length === 1) {
         newQuestionUrl = `/Questionsv2?taskId=${obj.taskId}&exp=demo`;
       }
@@ -37,7 +38,7 @@ const Footer: React.FC = () => {
         restoreScrollPosition();
       });
     },
-    [router]
+    [router, handleSubmitNew]
   );
 
   const handleSkip = async () => {
@@ -52,7 +53,7 @@ const Footer: React.FC = () => {
       router.push('/task-list');
       return;
     }
-    router.replace(`/Questions?taskId=${nextTaskResponse.nextInProgressTaskId}`);
+    router.replace(`/Questionsv2?taskId=${nextTaskResponse.nextInProgressTaskId}`);
   };
   return (
     <div className=" w-full p-4">

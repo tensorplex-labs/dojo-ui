@@ -1,8 +1,11 @@
 import useFeature from '@/hooks/useFeature';
-import useSubmitTask from '@/hooks/useSubmitTask';
+import { useSubmitTaskNew } from '@/hooks/useSubmitTaskNew';
 import { RankOrder, SubmitContextType } from '@/types/ProvidersTypes';
+import { CriterionWithResponses, Task } from '@/types/QuestionPageTypes';
+import { getFromLocalStorage } from '@/utils/general_helpers';
+import { tokenType } from '@/utils/states';
 import { useRouter } from 'next/router';
-import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import React, { ReactNode, createContext, useCallback, useContext, useEffect, useState } from 'react';
 
 const SubmitContext = createContext<SubmitContextType | undefined>(undefined);
 
@@ -15,6 +18,9 @@ export const useSubmit = () => {
 };
 
 export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const [criterionForResponse, setCriterionForResponse] = useState<CriterionWithResponses[]>([]);
+  const jwtToken = getFromLocalStorage(tokenType);
+
   const [multiSelectData, setMultiSelectData] = useState<string[]>([]);
   const [rankingData, setRankingData] = useState<any>();
   const [scoreData, setScoreData] = useState<number>(0);
@@ -44,7 +50,6 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
   const updateMultiSelect = (data: string[]) => {
     setMultiSelectData(data);
-    console.log(multiSelectData);
   };
 
   const updateRanking = (data: RankOrder) => {
@@ -59,36 +64,87 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const updateScore = (score: number) => {
     setScoreData(score);
   };
-  const { submitTask, response, error } = useSubmitTask();
-  const handleSubmit = async () => {
-    if (!router.isReady) return;
+  // const { submitTask, response, error } = useSubmitTask();
+  const { submitTask, error } = useSubmitTaskNew();
 
-    const taskId = String(router.query.taskId || '');
+  // NEW INTEGRATION WITH LIVE BACKEND =================
+  // Current impl: index is just the criterion label since each label has to be unique.
+  const addCriterionForResponse = useCallback((index: string, value: string) => {
+    console.log('Somebody is adding', index, value);
+    setCriterionForResponse((prev) => {
+      const updated = prev.map((c) => {
+        const criterionTextId = index.split('::')[0];
+        if (c.text !== criterionTextId) return c;
 
-    if (rankingData || scoreData || multiSelectData.length > 0 || multiScore) {
-      console.log('submitting task');
-      await submitTask(
-        taskId,
-        multiSelectData,
-        rankingData,
-        scoreData,
-        multiScore,
-        isMultiSelectQuestion,
-        isRankQuestion,
-        isMultiScore,
-        isSlider,
-        maxMultiScore,
-        minMultiScore
-      );
-      if (error) {
-        console.log('WORKED >>> ', error);
-        setSubmissionErr(error);
-        return;
-      }
-      setSubmissionErr(null);
-      router.push('/task-list');
-    }
-  };
+        // For multi select, we need check if the value was selected before
+        if (c.type === 'multi-select') {
+          c.responses = c.responses || []; //init incase empty
+          if (c.responses.includes(value)) {
+            return { ...c, responses: c.responses.filter((r) => r !== value) };
+          }
+          return { ...c, responses: [...c.responses, value] };
+        } else if (c.type === 'multi-score') {
+          //multi-score index will be in this format (id::score)
+          const tmpResponses = c.responses || {}; //init incase empty
+          const tmpArr = index.split('::');
+          const modelId = tmpArr.length > 1 ? tmpArr[1] : '';
+          tmpResponses[modelId] = value as any; //backend will check so frontend its important to be string or number
+          return { ...c, responses: { ...tmpResponses } };
+        } else {
+          // Single Scoring, Single Select wise we only nede 1 value
+          return { ...c, responses: value as any };
+        }
+      });
+      return updated;
+    });
+  }, []);
+
+  const getCriterionForResponse = useCallback(() => criterionForResponse, [criterionForResponse]);
+  const resetCriterionForResponse = useCallback((task: Task) => {
+    setCriterionForResponse([
+      ...task.taskData.criteria.map((c) => ({ ...c, type: c.type as any, responses: undefined })),
+    ]); //Setting up the initial state with responses
+  }, []);
+  const submitTaskNew = useCallback(async () => {
+    //Prepare the results data first
+    console.log('response received in context', criterionForResponse);
+    const resultData = criterionForResponse.map((c) => {
+      return { type: c.type, value: c.responses };
+    });
+    submitTask(resultData as any);
+    //Then call the submit api
+  }, [criterionForResponse]);
+  // NEW INTEGRATION WITH LIVE BACKEND END =================
+
+  // const handleSubmit = async () => {
+  //   if (!router.isReady) return;
+
+  //   const taskId = String(router.query.taskId || '');
+
+  //   if (rankingData || scoreData || multiSelectData.length > 0 || multiScore) {
+  //     console.log('submitting task');
+  //     await submitTask(
+  //       taskId,
+  //       multiSelectData,
+  //       rankingData,
+  //       scoreData,
+  //       multiScore,
+  //       isMultiSelectQuestion,
+  //       isRankQuestion,
+  //       isMultiScore,
+  //       isSlider,
+  //       maxMultiScore,
+  //       minMultiScore
+  //     );
+  //     if (error) {
+  //       console.log('WORKED >>> ', error);
+  //       setSubmissionErr(error);
+  //       return;
+  //     }
+  //     setSubmissionErr(null);
+  //     router.push('/task-list');
+  //   }
+  // };
 
   const handleSetIsMultiSelectQuestion = (value: boolean) => {
     setIsMultiSelectQuestion(value);
@@ -124,7 +180,8 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         updateRanking: (data: string[]) =>
           updateRanking(Object.fromEntries(data.map((item, index) => [item, index.toString()]))),
         updateScore,
-        handleSubmit,
+        handleSubmit: submitTaskNew,
+        handleSubmitNew: submitTaskNew,
         setTriggerTaskPageReload,
         submissionErr,
         setSubmissionErr,
@@ -145,6 +202,9 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         handleSetIsSlider,
         handleMaxMultiScore,
         handleMinMultiScore,
+        addCriterionForResponse,
+        getCriterionForResponse,
+        resetCriterionForResponse,
       }}
     >
       {children}

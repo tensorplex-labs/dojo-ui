@@ -125,9 +125,9 @@ const RenderButton = (id: string, state: ButtonState, router: NextRouter, exp: b
         if (exp) {
           const currTask = tasklistFull.find((t) => t.taskId === id);
           if (currTask && currTask.taskData.responses.length == 1) router.push(`/Questionsv2?taskId=${id}&exp=demo`);
-          else router.push(`/Questions?taskId=${id}&exp=demo`);
+          else router.push(`/Questionsv2?taskId=${id}&exp=demo`);
         } else {
-          router.push(`/Questions?taskId=${id}`);
+          router.push(`/Questionsv2?taskId=${id}`);
         }
       }}
       disabled={state.disabled}
