@@ -22,9 +22,9 @@ const MobileSubscriptionEditModal: React.FC<MobileSubscriptionEditModalProps> = 
   if (!isVisible) return null;
 
   return (
-    <div className="fixed text-black inset-0 z-50 bg-black bg-opacity-50 flex items-end justify-center">
-      <div className="bg-white w-full rounded-t-2xl p-4 animate-slide-up">
-        <div className="flex justify-between items-center mb-4">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black bg-opacity-50 text-black">
+      <div className="animate-slide-up w-full rounded-t-2xl bg-white p-4">
+        <div className="mb-4 flex items-center justify-between">
           <h2 className={`${FontManrope.className} text-lg font-bold`}>Edit Subscription</h2>
           <button onClick={onClose} className="text-gray-500">
             <IconX size={24} />
@@ -49,7 +49,7 @@ const MobileSubscriptionEditModal: React.FC<MobileSubscriptionEditModalProps> = 
         <div className="mt-6 flex justify-end">
           <button
             onClick={onSave}
-            className={`${FontManrope.className} bg-primary text-white px-6 py-2 border-2 border-black hover:shadow-brut-sm flex items-center`}
+            className={`${FontManrope.className} flex items-center border-2 border-black bg-primary px-6 py-2 text-white hover:shadow-brut-sm`}
           >
             <IconCheck size={20} className="mr-2" />
             Save Changes

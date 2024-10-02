@@ -22,7 +22,7 @@ const Slider: React.FC<SliderProps> = ({ min, max, step, initialValue, onChange,
       <div className="relative h-1 w-full bg-gray-200">
         <div className="absolute h-full bg-primary" style={{ width: `${percentage}%` }}></div>
         <div
-          className="absolute top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-primary border-2 border-black shadow-md flex items-center justify-center cursor-pointer"
+          className="absolute top-1/2 flex size-6 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border-2 border-black bg-primary shadow-md"
           style={{ left: `${percentage}%`, transform: 'translate(-50%, -50%)' }}
         >
           <span className="text-xs font-bold text-white">{value}</span>
@@ -34,7 +34,7 @@ const Slider: React.FC<SliderProps> = ({ min, max, step, initialValue, onChange,
           step={step}
           value={value}
           onChange={handleSliderChange}
-          className="absolute top-0 h-1 w-full opacity-0 cursor-pointer"
+          className="absolute top-0 h-1 w-full cursor-pointer opacity-0"
         />
       </div>
       <div className="mt-4 flex justify-between">

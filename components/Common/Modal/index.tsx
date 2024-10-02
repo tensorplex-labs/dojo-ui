@@ -10,7 +10,7 @@ function Modal({ title, showModal, setShowModal, btnText, className, children }:
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden text-black outline-none backdrop-blur-sm backdrop-brightness-50 focus:outline-none">
-      <div className="relative px-4 max-h-[90vh] overflow-y-auto">
+      <div className="relative max-h-[90vh] overflow-y-auto px-4">
         <div className="border-1 relative top-0 m-2 flex min-w-[265px] max-w-[90vw] border-collapse flex-col border border-neutral-950 bg-card-background shadow-brut-sm outline-none focus:outline-none md:m-0 lg:w-[900px]">
           <div className="flex items-start justify-between border border-solid border-gray-900">
             <div className="flex h-[46px] items-center pl-[22px]">
@@ -23,7 +23,7 @@ function Modal({ title, showModal, setShowModal, btnText, className, children }:
               <IconX className="size-6"></IconX>
             </div>
           </div>
-          <div className="flex flex-col items-center justify-end border border-gray-900 bg-card-background overflow-y-auto">
+          <div className="flex flex-col items-center justify-end overflow-y-auto border border-gray-900 bg-card-background">
             {children}
           </div>
         </div>
