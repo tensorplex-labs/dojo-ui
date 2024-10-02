@@ -308,12 +308,6 @@ const Datatablev2 = ({
           'rounded-sm'
         )}
       >
-        {/* Default col size in tanstack table is 150px  */}
-        {/* Table size is page body size (800 atm) -2pixel cuz of borders */}
-        {/* Have to put fixed width and table-fixed if not the widths will let the content anyhow run */}
-        {/* By doing the above, the td will all follow the table header */}
-
-        {/* This is a no data overlay */}
         {!loadingState && table.getFilteredRowModel().rows.length <= 0 && (
           <div className="absolute z-10 flex size-full items-center justify-center bg-gradient-to-t from-background to-background/80">
             no data

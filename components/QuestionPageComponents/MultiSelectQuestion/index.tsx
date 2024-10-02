@@ -16,7 +16,7 @@ const MultiSelectQuestion: React.FC<MultiSelectQuestionProps> = ({
         title={`Question ${isMultiScore && isSlider ? '3' : isSlider || isMultiScore ? '2' : '1'}`}
         subTitle="Please choose the most appropriate option"
       />
-      <div className="flex w-[610px] flex-col items-center justify-center rounded-b-xl">
+      <div className="flex max-w-[610px] flex-col items-center justify-center rounded-b-xl">
         <MultiSelect
           options={multiSelectQuestionData}
           selectedValues={selectedMultiSelectValues}

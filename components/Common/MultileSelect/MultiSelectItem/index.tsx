@@ -4,7 +4,7 @@ import React from 'react';
 
 const MultiSelectItem: React.FC<MultiSelectItemProps> = ({ option, isSelected, onSelectionChange }) => {
   const selectedStyles = isSelected
-    ? 'border-2 border-primary bg-opacity-15 bg-primary opacity-[14]'
+    ? 'border-2 border-[#00B6A6] bg-[#00b8a826] !border-opacity-[14]'
     : 'border-2 border-gray-300 bg-ecru-white opacity-[14]';
 
   return (
