@@ -48,7 +48,7 @@ const useGetTasks = (
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const jwtToken = getFromLocalStorage(`${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`);
+  const jwtToken = getFromLocalStorage(`dojoui__jwtToken`);
   const { triggerTaskPageReload } = useSubmit();
   const router = useRouter();
   const isFetchingRef = useRef<boolean>(false);
@@ -88,7 +88,7 @@ const useGetTasks = (
     setTasks([]);
 
     if (!jwtToken || !isAuthenticated || !isConnected) {
-      localStorage.removeItem(`${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`);
+      localStorage.removeItem(`dojoui__jwtToken`);
       setTasks([]);
       setPagination(null);
       setError('No JWT token found');

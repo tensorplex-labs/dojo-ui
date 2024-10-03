@@ -22,7 +22,7 @@ const Page = () => {
   const { isConnected } = useAccount();
   const { disconnect } = useDisconnect();
 
-  const jwtTokenKey = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+  const jwtTokenKey = `dojoui__jwtToken`;
 
   const { signInWithEthereum } = useSIWE(() => console.log('post signin'));
 

@@ -11,7 +11,7 @@ const useRequestTaskByTaskID = (taskId: string, isConnected?: boolean, isAuthent
   const { exp } = useFeature({ kw: 'demo' });
 
   useEffect(() => {
-    const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+    const tokenType = `dojoui__jwtToken`;
     const jwtToken = getFromLocalStorage(tokenType);
     const fetchDemoTask = async () => {
       if (exp) {
