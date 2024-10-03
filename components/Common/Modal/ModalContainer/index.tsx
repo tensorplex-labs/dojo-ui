@@ -20,7 +20,8 @@ const ModalContainer = React.forwardRef<HTMLInputElement, ModalContainerProps>(
         {open && (
           <BrutCard
             className={cn(
-              `${className} p-0 z-10 fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] min-w-[200px]`
+              `p-0 z-10 fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] min-w-[200px]`,
+              className
             )}
           >
             <div className="flex flex-col">

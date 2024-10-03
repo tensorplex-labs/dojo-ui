@@ -27,40 +27,40 @@ export const taskTTI: Task[] = [
       criteria: [
         {
           type: 'multi-select',
-          label: 'Choose all appropriate options',
+          text: 'Choose all appropriate options',
           options: ['Inappropriate Content', 'Untruthful Information', 'Personal Information'],
         },
         {
           type: 'single-select',
-          label: 'I would use this image in an advertisement in a music school.',
+          text: 'I would use this image in an advertisement in a music school.',
           options: ['Agree', 'Disagree', 'Neutral'],
         },
         {
           max: 10,
           min: 1,
-          type: 'multi-score',
-          label: 'Prompt Accuracy',
+          type: 'score',
+          text: 'Prompt Accuracy',
           options: ['stabilityai/stable-diffusion-xl-base-1.0'],
         },
         {
           max: 10,
           min: 1,
-          type: 'multi-score',
-          label: 'Quality',
+          type: 'score',
+          text: 'Quality',
           options: ['stabilityai/stable-diffusion-xl-base-1.0'],
         },
         {
           max: 10,
           min: 1,
-          type: 'multi-score',
-          label: 'Photo-Realism',
+          type: 'score',
+          text: 'Photo-Realism',
           options: ['stabilityai/stable-diffusion-xl-base-1.0'],
         },
         {
           max: 10,
           min: 1,
-          type: 'multi-score',
-          label: 'Creativity',
+          type: 'score',
+          text: 'Creativity',
           options: ['stabilityai/stable-diffusion-xl-base-1.0'],
         },
       ],
@@ -311,15 +311,11 @@ export const task3d: Task[] = [
       prompt: 'Crisp Lettuce in a bowl.',
       criteria: [
         {
-          max: 100,
+          max: 10,
           min: 1,
+          text: 'MULTI SCORE',
           type: 'multi-score',
-          options: [
-            'stabilityai/stable-diffusion-xl-base-1.0',
-            'runwayml/stable-diffusion-v1-5',
-            'yourm/stable-diffusion-v0-2',
-            'dllm/sd-extra-0.3',
-          ],
+          options: ['3D object 1', '3D object 2'],
         },
       ],
       responses: [
@@ -367,9 +363,10 @@ export const task3d: Task[] = [
       prompt: 'Delicate Ivory dove in flight',
       criteria: [
         {
-          max: 100,
+          max: 10,
           min: 1,
           type: 'multi-score',
+          text: 'Multi Score',
           options: [
             'stabilityai/stable-diffusion-xl-base-1.0',
             'runwayml/stable-diffusion-v1-5',
@@ -423,9 +420,10 @@ export const task3d: Task[] = [
       prompt: 'Zebra with Stripes running through plains.',
       criteria: [
         {
-          max: 100,
+          max: 10,
           min: 1,
           type: 'multi-score',
+          text: 'Multi Score',
           options: [
             'stabilityai/stable-diffusion-xl-base-1.0',
             'runwayml/stable-diffusion-v1-5',
@@ -479,9 +477,10 @@ export const task3d: Task[] = [
       prompt: 'Black and yellow gaming chair',
       criteria: [
         {
-          max: 100,
+          max: 10,
           min: 1,
           type: 'multi-score',
+          text: 'Multi Score',
           options: [
             'stabilityai/stable-diffusion-xl-base-1.0',
             'runwayml/stable-diffusion-v1-5',
@@ -539,9 +538,10 @@ export const tasklistCodegen: Task[] = [
         "Create a web page that displays an interactive guitar visualization using HTML, CSS, and JavaScript. The guitar should have 6 strings and a fretboard. Implement the following user interactions:\n\n1. When the user hovers over a string, it should visually highlight to indicate it can be played.\n\n2. Clicking on a string should produce a plucking animation and play a corresponding guitar note sound.\n\n3. Implement a slider that adjusts the guitar's tuning, affecting the pitch of the notes played when strings are clicked.\n\nEnsure the visualization is responsive and works well on different screen sizes. Use only built-in JavaScript libraries and features for this implementation.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
       criteria: [
         {
-          max: 100,
+          max: 10,
           min: 1,
           type: 'multi-score',
+          text: 'Multi Score',
           options: [
             'anthropic/claude-3-haiku-20240307',
             'openai/gpt-4-turbo-2024-04-09',
@@ -732,9 +732,10 @@ export const tasklistCodegen: Task[] = [
         "Create a web page that visualizes a desert landscape using HTML, CSS, and JavaScript. The visualization should include sand dunes, a sun, and at least one cactus. Implement the following interactive features:\n\n1. When the user moves their mouse across the screen, small dust particles should appear and follow the mouse movement, simulating a light breeze in the desert.\n\n2. Allow the user to click anywhere on the screen to 'plant' a new cactus at that location. The cactus should grow from small to full size over a short period of time.\n\nEnsure that the visualization is responsive and works well on different screen sizes. Use only built-in JavaScript functions and avoid external libraries.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
       criteria: [
         {
-          max: 100,
+          max: 10,
           min: 1,
           type: 'multi-score',
+          text: 'Multi Score',
           options: [
             'anthropic/claude-3-sonnet-20240229',
             'anthropic/claude-3-haiku-20240307',
@@ -924,9 +925,10 @@ export const tasklistCodegen: Task[] = [
         'Create an interactive visualization of a sound wave frequency visualizer using HTML, CSS, and JavaScript. Your implementation should meet the following requirements:\n\n1. Display a dynamic waveform that represents the frequency of a sound wave. The waveform should update in real-time based on user input.\n\n2. Implement a slider that allows users to adjust the frequency of the sound wave. As the user moves the slider, the waveform should change accordingly, showing higher frequencies as more compressed waves and lower frequencies as more stretched out waves.\n\n3. Add a play/pause button that, when clicked, generates an audible tone matching the current frequency shown in the visualizer. The waveform should animate (oscillate) while the tone is playing and stop when paused.\n\nEnsure that the visualization is visually appealing and that the user interactions are intuitive and responsive. The implementation should use only built-in JavaScript libraries and functions.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
         {
-          max: 100,
+          max: 10,
           min: 1,
           type: 'multi-score',
+          text: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -1112,7 +1114,7 @@ export const tasklistCodegen: Task[] = [
   //       "Create a Brownian Motion Visualizer using JavaScript, HTML, and CSS. The visualization should display a single particle moving randomly on a 2D canvas. Requirements:\n\n1. The particle's movement should be controlled by the user's mouse position. As the user moves their mouse closer to the edges of the canvas, the particle's random movement should become more erratic and faster.\n\n2. Implement a slider that allows the user to adjust the 'temperature' of the system. Higher temperatures should result in more energetic and rapid particle movement, while lower temperatures should slow down the particle's motion.\n\nEnsure the visualization is smooth and responsive to user interactions. Use only built-in JavaScript libraries and features.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
   //     criteria: [
   //       {
-  //         max: 100,
+  //         max: 10,
   //         min: 1,
   //         type: 'multi-score',
   //         options: [
@@ -1300,7 +1302,7 @@ export const tasklistCodegen: Task[] = [
   //       'Create a web application using only HTML, CSS, and JavaScript that showcases threejs or plotly graph visualization library.Create a web application using only HTML, CSS, and JavaScript that showcases threejs or plotly graph visualization library.Create a web application using only HTML, CSS, and JavaScript that showcases threejs or plotly graph visualization library.',
   //     criteria: [
   //       {
-  //         max: 100,
+  //         max: 10,
   //         min: 1,
   //         type: 'multi-score',
   //         options: [
@@ -1489,9 +1491,10 @@ export const tasklistCodegen: Task[] = [
         "Create an interactive visualization of a Newton's cradle, a classic physics demonstration that illustrates conservation of momentum and energy. The visualization should depict a set of suspended metal balls that can swing and collide, demonstrating the transfer of energy through the system.\n\nThe scene should display a horizontal support from which five metal balls are suspended by strings. The balls should be arranged in a row, just touching each other when at rest. The visualization should allow users to interact with the Newton's cradle and observe its behavior.\n\nRequirements:\n\n1. Implement the physics simulation for the Newton's cradle, including the swinging motion of the balls and the elastic collisions between them. When a ball on one end is lifted and released, it should swing down and collide with the stationary balls, causing the ball on the opposite end to swing upward.\n\n2. Add a user interaction where clicking and dragging the leftmost or rightmost ball allows the user to pull it back and release it, initiating the Newton's cradle effect. The ball should follow the mouse cursor while being dragged, maintaining a realistic arc motion.\n\n3. Include a slider that adjusts the simulation speed, allowing users to observe the Newton's cradle effect in slow motion or at an accelerated pace. The slider should smoothly transition between different speeds without disrupting the ongoing simulation.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
       criteria: [
         {
-          max: 100,
+          max: 10,
           min: 1,
           type: 'multi-score',
+          text: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -1678,9 +1681,10 @@ export const tasklistCodegen: Task[] = [
         "Create an interactive visualization of a tornado using JavaScript, HTML, and CSS. The scene should depict a rural landscape with a menacing tornado in the center. The tornado should be represented as a swirling, cone-shaped vortex extending from the ground up into dark storm clouds above. The landscape should include simple representations of fields, scattered trees, and a few small buildings or houses to provide scale and context.\n\nRequirements:\n\n1. The tornado should continuously rotate and undulate, giving the impression of a powerful, swirling wind funnel.\n\n2. Implement debris particles that circle around the base of the tornado, representing objects caught in its powerful winds.\n\n3. Create a simple lighting effect to simulate occasional flashes of lightning in the background storm clouds.\n\n4. Allow the user to click and drag anywhere on the screen to change the direction and speed of the tornado's movement across the landscape. The tornado should move smoothly in the direction of the drag, with the speed determined by the length of the drag action.\nNote:\n- The visualization should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
       criteria: [
         {
-          max: 100,
+          max: 10,
           min: 1,
           type: 'multi-score',
+          text: 'Multi Score',
           options: ['anthropic/claude-3.5-sonnet', 'anthropic/claude-3.5-sonnet'],
         },
       ],
@@ -1784,9 +1788,10 @@ export const tasklistCodegen: Task[] = [
         "Generate a Snake game for me using HTML, Javascript, and CSS. The game should be fully functional with basic sounds, animations, scoring, increasing difficulty as the snake grows longer, and a game over screen when the snake hits the wall or itself. The game should use arrow keys for controls. All code, including graphics and sounds, should be generated without external dependencies. The code should run in a web browser without modification. Include any cool additional features that don't conflict with these requirements. Provide complete, robust code that can be copied and pasted into HTML, JS, and CSS files to run the game immediately.\nNote:\n- The  should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n",
       criteria: [
         {
-          max: 100,
+          max: 10,
           min: 1,
           type: 'multi-score',
+          text: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -1993,9 +1998,10 @@ export const tasklistCodegen: Task[] = [
         'When a user requests a Paint App using HTML, JS, and CSS, follow these guidelines:\n\nCreate a fully functional Paint App with the following features:\n\n-Canvas for drawing\n-Color picker for selecting brush colors\n-Brush size selector\n-Eraser tool\n-Clear canvas button\n-Save drawing as image functionality\n-Undo/Redo functionality\n-Different brush types (e.g., round, square)\n-Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks.\n-Ensure the app runs in an HTML iframe without requiring any additional setup.\n-Provide complete, runnable code without placeholders or omissions.\n-Proactively address common bugs and pitfalls in Paint App implementations.\n-Make sure that your code does not require the use of local storage.\n\nInclude additional cool features that enhance the painting experience, such as:\n-Layer system for more complex drawings\n-Text tool for adding text to the canvas\n-Shape tools (e.g., rectangle, circle, line)\n-Fill bucket tool\n-Zoom in/out functionality\n\nPrioritize code completeness, robustness, and readiness for immediate execution.\nStructure the response as follows:\na. Brief introduction explaining the Paint App and its features\nb. HTML code (including inline CSS if applicable)\nc. JavaScript code\nd. Any additional CSS in a separate \u003cstyle\u003e tag or file\ne. Instructions for using the Paint App\n\nRemember to focus on delivering a complete, functional, and engaging Paint App implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- The  should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
         {
-          max: 100,
+          max: 10,
           min: 1,
           type: 'multi-score',
+          text: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -2186,9 +2192,10 @@ export const tasklistCodegen: Task[] = [
         'When a user requests a Breakout game using HTML, JS, and CSS, follow these guidelines:\n\nCreate a fully functional Breakout game with the following features:\n\n-Paddle controlled by mouse movement or arrow keys\n-Ball that bounces off the paddle, walls, and bricks\n-Multiple rows of breakable bricks\n-Scoring system based on bricks broken\n-Lives system (game over when all lives are lost)\n-Increasing difficulty as levels progress\n-Game over screen displaying the final score with an animation\n-Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks.\n-Generate all graphics within the code using HTML5 Canvas, avoiding reliance on external image files.\n-Ensure the game runs in an HTML iframe without requiring any additional setup.\n-Provide complete, runnable code without placeholders or omissions.\n-Proactively address common bugs and pitfalls in Breakout game implementations.\n-Make sure that your code does not require the use of local storage.\n\nInclude additional cool features that enhance the game experience, such as:\n-Power-ups that drop from broken bricks (e.g., wider paddle, multi-ball, stronger ball)\n-Visual and sound effects for ball impacts, brick breaking, and game events\n-A high score system (without using local storage)\n-Different brick types (e.g., requires multiple hits, exploding bricks)\n\nPrioritize code completeness, robustness, and readiness for immediate execution.\nStructure the response as follows:\na. Brief introduction explaining the game and its features\nb. HTML code (including inline CSS if applicable)\nc. JavaScript code\nd. Any additional CSS in a separate \u003cstyle\u003e tag or file\ne. Instructions for running the game\n\nRemember to focus on delivering a complete, functional, and engaging Breakout game implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- The  should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
         {
-          max: 100,
+          max: 10,
           min: 1,
           type: 'multi-score',
+          text: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -2376,9 +2383,10 @@ export const tasklistCodegen: Task[] = [
         'When a user requests a Minesweeper game using HTML, JS, and CSS, follow these guidelines:\n\nCreate a fully functional Minesweeper game with the following features:\n\n-A grid-based game board with customizable dimensions (e.g., 9x9, 16x16)\n-Random mine placement at the start of each game\n-Left-click to reveal cells, right-click to flag potential mines\n-Number indicators showing adjacent mine count for revealed cells\n-Game over screen when a mine is clicked, revealing all mine locations\n-Win condition when all non-mine cells are revealed\n-Timer to track game duration\n-Mine counter to show remaining unflagged mines\n-First-click safety (ensure the first clicked cell is never a mine)\n-Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks.\n-Generate all graphics within the code using HTML5 Canvas or CSS, avoiding reliance on external image files.\n-Ensure the game runs in an HTML iframe without requiring any additional setup.\n-Provide complete, runnable code without placeholders or omissions.\n-Proactively address common bugs and pitfalls in Minesweeper implementations.\n-Make sure that your code does not require the use of local storage.\n\nInclude additional cool features that enhance the game experience, such as:\n-Multiple difficulty levels (Easy, Medium, Hard) with preset board sizes and mine counts\n-Custom game option where players can set board size and mine count\n-Animations for revealing cells and flagging mines\n-Sound effects for various game actions (optional, with a mute button)\n-A hint system that reveals a safe cell when the player is stuck\n\nPrioritize code completeness, robustness, and readiness for immediate execution.\nStructure the response as follows:\na. Brief introduction explaining the game and its features\nb. HTML code (including inline CSS if applicable)\nc. JavaScript code\nd. Any additional CSS in a separate \u003cstyle\u003e tag or file\ne. Instructions for running the game\n\nRemember to focus on delivering a complete, functional, and engaging Minesweeper game implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- The  should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
         {
-          max: 100,
+          max: 10,
           min: 1,
           type: 'multi-score',
+          text: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -2565,9 +2573,10 @@ export const tasklistCodegen: Task[] = [
         'When a user requests a 2048 game using HTML, JS, and CSS, follow these guidelines:\n\nCreate a fully functional 2048 game with the following features:\n\n-4x4 grid layout\n-Smooth tile sliding and merging animations\n-Score tracking and display\n-Game over detection when no more moves are possible\n-Win condition when 2048 tile is created\n-Standard keyboard controls (arrow keys)\n-Touch/swipe support for mobile devices\n-Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks.\n-Generate all graphics within the code, avoiding reliance on external image files.\n-Ensure the game runs in an HTML iframe without requiring any additional setup.\n-Provide complete, runnable code without placeholders or omissions.\n-Proactively address common bugs and pitfalls in 2048 game implementations.\n-As the game will run in a self-contained HTML iframe, ensure that the code does not use any local or session storage.\n-Ensure that any keystrokes used do not trigger the default browser behaviour. If the user uses arrow keys to play, it should not also trigger scrolling of the browser.\n\nInclude additional cool features that enhance the game experience, such as:\n-Undo functionality\n-Best score tracking\n-Color scheme customization option\n-Responsive design for various screen sizes\n\nPrioritize code completeness, robustness, and readiness for immediate execution.\nStructure the response as follows:\na. Brief introduction explaining the game and its features\nb. HTML code (including inline CSS if applicable)\nc. JavaScript code\nd. Any additional CSS in a separate \u003cstyle\u003e tag or file\ne. Instructions for running the game\n\nRemember to focus on delivering a complete, functional, and engaging 2048 game implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
         {
-          max: 100,
+          max: 10,
           min: 1,
           type: 'multi-score',
+          text: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -2754,9 +2763,10 @@ export const tasklistCodegen: Task[] = [
         'When a user requests a Tetris game using HTML, JS, and CSS, follow these guidelines:\n\nCreate a fully functional Tetris game with the following features:\n\n-Standard Tetris gameplay mechanics (rotating and moving falling pieces, clearing lines)\n-Random generation of Tetrimino shapes\n-Scoring system based on lines cleared and difficulty level\n-Increasing difficulty as the player progresses (faster falling speed)\n-Game over screen when pieces stack to the top, displaying the final score with an animation\n-Preview of the next piece\n-Standard keyboard controls (arrow keys for movement, spacebar for hard drop, etc.)\n-Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks.\n-Generate all graphics within the code using HTML5 Canvas, avoiding reliance on external image files.\n-Ensure the game runs in an HTML iframe without requiring any additional setup.\n-Provide complete, runnable code without placeholders or omissions.\n-Proactively address common bugs and pitfalls in Tetris game implementations.\n-As the game will run in a self-contained HTML iframe, ensure that the code does not use any local or session storage.\n-Ensure that any keystrokes used do not trigger the default browser behavior. If the user uses arrow keys to play, it should not also trigger scrolling of the browser.\n\nInclude additional cool features that enhance the game experience, such as:\n-Hold piece functionality\n-Ghost piece to show where the current piece will land\n-Basic sound effects for piece movement, rotation, and line clears\n-Simple animations for line clears and game over scenarios\n-Basic statistics display (lines cleared, current level, etc.)\n\nPrioritize code completeness, robustness, and readiness for immediate execution.\nStructure the response as follows:\na. Brief introduction explaining the game and its features\nb. HTML code (including inline CSS if applicable)\nc. JavaScript code\nd. Any additional CSS in a separate \u003cstyle\u003e tag or file\ne. Instructions for running the game\n\nRemember to focus on delivering a complete, functional, and engaging Tetris game implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
         {
-          max: 100,
+          max: 10,
           min: 1,
           type: 'multi-score',
+          text: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -2943,9 +2953,10 @@ export const tasklistCodegen: Task[] = [
         'When a user requests a Hangman game using HTML, JS, and CSS, follow these guidelines: Create a fully functional Hangman game with the following features: -Word selection from a predefined list or random word generation -Display of the hangman figure that updates with each incorrect guess -Display of correctly guessed letters in their correct positions -Display of incorrectly guessed letters -On-screen keyboard for letter selection (in addition to physical keyboard support) -Game over screen for both win and lose scenarios -Score tracking (e.g., number of wins/losses) -Use only HTML, JavaScript, and CSS without any external dependencies, libraries, or frameworks. -Generate all graphics within the code using HTML5 Canvas or SVG, avoiding reliance on external image files. -Ensure the game runs in an HTML iframe without requiring any additional setup. -Provide complete, runnable code without placeholders or omissions. -Proactively address common bugs and pitfalls in Hangman game implementations. -As the game will run in a self-contained HTML iframe, ensure that the code does not use any local or session storage. Include additional cool features that enhance the game experience, such as: -Different difficulty levels (e.g., easy, medium, hard) with varying word lengths -Hint system that reveals a letter or provides a clue about the word -Animations for correct/incorrect guesses and game over scenarios -Theme selection (e.g., change colors or hangman figure style) Prioritize code completeness, robustness, and readiness for immediate execution. Structure the response as follows: a. Brief introduction explaining the game and its features b. HTML code (including inline CSS if applicable) c. JavaScript code d. Any additional CSS in a separate \u003cstyle\u003e tag or file e. Instructions for running the game Remember to focus on delivering a complete, functional, and engaging Hangman game implementation using web technologies that can be easily copied and pasted into an HTML file to run immediately in a web browser.\nNote:\n- Your output should be implemented in JavaScript with HTML and CSS.\n- Ensure that the output has both index.js and index.html files\n',
       criteria: [
         {
-          max: 100,
+          max: 10,
           min: 1,
           type: 'multi-score',
+          text: 'Multi Score',
           options: [
             'anthropic/claude-3.5-sonnet',
             'anthropic/claude-3.5-sonnet',
@@ -3140,7 +3151,7 @@ export const taskListImgEvaluation: Task[] = [
       criteria: [
         {
           type: 'rich-human-feedback',
-          label: 'Errors / flaws in the image',
+          text: 'Errors / flaws in the image',
         },
       ],
       responses: [
@@ -3173,7 +3184,7 @@ export const taskListImgEvaluation: Task[] = [
       criteria: [
         {
           type: 'rich-human-feedback',
-          label: 'Errors / flaws in the image',
+          text: 'Errors / flaws in the image',
         },
       ],
       responses: [
@@ -3209,38 +3220,38 @@ export const supplementalTaskList: Task[] = [
       criteria: [
         {
           type: 'multi-select',
-          label: 'Choose all appropriate options',
+          text: 'Choose all appropriate options',
           options: ['Inappropriate Content', 'Untruthful Information', 'Personal Information'],
         },
         {
           type: 'single-select',
-          label: 'Is the interaction intuitive?',
+          text: 'Is the interaction intuitive?',
           options: ['Agree', 'Disagree', 'Neutral'],
         },
         {
           max: 10,
           min: 1,
-          type: 'multi-score',
-          label: 'Prompt Accuracy',
+          type: 'score',
+          text: 'Prompt Accuracy',
           options: ['stabilityai/stable-diffusion-xl-base-1.0'],
         },
         {
           max: 10,
           min: 1,
-          type: 'multi-score',
-          label: 'Quality',
+          type: 'score',
+          text: 'Quality',
           options: ['stabilityai/stable-diffusion-xl-base-1.0'],
         },
         {
           max: 10,
           min: 1,
-          type: 'multi-score',
-          label: 'Photo-Realism',
+          type: 'score',
+          text: 'Photo-Realism',
           options: ['stabilityai/stable-diffusion-xl-base-1.0'],
         },
         {
           type: 'multi-select',
-          label: 'Which part did the code output excel in?',
+          text: 'Which part did the code output excel in?',
           options: ['Physics Simulation', 'User Interaction', 'Slider Functionality', 'Animation'],
         },
       ],

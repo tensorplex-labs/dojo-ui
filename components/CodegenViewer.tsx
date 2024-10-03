@@ -33,7 +33,7 @@ const featurePolicy = `<meta http-equiv="Feature-Policy" content="
   usb 'none';
 ">`;
 const csp_source_whitelist = ['https://cdnjs.cloudflare.com', 'https://cdn.jsdelivr.net', 'https://unpkg.com'];
-const decodedCSP = `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' ${csp_source_whitelist.join(' ')}; style-src 'unsafe-inline'; img-src data: blob: https://threejsfundamentals.org; connect-src 'none'; form-action 'none'; base-uri 'none';">`;
+const decodedCSP = `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' ${csp_source_whitelist.join(' ')}; style-src 'unsafe-inline'; media-src 'self' blob: data:; img-src data: blob: https://threejsfundamentals.org; connect-src 'none'; form-action 'none'; base-uri 'none';">`;
 const iFrameStyles = `
 body {
 

@@ -25,7 +25,7 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
     updateScore,
     updateMultiScore,
     submissionErr,
-    setSubmissionErr,
+    resetError,
     handleSetIsMultiSelectQuestion,
     handleSetIsRankQuestion,
     handleSetIsMultiScore,
@@ -197,7 +197,7 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
       handleSetIsRankQuestion(false);
       handleSetIsMultiScore(false);
       handleSetIsSlider(false);
-      setSubmissionErr(null);
+      resetError();
     };
   }, []);
 
@@ -215,7 +215,7 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
   };
 
   const handleOnClose = () => {
-    setSubmissionErr(null);
+    resetError();
     setOpen(false);
     router.push('/');
   };
@@ -237,7 +237,7 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
   }, [submissionErr]);
 
   useEffect(() => {
-    setSubmissionErr(null);
+    resetError();
     updateMultiScore({});
     setRatings({});
   }, []);
