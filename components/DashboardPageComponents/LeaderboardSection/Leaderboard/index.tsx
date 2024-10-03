@@ -1,22 +1,28 @@
+import { getFirstAndLastCharacters } from '@/utils/math_helpers';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import React from 'react';
 
-interface LeaderboardEntry {
-  position: number;
-  miner: string;
-  score: number;
-  performance: number[];
+interface MinerData {
+  hotkey: string;
+  rank: number;
+  emission: number;
+  stakedAmt: number;
+  minerWeight: number;
+  performanceData: number[];
+  historicalEmissions?: {
+    blockNumber: number;
+    blockTime: number;
+    emission: number;
+  }[];
 }
 
-const leaderboardData: LeaderboardEntry[] = [
-  { position: 1, miner: '0x213...134', score: 0.012345, performance: [10, 20, 5, 18, 10] },
-  { position: 2, miner: '0x213...134', score: 0.012345, performance: [15, 2, 19, 7, 13] },
-  { position: 3, miner: '0x213...134', score: 0.012345, performance: [8, 16, 4, 12, 20] },
-  { position: 4, miner: '0x213...134', score: 0.012345, performance: [3, 18, 9, 14, 6] },
-  { position: 5, miner: '0x213...134', score: 0.012345, performance: [11, 5, 17, 2, 15] },
-];
+interface LeaderboardProps {
+  miners: MinerData[] | null;
+  isLoading: boolean;
+}
+
 const PerformanceChart: React.FC<{ data: number[] }> = ({ data }) => {
   const options: Highcharts.Options = {
     chart: {
@@ -57,8 +63,8 @@ const PerformanceChart: React.FC<{ data: number[] }> = ({ data }) => {
     },
     series: [
       {
-        data: data,
         type: 'area',
+        data: data,
       },
     ],
   };
@@ -66,39 +72,61 @@ const PerformanceChart: React.FC<{ data: number[] }> = ({ data }) => {
   return <HighchartsReact highcharts={Highcharts} options={options} />;
 };
 
-const Leaderboard: React.FC = () => {
+const ShimmerRow: React.FC = () => (
+  <tr className={`${FontManrope.className} h-11 animate-pulse border-b border-gray-100 text-lg font-bold`}>
+    <td className="w-10">
+      <div className="h-4 w-8 rounded bg-gray-200"></div>
+    </td>
+    <td className="w-10">
+      <div className="h-4 w-20 rounded bg-gray-200"></div>
+    </td>
+    <td className="w-10">
+      <div className="h-4 w-16 rounded bg-gray-200"></div>
+    </td>
+    <td className="w-10">
+      <div className="h-4 w-24 rounded bg-gray-200"></div>
+    </td>
+    <td className="w-10">
+      <div className="h-8 w-20 rounded bg-gray-200"></div>
+    </td>
+  </tr>
+);
+
+const Leaderboard: React.FC<LeaderboardProps> = ({ miners, isLoading }) => {
   return (
-    <>
-      <div className="mx-auto mb-6 max-w-4xl rounded-sm border-2 border-black bg-white p-4 shadow-brut-sm">
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[500px]">
-            <thead>
-              <tr className={`${FontSpaceMono.className} border-b-2 border-gray-200`}>
-                <th className="pb-2 pr-4 text-left">POSITION</th>
-                <th className="pb-2 pr-4 text-left">MINER</th>
-                <th className="pb-2 pr-4 text-left">SCORE</th>
-                <th className="pb-2 text-left">PERFORMANCE</th>
-              </tr>
-            </thead>
-            <tbody>
-              {leaderboardData.map((entry) => (
-                <tr
-                  key={entry.position}
-                  className={`${FontManrope.className} h-11 border-b border-gray-100 text-lg  font-bold`}
-                >
-                  <td className="w-10">#{entry.position}</td>
-                  <td className="w-10">{entry.miner}</td>
-                  <td className="w-10 opacity-60 ">{entry.score.toFixed(6)}</td>
-                  <td className="w-10">
-                    <PerformanceChart data={entry.performance} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+    <div className="mx-auto mb-6 max-w-4xl rounded-sm border-2 border-black bg-white p-4 shadow-brut-sm">
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[500px]">
+          <thead>
+            <tr className={`${FontSpaceMono.className} border-b-2 border-gray-200`}>
+              <th className="pb-2 pr-4 text-left">POSITION</th>
+              <th className="pb-2 pr-4 text-left">MINER</th>
+              <th className="pb-2 pr-4 text-left">SCORE</th>
+              {/* <th className="pb-2 pr-4 text-left">STAKED AMOUNT</th> */}
+              <th className="pb-2 text-left">PERFORMANCE</th>
+            </tr>
+          </thead>
+          <tbody>
+            {isLoading
+              ? Array.from({ length: 10 }).map((_, index) => <ShimmerRow key={index} />)
+              : miners?.slice(-10).map((miner, index) => (
+                  <tr
+                    key={miner.hotkey}
+                    className={`${FontManrope.className} h-11 border-b border-gray-100 text-lg font-bold`}
+                  >
+                    <td className="w-10">#{index + 1}</td>
+                    <td className="w-10">{getFirstAndLastCharacters(miner.hotkey, 5)}</td>
+                    <td className="w-10">{miner.minerWeight}</td>
+                    {/* <td className="w-10 opacity-60">{miner.stakedAmt.toFixed(6)}</td> */}
+                    <td className="w-10">
+                      <PerformanceChart data={miner.performanceData} />
+                    </td>
+                  </tr>
+                ))}
+          </tbody>
+        </table>
       </div>
-    </>
+    </div>
   );
 };
 

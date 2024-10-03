@@ -7,12 +7,14 @@ import { WalletManagement } from '@/components/TaskListPageComponents';
 import { useJwtToken } from '@/hooks/useJwtToken';
 import { useModal } from '@/hooks/useModal';
 import { useSIWE } from '@/hooks/useSIWE';
+import useSubnetMetagraph from '@/hooks/useSubnetMetaGraph';
 import { useAuth } from '@/providers/authContext';
 import { MODAL } from '@/types/ProvidersTypes';
 import { useEffect, useState } from 'react';
 import { useAccount, useDisconnect } from 'wagmi';
 
 const DashboardPage = () => {
+  const { data: subnetData, loading, error } = useSubnetMetagraph(20);
   const [showUserCard, setShowUserCard] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { openModal } = useModal(MODAL.wallet);
@@ -54,8 +56,21 @@ const DashboardPage = () => {
     >
       <DashboardHeader setShowUserCard={setShowUserCard} />
       <main className="mx-5 mt-5 max-w-4xl lg:mx-auto xl:mx-auto">
-        <DashboardGraphAndMetrics />
-        <LeaderboardSection />
+        <DashboardGraphAndMetrics subnetData={subnetData} loading={loading} error={error} />
+        <LeaderboardSection
+          miners={
+            subnetData?.nonRootNeurons.map((neuron) => ({
+              hotkey: neuron.hotkey,
+              minerWeight: neuron.minerWeight,
+              stakedAmt: neuron.stakedAmt,
+              emission: neuron.emission,
+              rank: neuron.rank,
+              performanceData: neuron.historicalEmissions?.map((he) => he.emission) || [],
+            })) || []
+          }
+          loading={loading}
+          error={error}
+        />
       </main>
       {showUserCard && (
         <WalletManagement
