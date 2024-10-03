@@ -7,6 +7,7 @@ import { useSIWE } from '@/hooks/useSIWE';
 import Layout from '@/layout';
 import { useAuth } from '@/providers/authContext';
 import { useSubmit } from '@/providers/submitContext';
+import exp from 'constants';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect } from 'react';
 import { useAccount } from 'wagmi';
@@ -59,7 +60,7 @@ const Questionsv2 = () => {
           <MultiOutputVisualizer containerClassName="" task={task} />
         )}
       </div>
-      {!isTaskLoading && task && isAuthenticated && isConnected && <Footer task={task} />}
+      {!isTaskLoading && task && ((isAuthenticated && isConnected) || exp) && <Footer task={task} />}
     </Layout>
   );
 };
