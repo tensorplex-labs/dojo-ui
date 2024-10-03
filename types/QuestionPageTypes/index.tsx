@@ -16,6 +16,7 @@ export type ErrorModalProps = {
   errorMessage: string | null;
   className?: string;
   headerTitle?: string;
+  showButton?: boolean;
 };
 
 export interface HTMLContentVisualizerProps {

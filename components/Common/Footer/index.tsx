@@ -1,25 +1,31 @@
+import { ErrorModal } from '@/components/QuestionPageComponents';
 import useFeature from '@/hooks/useFeature';
 import useGetNextInProgressTask, { NextTaskResponse } from '@/hooks/useGetNextTask';
 import useScrollRestoration from '@/hooks/useScrollRestoration';
 import { useSubmit } from '@/providers/submitContext';
+import { Task } from '@/types/QuestionPageTypes';
 import { wait } from '@/utils/general_helpers';
 import { tasklistFull } from '@/utils/states';
 import { cn } from '@/utils/tw';
 import { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
+import { HTMLAttributes, useCallback, useState } from 'react';
 import { Button } from '../Button';
 
-const Footer: React.FC = () => {
+interface Props extends HTMLAttributes<HTMLDivElement> {
+  task: Task;
+}
+
+const Footer = ({ task, className, ...props }: Props) => {
   const router = useRouter();
-  const { taskId } = router.query;
-  const { handleSubmit, handleSubmitNew } = useSubmit();
+  const taskId = task.taskId;
+  const { handleSubmit, handleSubmitNew, resetSubmissionError, submissionErr, getCriterionForResponse } = useSubmit();
   const { fetchNextInProgressTask } = useGetNextInProgressTask();
   const { exp } = useFeature({ kw: 'demo' });
+  const [feError, setFeError] = useState<string | null>(null);
   const { saveScrollPosition, restoreScrollPosition } = useScrollRestoration();
 
   const handleDemoTasklistRotation = useCallback(
     (taskId: string, backward: boolean = false) => {
-      handleSubmitNew();
       const currTask = tasklistFull.find((t) => t.taskId === taskId);
       if (!currTask) return;
       const currIdx = tasklistFull.indexOf(currTask);
@@ -38,7 +44,7 @@ const Footer: React.FC = () => {
         restoreScrollPosition();
       });
     },
-    [router, handleSubmitNew]
+    [router]
   );
 
   const handleSkip = async () => {
@@ -55,8 +61,60 @@ const Footer: React.FC = () => {
     }
     router.replace(`/Questionsv2?taskId=${nextTaskResponse.nextInProgressTaskId}`);
   };
+
+  const resetFeError = useCallback(() => {
+    setFeError(null);
+  }, []);
+
+  const setFeErrorAndScroll = useCallback((error: string) => {
+    setFeError(error);
+  }, []);
+
+  //TODO: Continue populating this function when more criterion types are added
+  const feValidationBeforeSubmit = useCallback(() => {
+    const criterionResponses = getCriterionForResponse();
+    let tmpFlag = true;
+    task.taskData.criteria.forEach((criteria) => {
+      console.log('checking criteria', criteria);
+      switch (criteria.type) {
+        case 'multi-score':
+          // Just check if there's same number of responses as prompt output in the response.value object
+          const respondedCriteria = criterionResponses.find((c) => c.text === criteria.text);
+          if (
+            respondedCriteria?.responses &&
+            Object.entries(respondedCriteria.responses).length == task.taskData.responses.length
+          ) {
+            //means ok
+            break;
+          } else {
+            setFeErrorAndScroll('Ensure that you attempted to rate all response(s).');
+            tmpFlag = false;
+            break;
+          }
+        case 'multi-select':
+        case 'single-select':
+        case 'score':
+        case 'ranking':
+        case 'rich-human-feedback':
+        default:
+          tmpFlag = false;
+          break;
+      }
+    });
+    return tmpFlag;
+  }, [task, getCriterionForResponse]);
+
   return (
-    <div className=" w-full p-4">
+    <div className=" w-full border-t-2 border-t-black p-4">
+      <ErrorModal
+        showButton={false}
+        open={!!submissionErr || !!feError}
+        onClose={() => {
+          resetSubmissionError();
+          resetFeError();
+        }}
+        errorMessage={submissionErr || feError}
+      />
       {/* <div className="mb-2">
         <h1 className={`uppercase ${FontSpaceMono.className} text-xl font-bold mb-1.5`}>
             Rewards
@@ -127,8 +185,9 @@ const Footer: React.FC = () => {
             buttonText={'PROCEED'}
             className={cn('bg-primary px-[37px] py-[15px] text-white hover:shadow-brut-sm', 'w-1/2 sm:w-auto')}
             onClick={() => {
-              if (!exp) handleSubmit();
-              else {
+              if (!exp) {
+                feValidationBeforeSubmit() && handleSubmit();
+              } else {
                 handleDemoTasklistRotation(taskId as string);
               }
             }}

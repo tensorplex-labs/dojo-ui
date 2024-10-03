@@ -1,6 +1,5 @@
 'use client';
 import { CustomButton } from '@/components/Common/CustomComponents/button';
-import Footer from '@/components/Common/Footer';
 import SubscriptionModal from '@/components/Common/Modal/SubscriptionModal';
 import UserCard from '@/components/Common/UserCard';
 import { config } from '@/components/Common/Wallet/WagmiWalletConfig';
@@ -53,7 +52,9 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidt
             <div className="border-b-2 border-black bg-ecru-white text-white">
               <NavigationBar openModal={() => setShowUserCard(true)} />
             </div>
-            <main className={cn(!isFullWidth ? 'max-w-[1075px]' : 'w-full', `mx-auto grow`)}>{children}</main>
+            <main className={cn(!isFullWidth ? 'max-w-[1075px]' : 'w-full', `mx-auto grow flex flex-col`)}>
+              {children}
+            </main>
             {showFooter && <hr className=" border-black" />}
             {showUserCard && (
               <UserCard closeModal={setShowUserCard}>
@@ -111,7 +112,6 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidt
             {isModalVisible && (
               <SubscriptionModal setIsModalVisible={setIsModalVisible} isModalVisible={isModalVisible} />
             )}
-            {showFooter && <Footer />}
           </ModalProvider>
         </QueryClientProvider>
       </WagmiProvider>

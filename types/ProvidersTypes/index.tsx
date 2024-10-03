@@ -32,7 +32,7 @@ export interface SubmitContextType {
   triggerTaskPageReload: boolean;
   setTriggerTaskPageReload: React.Dispatch<React.SetStateAction<boolean>>;
   submissionErr: string | null;
-  setSubmissionErr: Function;
+  resetSubmissionError: () => void;
   isSubscriptionModalLoading: boolean;
   setIsSubscriptionModalLoading: Function;
   partnerCount: number;

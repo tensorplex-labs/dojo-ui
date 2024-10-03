@@ -1,3 +1,5 @@
+import Footer from '@/components/Common/Footer';
+import { ErrorModal } from '@/components/QuestionPageComponents';
 import MultiOutputVisualizer from '@/components/QuestionPageComponents/MultiOutputTask/MultiOutputVisualizer';
 import SingleOutputTaskVisualizer from '@/components/QuestionPageComponents/SingleOutputTask/SingleOutputTaskVisualizer';
 import useRequestTaskByTaskID from '@/hooks/useRequestTaskByTaskID';
@@ -38,6 +40,13 @@ const Questionsv2 = () => {
   }, [isAuthenticated, isConnected, isSignedIn]);
   return (
     <Layout isFullWidth={true}>
+      <ErrorModal
+        open={!!taskError}
+        onClose={() => {
+          router.push('/task-list');
+        }}
+        errorMessage={"There's an error with this task."}
+      />
       <div className="flex grow justify-center py-8">
         {task && task.taskData.responses.length == 1 && !isTaskLoading && (
           <div className="flex w-full justify-center px-4">
@@ -50,6 +59,7 @@ const Questionsv2 = () => {
           <MultiOutputVisualizer containerClassName="" task={task} />
         )}
       </div>
+      {!isTaskLoading && task && <Footer task={task} />}
     </Layout>
   );
 };

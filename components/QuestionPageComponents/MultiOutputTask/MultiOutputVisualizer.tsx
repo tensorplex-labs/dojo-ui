@@ -63,7 +63,7 @@ const MultiOutputVisualizer = ({ task, className, ...props }: TaskVisualizerProp
                           min={1}
                           max={10}
                           step={1}
-                          initialValue={Math.floor((1 + 10) / 2)}
+                          initialValue={1}
                           onChange={(rating) => {
                             addCriterionForResponse(`${criteria.text}::${response.model}` ?? '', rating.toString());
                           }}
