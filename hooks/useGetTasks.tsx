@@ -1,5 +1,4 @@
 import { useAuth } from '@/providers/authContext';
-import { useSubmit } from '@/providers/submitContext';
 import { TaskPageContext } from '@/providers/taskPageContext';
 import { Task } from '@/types/QuestionPageTypes';
 import { getFromLocalStorage } from '@/utils/general_helpers';
@@ -49,7 +48,6 @@ const useGetTasks = (
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const jwtToken = getFromLocalStorage(`dojoui__jwtToken`);
-  const { triggerTaskPageReload } = useSubmit();
   const router = useRouter();
   const isFetchingRef = useRef<boolean>(false);
   const { address } = useAccount();

@@ -11,10 +11,11 @@ export interface AuthContextType {
 export enum MODAL {
   connect,
   wallet,
+  informational,
 }
 
 export type ModalContextValue = {
-  openModal: (modal: MODAL) => void;
+  openModal: (modal: MODAL, modalOptions?: any) => void;
   closeModal: () => void;
 };
 

@@ -27,6 +27,7 @@ const ManageWalletConnectModal = ({ open, onSave, onClose, ...props }: Props) =>
   const chainId = useChainId();
 
   const connectWalletHandler = async (connectorId: string) => {
+    console.log('clicked connect wallet handler');
     setIsSignedIn(true);
     const connector = getConnectorById(connectors, connectorId);
     if (!connector) {
