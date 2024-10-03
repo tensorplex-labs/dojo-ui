@@ -3,7 +3,6 @@ import { ErrorModal } from '@/components/QuestionPageComponents';
 import MultiOutputVisualizer from '@/components/QuestionPageComponents/MultiOutputTask/MultiOutputVisualizer';
 import SingleOutputTaskVisualizer from '@/components/QuestionPageComponents/SingleOutputTask/SingleOutputTaskVisualizer';
 import useRequestTaskByTaskID from '@/hooks/useRequestTaskByTaskID';
-import { useSIWE } from '@/hooks/useSIWE';
 import Layout from '@/layout';
 import { useAuth } from '@/providers/authContext';
 import { useSubmit } from '@/providers/submitContext';
@@ -14,8 +13,7 @@ import { useAccount } from 'wagmi';
 const Questionsv2 = () => {
   const router = useRouter();
   const { isAuthenticated, isSignedIn } = useAuth();
-  const { signInWithEthereum } = useSIWE(() => console.log('post signin'));
-  const { isConnected, address } = useAccount();
+  const { isConnected } = useAccount();
   const {
     getCriterionForResponse: criterionForResponse,
     addCriterionForResponse,

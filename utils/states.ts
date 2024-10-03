@@ -7,7 +7,7 @@ export const TASKTYPE_COLOR_MAP: Record<string, string> = {
   CODE_GENERATION: 'bg-red-300',
   TEXT_TO_IMAGE: 'bg-amber-400',
   '3D_MODEL': 'bg-purple-400',
-  TEXT_TO_THREE_DEEZ: 'bg-purple-400',
+  TEXT_TO_THREE_D: 'bg-purple-400',
 };
 
 export const RHF_MAX_CHAR = 70;
