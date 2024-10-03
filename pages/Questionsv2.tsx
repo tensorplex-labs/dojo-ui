@@ -34,11 +34,7 @@ const Questionsv2 = () => {
   useEffect(() => {
     task && resetCriterionForResponse(task); //Putting the reset in this common parent page
   }, [task]);
-  useEffect(() => {
-    if (!isAuthenticated && isConnected && isSignedIn) {
-      signInWithEthereum(address ?? '');
-    }
-  }, [isAuthenticated, isConnected, isSignedIn]);
+
   return (
     <Layout isFullWidth={true}>
       <ErrorModal

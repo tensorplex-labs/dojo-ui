@@ -1,6 +1,6 @@
 import { Task } from '@/types/QuestionPageTypes';
 
-export type TaskType = 'CODE_GENERATION' | '3D_MODEL' | 'TEXT_TO_IMAGE' | 'TEXT_TO_THREE_DEEZ';
+export type TaskType = 'CODE_GENERATION' | '3D_MODEL' | 'TEXT_TO_IMAGE' | 'TEXT_TO_THREE_D';
 export const tokenType = `dojoui__jwtToken`;
 
 export const TASKTYPE_COLOR_MAP: Record<string, string> = {

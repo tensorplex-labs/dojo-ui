@@ -1,7 +1,5 @@
 'use client';
-import NavigationBar from '@/components/Common/NavigationBar';
 import { WalletManagement } from '@/components/TaskListPageComponents';
-import TaskListHeader from '@/components/TaskListPageComponents/TaskListPageHeader';
 import { categories as cat, dropdownOptions } from '@/data';
 import useDropdown from '@/hooks/useDropdown';
 import useGetTasks, { taskStatus } from '@/hooks/useGetTasks'; // Import the hook
@@ -38,6 +36,7 @@ import CategoryItem from '@/components/TaskListPageComponents/CategoryList/Categ
 import { ALL_CATEGORY } from '@/constants';
 import useFeature from '@/hooks/useFeature';
 import { useSIWE } from '@/hooks/useSIWE';
+import Layout from '@/layout';
 import { ButtonState } from '@/types/CommonTypes';
 import { MODAL } from '@/types/ProvidersTypes';
 import { Task } from '@/types/QuestionPageTypes';
@@ -150,6 +149,7 @@ export default function Index() {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const { openModal } = useModal(MODAL.wallet);
+  const { openModal: openInfoModal } = useModal(MODAL.informational);
   const { updateSorting } = useSorting();
   const { isDropdownOpen, handleToggle, handleClickOutside, dropdownRef } = useDropdown();
   const { address, isConnected } = useAccount();
@@ -248,15 +248,8 @@ export default function Index() {
     ];
     return columnDef;
   }, [exp, router]);
-  //Demo, shift it to cat when is done
-  const categories = cat.concat(exp ? [{ label: '3D Model', isActive: false, taskType: '3D_MODEL' }] : []);
 
-  const jwtTokenKey = `dojoui__jwtToken`;
-  useEffect(() => {
-    if (!isAuthenticated && isConnected && isSignedIn) {
-      signInWithEthereum(address ?? '');
-    }
-  }, [isAuthenticated, isConnected, isSignedIn]);
+  const categories = cat;
 
   const { tasks, pagination, loading, refetchTasks } = useGetTasks(
     page ? parseInt(page as string) : parseInt(currentPage),
@@ -354,11 +347,7 @@ export default function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-primaryBG-bg">
-      <div className="border-b-2 border-black bg-ecru-white">
-        <NavigationBar openModal={() => setShowUserCard(true)} />
-        <TaskListHeader />
-      </div>
+    <Layout isFullWidth headerText={exp ? 'DEMO TASK LIST' : 'TASK LIST'}>
       <div className="w-full px-4">
         <div className="mx-auto mt-[18px] flex max-w-[1075px] md:py-2 lg:py-2">
           <div className="flex w-full flex-col items-start justify-between gap-[6px]">
@@ -488,6 +477,6 @@ export default function Index() {
         />
       )}
       {isModalVisible && <SubscriptionModal setIsModalVisible={setIsModalVisible} isModalVisible={isModalVisible} />}
-    </div>
+    </Layout>
   );
 }

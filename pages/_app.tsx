@@ -17,9 +17,13 @@ export default function App({ Component, pageProps }: AppProps) {
         <AuthProvider>
           <SubmitProvider>
             <TaskPageProvider>
-              <ModalProvider>
-                <Component {...pageProps} />
-              </ModalProvider>
+              <WagmiProvider config={config}>
+                <QueryClientProvider client={queryClient}>
+                  <ModalProvider>
+                    <Component {...pageProps} />
+                  </ModalProvider>
+                </QueryClientProvider>
+              </WagmiProvider>
             </TaskPageProvider>
           </SubmitProvider>
         </AuthProvider>

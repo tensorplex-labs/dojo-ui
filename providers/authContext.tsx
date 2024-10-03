@@ -1,6 +1,9 @@
 // context/AuthContext.js
+import { useModal } from '@/hooks/useModal';
 import useWorkerLoginAuth, { LoginAuthPayload } from '@/hooks/useWorkerLoginAuth';
+import { MODAL } from '@/types/ProvidersTypes';
 import { getFromLocalStorage } from '@/utils/general_helpers';
+import { tokenType } from '@/utils/states';
 // import { AuthContextType } from '@/types/ProvidersTypes';
 import { decode } from 'jsonwebtoken';
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
@@ -35,10 +38,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const { workerLoginAuth, loading, error } = useWorkerLoginAuth();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const { openModal: openInfoModal } = useModal(MODAL.informational);
+  const { openModal } = useModal(MODAL.wallet);
   const { disconnect } = useDisconnect();
   const { address } = useAccount();
 
-  const tokenType = `dojoui__jwtToken`;
   // Attempt to retrieve the auth token from localStorage on initial load
 
   const frontendJWTIsValid = useCallback(
@@ -89,11 +93,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   //First render will always check presence of token and whether its valid or not.
   useEffect(() => {
     const token = getFromLocalStorage(tokenType);
+    // disconnect();
     if (token && address) {
       const authState = frontendJWTIsValid(address, token);
       authState ? localLogin(token) : localLogout();
     }
-  }, [address, localLogin, localLogout, frontendJWTIsValid]);
+  }, [address, localLogin, localLogout, frontendJWTIsValid, openInfoModal, openModal, isAuthenticated]);
 
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {

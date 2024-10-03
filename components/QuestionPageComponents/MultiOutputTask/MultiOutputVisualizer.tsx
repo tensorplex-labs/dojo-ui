@@ -18,7 +18,7 @@ const MultiOutputVisualizer = ({ task, className, ...props }: TaskVisualizerProp
       case 'CODE_GENERATION':
         return <CodegenViewer encodedHtml={response.completion.combined_html} />;
       case '3D_MODEL':
-      case 'TEXT_TO_THREE_DEEZ':
+      case 'TEXT_TO_THREE_D':
         if (response.completion.url === undefined) return;
         return (
           <GaussianSplatViewer
