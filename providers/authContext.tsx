@@ -96,28 +96,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // disconnect();
     if (token && address) {
       const authState = frontendJWTIsValid(address, token);
-      console.log('Doing a check on auth and JWT:', authState);
       authState ? localLogin(token) : localLogout();
-      //   !authState &&
-      //     openInfoModal({
-      //       buttonMeta: {
-      //         buttonSuccess: 'Sign In',
-      //         buttonGroupClassName: 'flex justify-center',
-      //         buttonSuccessFn: () => {
-      //           if (!isAuthenticated) {
-      //             openModal();
-      //           }
-      //         },
-      //       },
-      //       headerTitle: 'Session Expired',
-      //       content: (
-      //         <div className="flex w-full max-w-[350px] text-center font-normal">
-      //           Welcome back! Your previous session has expired, please sign in again.
-      //         </div>
-      //       ),
-      //     });
     }
-  }, [address, localLogin, localLogout, frontendJWTIsValid, openInfoModal, openModal]);
+  }, [address, localLogin, localLogout, frontendJWTIsValid, openInfoModal, openModal, isAuthenticated]);
 
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {

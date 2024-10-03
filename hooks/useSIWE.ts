@@ -39,7 +39,7 @@ export const useSIWE = (postSignin: () => void) => {
       disconnectAsync();
       resetSignMessage();
     } finally {
-      setIsSignedIn(false);
+      // setIsSignedIn(false);
     }
   };
 

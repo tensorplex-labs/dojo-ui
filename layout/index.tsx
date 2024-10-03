@@ -9,7 +9,9 @@ import { useModal } from '@/hooks/useModal';
 import { useSIWE } from '@/hooks/useSIWE';
 import { useAuth } from '@/providers/authContext';
 import { MODAL } from '@/types/ProvidersTypes';
+import { getFromLocalStorage } from '@/utils/general_helpers';
 import { getFirstFourLastFour } from '@/utils/math_helpers';
+import { tokenType } from '@/utils/states';
 import { cn } from '@/utils/tw';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { IconCopy, IconExternalLink } from '@tabler/icons-react';
@@ -40,16 +42,39 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidt
   };
 
   const { isConnected, address } = useAccount();
-  const { isAuthenticated, isSignedIn } = useAuth();
+  const { isAuthenticated, isSignedIn, frontendJWTIsValid } = useAuth();
   const { signInWithEthereum } = useSIWE(() => console.log('post signin'));
   const handleCopy = useCopyToClipboard(address ?? '');
   const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
+  const { openModal: openInfoModal } = useModal(MODAL.informational);
+
   useEffect(() => {
-    console.log('tasklist auth related:', isAuthenticated, isConnected, isSignedIn);
-    if (!isAuthenticated && isConnected && isSignedIn) {
-      signInWithEthereum(address ?? '');
+    const token = getFromLocalStorage(tokenType);
+    // disconnect();
+    if (token && address) {
+      const authState = frontendJWTIsValid(address, token);
+      console.log('layout doing a check on auth and JWT:', authState);
+      !authState &&
+        openInfoModal({
+          buttonMeta: {
+            buttonSuccess: 'Sign In',
+            buttonGroupClassName: 'flex justify-center',
+            buttonSuccessFn: () => {
+              if (!isAuthenticated) {
+                openModal();
+              }
+            },
+          },
+          headerTitle: 'Session Expired',
+          content: (
+            <div className="flex w-full max-w-[350px] text-center font-normal">
+              Welcome back! Your previous session has expired, please sign in again.
+            </div>
+          ),
+        });
     }
-  }, [isAuthenticated, isConnected, isSignedIn]);
+  }, [address, frontendJWTIsValid, openInfoModal, openModal, isAuthenticated]);
+
   return (
     <div className="flex min-h-screen max-w-screen-lg flex-col items-stretch overflow-x-hidden bg-primaryBG-bg text-black">
       <div className="border-b-2 border-black bg-ecru-white text-white">
