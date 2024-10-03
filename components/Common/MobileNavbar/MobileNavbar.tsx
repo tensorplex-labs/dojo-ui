@@ -61,32 +61,6 @@ const MobileNavbar = ({ className, ...props }: Props) => {
   return (
     <>
       <div
-        onMouseDown={(e) => {
-          e.stopPropagation();
-          setNavbarOpen((prev) => !prev);
-        }}
-        className={cn('z-30 flex items-center text-font-primary md:hidden', 'hover:cursor-pointer')}
-      >
-        <div className="flex flex-col gap-[5px] transition-all duration-300">
-          <motion.div
-            variants={topBarVariants}
-            animate={navbarOpen ? 'open' : 'closed'}
-            className="h-[2px] w-[28px] bg-black"
-          ></motion.div>
-          <motion.div
-            variants={middleBarVariants}
-            animate={navbarOpen ? 'open' : 'closed'}
-            className="h-[2px] w-[28px] bg-black"
-          ></motion.div>
-          <motion.div
-            variants={bottomBarVariants}
-            animate={navbarOpen ? 'open' : 'closed'}
-            className="h-[2px] w-[28px] bg-black"
-          ></motion.div>
-        </div>
-      </div>
-
-      <div
         ref={containerRef}
         className={cn(
           'bg-background z-20 fixed top-0 left-0 w-[100vw] transition-all flex flex-col ease-in-out duration-500',
@@ -116,6 +90,31 @@ const MobileNavbar = ({ className, ...props }: Props) => {
               {item.url.startsWith('https://') && <IconArrowUpRight className="size-[45px]" />}
             </Link>
           ))}
+        </div>
+      </div>
+      <div
+        onMouseDown={(e) => {
+          e.stopPropagation();
+          setNavbarOpen((prev) => !prev);
+        }}
+        className={cn('z-20 flex items-center text-font-primary md:hidden', 'hover:cursor-pointer')}
+      >
+        <div className="flex flex-col gap-[5px] transition-all duration-300">
+          <motion.div
+            variants={topBarVariants}
+            animate={navbarOpen ? 'open' : 'closed'}
+            className="h-[2px] w-[28px] bg-black"
+          ></motion.div>
+          <motion.div
+            variants={middleBarVariants}
+            animate={navbarOpen ? 'open' : 'closed'}
+            className="h-[2px] w-[28px] bg-black"
+          ></motion.div>
+          <motion.div
+            variants={bottomBarVariants}
+            animate={navbarOpen ? 'open' : 'closed'}
+            className="h-[2px] w-[28px] bg-black"
+          ></motion.div>
         </div>
       </div>
     </>
