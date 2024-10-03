@@ -53,7 +53,6 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidt
     // disconnect();
     if (token && address) {
       const authState = frontendJWTIsValid(address, token);
-      console.log('layout doing a check on auth and JWT:', authState);
       !authState &&
         openInfoModal({
           buttonMeta: {

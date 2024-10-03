@@ -3,58 +3,16 @@ import NavigationBar from '@/components/Common/NavigationBar';
 import { FAQHero, FAQList } from '@/components/FAQPage';
 import { WalletManagement } from '@/components/TaskListPageComponents';
 import { useModal } from '@/hooks/useModal';
-import { useSIWE } from '@/hooks/useSIWE';
-import { useAuth } from '@/providers/authContext';
 import { MODAL } from '@/types/ProvidersTypes';
-import { getFromLocalStorage } from '@/utils/general_helpers';
-import { tokenType } from '@/utils/states';
 import { FontSpaceMono } from '@/utils/typography';
-import { useEffect, useState } from 'react';
-import { useAccount, useDisconnect } from 'wagmi';
+import { useState } from 'react';
+import { useAccount } from 'wagmi';
 
 const Page = () => {
   const [showUserCard, setShowUserCard] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { openModal } = useModal(MODAL.wallet);
   const { address } = useAccount();
-
-  const { isAuthenticated, isSignedIn } = useAuth();
-  const { isConnected } = useAccount();
-  const { disconnect } = useDisconnect();
-
-  const jwtTokenKey = `dojoui__jwtToken`;
-
-  const { signInWithEthereum } = useSIWE(() => console.log('post signin'));
-
-  const jwtToken = getFromLocalStorage(tokenType);
-
-  useEffect(() => {
-    if (!isAuthenticated && isConnected && isSignedIn) {
-      signInWithEthereum(address ?? '');
-    }
-  }, [isAuthenticated, isConnected, isSignedIn]);
-  useEffect(() => {
-    if (jwtToken) {
-      console.log('User is authenticated');
-    }
-  }, [jwtToken]);
-
-  useEffect(() => {
-    const handleStorageChange = (event: StorageEvent) => {
-      if (event.key === 'wagmi.io.metamask.disconnected') {
-        window.location.reload();
-      }
-      if (event.key === jwtTokenKey) {
-        window.location.reload();
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, [disconnect]);
 
   return (
     <div className="h-full bg-background text-black">

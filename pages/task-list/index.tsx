@@ -25,7 +25,7 @@ import {
 import { useSearchParams } from 'next/navigation';
 import { NextRouter, useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useAccount, useDisconnect } from 'wagmi';
+import { useAccount } from 'wagmi';
 
 import { Button } from '@/components/Common/Button';
 import Datatablev2 from '@/components/Common/DataTable/Datatablev2';
@@ -35,7 +35,6 @@ import { Pagination } from '@/components/Common/Pagination';
 import CategoryItem from '@/components/TaskListPageComponents/CategoryList/CategoryItem';
 import { ALL_CATEGORY } from '@/constants';
 import useFeature from '@/hooks/useFeature';
-import { useSIWE } from '@/hooks/useSIWE';
 import Layout from '@/layout';
 import { ButtonState } from '@/types/CommonTypes';
 import { MODAL } from '@/types/ProvidersTypes';
@@ -149,7 +148,6 @@ export default function Index() {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const { openModal } = useModal(MODAL.wallet);
-  const { openModal: openInfoModal } = useModal(MODAL.informational);
   const { updateSorting } = useSorting();
   const { isDropdownOpen, handleToggle, handleClickOutside, dropdownRef } = useDropdown();
   const { address, isConnected } = useAccount();
@@ -158,9 +156,6 @@ export default function Index() {
   const params = useMemo(() => new URLSearchParams(searchParams), [searchParams]);
   const [currentPage, setCurrentPage] = useState<string>('1');
   const { page, limit, tasks: taskTypes, sort, order, yieldMin, yieldMax } = router.query;
-  const { disconnect } = useDisconnect();
-  const { isSignedIn } = useAuth();
-  const { signInWithEthereum } = useSIWE(() => console.log('post signin'));
   const { exp } = useFeature({ kw: 'demo' });
 
   // ColumnDef for tasklists is moved into the component because of demo page.

@@ -75,7 +75,6 @@ const Footer = ({ task, className, ...props }: Props) => {
     const criterionResponses = getCriterionForResponse();
     let tmpFlag = true;
     task.taskData.criteria.forEach((criteria) => {
-      console.log('checking criteria', criteria);
       switch (criteria.type) {
         case 'multi-score':
           // Just check if there's same number of responses as prompt output in the response.value object
