@@ -59,7 +59,7 @@ const Questionsv2 = () => {
           <MultiOutputVisualizer containerClassName="" task={task} />
         )}
       </div>
-      {!isTaskLoading && task && <Footer task={task} />}
+      {!isTaskLoading && task && isAuthenticated && isConnected && <Footer task={task} />}
     </Layout>
   );
 };

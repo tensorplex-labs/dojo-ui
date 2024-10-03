@@ -251,7 +251,7 @@ export default function Index() {
   //Demo, shift it to cat when is done
   const categories = cat.concat(exp ? [{ label: '3D Model', isActive: false, taskType: '3D_MODEL' }] : []);
 
-  const jwtTokenKey = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+  const jwtTokenKey = `dojoui__jwtToken`;
   useEffect(() => {
     if (!isAuthenticated && isConnected && isSignedIn) {
       signInWithEthereum(address ?? '');

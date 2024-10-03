@@ -1,7 +1,7 @@
 import { Task } from '@/types/QuestionPageTypes';
 
 export type TaskType = 'CODE_GENERATION' | '3D_MODEL' | 'TEXT_TO_IMAGE' | 'TEXT_TO_THREE_DEEZ';
-export const tokenType = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
+export const tokenType = `dojoui__jwtToken`;
 
 export const TASKTYPE_COLOR_MAP: Record<string, string> = {
   CODE_GENERATION: 'bg-red-300',

@@ -25,7 +25,7 @@ const QuestionPage: React.FC<QuestionPageProps> = () => {
     updateScore,
     updateMultiScore,
     submissionErr,
-    resetError,
+    resetSubmissionError: resetError,
     handleSetIsMultiSelectQuestion,
     handleSetIsRankQuestion,
     handleSetIsMultiScore,
