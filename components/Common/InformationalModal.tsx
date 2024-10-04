@@ -30,7 +30,7 @@ const InformationalModal = ({ buttonMeta, headerTitle, content, ...modalProps }:
     >
       <div
         className={cn(
-          `${FontManrope.className} gap-[10px] py-4 px-4  text-[16px] min-h-[50px] leading-[120%] h-fit flex justify-center items-center font-bold`
+          `${FontManrope.className} gap-[10px] py-4 px-2  text-[16px] min-h-[50px] leading-[120%] h-fit flex justify-center items-center font-bold`
         )}
       >
         {/* <div className="flex w-2/12 justify-center">
