@@ -49,7 +49,6 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidt
   useEffect(() => {
     const token = getFromLocalStorage(tokenType);
     // disconnect();
-    console.log('Entered with token: ', token, address, isAuthenticated);
     if (token && address) {
       const authState = frontendJWTIsValid(address, token);
       if (authState) {

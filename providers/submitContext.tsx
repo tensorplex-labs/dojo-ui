@@ -66,7 +66,7 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     setCriterionForResponse((prev) => {
       const updated = prev.map((c) => {
         const criterionTextId = index.split('::')[0];
-        if (c.text !== criterionTextId) return c;
+        // if (c.text !== criterionTextId) return c; //IMPORTANT TODO: REINSTATE THIS BACK WHEN MORE CRITERION IS ADDED
 
         // For multi select, we need check if the value was selected before
         if (c.type === 'multi-select') {
