@@ -47,13 +47,12 @@ const useGetTasks = (
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const jwtToken = getFromLocalStorage(`dojoui__jwtToken`);
   const router = useRouter();
   const isFetchingRef = useRef<boolean>(false);
   const { address } = useAccount();
   const { partnerCount } = useContext(TaskPageContext);
   const { exp } = useFeature({ kw: 'demo' });
-  const { frontendJWTIsValid, workerLogout } = useAuth();
+  const { workerLogout } = useAuth();
 
   const fetchDemoTasks = useCallback(async () => {
     setTasks([]);
@@ -79,20 +78,21 @@ const useGetTasks = (
   }, [setTasks, taskQuery]);
 
   const fetchTasks = useCallback(async () => {
+    console.log('fetching task');
     if (isFetchingRef.current) {
       console.log('Fetch request already in progress, skipping new request');
       return;
     }
     setTasks([]);
 
-    if (!jwtToken || !isAuthenticated || !isConnected) {
-      localStorage.removeItem(`dojoui__jwtToken`);
-      setTasks([]);
-      setPagination(null);
-      setError('No JWT token found');
-      setLoading(false);
-      return;
-    }
+    // if (!jwtToken || !isAuthenticated || !isConnected) {
+    //   localStorage.removeItem(`dojoui__jwtToken`);
+    //   setTasks([]);
+    //   setPagination(null);
+    //   setError('No JWT token found');
+    //   setLoading(false);
+    //   return;
+    // }
 
     isFetchingRef.current = true;
     try {
@@ -101,6 +101,7 @@ const useGetTasks = (
       const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/?page=${page}&limit=${limit}&task=${taskQuery}&sort=${sort}${yieldMinQuery}${yieldMaxQuery}&order=${order}`;
 
       setLoading(true);
+      const jwtToken = getFromLocalStorage(`dojoui__jwtToken`);
 
       const response = await fetch(endpoint, {
         headers: {
@@ -124,7 +125,22 @@ const useGetTasks = (
       setLoading(false);
       isFetchingRef.current = false;
     }
-  }, [page, limit, taskQuery, sort, order, yieldMin, yieldMax, jwtToken, isAuthenticated, isConnected]);
+  }, [page, limit, taskQuery, sort, order, yieldMin, yieldMax]);
+
+  useEffect(() => {
+    if (exp) {
+      fetchDemoTasks();
+      setLoading(false);
+    } else if (!isAuthenticated || !isConnected) {
+      setTasks([]);
+      setPagination(null);
+      setError('No JWT token found');
+      setLoading(false);
+      return;
+    } else {
+      fetchTasks();
+    }
+  }, [isAuthenticated, isConnected, address, exp, fetchDemoTasks, fetchTasks]);
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -134,7 +150,7 @@ const useGetTasks = (
       return;
     }
     fetchTasks();
-  }, [exp, fetchTasks, jwtToken, router.isReady, partnerCount]);
+  }, [exp, fetchTasks, router.isReady, partnerCount]);
 
   return { tasks, pagination, loading, error, refetchTasks: exp ? fetchDemoTasks : fetchTasks };
 };

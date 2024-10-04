@@ -51,16 +51,16 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidt
     // disconnect();
     if (token && address) {
       const authState = frontendJWTIsValid(address, token);
-      authState ? localLogin(token) : localLogout();
-      !authState &&
+      if (authState) {
+        localLogin(token);
+      } else {
+        localLogout();
         openInfoModal({
           buttonMeta: {
             buttonSuccess: 'Sign In',
             buttonGroupClassName: 'flex justify-center',
             buttonSuccessFn: () => {
-              if (!isAuthenticated) {
-                openModal();
-              }
+              openModal();
             },
           },
           headerTitle: 'Session Expired',
@@ -70,6 +70,7 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidt
             </div>
           ),
         });
+      }
     }
   }, [address, frontendJWTIsValid, openInfoModal, openModal, isAuthenticated]);
 

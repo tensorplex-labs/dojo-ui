@@ -43,7 +43,8 @@ const MultiOutputVisualizer = ({ task, className, ...props }: TaskVisualizerProp
         return (
           <>
             <div className={cn('max-w-[1075px] w-full', FontSpaceMono.className, 'font-bold')}>
-              {index + 1}. {criteria.text}
+              {index + 1}.{' '}
+              {criteria.text ?? 'Please score the below responses on the quality (10 - highest, 1 - lowest)'}
             </div>
             <div className="grid w-full max-w-full grid-cols-1 gap-x-5 gap-y-10 xl:grid-cols-2">
               {task.taskData.responses.map((response, index) => (
