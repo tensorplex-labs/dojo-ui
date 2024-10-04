@@ -1,23 +1,36 @@
+import useQueryFunc from '@/hooks/useQueryFuncs';
 import { TaskPromptProps } from '@/types/QuestionPageTypes';
-import { FontManrope, FontSpaceMono } from '@/utils/typography';
+import { FontManrope } from '@/utils/typography';
+import { IconSparkles } from '@tabler/icons-react';
 import React from 'react';
+import FormattedPrompt from '../FormattedPrompt';
+import TasktypePill from './tasktype-pill';
 
 const TaskPrompt: React.FC<TaskPromptProps> = ({ title, taskType, formattedPrompt }) => {
+  const { updateQueryString } = useQueryFunc();
   return (
-    <div className="mx-auto flex max-w-[1200px] flex-col md:px-4 md:py-2 lg:px-4 lg:py-2">
-      <p className={`text-start ${FontManrope.className} gap-2 text-2xl font-bold`}>
-        {title}
+    <div className="flex max-w-[1075px] flex-col justify-center gap-[15px] md:py-2">
+      <div className={`flex flex-wrap items-center text-start ${FontManrope.className} gap-2 text-2xl font-bold`}>
+        <span className="">{title}</span>
         {`  `}
-        <span
-          className={`${FontSpaceMono.className}  rounded-[20px] border border-black bg-goldenYellow px-2.5 py-[5px] text-[13px] font-bold text-white`}
-        >
-          {taskType} PROMPT
-        </span>
-      </p>
+        <TasktypePill tasktype={taskType} content={taskType} />
+      </div>
       <div
-        className={`${FontManrope.className}  my-5 flex self-start whitespace-pre-wrap rounded-xl border-2 border-black bg-ecru-white p-5 text-left text-base font-medium opacity-60`}
+        className={`${FontManrope.className} flex min-h-[48px] w-fit overflow-hidden
+           rounded-xl border-2 border-black`}
       >
-        {formattedPrompt}
+        <div className="animate-pulse p-2">
+          <IconSparkles className="size-7 shrink-0 rounded-full  p-[3px]" />
+        </div>
+        <FormattedPrompt
+          autoHideHeightThreshold={100}
+          bottomFadeDivClassName="h-[30px]"
+          className="h-fit min-h-[44px]"
+          collapsedClassName="h-[100px]"
+          collapsableBtnClassName="size-6 top-[10px] right-[10px]"
+        >
+          {formattedPrompt}
+        </FormattedPrompt>
       </div>
     </div>
   );

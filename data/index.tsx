@@ -2,7 +2,6 @@ import CreateTaskAnimation from '@/components/HomePageComponents/CreateTaskAnima
 import DistributeSubscriptionKeyAnimation from '@/components/HomePageComponents/DistributeSubscriptionKeyAnimation';
 import EarnStepAnimation from '@/components/HomePageComponents/EarnStepAnimation';
 import { StepCardProps } from '@/components/HomePageComponents/StepCard';
-import { CellContext } from '@tanstack/react-table';
 import Image from 'next/image';
 
 interface HeaderItem {
@@ -207,79 +206,15 @@ export const frequentlyAccessedData: FrequentlyAccessedProps[] = [
     route: 'https://stream.tensorplex.ai',
   },
 ];
-// const categoryTypes = [
-//   { label: "Object Detection", isActive: false },
-//   { label: "Content Classification", isActive: false },
-//   { label: "Semantic Segmentation", isActive: false },
-//   { label: "Named Entity Recognition", isActive: false },
-//   { label: "Object & Event Detection", isActive: false },
-// ];
-// export const mockData = new Array(50).fill(null).map((_, index) => {
-//   // Generate a random number for the time remaining
-//   const randomNumber = Math.floor(Math.random() * 60); // Random number between 0 and 59
-//   let expiry;
 
-export const columnDef = [
-  {
-    accessorKey: 'title',
-    header: 'Name',
-  },
-  {
-    accessorKey: 'type',
-    header: 'Type',
-    cell: (info: CellContext<any, any>) => info.getValue().replace(/_/g, ' '),
-  },
-  // {
-  //   accessorKey: "yield",
-  //   header: "Yield",
-  // },
-  {
-    accessorKey: 'expireAt',
-    header: 'Expiry',
-    accessorFn: (row: any) => {
-      const expiryDate = new Date(row.expireAt);
-      const now = new Date();
-      const diffMs = expiryDate.getTime() - now.getTime();
-      const diffMins = Math.round(diffMs / 60000); // minutes
-      const diffHrs = Math.floor(diffMins / 60); // hours
-      const diffDays = Math.floor(diffHrs / 24); // days
-      let formattedExpiry;
-      if (diffDays >= 1) {
-        formattedExpiry = `${diffDays}d`;
-      } else if (diffHrs >= 1) {
-        formattedExpiry = `${diffHrs}h`;
-      } else {
-        formattedExpiry = `${diffMins}m`;
-      }
-      return formattedExpiry;
-    },
-  },
-  {
-    accessorKey: 'slotsFilled',
-    header: 'Slots Filled',
-    accessorFn: (row: any) => `${row.numResults}/${row.maxResults}`,
-  },
-  {
-    accessorKey: 'operations',
-    header: 'Operations',
-    cell: ({}) => 'Start', // Render JSX for the button
-  },
-];
-
-export const faqList = [
-  {
-    id: '0',
-    content:
-      'To begin, you’ll need to set up a Bittensor Miner, ideally hosted on a server, to generate an API key. A small amount of TAO is required to enter the Dojo Subnet. Currently, this process requires some technical skills, but we are working towards simplifying it in the future.',
-    title: 'What are the requirements for getting started?',
-  },
+const faqListBase = [
   {
     id: '1',
     content: `
     <ol style="list-style-type: decimal" class="pl-5">
-      <li style="margin-bottom: 10px"><strong>Set Up Your Miner</strong>: Visit <a href="https://github.com/tensorplex-labs/dojo" target="_blank" style="color: #2563eb; text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none;">Dojo GitHub</a> to set up the Dojo Subnet Miner.</li>
-      <li style="margin-bottom: 10px"><strong>Generate and Use Your API Key</strong>: After setting up your miner, generate an API key. Then, visit <a href="http://dojo-testnet.tensorplex.ai/" target="_blank" style="color: #2563eb; text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none;">dojo-testnet.tensorplex.ai</a> and enter your API key to start working.</li>
-      <li><strong>Start Working</strong>: Once logged in, you can start completing tasks and earning rewards immediately.</li>
+    <li style="margin-bottom: 10px"><strong>I want to get rewarded by completing tasks</strong>: <a href="https://docs.tensorplex.ai/tensorplex-docs/tensorplex-dojo-subnet-testnet/guide-contributor" target="_blank" style="color: #2563eb; text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none;">Getting started</a>.</li>
+      <li style="margin-bottom: 10px"><strong>I&apos;m a Miner</strong>: <a href="https://docs.tensorplex.ai/tensorplex-docs/tensorplex-dojo-subnet-testnet/guide-miner" target="_blank" style="color: #2563eb; text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none;">Setup Guide</a>.</li>
+      <li><strong>I&apos;m a validator</strong>: <a href="https://docs.tensorplex.ai/tensorplex-docs/tensorplex-dojo-subnet-testnet/guide-validator" target="_blank" style="color: #2563eb; text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none;">Setup Guide</a>.</li>
       </ol>
       `,
     title: 'How do I get started?',
@@ -328,11 +263,18 @@ export const faqList = [
   },
 ];
 
+export const faqList = faqListBase.map((faq, idx) => {
+  return {
+    ...faq,
+    id: idx + 1,
+  };
+});
+
 export const categories = [
-  { label: 'All', isActive: true },
   { label: 'Code Generation', isActive: false, taskType: 'CODE_GENERATION' },
   { label: 'Text To Image', isActive: false, taskType: 'TEXT_TO_IMAGE' },
   { label: 'Dialogue', isActive: false, taskType: 'DIALOGUE' },
+  { label: '3D Model', isActive: false, taskType: 'TEXT_TO_THREE_D' },
 ];
 
 export const questionMultiSelectData = [

@@ -1,9 +1,9 @@
 import Slider from '@/components/QuestionPageComponents/Slider'; // Assuming Slider is a reusable component
-import { LinkContentVisualizerProps } from '@/types/QuestionPageTypes';
+import { MultiScoreContentVisualizerProps } from '@/types/QuestionPageTypes';
 import { FontSpaceMono } from '@/utils/typography';
 import React, { useCallback } from 'react';
 
-const LinkContentVisualizer: React.FC<LinkContentVisualizerProps> = ({
+const MultiScoreContentVisualizer: React.FC<MultiScoreContentVisualizerProps> = ({
   title,
   showTitle,
   url,
@@ -59,4 +59,4 @@ const LinkContentVisualizer: React.FC<LinkContentVisualizerProps> = ({
   );
 };
 
-export default LinkContentVisualizer;
+export default MultiScoreContentVisualizer;

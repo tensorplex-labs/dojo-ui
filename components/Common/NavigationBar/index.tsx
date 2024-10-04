@@ -2,6 +2,7 @@
 import { cn } from '@/utils/tw';
 import Link from 'next/link';
 import GetStartedButton from '../Button/GetStarted';
+import MobileNavbar from '../MobileNavbar/MobileNavbar';
 import { WalletButton } from '../Wallet/WalletButton';
 
 type NavigationBarProps = {
@@ -10,21 +11,23 @@ type NavigationBarProps = {
   className?: string;
 };
 
-const NavigationBar = ({ openModal, isHomePage, className }: NavigationBarProps) => {
-  const headerItems = [
-    { title: 'Task List', url: '/task-list?sort=numCriteria&order=desc' },
-    { title: 'FAQ', url: '/faq' },
-  ];
+export const headerItems = [
+  { title: 'Task List', url: '/task-list?sort=numCriteria&order=desc' },
+  { title: 'FAQ', url: '/faq' },
+  { title: 'Demo', url: '/task-list?exp=demo&?sort=numCriteria&order=desc' },
+  { title: 'Docs', url: 'https://docs.tensorplex.ai/tensorplex-docs' },
+];
 
+const NavigationBar = ({ openModal, isHomePage, className }: NavigationBarProps) => {
   return (
     <div className="flex items-center justify-center p-4">
       <nav
         className={cn(
-          'w-[1075px] h-[67.6px] bg-background border-[1px] border-black rounded-md flex px-[20px] py-[12px] items-center',
+          'w-[1075px] h-[67.6px] bg-background border-[2px] border-black rounded-md flex px-[20px] py-[12px] items-center',
           className
         )}
       >
-        <div className=" flex h-[45px] w-full justify-between ">
+        <div className=" flex h-[45px] w-full justify-between gap-[15px]">
           <div className="flex h-full items-center gap-[30px]">
             <div className="">
               <Link href="/">
@@ -47,14 +50,15 @@ const NavigationBar = ({ openModal, isHomePage, className }: NavigationBarProps)
           </div>
           <div className="flex items-center gap-3">
             {!isHomePage ? (
-              <>
+              <div className="flex gap-[10px]">
                 <div className="flex items-center justify-center gap-[8px]">
                   <WalletButton openModal={openModal}></WalletButton>
                 </div>
-              </>
+              </div>
             ) : (
               <GetStartedButton />
             )}
+            <MobileNavbar />
           </div>
         </div>
       </nav>

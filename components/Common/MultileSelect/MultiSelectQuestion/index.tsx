@@ -5,7 +5,7 @@ import React from 'react';
 
 const MultiSelectQuestion: React.FC<MultiSelectQuestionProps> = ({ questionDataPY, options, handleOrderChange }) => {
   return (
-    <div className="mx-auto my-4 flex max-w-[1200px] flex-col items-center justify-center">
+    <div className="mx-auto my-4 flex max-w-[1075px] flex-col items-center justify-center">
       <div className="mt-[42px] flex items-center justify-start self-start text-left">
         <h1 className={`text-2xl font-bold ${FontManrope.className} mr-[17px]`}>Rank Question</h1>
         <span

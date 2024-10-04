@@ -35,6 +35,7 @@ export type DropdownButtonProps = {
   imgSrc: string;
   onClick: () => void;
   count?: string;
+  className?: string;
 };
 
 export type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -71,16 +72,22 @@ export interface ModalContainerProps extends HTMLAttributes<HTMLDivElement> {
   bodyClassName?: string;
 }
 
-export interface MultiSelectProps {
+export interface MSProps {
   options: string[];
-  selectedValues: string[];
   onSelectionChange: (value: string) => void;
 }
+
+export type conditionalMSProps =
+  | { singleSelect: true; selectedValues: string }
+  | { singleSelect?: false | undefined; selectedValues: string[] };
+
+export type MultiSelectProps = MSProps & conditionalMSProps;
 
 export interface MultiSelectItemProps {
   option: string;
   isSelected: boolean;
   onSelectionChange: (value: string) => void;
+  singleSelect?: boolean;
 }
 
 export interface MultiSelectQuestionProps {

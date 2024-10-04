@@ -4,7 +4,7 @@ import { cva } from 'class-variance-authority';
 import React from 'react';
 
 const buttonVariants = cva(
-  'focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap border-2 border-black text-sm font-medium ring-offset-background transition-colors hover:cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none',
+  'focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap rounded-sm border-2 border-black text-sm font-medium ring-offset-background transition-colors hover:cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none',
   {
     variants: {
       variant: {
@@ -62,4 +62,4 @@ const CustomButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
 CustomButton.displayName = 'CustomButton';
 
-export { CustomButton, buttonVariants };
+export { buttonVariants, CustomButton };

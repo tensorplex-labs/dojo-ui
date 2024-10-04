@@ -34,20 +34,21 @@ const HeroCardSection = () => {
   return (
     <section id="first" className="flex h-auto w-full justify-center overflow-hidden px-4 md:px-5 lg:px-10">
       <div className="flex h-fit min-h-screen max-w-[1075px] flex-col gap-6 py-8 md:flex-row md:gap-10 lg:my-3 lg:gap-20">
-        <div className="mt-8 flex flex-1 flex-col justify-center p-0 md:mt-0">
+        <div className="mt-8 flex w-full flex-col justify-center p-0 md:mt-0 md:w-7/12">
           <h1
             className={cn(
-              `${FontSpaceMono.className} text-3xl font-bold uppercase text-black sm:text-4xl md:text-3xl lg:text-5xl xl:text-7xl`,
+              `${FontSpaceMono.className} text-3xl font-bold uppercase text-black sm:text-4xl md:text-4xl lg:text-5xl xl:text-7xl`,
               'extra-large-screensize-title'
             )}
           >
-            Get paid to shape the future of AI
+            Accelerate Decentralized AI, <span className="inline-block text-primary">get paid</span>.
           </h1>
           <p
             className={`${FontManrope.className}  mt-3 pr-2 text-base font-medium text-gray-500 md:text-lg lg:text-xl`}
           >
-            Earn TAO through responding to AI-generated tasks across various domains. Join the crowd-sourced effort to
-            build the world&apos;s most powerful multimodal AI models.
+            Complete diverse tasks to advance AI development. Contribute to powerful multimodal models through
+            crowd-sourced intelligence. Accelerate decentralized AI while earning rewards.
+            <span className="inline-block font-bold text-primary">&nbsp;Welcome to Dojo Network</span>.
           </p>
           <div className="mb-5 mt-4">
             <GetStartedButton />
@@ -99,7 +100,7 @@ const HeroCardSection = () => {
             </div>
           </div>
         </div>
-        <div className="relative mb-8 flex flex-1 items-center justify-center md:mb-0">
+        <div className="relative mb-8 flex w-full items-center justify-center md:mb-0 md:w-5/12">
           <div className="static left-4 flex w-full items-center self-center p-0 md:absolute md:w-[70vw] lg:w-[50vw] lg:min-w-[500px] lg:max-w-[900px]">
             <Image
               alt="Tensorplex Dojo user interface example"
