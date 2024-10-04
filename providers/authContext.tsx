@@ -15,9 +15,8 @@ interface AuthContextType {
   workerLogout: () => void;
   loading: boolean;
   error: string | null;
-  isSignedIn: boolean;
-  setIsSignedIn: (isSignedIn: boolean) => void;
   frontendJWTIsValid: (address: string, jwt?: string) => boolean;
+  localLogin: (jwt: string) => void;
 }
 
 // Set the default values and types for the context
@@ -27,9 +26,8 @@ const defaultContextValue: AuthContextType = {
   workerLogout: () => {},
   loading: false,
   error: null,
-  isSignedIn: false,
-  setIsSignedIn: () => {},
   frontendJWTIsValid: () => false,
+  localLogin: (jwt) => {},
 };
 
 const AuthContext = createContext<AuthContextType>(defaultContextValue);
@@ -37,7 +35,6 @@ const AuthContext = createContext<AuthContextType>(defaultContextValue);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { workerLoginAuth, loading, error } = useWorkerLoginAuth();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isSignedIn, setIsSignedIn] = useState(false);
   const { openModal: openInfoModal } = useModal(MODAL.informational);
   const { openModal } = useModal(MODAL.wallet);
   const { disconnect } = useDisconnect();
@@ -90,16 +87,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     disconnect();
   }, [tokenType, disconnect]);
 
-  //First render will always check presence of token and whether its valid or not.
-  useEffect(() => {
-    const token = getFromLocalStorage(tokenType);
-    // disconnect();
-    if (token && address) {
-      const authState = frontendJWTIsValid(address, token);
-      authState ? localLogin(token) : localLogout();
-    }
-  }, [address, localLogin, localLogout, frontendJWTIsValid, openInfoModal, openModal, isAuthenticated]);
-
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === 'wagmi.io.metamask.disconnected') {
@@ -124,9 +111,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         workerLogout: localLogout,
         loading,
         error,
-        isSignedIn,
-        setIsSignedIn,
         frontendJWTIsValid,
+        localLogin,
       }}
     >
       {children}
