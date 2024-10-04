@@ -23,13 +23,11 @@ const allowedNetwork: number[] = [1, 42161, 10, 8453];
 const ManageWalletConnectModal = ({ open, onSave, onClose, ...props }: Props) => {
   const { connectors, connectAsync } = useConnect();
   const { connector, address, status, isConnected } = useAccount();
-  const { setIsSignedIn } = useAuth();
-  const { signInWithEthereum } = useSIWE(() => console.log('post signin'));
+  const { signInWithEthereum } = useSIWE(() => {});
   const { isAuthenticated } = useAuth();
   const chainId = useChainId();
 
   const connectWalletHandler = async (connectorId: string) => {
-    console.log('clicked connect wallet handler');
     const connector = getConnectorById(connectors, connectorId);
     if (!connector) {
       console.error('Failed to find connector');

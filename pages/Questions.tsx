@@ -12,7 +12,7 @@ import { useCallback, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 const Questionsv2 = () => {
   const router = useRouter();
-  const { isAuthenticated, isSignedIn } = useAuth();
+  const { isAuthenticated } = useAuth();
   const { isConnected } = useAccount();
   const {
     getCriterionForResponse: criterionForResponse,

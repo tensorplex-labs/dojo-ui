@@ -35,9 +35,9 @@ const Footer = ({ task, className, ...props }: Props) => {
       }
       saveScrollPosition();
       const obj = tasklistFull[nextIdx];
-      let newQuestionUrl = `/Questionsv2?taskId=${obj.taskId}&exp=demo`;
+      let newQuestionUrl = `/Questions?taskId=${obj.taskId}&exp=demo`;
       if (obj.taskData.responses.length === 1) {
-        newQuestionUrl = `/Questionsv2?taskId=${obj.taskId}&exp=demo`;
+        newQuestionUrl = `/Questions?taskId=${obj.taskId}&exp=demo`;
       }
       router.push(newQuestionUrl).then(async () => {
         await wait(100);
@@ -59,7 +59,7 @@ const Footer = ({ task, className, ...props }: Props) => {
       router.push('/task-list');
       return;
     }
-    router.replace(`/Questionsv2?taskId=${nextTaskResponse.nextInProgressTaskId}`);
+    router.replace(`/Questions?taskId=${nextTaskResponse.nextInProgressTaskId}`);
   };
 
   const resetFeError = useCallback(() => {

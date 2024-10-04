@@ -6,7 +6,6 @@ import Web3Icon from '@/components/Common/Wallet/web3-icon';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import { useEtherScanOpen } from '@/hooks/useEtherScanOpen';
 import { useModal } from '@/hooks/useModal';
-import { useSIWE } from '@/hooks/useSIWE';
 import { useAuth } from '@/providers/authContext';
 import { MODAL } from '@/types/ProvidersTypes';
 import { getFromLocalStorage } from '@/utils/general_helpers';
@@ -42,18 +41,15 @@ const Layout: React.FC<LayoutProps> = ({ children, showFooter = true, isFullWidt
   };
 
   const { isConnected, address } = useAccount();
-  const { isAuthenticated, isSignedIn, frontendJWTIsValid, localLogin, workerLogout: localLogout } = useAuth();
-  const { signInWithEthereum } = useSIWE(() => console.log('post signin'));
+  const { isAuthenticated, frontendJWTIsValid, localLogin, workerLogout: localLogout } = useAuth();
   const handleCopy = useCopyToClipboard(address ?? '');
   const handleEtherscan = useEtherScanOpen(address ?? '', 'address');
   const { openModal: openInfoModal } = useModal(MODAL.informational);
 
   useEffect(() => {
-    console.log('layout ran.');
     const token = getFromLocalStorage(tokenType);
     // disconnect();
     if (token && address) {
-      console.log('Just arrived. have token and address:', token, address);
       const authState = frontendJWTIsValid(address, token);
       authState ? localLogin(token) : localLogout();
       !authState &&

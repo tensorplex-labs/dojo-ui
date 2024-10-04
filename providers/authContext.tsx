@@ -15,8 +15,6 @@ interface AuthContextType {
   workerLogout: () => void;
   loading: boolean;
   error: string | null;
-  isSignedIn: boolean;
-  setIsSignedIn: (isSignedIn: boolean) => void;
   frontendJWTIsValid: (address: string, jwt?: string) => boolean;
   localLogin: (jwt: string) => void;
 }
@@ -28,8 +26,6 @@ const defaultContextValue: AuthContextType = {
   workerLogout: () => {},
   loading: false,
   error: null,
-  isSignedIn: false,
-  setIsSignedIn: () => {},
   frontendJWTIsValid: () => false,
   localLogin: (jwt) => {},
 };
@@ -39,7 +35,6 @@ const AuthContext = createContext<AuthContextType>(defaultContextValue);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { workerLoginAuth, loading, error } = useWorkerLoginAuth();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isSignedIn, setIsSignedIn] = useState(false);
   const { openModal: openInfoModal } = useModal(MODAL.informational);
   const { openModal } = useModal(MODAL.wallet);
   const { disconnect } = useDisconnect();
@@ -116,8 +111,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         workerLogout: localLogout,
         loading,
         error,
-        isSignedIn,
-        setIsSignedIn,
         frontendJWTIsValid,
         localLogin,
       }}

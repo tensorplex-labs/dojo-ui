@@ -139,10 +139,10 @@ const Datatable = ({
   const onStartHandler = (id: string, type: string) => {
     if (exp) {
       const currTask = tasklistFull.find((t) => t.taskId === id);
-      if (currTask && currTask.taskData.responses.length == 1) router.push(`/Questionsv2?taskId=${id}&exp=demo`);
-      else router.push(`/Questionsv2?taskId=${id}&exp=demo`);
+      if (currTask && currTask.taskData.responses.length == 1) router.push(`/Questions?taskId=${id}&exp=demo`);
+      else router.push(`/Questions?taskId=${id}&exp=demo`);
     } else {
-      router.push(`/Questionsv2?taskId=${id}`);
+      router.push(`/Questions?taskId=${id}`);
     }
   };
 
