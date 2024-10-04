@@ -18,6 +18,7 @@ interface AuthContextType {
   isSignedIn: boolean;
   setIsSignedIn: (isSignedIn: boolean) => void;
   frontendJWTIsValid: (address: string, jwt?: string) => boolean;
+  localLogin: (jwt: string) => void;
 }
 
 // Set the default values and types for the context
@@ -30,6 +31,7 @@ const defaultContextValue: AuthContextType = {
   isSignedIn: false,
   setIsSignedIn: () => {},
   frontendJWTIsValid: () => false,
+  localLogin: (jwt) => {},
 };
 
 const AuthContext = createContext<AuthContextType>(defaultContextValue);
@@ -90,16 +92,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     disconnect();
   }, [tokenType, disconnect]);
 
-  //First render will always check presence of token and whether its valid or not.
-  useEffect(() => {
-    const token = getFromLocalStorage(tokenType);
-    // disconnect();
-    if (token && address) {
-      const authState = frontendJWTIsValid(address, token);
-      authState ? localLogin(token) : localLogout();
-    }
-  }, [address, localLogin, localLogout, frontendJWTIsValid, openInfoModal, openModal, isAuthenticated]);
-
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === 'wagmi.io.metamask.disconnected') {
@@ -127,6 +119,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isSignedIn,
         setIsSignedIn,
         frontendJWTIsValid,
+        localLogin,
       }}
     >
       {children}
