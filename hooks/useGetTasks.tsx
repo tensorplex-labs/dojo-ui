@@ -54,6 +54,10 @@ const useGetTasks = (
   const { exp } = useFeature({ kw: 'demo' });
   const { workerLogout } = useAuth();
 
+  //React Query is the best to handle race conditions, debouncing, caching, etc.
+  //Just include the dependencies, and dont have to call refetch anywhere unless
+  //u need to fetch from the server again. For somethings dont have to be fetched from the server always.
+  //There is one refetch in task-list that will do it once every 2 minutes. THat's enough.
   const {
     data,
     isLoading,
@@ -79,13 +83,10 @@ const useGetTasks = (
       try {
         if (!router.isReady) return null;
 
-        // setTasks([]);
         await wait(500);
-        console.log('queued task empty!');
         if (exp) {
           return await fetchDemoTasks();
         } else {
-          console.log('user went in: connected,authenticated', isConnected, isAuthenticated);
           if (!isAuthenticated || !isConnected) {
             return null;
           }
@@ -106,7 +107,6 @@ const useGetTasks = (
       totalItems: tasklistFull.length,
     });
     if (taskQuery.toLowerCase() === 'all') {
-      console.log('but went into exp!', tasklistFull);
       return tasklistFull;
     } else {
       const filteredTaskList: Task[] = [];
@@ -117,7 +117,6 @@ const useGetTasks = (
           }
         });
       });
-      console.log('but went into exp!', filteredTaskList);
       return filteredTaskList;
     }
   }, [taskQuery]);
@@ -141,10 +140,7 @@ const useGetTasks = (
       const data: TasksResponse = await response.json();
 
       if (response.ok) {
-        console.log('but went into non exp!', data.body);
         return data.body;
-        // setTasks(data.body.tasks);
-        // setPagination(data.body.pagination);
       } else {
         throw new Error(data.error || `HTTP error! status: ${response.status}`);
       }
@@ -155,43 +151,28 @@ const useGetTasks = (
 
   useEffect(() => {
     if (exp) {
-      console.log(
-        'useeffect1 is exp',
-        isAuthenticated,
-        isConnected,
-        address,
-        exp,
-        refetch,
-        router.isReady,
-        partnerCount
-      );
+      //There used to be things here but after react query is implemented, no more janky calls
     } else if (!isAuthenticated || !isConnected) {
       setTasks([]);
       setPagination(null);
       setError('No JWT token found');
       return;
     } else {
-      console.log(
-        'useeffect1 is not exp',
-        isAuthenticated,
-        isConnected,
-        address,
-        refetch,
-        router.isReady,
-        partnerCount
-      );
-      // refetch();
+      //There used to be things here but after react query is implemented, no more janky calls
     }
   }, [isAuthenticated, isConnected, address, exp, refetch, router.isReady, partnerCount]);
   useEffect(() => {
-    console.log('useeffect2', data, isLoading, queryError);
     if (isLoading || queryError || !data) {
       return;
     }
     if ('tasks' in data) {
+      //Whatever happens, as long as tasks is in data means its live data
       setTasks(data.tasks);
       setPagination(data.pagination);
     } else {
+      //and as long as tasks is not in data, means its exp, means we just assume is exp.
+      //we do not do additional checks here because we trust the react query to return correct things
+      //and react query does not let us down.
       setPagination({
         pageNumber: 1,
         pageSize: 50,
