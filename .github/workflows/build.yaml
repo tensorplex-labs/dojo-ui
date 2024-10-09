@@ -43,6 +43,8 @@ jobs:
             export NEXT_PUBLIC_BACKEND_URL=${{ vars.NEXT_PUBLIC_BACKEND_URL_DEV }}
           elif [[ "${{ github.ref }}" == "refs/heads/tensorplex-staging" ]]; then
             export NEXT_PUBLIC_BACKEND_URL=${{ vars.NEXT_PUBLIC_BACKEND_URL_STAGING }}
+          elif [[ "${{ github.ref }}" == "refs/heads/tensorplex-prod" ]]; then
+            export NEXT_PUBLIC_BACKEND_URL=${{ vars.NEXT_PUBLIC_BACKEND_URL_PROD }}
           fi
           npm run build
 
