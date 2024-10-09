@@ -1,8 +1,9 @@
 import { useAuth } from '@/providers/authContext';
 import { TaskPageContext } from '@/providers/taskPageContext';
 import { Task } from '@/types/QuestionPageTypes';
-import { getFromLocalStorage } from '@/utils/general_helpers';
+import { getFromLocalStorage, wait } from '@/utils/general_helpers';
 import { tasklistFull } from '@/utils/states';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useAccount } from 'wagmi';
@@ -45,7 +46,6 @@ const useGetTasks = (
 ) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [pagination, setPagination] = useState<Pagination | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const isFetchingRef = useRef<boolean>(false);
@@ -54,10 +54,47 @@ const useGetTasks = (
   const { exp } = useFeature({ kw: 'demo' });
   const { workerLogout } = useAuth();
 
+  const {
+    data,
+    isLoading,
+    error: queryError,
+    refetch,
+  } = useQuery({
+    queryKey: ['refetchTaskList', exp, partnerCount, isConnected, isAuthenticated],
+    refetchOnWindowFocus: false,
+    queryFn: async () => {
+      try {
+        if (!router.isReady) return null;
+
+        // setTasks([]);
+        await wait(500);
+        console.log('queued task empty!');
+        if (exp) {
+          return await fetchDemoTasks();
+        } else {
+          console.log('user went in: connected,authenticated', isConnected, isAuthenticated);
+          if (!isAuthenticated || !isConnected) {
+            return null;
+          }
+          return await fetchTasks();
+        }
+      } catch (err) {
+        console.error(err);
+        return null;
+      }
+    },
+  });
   const fetchDemoTasks = useCallback(async () => {
-    setTasks([]);
+    await wait(100);
+    setPagination({
+      pageNumber: 1,
+      pageSize: 50,
+      totalPages: Math.ceil(tasklistFull.length / 50),
+      totalItems: tasklistFull.length,
+    });
     if (taskQuery.toLowerCase() === 'all') {
-      setTasks(tasklistFull);
+      console.log('but went into exp!', tasklistFull);
+      return tasklistFull;
     } else {
       const filteredTaskList: Task[] = [];
       taskQuery.split(',').forEach((task) => {
@@ -67,40 +104,17 @@ const useGetTasks = (
           }
         });
       });
-      setTasks(filteredTaskList);
+      console.log('but went into exp!', filteredTaskList);
+      return filteredTaskList;
     }
-    setPagination({
-      pageNumber: 1,
-      pageSize: 50,
-      totalPages: Math.ceil(tasklistFull.length / 50),
-      totalItems: tasklistFull.length,
-    });
-  }, [setTasks, taskQuery]);
+  }, [taskQuery]);
 
   const fetchTasks = useCallback(async () => {
-    console.log('fetching task');
-    if (isFetchingRef.current) {
-      console.log('Fetch request already in progress, skipping new request');
-      return;
-    }
-    setTasks([]);
-
-    // if (!jwtToken || !isAuthenticated || !isConnected) {
-    //   localStorage.removeItem(`dojoui__jwtToken`);
-    //   setTasks([]);
-    //   setPagination(null);
-    //   setError('No JWT token found');
-    //   setLoading(false);
-    //   return;
-    // }
-
-    isFetchingRef.current = true;
     try {
       const yieldMinQuery = yieldMin ? `&yieldMin=${yieldMin}` : '';
       const yieldMaxQuery = yieldMax ? `&yieldMax=${yieldMax}` : '';
       const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/?page=${page}&limit=${limit}&task=${taskQuery}&sort=${sort}${yieldMinQuery}${yieldMaxQuery}&order=${order}`;
 
-      setLoading(true);
       const jwtToken = getFromLocalStorage(`dojoui__jwtToken`);
 
       const response = await fetch(endpoint, {
@@ -114,45 +128,68 @@ const useGetTasks = (
       const data: TasksResponse = await response.json();
 
       if (response.ok) {
-        setTasks(data.body.tasks);
-        setPagination(data.body.pagination);
+        console.log('but went into non exp!', data.body);
+        return data.body;
+        // setTasks(data.body.tasks);
+        // setPagination(data.body.pagination);
       } else {
         throw new Error(data.error || `HTTP error! status: ${response.status}`);
       }
     } catch (e: any) {
-      setError(e.message);
-    } finally {
-      setLoading(false);
-      isFetchingRef.current = false;
+      throw new Error(e);
     }
-  }, [page, limit, taskQuery, sort, order, yieldMin, yieldMax]);
+  }, [page, limit, taskQuery, sort, order, yieldMin, yieldMax, workerLogout]);
 
   useEffect(() => {
     if (exp) {
-      fetchDemoTasks();
-      setLoading(false);
+      console.log(
+        'useeffect1 is exp',
+        isAuthenticated,
+        isConnected,
+        address,
+        exp,
+        refetch,
+        router.isReady,
+        partnerCount
+      );
     } else if (!isAuthenticated || !isConnected) {
       setTasks([]);
       setPagination(null);
       setError('No JWT token found');
-      setLoading(false);
       return;
     } else {
-      fetchTasks();
+      console.log(
+        'useeffect1 is not exp',
+        isAuthenticated,
+        isConnected,
+        address,
+        refetch,
+        router.isReady,
+        partnerCount
+      );
+      // refetch();
     }
-  }, [isAuthenticated, isConnected, address, exp, fetchDemoTasks, fetchTasks]);
-
+  }, [isAuthenticated, isConnected, address, exp, refetch, router.isReady, partnerCount]);
   useEffect(() => {
-    if (!router.isReady) return;
-    if (exp) {
-      fetchDemoTasks();
-      setLoading(false);
+    console.log('useeffect2', data, isLoading, queryError);
+    if (isLoading || queryError || !data) {
       return;
     }
-    fetchTasks();
-  }, [exp, fetchTasks, router.isReady, partnerCount]);
+    if ('tasks' in data) {
+      setTasks(data.tasks);
+      setPagination(data.pagination);
+    } else {
+      setPagination({
+        pageNumber: 1,
+        pageSize: 50,
+        totalPages: Math.ceil(tasklistFull.length / 50),
+        totalItems: tasklistFull.length,
+      });
+      setTasks(data);
+    }
+  }, [data, isLoading, queryError]);
 
-  return { tasks, pagination, loading, error, refetchTasks: exp ? fetchDemoTasks : fetchTasks };
+  return { tasks, pagination, loading: isLoading, error, refetchTasks: refetch };
 };
 
 export default useGetTasks;
