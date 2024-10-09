@@ -1,4 +1,5 @@
 import { taskCriteria } from '@/constants';
+import { TaskType } from '@/utils/states';
 import { ColumnDef } from '@tanstack/react-table';
 import { ReactNode } from 'react';
 import { FilterDef } from '../CommonTypes';
@@ -13,6 +14,9 @@ export type ErrorModalProps = {
   open: boolean;
   onClose: () => void;
   errorMessage: string | null;
+  className?: string;
+  headerTitle?: string;
+  showButton?: boolean;
 };
 
 export interface HTMLContentVisualizerProps {
@@ -53,7 +57,7 @@ export type ImageComponentProps = {
   fallbackSrc: string;
 };
 
-export interface LinkContentVisualizerProps {
+export interface MultiScoreContentVisualizerProps {
   title: string;
   showTitle: boolean;
   url: string;
@@ -77,18 +81,7 @@ export type MultiSelectQuestionProps = {
 };
 
 export type ResponseVisualizerProps = {
-  task?: {
-    taskData: {
-      responses: {
-        id: React.Key | null | undefined;
-        model: string;
-        htmlContent: string;
-        title: string;
-        showTitle: boolean;
-        completion: { sandbox_url: string };
-      }[];
-    };
-  };
+  task: Task;
   minValSlider: number;
   maxValSlider: number;
   ratings: { [key: string]: number };
@@ -130,21 +123,52 @@ export type TaskCriteria = (typeof taskCriteria)[keyof typeof taskCriteria];
 
 export type Task = {
   taskId: string;
+  summary?: string;
   title: string;
   body: string;
   expireAt: string;
-  type: string;
+  type: TaskType;
   taskData: {
     task: string;
     prompt: string;
-    criteria: Array<{
-      type: string;
-      options?: string[];
-      max?: number;
-      min?: number;
-    }>;
-    responses: Array<any>;
+    criteria: Array<Criterion>;
+    responses: Array<TaskResponses>;
   };
   status: string;
   maxResults: number;
+  numResults: number;
+  numCriteria: number;
+  isCompletedByWorker: boolean;
+};
+
+export type CriterionType =
+  | 'multi-select'
+  | 'single-select'
+  | 'multi-score'
+  | 'score'
+  | 'ranking'
+  | 'rich-human-feedback';
+
+export type Criterion = {
+  type: CriterionType;
+  text?: string;
+  options?: string[];
+  max?: number;
+  min?: number;
+};
+
+export type CriterionWithResponses =
+  | (Criterion & {
+      type: 'multi-score';
+      responses?: Record<string, number>;
+    })
+  | (Criterion & { type: 'score'; responses?: number })
+  | (Criterion & { type: 'multi-select'; responses?: string[] })
+  | (Criterion & { type: 'single-select'; responses: string })
+  | (Criterion & { type: 'ranking'; responses: string })
+  | (Criterion & { type: 'rich-human-feedback'; responses: any });
+
+export type TaskResponses = {
+  model: string;
+  completion: Record<string, any>;
 };

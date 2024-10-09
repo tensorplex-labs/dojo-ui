@@ -1,71 +1,134 @@
-import { CellContext } from '@tanstack/react-table';
+import CreateTaskAnimation from '@/components/HomePageComponents/CreateTaskAnimation';
+import DistributeSubscriptionKeyAnimation from '@/components/HomePageComponents/DistributeSubscriptionKeyAnimation';
+import EarnStepAnimation from '@/components/HomePageComponents/EarnStepAnimation';
+import { StepCardProps } from '@/components/HomePageComponents/StepCard';
+import Image from 'next/image';
 
 interface HeaderItem {
   title: string;
   url: string;
 }
 
-export const stepsData = [
+export const steps: StepCardProps[] = [
   {
     stepNumber: 1,
-    title: 'Go to task list',
-    description:
-      '<a href="https://dojo.tensorplex.ai/task-list" target="_blank" style="text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none; font-weight: 700;" className="">dojo.tensorplex.ai/task-list</a>',
-    imageUrl: './step1.png',
-    backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
+    title: 'Creating an account',
+    description: 'Connect metamask wallet',
+    imageComponent: (
+      <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
+        <Image
+          src={'/wallet-step-v2.png'}
+          alt="Image of Tensorplex Dojo Wallet Connection user interface"
+          width={1520}
+          height={620}
+          className="rounded-tl-xl border-2 border-solid border-black shadow-brut-sm"
+        />
+      </div>
+    ),
   },
   {
     stepNumber: 2,
-    title: 'Creating an account',
-    description: 'Connect metamask wallet',
-    imageUrl: './step2.png',
-    backgroundGradient: 'linear-gradient(to bottom, #00B6A6, #005049)',
+    title: 'Input subscription keys',
+    description: 'Obtain subscription key from miners and save it',
+    imageComponent: (
+      <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
+        <Image
+          src={'/subscription_key_step.png'}
+          alt="Image of Tensorplex Dojo Wallet Connection user interface"
+          width={1520}
+          height={620}
+          className="rounded-tl-xl border-2 border-solid border-black shadow-brut-sm"
+        />
+      </div>
+    ),
   },
   {
     stepNumber: 3,
-    title: 'Input subscription keys',
-    description: 'Obtain subscription key from miners and save it',
-    imageUrl: './step3.png',
-    backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
+    title: 'Start contributing',
+    description: 'Start working on available tasks',
+    imageComponent: (
+      <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
+        <Image
+          src={'/contribute-task.png'}
+          alt="Image of Tensorplex Dojo Wallet Connection user interface"
+          width={1520}
+          height={620}
+        />
+      </div>
+    ),
   },
   {
     stepNumber: 4,
-    title: 'Start contributing',
-    description: 'Start working on available tasks',
-    imageUrl: './step4.png',
-    backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
-  },
-  {
-    stepNumber: 5,
     title: 'Get rewarded',
     description: 'Get paid for your contribution to open source AI',
-    imageUrl: './step5.png',
-    backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
+    imageComponent: <EarnStepAnimation />,
   },
 ];
-
-export const minerStepsData = [
+export const minerSteps = [
   {
     stepNumber: 1,
+    height: 150,
     title: 'Set up your miner',
     description:
-      'Visit <a href="https://github.com/tensorplex-labs/dojo-subnet" target="_blank" style="text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none; font-weight: 700;" className="">Dojo GitHub</a> to set up the Dojo Subnet Miner',
-    imageUrl: './minerStep1.png',
-    backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
+      'Visit <a href="https://github.com/tensorplex-labs/dojo" target="_blank" style="text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none; font-weight: 700;" className="">Dojo GitHub</a> to set up the Dojo Subnet Miner',
+    imageComponent: (
+      <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
+        <Image
+          src={'/miner-step-1.png'}
+          alt="Image of Tensorplex Dojo Wallet Connection user interface"
+          width={1520}
+          height={620}
+          className="rounded-tl-xl border-2 border-solid border-black shadow-brut-sm"
+        />
+      </div>
+    ),
   },
   {
     stepNumber: 2,
+    height: 150,
     title: 'Wallet authentication',
     description: 'After setting up your miner, authenticate using CLI',
-    imageUrl: './minerStep2.png',
-    backgroundGradient: 'linear-gradient(to bottom, #00B6A6, #005049)',
+    imageComponent: (
+      <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
+        <Image
+          src={'/miner-step-2.png'}
+          alt="Image of Tensorplex Dojo Wallet Connection user interface"
+          width={1520}
+          height={620}
+          className="rounded-tl-xl border-2 border-solid border-black shadow-brut-sm"
+        />
+      </div>
+    ),
   },
   {
     stepNumber: 3,
-    title: 'Generate API and Subscription keys',
+    height: 150,
+    title: 'Generate keys',
     description: 'Generate API and subscription keys using CLI',
-    imageUrl: './minerStep3.png',
-    backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
+    imageComponent: (
+      <div className=" relative -right-2  aspect-[2] overflow-hidden border-black pl-4">
+        <Image
+          src={'/miner-step-3.png'}
+          alt="Image of Tensorplex Dojo Wallet Connection user interface"
+          width={1520}
+          height={620}
+          className="rounded-tl-xl border-2 border-solid border-black shadow-brut-sm"
+        />
+      </div>
+    ),
+  },
+  {
+    stepNumber: 4,
+    title: 'Start the miner and create new tasks',
+    description:
+      'Start the miner through the instructions <a href="https://github.com/tensorplex-labs/dojo?tab=readme-ov-file#mining" target="_blank" style="text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none; font-weight: 700;" className="">here</a>',
+    imageComponent: <CreateTaskAnimation />,
+  },
+  {
+    stepNumber: 5,
+    title: 'Distribute subscription keys',
+    description: 'Issue out subscription keys to participants for contribution!',
+    imageComponent: <DistributeSubscriptionKeyAnimation />,
   },
 ];
 
@@ -143,143 +206,15 @@ export const frequentlyAccessedData: FrequentlyAccessedProps[] = [
     route: 'https://stream.tensorplex.ai',
   },
 ];
-// const categoryTypes = [
-//   { label: "Object Detection", isActive: false },
-//   { label: "Content Classification", isActive: false },
-//   { label: "Semantic Segmentation", isActive: false },
-//   { label: "Named Entity Recognition", isActive: false },
-//   { label: "Object & Event Detection", isActive: false },
-// ];
-// export const mockData = new Array(50).fill(null).map((_, index) => {
-//   // Generate a random number for the time remaining
-//   const randomNumber = Math.floor(Math.random() * 60); // Random number between 0 and 59
-//   let expiry;
 
-const steps = [
-  {
-    stepNumber: 1,
-    title: 'Go to task list',
-    description:
-      '<a href="https://dojo.tensorplex.ai/task-list" target="_blank" style="text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none; font-weight: 700;" className="">dojo.tensorplex.ai/task-list</a>',
-    imageUrl: './step1.png',
-    backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
-  },
-  {
-    stepNumber: 2,
-    title: 'Creating an account',
-    description: 'Connect metamask wallet',
-    imageUrl: './step2.png',
-    backgroundGradient: 'linear-gradient(to bottom, #00B6A6, #005049)',
-  },
-  {
-    stepNumber: 3,
-    title: 'Input subscription keys',
-    description: 'Obtain subscription key from miners and save it',
-    imageUrl: './step3.png',
-    backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
-  },
-  {
-    stepNumber: 4,
-    title: 'Start contributing',
-    description: 'Start working on available tasks',
-    imageUrl: './step4.png',
-    backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
-  },
-  {
-    stepNumber: 5,
-    title: 'Get rewarded',
-    description: 'Get paid for your contribution to open source AI',
-    imageUrl: './step5.png',
-    backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
-  },
-];
-
-const minerSteps = [
-  {
-    stepNumber: 1,
-    title: 'Set up your miner',
-    description:
-      'Visit <a href="https://github.com/tensorplex-labs/dojo-subnet" target="_blank" style="text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none; font-weight: 700;" className="">Dojo GitHub</a> to set up the Dojo Subnet Miner',
-    imageUrl: './minerStep1.png',
-    backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
-  },
-  {
-    stepNumber: 2,
-    title: 'Wallet authentication',
-    description: 'After setting up your miner, authenticate using CLI',
-    imageUrl: './minerStep2.png',
-    backgroundGradient: 'linear-gradient(to bottom, #00B6A6, #005049)',
-  },
-  {
-    stepNumber: 3,
-    title: 'Generate API and Subscription keys',
-    description: 'Generate API and subscription keys using CLI',
-    imageUrl: './minerStep3.png',
-    backgroundGradient: 'linear-gradient(to bottom, #DBE5E4, #7ADCD3)',
-  },
-];
-
-export const columnDef = [
-  {
-    accessorKey: 'title',
-    header: 'Name',
-  },
-  {
-    accessorKey: 'type',
-    header: 'Type',
-    cell: (info: CellContext<any, any>) => info.getValue().replace(/_/g, ' '),
-  },
-  // {
-  //   accessorKey: "yield",
-  //   header: "Yield",
-  // },
-  {
-    accessorKey: 'expireAt',
-    header: 'Expiry',
-    accessorFn: (row: any) => {
-      const expiryDate = new Date(row.expireAt);
-      const now = new Date();
-      const diffMs = expiryDate.getTime() - now.getTime();
-      const diffMins = Math.round(diffMs / 60000); // minutes
-      const diffHrs = Math.floor(diffMins / 60); // hours
-      const diffDays = Math.floor(diffHrs / 24); // days
-      let formattedExpiry;
-      if (diffDays >= 1) {
-        formattedExpiry = `${diffDays}d`;
-      } else if (diffHrs >= 1) {
-        formattedExpiry = `${diffHrs}h`;
-      } else {
-        formattedExpiry = `${diffMins}m`;
-      }
-      return formattedExpiry;
-    },
-  },
-  {
-    accessorKey: 'slotsFilled',
-    header: 'Slots Filled',
-    accessorFn: (row: any) => `${row.numResults}/${row.maxResults}`,
-  },
-  {
-    accessorKey: 'operations',
-    header: 'Operations',
-    cell: ({}) => 'Start', // Render JSX for the button
-  },
-];
-
-export const faqList = [
-  {
-    id: '0',
-    content:
-      'To begin, you’ll need to set up a Bittensor Miner, ideally hosted on a server, to generate an API key. A small amount of TAO is required to enter the Dojo Subnet. Currently, this process requires some technical skills, but we are working towards simplifying it in the future.',
-    title: 'What are the requirements for getting started?',
-  },
+const faqListBase = [
   {
     id: '1',
     content: `
     <ol style="list-style-type: decimal" class="pl-5">
-      <li style="margin-bottom: 10px"><strong>Set Up Your Miner</strong>: Visit <a href="https://github.com/tensorplex-labs/dojo" target="_blank" style="color: #2563eb; text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none;">Dojo GitHub</a> to set up the Dojo Subnet Miner.</li>
-      <li style="margin-bottom: 10px"><strong>Generate and Use Your API Key</strong>: After setting up your miner, generate an API key. Then, visit <a href="http://dojo-testnet.tensorplex.ai/" target="_blank" style="color: #2563eb; text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none;">dojo-testnet.tensorplex.ai</a> and enter your API key to start working.</li>
-      <li><strong>Start Working</strong>: Once logged in, you can start completing tasks and earning rewards immediately.</li>
+    <li style="margin-bottom: 10px"><strong>I want to get rewarded by completing tasks</strong>: <a href="https://docs.tensorplex.ai/tensorplex-docs/tensorplex-dojo-subnet-testnet/guide-contributor" target="_blank" style="color: #2563eb; text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none;">Getting started</a>.</li>
+      <li style="margin-bottom: 10px"><strong>I&apos;m a Miner</strong>: <a href="https://docs.tensorplex.ai/tensorplex-docs/tensorplex-dojo-subnet-testnet/guide-miner" target="_blank" style="color: #2563eb; text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none;">Setup Guide</a>.</li>
+      <li><strong>I&apos;m a validator</strong>: <a href="https://docs.tensorplex.ai/tensorplex-docs/tensorplex-dojo-subnet-testnet/guide-validator" target="_blank" style="color: #2563eb; text-decoration: underline; hover:color: #1e40af; hover:text-decoration: none;">Setup Guide</a>.</li>
       </ol>
       `,
     title: 'How do I get started?',
@@ -328,11 +263,18 @@ export const faqList = [
   },
 ];
 
+export const faqList = faqListBase.map((faq, idx) => {
+  return {
+    ...faq,
+    id: idx + 1,
+  };
+});
+
 export const categories = [
-  { label: 'All', isActive: true },
   { label: 'Code Generation', isActive: false, taskType: 'CODE_GENERATION' },
   { label: 'Text To Image', isActive: false, taskType: 'TEXT_TO_IMAGE' },
   { label: 'Dialogue', isActive: false, taskType: 'DIALOGUE' },
+  { label: '3D Model', isActive: false, taskType: 'TEXT_TO_THREE_D' },
 ];
 
 export const questionMultiSelectData = [

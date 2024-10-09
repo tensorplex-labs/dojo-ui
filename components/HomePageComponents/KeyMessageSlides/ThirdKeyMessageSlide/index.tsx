@@ -1,4 +1,4 @@
-import { KEY_MESSAGE_SCROLL_HEIGHT } from '@/pages';
+import { KEY_MESSAGE_SCROLL_HEIGHT } from '@/constants';
 import { FontSpaceMono } from '@/utils/typography';
 import { useWindowSize } from '@uidotdev/usehooks';
 import { easeOut, motion, useMotionValueEvent, useScroll } from 'framer-motion';

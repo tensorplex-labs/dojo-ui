@@ -1,4 +1,6 @@
+import useFeature from '@/hooks/useFeature';
 import { taskStatus } from '@/hooks/useGetTasks';
+import { tasklistFull } from '@/utils/states';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import {
   ColumnDef,
@@ -87,7 +89,7 @@ const Datatable = ({
   const [globalFilter, setGlobalFilter] = useState('');
   const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
   const tableContainerRef = useRef<HTMLDivElement>(null);
-
+  const initialPageSize = pageSize;
   // Table instance
   const table = useReactTable({
     data,
@@ -96,18 +98,16 @@ const Datatable = ({
       globalFilter,
       columnFilters,
       columnVisibility,
+      pagination: {
+        pageSize: initialPageSize,
+        pageIndex: 0,
+      },
     },
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    initialState: {
-      pagination: {
-        pageSize: pageSize,
-        // pageIndex: 0,
-      },
-    },
   });
   // Assuming you have a maximum number of pagination buttons you want to show
   const maxPageButtons = 5;
@@ -133,16 +133,19 @@ const Datatable = ({
   // Generate the page numbers to display
   const pageNumbers = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
 
-  const [taskId, setTaskId] = useState<string>('');
   const router = useRouter(); // Initialize useRouter
-
-  const onStartHandler = (id: string) => {
-    setTaskId(id);
-    router.push(`/Questions?taskId=${id}`);
+  const { exp } = useFeature({ kw: 'demo' });
+  const onStartHandler = (id: string, type: string) => {
+    if (exp) {
+      const currTask = tasklistFull.find((t) => t.taskId === id);
+      if (currTask && currTask.taskData.responses.length == 1) router.push(`/Questions?taskId=${id}&exp=demo`);
+      else router.push(`/Questions?taskId=${id}&exp=demo`);
+    } else {
+      router.push(`/Questions?taskId=${id}`);
+    }
   };
 
   const tableRows = table.getRowModel().rows;
-
   // Render the UI for your table
   return (
     <div {...props} ref={tableContainerRef} className="flex flex-col gap-4">
@@ -285,7 +288,7 @@ const Datatable = ({
                           disabled={generateBtnState(row).disabled}
                           buttonText={generateBtnState(row).text}
                           className={`h-[40px] w-[113px] text-white disabled:cursor-not-allowed disabled:bg-gray-400`}
-                          onClick={() => onStartHandler(row.original.taskId)}
+                          onClick={() => onStartHandler(row.original.taskId, row.original.type)}
                         />
                       </td>
                     ) : null

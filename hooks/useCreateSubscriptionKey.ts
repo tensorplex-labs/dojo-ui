@@ -1,5 +1,6 @@
+import { getFromLocalStorage } from '@/utils/general_helpers';
+import { tokenType } from '@/utils/states';
 import { useState } from 'react';
-import { useJwtToken } from './useJwtToken';
 
 interface CreateSubscriptionKeyResponse {
   success: boolean;
@@ -16,13 +17,15 @@ export const useCreateSubscriptionKey = () => {
   const [response, setResponse] = useState<CreateSubscriptionKeyResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const jwtToken = useJwtToken(); // Ensure you have the JWT token available
+  const jwtToken = getFromLocalStorage(tokenType);
 
-  const createSubscriptionKey = async (data: SubscriptionKeyData) => {
+  const createSubscriptionKey = async (data: SubscriptionKeyData): Promise<CreateSubscriptionKeyResponse | null> => {
     setIsLoading(true);
+    setResponse(null); // Clear the response cache
+    setError(null); // Clear any previous errors
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/worker/partner`, {
+      const getData = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/worker/partner`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -31,14 +34,16 @@ export const useCreateSubscriptionKey = () => {
         body: JSON.stringify(data),
       });
 
-      const result = await response.json();
-      if (!response.ok) {
+      const result = await getData.json();
+      if (!getData.ok) {
         throw new Error(result.error || 'Failed to create subscription key');
       }
-      setError('');
       setResponse(result);
+      console.log('response', result);
+      return result;
     } catch (error: any) {
       setError(error.message);
+      return null;
     } finally {
       setIsLoading(false);
     }

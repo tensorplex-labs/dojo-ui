@@ -2,10 +2,10 @@ import TPLXFooterDiscordLogo from '@/components/Common/Footer/footer_logo/tplx-f
 import TPLXFooterGitbookLogo from '@/components/Common/Footer/footer_logo/tplx-footer-gitbook-logo';
 import TPLXFooterTelegramLogo from '@/components/Common/Footer/footer_logo/tplx-footer-telegram-logo';
 import TPLXFooterXLogo from '@/components/Common/Footer/footer_logo/tplx-footer-x-logo';
-import { headerItems } from '@/data';
 import { cn } from '@/utils/tw';
 import Link from 'next/link';
 import React, { HTMLAttributes } from 'react';
+import { headerItems } from '../NavigationBar';
 
 type FooterLink = {
   url: string;

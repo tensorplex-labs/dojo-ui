@@ -1,7 +1,12 @@
-import { useSubmit } from '@/providers/submitContext';
+import { useAuth } from '@/providers/authContext';
+import { TaskPageContext } from '@/providers/taskPageContext';
+import { Task } from '@/types/QuestionPageTypes';
 import { getFromLocalStorage } from '@/utils/general_helpers';
+import { tasklistFull } from '@/utils/states';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useAccount } from 'wagmi';
+import useFeature from './useFeature';
 
 export const taskStatus = {
   IN_PROGRESS: 'IN_PROGRESS',
@@ -10,20 +15,6 @@ export const taskStatus = {
 } as const;
 
 export type TaskStatus = (typeof taskStatus)[keyof typeof taskStatus];
-
-export interface Task {
-  taskId: string;
-  title: string;
-  body: string;
-  expireAt: string;
-  type: string;
-  taskData: any[];
-  status: TaskStatus;
-  numResults: number;
-  maxResults: number;
-  numCriteria: number;
-  isCompletedByWorker: boolean;
-}
 
 export interface Pagination {
   pageNumber: number;
@@ -47,6 +38,8 @@ const useGetTasks = (
   taskQuery: string,
   sort: string,
   order: string,
+  isAuthenticated: boolean,
+  isConnected: boolean,
   yieldMin?: number,
   yieldMax?: number
 ) => {
@@ -54,40 +47,70 @@ const useGetTasks = (
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const jwtToken = getFromLocalStorage(`${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`);
-  const { triggerTaskPageReload } = useSubmit();
   const router = useRouter();
   const isFetchingRef = useRef<boolean>(false);
+  const { address } = useAccount();
+  const { partnerCount } = useContext(TaskPageContext);
+  const { exp } = useFeature({ kw: 'demo' });
+  const { workerLogout } = useAuth();
+
+  const fetchDemoTasks = useCallback(async () => {
+    setTasks([]);
+    if (taskQuery.toLowerCase() === 'all') {
+      setTasks(tasklistFull);
+    } else {
+      const filteredTaskList: Task[] = [];
+      taskQuery.split(',').forEach((task) => {
+        tasklistFull.filter((t) => {
+          if (t.type.toLowerCase() === task.toLowerCase()) {
+            filteredTaskList.push(t);
+          }
+        });
+      });
+      setTasks(filteredTaskList);
+    }
+    setPagination({
+      pageNumber: 1,
+      pageSize: 20,
+      totalPages: Math.ceil(tasklistFull.length / 20),
+      totalItems: tasklistFull.length,
+    });
+  }, [setTasks, taskQuery]);
 
   const fetchTasks = useCallback(async () => {
+    console.log('fetching task');
     if (isFetchingRef.current) {
       console.log('Fetch request already in progress, skipping new request');
       return;
     }
+    setTasks([]);
 
-    if (!jwtToken) {
-      setTasks([]);
-      setPagination(null);
-      setError('No JWT token found');
-      setLoading(false);
-      return;
-    }
+    // if (!jwtToken || !isAuthenticated || !isConnected) {
+    //   localStorage.removeItem(`dojoui__jwtToken`);
+    //   setTasks([]);
+    //   setPagination(null);
+    //   setError('No JWT token found');
+    //   setLoading(false);
+    //   return;
+    // }
 
     isFetchingRef.current = true;
     try {
-      console.log('fetchTasks called', page, limit, taskQuery, sort, yieldMin, yieldMax);
-
       const yieldMinQuery = yieldMin ? `&yieldMin=${yieldMin}` : '';
       const yieldMaxQuery = yieldMax ? `&yieldMax=${yieldMax}` : '';
       const endpoint = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/tasks/?page=${page}&limit=${limit}&task=${taskQuery}&sort=${sort}${yieldMinQuery}${yieldMaxQuery}&order=${order}`;
 
       setLoading(true);
+      const jwtToken = getFromLocalStorage(`dojoui__jwtToken`);
 
       const response = await fetch(endpoint, {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
       });
+      if (response.status === 401) {
+        workerLogout();
+      }
       const data: TasksResponse = await response.json();
 
       if (response.ok) {
@@ -102,22 +125,34 @@ const useGetTasks = (
       setLoading(false);
       isFetchingRef.current = false;
     }
-  }, [page, limit, taskQuery, sort, order, yieldMin, yieldMax, jwtToken]);
+  }, [page, limit, taskQuery, sort, order, yieldMin, yieldMax]);
 
   useEffect(() => {
-    console.log('useEffect inside useGetTasks', router);
-    if (!router.isReady) return;
-    if (jwtToken) {
-      fetchTasks();
-    } else {
+    if (exp) {
+      fetchDemoTasks();
+      setLoading(false);
+    } else if (!isAuthenticated || !isConnected) {
       setTasks([]);
       setPagination(null);
       setError('No JWT token found');
       setLoading(false);
+      return;
+    } else {
+      fetchTasks();
     }
-  }, [fetchTasks, jwtToken, router.isReady]);
+  }, [isAuthenticated, isConnected, address, exp, fetchDemoTasks, fetchTasks]);
 
-  return { tasks, pagination, loading, error, refetchTasks: fetchTasks };
+  useEffect(() => {
+    if (!router.isReady) return;
+    if (exp) {
+      fetchDemoTasks();
+      setLoading(false);
+      return;
+    }
+    fetchTasks();
+  }, [exp, fetchTasks, router.isReady, partnerCount]);
+
+  return { tasks, pagination, loading, error, refetchTasks: exp ? fetchDemoTasks : fetchTasks };
 };
 
 export default useGetTasks;

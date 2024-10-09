@@ -17,7 +17,6 @@ const Accordion = ({ className, title, children, ...props }: Props) => {
 
   const updateHeaderHeight = (node: HTMLDivElement) => {
     if (node == null) return;
-    console.log('header height', node.getBoundingClientRect().height);
     setHeaderHeight(node.getBoundingClientRect().height);
   };
 
@@ -32,18 +31,21 @@ const Accordion = ({ className, title, children, ...props }: Props) => {
       }}
       className={cn(
         FontManrope.className,
-        'relative overflow-hidden transition-all duration-300 py-[8px] px-[16px]',
+        'select-none relative overflow-hidden transition-all w-full duration-300 py-[8px] px-[16px]',
         className
       )}
     >
-      <div ref={updateHeaderHeight} className={cn('flex justify-between items-center font-bold text-sm md:text-lg')}>
+      <div
+        onClick={(e) => setIsOpen((prev) => !prev)}
+        ref={updateHeaderHeight}
+        className={cn('hover:cursor-pointer flex justify-between items-center font-bold text-sm md:text-lg')}
+      >
         <h1 className="truncate">{title}</h1>
         <button
           className={cn(
             isOpen ? 'scale-y-[1]' : 'scale-y-[-1]',
             'duration-300 transition-all bg-primary border-[2px] border-font-primary'
           )}
-          onClick={(e) => setIsOpen((prev) => !prev)}
         >
           <IconChevronUp color={'white'}></IconChevronUp>
         </button>
