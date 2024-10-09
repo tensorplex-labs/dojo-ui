@@ -60,7 +60,20 @@ const useGetTasks = (
     error: queryError,
     refetch,
   } = useQuery({
-    queryKey: ['refetchTaskList', exp, partnerCount, isConnected, isAuthenticated],
+    queryKey: [
+      'refetchTaskList',
+      exp,
+      partnerCount,
+      isConnected,
+      isAuthenticated,
+      taskQuery,
+      yieldMin,
+      yieldMax,
+      page,
+      limit,
+      sort,
+      order,
+    ],
     refetchOnWindowFocus: false,
     queryFn: async () => {
       try {
@@ -189,7 +202,7 @@ const useGetTasks = (
     }
   }, [data, isLoading, queryError]);
 
-  return { tasks, pagination, loading: isLoading, error, refetchTasks: refetch };
+  return { tasks, pagination, loading: isLoading, queryError: queryError || error, refetchTasks: refetch };
 };
 
 export default useGetTasks;
