@@ -109,7 +109,6 @@ const Datatable = ({
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
   });
-
   // Assuming you have a maximum number of pagination buttons you want to show
   const maxPageButtons = 5;
 
