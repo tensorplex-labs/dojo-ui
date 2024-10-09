@@ -439,9 +439,11 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
         <VisualizerContentBox className="flex flex-col items-stretch gap-[10px]">
           <>
             <div className="w-full">Response:</div>
-            <span className="mt-[-10px] text-xs text-font-primary/60 md:hidden">
-              Click anywhere to annotate flaws or inaccuracies.
-            </span>
+            {task.taskData.criteria[0].type === 'rich-human-feedback' && (
+              <span className="mt-[-10px] text-xs text-font-primary/60 md:hidden">
+                Click anywhere to annotate flaws or inaccuracies.
+              </span>
+            )}
             <BrutCard className={cn('relative p-0 flex aspect-auto w-full rounded-sm', props.visualizerClassName)}>
               {renderVisualizer(task)}
             </BrutCard>
