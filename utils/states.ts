@@ -6,7 +6,6 @@ export const tokenType = `dojoui__jwtToken`;
 export const TASKTYPE_COLOR_MAP: Record<string, string> = {
   CODE_GENERATION: 'bg-red-300',
   TEXT_TO_IMAGE: 'bg-amber-400',
-  '3D_MODEL': 'bg-purple-400',
   TEXT_TO_THREE_D: 'bg-purple-400',
 };
 
@@ -305,9 +304,9 @@ export const task3d: Task[] = [
     title: 'SN17 - 3D Model',
     body: 'Crisp Lettuce in a bowl.',
     expireAt: '2099-12-03T15:04:00Z',
-    type: '3D_MODEL',
+    type: 'TEXT_TO_THREE_D',
     taskData: {
-      task: '3D_MODEL',
+      task: 'TEXT_TO_THREE_D',
       prompt: 'Crisp Lettuce in a bowl.',
       criteria: [
         {
@@ -357,9 +356,9 @@ export const task3d: Task[] = [
     title: 'SN17 - 3D Model',
     body: 'Delicate Ivory dove in flight',
     expireAt: '2099-12-03T15:04:00Z',
-    type: '3D_MODEL',
+    type: 'TEXT_TO_THREE_D',
     taskData: {
-      task: '3D_MODEL',
+      task: 'TEXT_TO_THREE_D',
       prompt: 'Delicate Ivory dove in flight',
       criteria: [
         {
@@ -414,9 +413,9 @@ export const task3d: Task[] = [
     title: 'SN17 - 3D Model',
     body: 'Zebra with Stripes running through plains.',
     expireAt: '2099-12-03T15:04:00Z',
-    type: '3D_MODEL',
+    type: 'TEXT_TO_THREE_D',
     taskData: {
-      task: '3D_MODEL',
+      task: 'TEXT_TO_THREE_D',
       prompt: 'Zebra with Stripes running through plains.',
       criteria: [
         {
@@ -471,9 +470,9 @@ export const task3d: Task[] = [
     title: 'SN17 - 3D Model',
     body: 'Black and yellow gaming chair',
     expireAt: '2099-12-03T15:04:00Z',
-    type: '3D_MODEL',
+    type: 'TEXT_TO_THREE_D',
     taskData: {
-      task: '3D_MODEL',
+      task: 'TEXT_TO_THREE_D',
       prompt: 'Black and yellow gaming chair',
       criteria: [
         {

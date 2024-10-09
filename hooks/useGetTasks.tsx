@@ -71,8 +71,8 @@ const useGetTasks = (
     }
     setPagination({
       pageNumber: 1,
-      pageSize: 20,
-      totalPages: Math.ceil(tasklistFull.length / 20),
+      pageSize: 50,
+      totalPages: Math.ceil(tasklistFull.length / 50),
       totalItems: tasklistFull.length,
     });
   }, [setTasks, taskQuery]);
