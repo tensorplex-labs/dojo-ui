@@ -2,6 +2,7 @@ import { Task } from '@/types/QuestionPageTypes';
 
 export type TaskType = 'CODE_GENERATION' | '3D_MODEL' | 'TEXT_TO_IMAGE' | 'TEXT_TO_THREE_D';
 export const tokenType = `dojoui__jwtToken`;
+export const csp_source_whitelist = ['https://cdnjs.cloudflare.com', 'https://cdn.jsdelivr.net', 'https://unpkg.com'];
 
 export const TASKTYPE_COLOR_MAP: Record<string, string> = {
   CODE_GENERATION: 'bg-red-300',
