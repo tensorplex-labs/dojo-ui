@@ -68,7 +68,7 @@ export const taskTTI: Task[] = [
         {
           model: 'stabilityai/stable-diffusion-xl-base-1.0',
           completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/robot_angel_6arm.png',
+            url: 'https://dojo-files.tensorplex.ai/demo/robot_angel_6arm.png',
             filename: 'green_dog1.png',
           },
         },
@@ -117,14 +117,14 @@ export const taskTTI: Task[] = [
 //         {
 //           model: 'stabilityai/stable-diffusion-xl-base-1.0',
 //           completion: {
-//             url: 'https://dojo-files-dev.tensorplex.dev/demo/bottleCapHalfOpened1.png',
+//             url: 'https://dojo-files.tensorplex.ai/demo/bottleCapHalfOpened1.png',
 //             filename: 'bottleCapHalfOpened1.png',
 //           },
 //         },
 //         {
 //           model: 'runwayml/stable-diffusion-v1-5',
 //           completion: {
-//             url: 'https://dojo-files-dev.tensorplex.dev/demo/bottleCapHalfOpened2.png',
+//             url: 'https://dojo-files.tensorplex.ai/demo/bottleCapHalfOpened2.png',
 //             filename: 'green_dog1.bottleCapHalfOpened2',
 //           },
 //         },
@@ -170,14 +170,14 @@ export const taskTTI: Task[] = [
 //         {
 //           model: 'stabilityai/stable-diffusion-xl-base-1.0',
 //           completion: {
-//             url: 'dojo-files-dev.tensorplex.dev/green_dog1_1725473319573771791.png',
+//             url: 'dojo-files.tensorplex.ai/green_dog1_1725473319573771791.png',
 //             filename: 'green_dog1.png',
 //           },
 //         },
 //         {
 //           model: 'runwayml/stable-diffusion-v1-5',
 //           completion: {
-//             url: 'dojo-files-dev.tensorplex.dev/green_dog2_1725473319722089490.png',
+//             url: 'dojo-files.tensorplex.ai/green_dog2_1725473319722089490.png',
 //             filename: 'green_dog1.png',
 //           },
 //         },
@@ -223,14 +223,14 @@ export const taskTTI: Task[] = [
 //         {
 //           model: 'stabilityai/stable-diffusion-xl-base-1.0',
 //           completion: {
-//             url: 'https://dojo-files-dev.tensorplex.dev/demo/officeFullWindowCityline2.png',
+//             url: 'https://dojo-files.tensorplex.ai/demo/officeFullWindowCityline2.png',
 //             filename: 'officeFullWindowCityline2.png',
 //           },
 //         },
 //         {
 //           model: 'runwayml/stable-diffusion-v1-5',
 //           completion: {
-//             url: 'https://dojo-files-dev.tensorplex.dev/demo/officeFullWindowCityline1.png',
+//             url: 'https://dojo-files.tensorplex.ai/demo/officeFullWindowCityline1.png',
 //             filename: 'officeFullWindowCityline1.png',
 //           },
 //         },
@@ -276,14 +276,14 @@ export const taskTTI: Task[] = [
 //         {
 //           model: 'stabilityai/stable-diffusion-xl-base-1.0',
 //           completion: {
-//             url: 'https://dojo-files-dev.tensorplex.dev/demo/NYSEWithEmotionsAndRedGreenCharts1.png',
+//             url: 'https://dojo-files.tensorplex.ai/demo/NYSEWithEmotionsAndRedGreenCharts1.png',
 //             filename: 'NYSEWithEmotionsAndRedGreenCharts1.png',
 //           },
 //         },
 //         {
 //           model: 'runwayml/stable-diffusion-v1-5',
 //           completion: {
-//             url: 'https://dojo-files-dev.tensorplex.dev/demo/NYSEWithEmotionsAndRedGreenCharts2.png',
+//             url: 'https://dojo-files.tensorplex.ai/demo/NYSEWithEmotionsAndRedGreenCharts2.png',
 //             filename: 'NYSEWithEmotionsAndRedGreenCharts2.png',
 //           },
 //         },
@@ -328,19 +328,19 @@ export const task3d: Task[] = [
         {
           model: 'runwayml/stable-diffusion-v1-5',
           completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/crisp_lettuce_in_bowl.5DCq8TQ4JQh2r5TGoMx18qzgFQadvqHdwmP8EWiTM1eb3VKk.ply',
+            url: 'https://dojo-files.tensorplex.ai/demo/crisp_lettuce_in_bowl.5DCq8TQ4JQh2r5TGoMx18qzgFQadvqHdwmP8EWiTM1eb3VKk.ply',
           },
         },
         {
           model: 'yourm/stable-diffusion-v0-2',
           completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/crisp_lettuce_in_bowl.5EfRE6UGyeJYd8cTPJnZVBc4GwjMpGfik3U4cNBnp6Skjd2T.ply',
+            url: 'https://dojo-files.tensorplex.ai/demo/crisp_lettuce_in_bowl.5EfRE6UGyeJYd8cTPJnZVBc4GwjMpGfik3U4cNBnp6Skjd2T.ply',
           },
         },
         {
           model: 'dllm/sd-extra-0.3',
           completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/crisp_lettuce_in_bowl.5CStaWfMH2E7oVGgGZsC2pDqgGjRjgy3Mjtq8eUrEL5Wwhg1.ply',
+            url: 'https://dojo-files.tensorplex.ai/demo/crisp_lettuce_in_bowl.5CStaWfMH2E7oVGgGZsC2pDqgGjRjgy3Mjtq8eUrEL5Wwhg1.ply',
           },
         },
       ],
@@ -379,25 +379,25 @@ export const task3d: Task[] = [
         {
           model: 'stabilityai/stable-diffusion-xl-base-1.0',
           completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/delicate_ivory_dove_in_flight_pose.5CAiiURk1jVeLmMNTFyHEhxzR3SU3UnJyZZHnUMMN35aJqGn.ply',
+            url: 'https://dojo-files.tensorplex.ai/demo/delicate_ivory_dove_in_flight_pose.5CAiiURk1jVeLmMNTFyHEhxzR3SU3UnJyZZHnUMMN35aJqGn.ply',
           },
         },
         {
           model: 'runwayml/stable-diffusion-v1-5',
           completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/delicate_ivory_dove_in_flight_pose.5EUprUJg7c2FbL2QRoJQBH2yDGqJtWSuDEjiCgYzcUfEkHkH.ply',
+            url: 'https://dojo-files.tensorplex.ai/demo/delicate_ivory_dove_in_flight_pose.5EUprUJg7c2FbL2QRoJQBH2yDGqJtWSuDEjiCgYzcUfEkHkH.ply',
           },
         },
         {
           model: 'yourm/stable-diffusion-v0-2',
           completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/delicate_ivory_dove_in_flight_pose.5FjreG2tJURByXbFUhQ1R9o3TdXgqKFgjGmVaYwFrVpzmEWH.ply',
+            url: 'https://dojo-files.tensorplex.ai/demo/delicate_ivory_dove_in_flight_pose.5FjreG2tJURByXbFUhQ1R9o3TdXgqKFgjGmVaYwFrVpzmEWH.ply',
           },
         },
         {
           model: 'dllm/sd-extra-0.3',
           completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/delicate_ivory_dove_in_flight_pose.5H3WL3VFN3kG6aWugfSgZThkwgpnKWuQrpNFp8VMwRVtV6CM.ply',
+            url: 'https://dojo-files.tensorplex.ai/demo/delicate_ivory_dove_in_flight_pose.5H3WL3VFN3kG6aWugfSgZThkwgpnKWuQrpNFp8VMwRVtV6CM.ply',
           },
         },
       ],
@@ -436,25 +436,25 @@ export const task3d: Task[] = [
         {
           model: 'stabilityai/stable-diffusion-xl-base-1.0',
           completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/zebra_with_stripes_running_through_plains.5DCbyAdY3wst6JHbJmpwNSegeKDpQrvciedLFcDap9ieRDav.ply',
+            url: 'https://dojo-files.tensorplex.ai/demo/zebra_with_stripes_running_through_plains.5DCbyAdY3wst6JHbJmpwNSegeKDpQrvciedLFcDap9ieRDav.ply',
           },
         },
         {
           model: 'runwayml/stable-diffusion-v1-5',
           completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/zebra_with_stripes_running_through_plains.5EkRJfcGTf8qXEspk1zFpcTfVZhA3E2W8Rc7MRbdE7WuBeKP.ply',
+            url: 'https://dojo-files.tensorplex.ai/demo/zebra_with_stripes_running_through_plains.5EkRJfcGTf8qXEspk1zFpcTfVZhA3E2W8Rc7MRbdE7WuBeKP.ply',
           },
         },
         {
           model: 'yourm/stable-diffusion-v0-2',
           completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/zebra_with_stripes_running_through_plains.5Et482RACNeu5NBhWxNkGiFX9ZbfFERcDGgq9ecSbs4dSN2W.ply',
+            url: 'https://dojo-files.tensorplex.ai/demo/zebra_with_stripes_running_through_plains.5Et482RACNeu5NBhWxNkGiFX9ZbfFERcDGgq9ecSbs4dSN2W.ply',
           },
         },
         {
           model: 'dllm/sd-extra-0.3',
           completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/zebra_with_stripes_running_through_plains.5HNU3CX1UD4rM3nuxAHV76Sypdc5ggukWsKDbRZ1xdqLNGry.ply',
+            url: 'https://dojo-files.tensorplex.ai/demo/zebra_with_stripes_running_through_plains.5HNU3CX1UD4rM3nuxAHV76Sypdc5ggukWsKDbRZ1xdqLNGry.ply',
           },
         },
       ],
@@ -493,25 +493,25 @@ export const task3d: Task[] = [
         {
           model: 'stabilityai/stable-diffusion-xl-base-1.0',
           completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/black_and_yellow_curved_gaming_chair.5DAAKc3EMwY4axcUWiguzEVM3j459iV3Q2EdeFGKsotgNn8m.ply',
+            url: 'https://dojo-files.tensorplex.ai/demo/black_and_yellow_curved_gaming_chair.5DAAKc3EMwY4axcUWiguzEVM3j459iV3Q2EdeFGKsotgNn8m.ply',
           },
         },
         {
           model: 'runwayml/stable-diffusion-v1-5',
           completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/black_and_yellow_curved_gaming_chair.5DoBghUER3kRpkVbSfRjCx4vUyhaiRMjC6dgnEAqf2eWtART.ply',
+            url: 'https://dojo-files.tensorplex.ai/demo/black_and_yellow_curved_gaming_chair.5DoBghUER3kRpkVbSfRjCx4vUyhaiRMjC6dgnEAqf2eWtART.ply',
           },
         },
         {
           model: 'yourm/stable-diffusion-v0-2',
           completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/black_and_yellow_curved_gaming_chair.5E2DF4pFKhtfDHmDSG3mCA33PNMeBeNoExTLp4JLjPg4pz2M.ply',
+            url: 'https://dojo-files.tensorplex.ai/demo/black_and_yellow_curved_gaming_chair.5E2DF4pFKhtfDHmDSG3mCA33PNMeBeNoExTLp4JLjPg4pz2M.ply',
           },
         },
         {
           model: 'dllm/sd-extra-0.3',
           completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/black_and_yellow_curved_gaming_chair.5EPFaPcqs78JoktAZ2R1MC7GAKMhzXiS8ZyBQr3EKANfpfWU.ply',
+            url: 'https://dojo-files.tensorplex.ai/demo/black_and_yellow_curved_gaming_chair.5EPFaPcqs78JoktAZ2R1MC7GAKMhzXiS8ZyBQr3EKANfpfWU.ply',
           },
         },
       ],
@@ -3536,7 +3536,7 @@ export const taskListImgEvaluation: Task[] = [
         {
           model: 'stabilityai/stable-diffusion-xl-base-1.0',
           completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/dog_ride_horse_w_chopstick.png',
+            url: 'https://dojo-files.tensorplex.ai/demo/dog_ride_horse_w_chopstick.png',
             filename: 'DogOnHorse.png',
           },
         },
@@ -3569,7 +3569,7 @@ export const taskListImgEvaluation: Task[] = [
         {
           model: 'stabilityai/stable-diffusion-xl-base-1.0',
           completion: {
-            url: 'https://dojo-files-dev.tensorplex.dev/demo/LadderWithLighting.png',
+            url: 'https://dojo-files.tensorplex.ai/demo/LadderWithLighting.png',
             filename: 'DogOnHorse.png',
           },
         },
