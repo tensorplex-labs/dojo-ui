@@ -9,6 +9,7 @@ function generateCSP() {
       'https://cdnjs.cloudflare.com',
       'https://cdn.jsdelivr.net',
       'https://unpkg.com',
+      'https://*.googletagmanager.com',
     ], // nonce to be implemented
     'style-src': ["'self'", "'unsafe-inline'"], // nonce to be implemented
     'img-src': ["'self'", 'data:', 'https:'],
@@ -20,6 +21,7 @@ function generateCSP() {
       'https://*.tensorplex.dev',
       'wss://*.walletconnect.com',
       'https://*.walletconnect.com',
+      'https://*.google-analytics.com',
     ],
     'worker-src': ["'self'", 'blob:'],
     'media-src': ["'self'"],

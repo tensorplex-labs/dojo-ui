@@ -4,6 +4,26 @@ import { tasklistFull } from '@/utils/states';
 import { useEffect, useState } from 'react';
 import useFeature from './useFeature';
 
+const getCorrectS3UrlByUrl = (s3Url: string) => {
+  try {
+    const url = new URL(s3Url);
+    const pathname = url.pathname;
+    if (process.env.NEXT_PUBLIC_BACKEND_URL?.includes('testnet.tensorplex.ai')) {
+      // is testnet
+      return `https://dojo-files-ai.tensorplex.ai${pathname}`;
+    } else if (process.env.NEXT_PUBLIC_BACKEND_URL?.includes('dojo-api.tensorplex.ai')) {
+      // is mainnet
+      return `https://dojo-files.tensorplex.ai${pathname}`;
+    } else if (process.env.NEXT_PUBLIC_BACKEND_URL?.includes('dev.tensorplex.dev')) {
+      // is localhost or dev
+      return `https://dojo-files-dev.tensorplex.dev${pathname}`;
+    }
+  } catch (err) {
+    console.log('Invalid URL:', s3Url);
+    console.error(err);
+  }
+};
+
 const useRequestTaskByTaskID = (taskId: string, isConnected?: boolean, isAuthenticated?: boolean) => {
   const [task, setTask] = useState<Task | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -19,7 +39,20 @@ const useRequestTaskByTaskID = (taskId: string, isConnected?: boolean, isAuthent
         setLoading(true);
         await wait(200);
         const filteredTask = tasklistFull.find((t) => t.taskId === taskId);
-        setTask(filteredTask ?? tasklistFull[0]);
+        if (!filteredTask) {
+          setTask(tasklistFull[0]);
+          setLoading(false);
+          return;
+        }
+
+        //For these 2 types we are storing the demo files in the S3 bucket thats why
+        //We need to process it by getting the correct url.
+        if (filteredTask.type === 'TEXT_TO_THREE_D' || filteredTask.type === 'TEXT_TO_IMAGE') {
+          filteredTask.taskData.responses.forEach((r) => {
+            r.completion.url = getCorrectS3UrlByUrl(r.completion.url);
+          });
+        }
+        setTask(filteredTask);
         setLoading(false);
         return;
       }
