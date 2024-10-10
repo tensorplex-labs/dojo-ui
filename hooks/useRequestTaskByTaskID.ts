@@ -10,7 +10,7 @@ const getCorrectS3UrlByUrl = (s3Url: string) => {
     const pathname = url.pathname;
     if (process.env.NEXT_PUBLIC_BACKEND_URL?.includes('testnet.tensorplex.ai')) {
       // is testnet
-      return `https://dojo-files-ai.tensorplex.ai${pathname}`;
+      return `https://dojo-files-testnet.tensorplex.ai${pathname}`;
     } else if (process.env.NEXT_PUBLIC_BACKEND_URL?.includes('dojo-api.tensorplex.ai')) {
       // is mainnet
       return `https://dojo-files.tensorplex.ai${pathname}`;
