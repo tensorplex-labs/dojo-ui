@@ -18,6 +18,7 @@ const getCorrectS3UrlByUrl = (s3Url: string) => {
       // is localhost or dev
       return `https://dojo-files-dev.tensorplex.dev${pathname}`;
     }
+    return s3Url;
   } catch (err) {
     console.log('Invalid URL:', s3Url);
     console.error(err);
