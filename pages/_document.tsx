@@ -24,7 +24,7 @@ function generateCSP() {
       'https://*.google-analytics.com',
     ],
     'worker-src': ["'self'", 'blob:'],
-    'media-src': ["'self'"],
+    'media-src': ["'self'", 'blob: data:'],
     'object-src': ["'none'"],
     'child-src': ["'none'"],
     'form-action': ["'self'"],
