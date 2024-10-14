@@ -1,6 +1,6 @@
 import { cn } from '@/utils/tw';
-import React, { useEffect, useRef, useState } from 'react';
-
+import debounce from 'lodash/debounce';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 interface TooltipProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   tooltipContent: React.ReactNode;
@@ -15,7 +15,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   tooltipContent,
   tooltipContentClassname,
   showCondition = true,
-  delay = 400,
+  delay = 150,
   ...props
 }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -23,19 +23,8 @@ export const Tooltip: React.FC<TooltipProps> = ({
   const targetRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   let timeoutId: NodeJS.Timeout;
-  const showTooltip = () => {
-    timeoutId = setTimeout(() => {
-      setIsVisible(true);
-      updatePosition();
-    }, delay);
-  };
 
-  const hideTooltip = () => {
-    clearTimeout(timeoutId);
-    setIsVisible(false);
-  };
-
-  const updatePosition = () => {
+  const updatePosition = useCallback(() => {
     if (targetRef.current && tooltipRef.current) {
       const targetRect = targetRef.current.getBoundingClientRect();
       const tooltipRect = tooltipRef.current.getBoundingClientRect();
@@ -60,6 +49,20 @@ export const Tooltip: React.FC<TooltipProps> = ({
 
       setPosition({ top, left });
     }
+  }, [targetRef, tooltipRef]);
+
+  const debouncedSetIsVisible = React.useRef(
+    debounce((value: boolean) => {
+      setIsVisible(value);
+      if (value) updatePosition();
+    }, delay)
+  ).current;
+  const showTooltip = () => {
+    debouncedSetIsVisible(true);
+  };
+
+  const hideTooltip = () => {
+    debouncedSetIsVisible(false);
   };
 
   useEffect(() => {
@@ -75,8 +78,9 @@ export const Tooltip: React.FC<TooltipProps> = ({
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
+      debouncedSetIsVisible.cancel(); // Cancel any pending debounced calls
     };
-  }, [isVisible]);
+  }, [isVisible, debouncedSetIsVisible, updatePosition]);
   if (showCondition === false) return <>{children}</>;
 
   return (

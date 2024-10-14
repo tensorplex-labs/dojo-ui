@@ -123,11 +123,26 @@ const RenderPill = ({ type, ...task }: Task) => {
 
 const RenderButton = (id: string, state: ButtonState, router: NextRouter, exp: boolean, meta?: any) => {
   const type = (meta && meta.type) ?? '';
+  let tooltipContent = null;
+  switch (state.text.toLowerCase()) {
+    case 'start':
+      tooltipContent = 'Start the task';
+      break;
+    case 'filled':
+      tooltipContent = 'There are no more slots left on this task.';
+      break;
+    case 'completed':
+      tooltipContent = 'You already completed this task.';
+      break;
+    case 'expired':
+      tooltipContent = 'This task has expired.';
+      break;
+    default:
+      tooltipContent = null;
+      break;
+  }
   return (
-    <Tooltip
-      tooltipContent="There are no more slots left on this task."
-      showCondition={state.text.toLowerCase() === 'filled'}
-    >
+    <Tooltip className="w-fit" tooltipContent={tooltipContent} showCondition={!!state.text.toLowerCase()}>
       <button
         onClick={() => {
           if (exp) {
