@@ -41,22 +41,38 @@ body {
 }
 #content-wrapper {
 }
+/* Scrollbar styles */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 10px;
+  height: 10px;
 }
+
 /* Track */
 ::-webkit-scrollbar-track {
-  background: hsla(60, 17%, 0%, 0);
+  background: hsl(30, 3%, 15%) !important;
+  border-radius: 12px;
+  width: 10px;
 }
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: hsla(175, 100%, 36%, 0.387);
-  border-radius: 4px;
+  background: hsla(175, 100%, 36%, 0.704);
+  border-radius: 12px;
+  border: 2px solid hsl(30, 3%, 15%); /* Add a border to create padding effect */
 }
+
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(175, 100%, 36%);
+}
+
+/* Additional styles to ensure transparency */
+::-webkit-scrollbar-track-piece {
+  background: hsl(30, 3%, 15%);
+}
+
+::-webkit-scrollbar-corner {
+  background: hsl(30, 3%, 15%);
 }
 `;
 const decodedJsSecurity = `

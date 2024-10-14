@@ -4,7 +4,6 @@ import { IconX } from '@tabler/icons-react';
 
 function Modal({ title, showModal, setShowModal, btnText, className, children }: ModalProps) {
   const handleCloseModal = () => {
-    console.log(showModal);
     setShowModal(!showModal);
   };
 

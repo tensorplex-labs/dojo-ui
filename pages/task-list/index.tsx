@@ -32,6 +32,7 @@ import Datatablev2 from '@/components/Common/DataTable/Datatablev2';
 import { DropdownContainer } from '@/components/Common/DropDown';
 import SubscriptionModal from '@/components/Common/Modal/SubscriptionModal';
 import { Pagination } from '@/components/Common/Pagination';
+import Tooltip from '@/components/Common/Tooltip';
 import CategoryItem from '@/components/TaskListPageComponents/CategoryList/CategoryItem';
 import { ALL_CATEGORY } from '@/constants';
 import useFeature from '@/hooks/useFeature';
@@ -107,36 +108,60 @@ const RenderPill = ({ type, ...task }: Task) => {
         <div className={cn('size-[10px] rounded-full', colorText)}></div>
         {pillContent}
       </div>
-      <div className="flex w-fit items-center gap-px rounded-full border border-font-primary/30 px-2 text-xs font-bold text-font-primary/70 ">
-        {RenderTaskLengthBadge(task.taskData.responses.length)}
-        <IconArrowsDoubleSwNe className="size-4" />
-        <div className={cn(FontManrope.className, 'font-bold text-sm')}>{task.taskData.criteria.length}</div>
-      </div>
+      <Tooltip
+        tooltipContent={`${task.taskData.responses.length} ai output${task.taskData.responses.length > 1 ? 's' : ''}, ${task.taskData.criteria.length} question${task.taskData.criteria.length > 1 ? 's' : ''}`}
+      >
+        <div className="flex w-fit items-center gap-px rounded-full border border-font-primary/30 px-2 text-xs font-bold text-font-primary/70 ">
+          {RenderTaskLengthBadge(task.taskData.responses.length)}
+          <IconArrowsDoubleSwNe className="size-4" />
+          <div className={cn(FontManrope.className, 'font-bold text-sm')}>{task.taskData.criteria.length}</div>
+        </div>
+      </Tooltip>
     </div>
   );
 };
 
 const RenderButton = (id: string, state: ButtonState, router: NextRouter, exp: boolean, meta?: any) => {
   const type = (meta && meta.type) ?? '';
+  let tooltipContent = null;
+  switch (state.text.toLowerCase()) {
+    case 'start':
+      tooltipContent = 'Start the task';
+      break;
+    case 'filled':
+      tooltipContent = 'There are no more slots left on this task.';
+      break;
+    case 'completed':
+      tooltipContent = 'You already completed this task.';
+      break;
+    case 'expired':
+      tooltipContent = 'This task has expired.';
+      break;
+    default:
+      tooltipContent = null;
+      break;
+  }
   return (
-    <button
-      onClick={() => {
-        if (exp) {
-          const currTask = tasklistFull.find((t) => t.taskId === id);
-          if (currTask && currTask.taskData.responses.length == 1) router.push(`/Questions?taskId=${id}&exp=demo`);
-          else router.push(`/Questions?taskId=${id}&exp=demo`);
-        } else {
-          router.push(`/Questions?taskId=${id}`);
-        }
-      }}
-      disabled={state.disabled}
-      className={cn(
-        'uppercase h-[40px] font-bold border-[2px] rounded-sm border-black disabled:bg-gray-400 w-[113px] bg-primary text-white disabled:cursor-not-allowed',
-        FontSpaceMono.className
-      )}
-    >
-      {state.text}
-    </button>
+    <Tooltip className="w-fit" tooltipContent={tooltipContent} showCondition={!!state.text.toLowerCase()}>
+      <button
+        onClick={() => {
+          if (exp) {
+            const currTask = tasklistFull.find((t) => t.taskId === id);
+            if (currTask && currTask.taskData.responses.length == 1) router.push(`/Questions?taskId=${id}&exp=demo`);
+            else router.push(`/Questions?taskId=${id}&exp=demo`);
+          } else {
+            router.push(`/Questions?taskId=${id}`);
+          }
+        }}
+        disabled={state.disabled}
+        className={cn(
+          'uppercase h-[40px] font-bold border-[2px] rounded-sm border-black disabled:bg-gray-400 w-[113px] bg-primary text-white disabled:cursor-not-allowed',
+          FontSpaceMono.className
+        )}
+      >
+        {state.text}
+      </button>
+    </Tooltip>
   );
 };
 
