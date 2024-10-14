@@ -24,7 +24,7 @@
     "framer-motion": "^11.2.6",
     "jazzicon-ts": "^4.0.0",
     "jsonwebtoken": "^9.0.2",
-    "next": "14.2.2",
+    "next": "14.2.10",
     "react": "^18.2.0",
     "react-countup": "^6.5.3",
     "react-dnd": "^16.0.1",
