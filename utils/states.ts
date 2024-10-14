@@ -708,7 +708,7 @@ export const tasklistCodegen: Task[] = [
         },
       ],
     },
-    status: 'IN_PROGRESS',
+    status: 'COMPLETED',
     numResults: 0,
     maxResults: 1,
     numCriteria: 1,
