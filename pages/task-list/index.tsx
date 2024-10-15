@@ -33,6 +33,7 @@ import { DropdownContainer } from '@/components/Common/DropDown';
 import SubscriptionModal from '@/components/Common/Modal/SubscriptionModal';
 import { Pagination } from '@/components/Common/Pagination';
 import Tooltip from '@/components/Common/Tooltip';
+import { getTaskTypeMappingDisplay } from '@/components/QuestionPageComponents/TaskPrompt/tasktype-pill';
 import CategoryItem from '@/components/TaskListPageComponents/CategoryList/CategoryItem';
 import { ALL_CATEGORY } from '@/constants';
 import useFeature from '@/hooks/useFeature';
@@ -96,7 +97,7 @@ const RenderTaskLengthBadge = (length: number) => {
 };
 
 const RenderPill = ({ type, ...task }: Task) => {
-  const pillContent = type.replace(/_/g, ' ');
+  const pillContent = getTaskTypeMappingDisplay(type);
   const colorText = TASKTYPE_COLOR_MAP[type];
   return (
     <div className="flex flex-wrap items-stretch gap-[5px] text-font-primary/80">
@@ -109,7 +110,7 @@ const RenderPill = ({ type, ...task }: Task) => {
         {pillContent}
       </div>
       <Tooltip
-        tooltipContent={`${task.taskData.responses.length} ai output${task.taskData.responses.length > 1 ? 's' : ''}, ${task.taskData.criteria.length} question${task.taskData.criteria.length > 1 ? 's' : ''}`}
+        tooltipContent={`${task.taskData.responses.length} AI output${task.taskData.responses.length > 1 ? 's' : ''}, ${task.taskData.criteria.length} Question${task.taskData.criteria.length > 1 ? 's' : ''}`}
       >
         <div className="flex w-fit items-center gap-px rounded-full border border-font-primary/30 px-2 text-xs font-bold text-font-primary/70 ">
           {RenderTaskLengthBadge(task.taskData.responses.length)}
