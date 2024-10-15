@@ -33,7 +33,7 @@ import { DropdownContainer } from '@/components/Common/DropDown';
 import SubscriptionModal from '@/components/Common/Modal/SubscriptionModal';
 import { Pagination } from '@/components/Common/Pagination';
 import Tooltip from '@/components/Common/Tooltip';
-import { getTaskTypeMappingDisplay } from '@/components/QuestionPageComponents/TaskPrompt/tasktype-pill';
+import TasktypePill, { getTaskTypeMappingDisplay } from '@/components/QuestionPageComponents/TaskPrompt/tasktype-pill';
 import CategoryItem from '@/components/TaskListPageComponents/CategoryList/CategoryItem';
 import { ALL_CATEGORY } from '@/constants';
 import useFeature from '@/hooks/useFeature';
@@ -101,14 +101,16 @@ const RenderPill = ({ type, ...task }: Task) => {
   const colorText = TASKTYPE_COLOR_MAP[type];
   return (
     <div className="flex flex-wrap items-stretch gap-[5px] text-font-primary/80">
-      <div
+      {/* <div
         className={cn(
           'w-fit flex items-center gap-[6px] rounded-full px-2 py-1 border border-font-primary/30 text-xs font-bold  '
         )}
       >
         <div className={cn('size-[10px] rounded-full', colorText)}></div>
         {pillContent}
-      </div>
+      </div> */}
+      <TasktypePill tasktype={type} />
+
       <Tooltip
         tooltipContent={`${task.taskData.responses.length} AI output${task.taskData.responses.length > 1 ? 's' : ''}, ${task.taskData.criteria.length} Question${task.taskData.criteria.length > 1 ? 's' : ''}`}
       >
