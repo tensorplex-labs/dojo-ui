@@ -109,7 +109,7 @@ export type SliderQuestionProps = {
 
 export type TaskPromptProps = {
   title?: string;
-  taskType: string;
+  taskType: TaskType;
   formattedPrompt: React.ReactNode;
 };
 

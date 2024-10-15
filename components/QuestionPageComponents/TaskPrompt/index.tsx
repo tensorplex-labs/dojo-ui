@@ -13,7 +13,7 @@ const TaskPrompt: React.FC<TaskPromptProps> = ({ title, taskType, formattedPromp
       <div className={`flex flex-wrap items-center text-start ${FontManrope.className} gap-2 text-2xl font-bold`}>
         <span className="">{title}</span>
         {`  `}
-        <TasktypePill tasktype={taskType} content={taskType} />
+        <TasktypePill tasktype={taskType} />
       </div>
       <div
         className={`${FontManrope.className} flex min-h-[48px] w-fit overflow-hidden
