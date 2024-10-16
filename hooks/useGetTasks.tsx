@@ -100,12 +100,7 @@ const useGetTasks = (
   });
   const fetchDemoTasks = useCallback(async () => {
     await wait(100);
-    setPagination({
-      pageNumber: 1,
-      pageSize: 50,
-      totalPages: Math.ceil(tasklistFull.length / 50),
-      totalItems: tasklistFull.length,
-    });
+
     if (taskQuery.toLowerCase() === 'all') {
       return tasklistFull;
     } else {

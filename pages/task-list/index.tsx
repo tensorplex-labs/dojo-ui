@@ -32,6 +32,8 @@ import Datatablev2 from '@/components/Common/DataTable/Datatablev2';
 import { DropdownContainer } from '@/components/Common/DropDown';
 import SubscriptionModal from '@/components/Common/Modal/SubscriptionModal';
 import { Pagination } from '@/components/Common/Pagination';
+import Tooltip from '@/components/Common/Tooltip';
+import TasktypePill, { getTaskTypeMappingDisplay } from '@/components/QuestionPageComponents/TaskPrompt/tasktype-pill';
 import CategoryItem from '@/components/TaskListPageComponents/CategoryList/CategoryItem';
 import { ALL_CATEGORY } from '@/constants';
 import useFeature from '@/hooks/useFeature';
@@ -42,6 +44,7 @@ import { Task } from '@/types/QuestionPageTypes';
 import { tasklistFull, TASKTYPE_COLOR_MAP } from '@/utils/states';
 import { cn } from '@/utils/tw';
 import { ColumnDef, Row } from '@tanstack/react-table';
+import Head from 'next/head';
 
 const getCategoryObjectsFromUrlQuery = (query: string | string[] | undefined, baseCategories: any[]) => {
   if (!query) return [];
@@ -94,48 +97,74 @@ const RenderTaskLengthBadge = (length: number) => {
 };
 
 const RenderPill = ({ type, ...task }: Task) => {
-  const pillContent = type.replace(/_/g, ' ');
+  const pillContent = getTaskTypeMappingDisplay(type);
   const colorText = TASKTYPE_COLOR_MAP[type];
   return (
     <div className="flex flex-wrap items-stretch gap-[5px] text-font-primary/80">
-      <div
+      {/* <div
         className={cn(
           'w-fit flex items-center gap-[6px] rounded-full px-2 py-1 border border-font-primary/30 text-xs font-bold  '
         )}
       >
         <div className={cn('size-[10px] rounded-full', colorText)}></div>
         {pillContent}
-      </div>
-      <div className="flex w-fit items-center gap-px rounded-full border border-font-primary/30 px-2 text-xs font-bold text-font-primary/70 ">
-        {RenderTaskLengthBadge(task.taskData.responses.length)}
-        <IconArrowsDoubleSwNe className="size-4" />
-        <div className={cn(FontManrope.className, 'font-bold text-sm')}>{task.taskData.criteria.length}</div>
-      </div>
+      </div> */}
+      <TasktypePill tasktype={type} />
+
+      <Tooltip
+        tooltipContent={`${task.taskData.responses.length} AI output${task.taskData.responses.length > 1 ? 's' : ''}, ${task.taskData.criteria.length} Question${task.taskData.criteria.length > 1 ? 's' : ''}`}
+      >
+        <div className="flex w-fit items-center gap-px rounded-full border border-font-primary/30 px-2 text-xs font-bold text-font-primary/70 ">
+          {RenderTaskLengthBadge(task.taskData.responses.length)}
+          <IconArrowsDoubleSwNe className="size-4" />
+          <div className={cn(FontManrope.className, 'font-bold text-sm')}>{task.taskData.criteria.length}</div>
+        </div>
+      </Tooltip>
     </div>
   );
 };
 
 const RenderButton = (id: string, state: ButtonState, router: NextRouter, exp: boolean, meta?: any) => {
   const type = (meta && meta.type) ?? '';
+  let tooltipContent = null;
+  switch (state.text.toLowerCase()) {
+    case 'start':
+      tooltipContent = 'Start the task';
+      break;
+    case 'filled':
+      tooltipContent = 'There are no more slots left on this task.';
+      break;
+    case 'completed':
+      tooltipContent = 'You already completed this task.';
+      break;
+    case 'expired':
+      tooltipContent = 'This task has expired.';
+      break;
+    default:
+      tooltipContent = null;
+      break;
+  }
   return (
-    <button
-      onClick={() => {
-        if (exp) {
-          const currTask = tasklistFull.find((t) => t.taskId === id);
-          if (currTask && currTask.taskData.responses.length == 1) router.push(`/Questions?taskId=${id}&exp=demo`);
-          else router.push(`/Questions?taskId=${id}&exp=demo`);
-        } else {
-          router.push(`/Questions?taskId=${id}`);
-        }
-      }}
-      disabled={state.disabled}
-      className={cn(
-        'uppercase h-[40px] font-bold border-[2px] rounded-sm border-black disabled:bg-gray-400 w-[113px] bg-primary text-white disabled:cursor-not-allowed',
-        FontSpaceMono.className
-      )}
-    >
-      {state.text}
-    </button>
+    <Tooltip className="w-fit" tooltipContent={tooltipContent} showCondition={!!state.text.toLowerCase()}>
+      <button
+        onClick={() => {
+          if (exp) {
+            const currTask = tasklistFull.find((t) => t.taskId === id);
+            if (currTask && currTask.taskData.responses.length == 1) router.push(`/Questions?taskId=${id}&exp=demo`);
+            else router.push(`/Questions?taskId=${id}&exp=demo`);
+          } else {
+            router.push(`/Questions?taskId=${id}`);
+          }
+        }}
+        disabled={state.disabled}
+        className={cn(
+          'uppercase h-[40px] font-bold border-[2px] rounded-sm border-black disabled:bg-gray-400 w-[113px] bg-primary text-white disabled:cursor-not-allowed',
+          FontSpaceMono.className
+        )}
+      >
+        {state.text}
+      </button>
+    </Tooltip>
   );
 };
 
@@ -342,136 +371,148 @@ export default function Index() {
   };
 
   return (
-    <Layout isFullWidth headerText={exp ? 'DEMO TASK LIST' : 'TASK LIST'}>
-      <div className="w-full px-4">
-        <div className="mx-auto mt-[18px] flex max-w-[1075px] md:py-2 lg:py-2">
-          <div className="flex w-full flex-col items-start justify-between gap-[6px]">
-            <span className={cn(FontSpaceMono.className, 'font-bold text-[22px] text-font-primary')}>Task Types</span>
-            <div className="flex w-full flex-wrap items-center justify-between gap-2">
-              <div className="flex flex-col items-stretch gap-[8px]">
-                <div className="flex flex-wrap items-center gap-2">
-                  <CategoryItem
-                    className="px-4"
-                    key={'all'}
-                    label={'All'}
-                    isActive={router.query.tasks === undefined || router.query.tasks === ''}
-                    onClick={() => handleCategoryClick('all')}
-                  />
-                  {categories.map((category) => (
+    <>
+      <Head>
+        <title>Dojo - Label Crowd Sourced Data and improve Open Source AI Multimodal model</title>
+        <meta
+          name="description"
+          content="Label Data and support Open Source and Decentralized AI Multimodal model Development (Bittensor Subnet, etc)"
+        ></meta>
+      </Head>
+      <Layout isFullWidth headerText={exp ? 'DEMO TASK LIST' : 'TASK LIST'}>
+        <div className="w-full px-4">
+          <div className="mx-auto mt-[18px] flex max-w-[1075px] md:py-2 lg:py-2">
+            <div className="flex w-full flex-col items-start justify-between gap-[6px]">
+              <span className={cn(FontSpaceMono.className, 'font-bold text-[22px] text-font-primary')}>Task Types</span>
+              <div className="flex w-full flex-wrap items-center justify-between gap-2">
+                <div className="flex flex-col items-stretch gap-[8px]">
+                  <div className="flex flex-wrap items-center gap-2">
                     <CategoryItem
-                      key={category.label}
-                      label={category.label}
-                      isActive={categoryIsActive(category.taskType, router.query.tasks)}
-                      onClick={() => handleCategoryClick(category.label)}
+                      className="px-4"
+                      key={'all'}
+                      label={'All'}
+                      isActive={router.query.tasks === undefined || router.query.tasks === ''}
+                      onClick={() => handleCategoryClick('all')}
                     />
-                  ))}
-                </div>
-              </div>
-              <div className=" flex gap-2">
-                {!exp && (
-                  <div ref={dropdownRef}>
-                    <DropdownContainer
-                      buttonText={`Sort By ${params.get('sort') === 'createdAt' ? 'Most Recent' : params.get('sort') === 'numCriteria' ? 'Least Difficult' : 'Most Attempted'}`}
-                      imgSrc={`${params.get('order') === 'asc' ? '/top-arrow.svg' : '/down-arrow.svg'}`}
-                      isOpen={isDropdownOpen}
-                      onToggle={handleToggle}
-                    >
-                      <div
-                        className={`DropDownButton-content absolute z-20 mt-[10px] w-full overflow-hidden rounded-[18px] border border-black/10 bg-card-background`}
-                      >
-                        <ul className="text-black opacity-75">
-                          {dropdownOptions.map((option, index) => (
-                            <li
-                              key={index}
-                              className={`flex text-base text-black ${
-                                params.get('sort') === option.value ? 'bg-secondary opacity-100' : 'py-1.5 opacity-75'
-                              } ${FontManrope.className} cursor-pointer items-center justify-between  hover:bg-secondary hover:opacity-100`}
-                            >
-                              <div className="h-full min-w-[80%]  pl-[11px]" onClick={() => updateSorting(option.text)}>
-                                {option.text}
-                              </div>
-                              <div className="h-full w-1/5">
-                                {params.get('sort') === option.value ? (
-                                  params.get('order') === 'asc' ? (
-                                    <div
-                                      key={index}
-                                      className={`px-2 py-[6px] text-base font-semibold text-black opacity-75 ${FontManrope.className} cursor-pointer hover:bg-secondary hover:opacity-100`}
-                                      onClick={() => updateOrderSorting('desc')}
-                                    >
-                                      <IconArrowNarrowUp />
-                                    </div>
-                                  ) : (
-                                    <div
-                                      key={index}
-                                      className={`px-2 py-[6px] text-base font-semibold text-black opacity-75 ${FontManrope.className} cursor-pointer hover:bg-secondary hover:opacity-100`}
-                                      onClick={() => updateOrderSorting('asc')}
-                                    >
-                                      <IconArrowNarrowDown />
-                                    </div>
-                                  )
-                                ) : null}
-                              </div>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </DropdownContainer>
+                    {categories.map((category) => (
+                      <CategoryItem
+                        key={category.label}
+                        label={category.label}
+                        isActive={categoryIsActive(category.taskType, router.query.tasks)}
+                        onClick={() => handleCategoryClick(category.label)}
+                      />
+                    ))}
                   </div>
-                )}
+                </div>
+                <div className=" flex gap-2">
+                  {!exp && (
+                    <div ref={dropdownRef}>
+                      <DropdownContainer
+                        buttonText={`Sort By ${params.get('sort') === 'createdAt' ? 'Most Recent' : params.get('sort') === 'numCriteria' ? 'Least Difficult' : 'Most Attempted'}`}
+                        imgSrc={`${params.get('order') === 'asc' ? '/top-arrow.svg' : '/down-arrow.svg'}`}
+                        isOpen={isDropdownOpen}
+                        onToggle={handleToggle}
+                      >
+                        <div
+                          className={`DropDownButton-content absolute z-20 mt-[10px] w-full overflow-hidden rounded-[18px] border border-black/10 bg-card-background`}
+                        >
+                          <ul className="text-black opacity-75">
+                            {dropdownOptions.map((option, index) => (
+                              <li
+                                key={index}
+                                className={`flex text-base text-black ${
+                                  params.get('sort') === option.value ? 'bg-secondary opacity-100' : 'py-1.5 opacity-75'
+                                } ${FontManrope.className} cursor-pointer items-center justify-between  hover:bg-secondary hover:opacity-100`}
+                              >
+                                <div
+                                  className="h-full min-w-[80%]  pl-[11px]"
+                                  onClick={() => updateSorting(option.text)}
+                                >
+                                  {option.text}
+                                </div>
+                                <div className="h-full w-1/5">
+                                  {params.get('sort') === option.value ? (
+                                    params.get('order') === 'asc' ? (
+                                      <div
+                                        key={index}
+                                        className={`px-2 py-[6px] text-base font-semibold text-black opacity-75 ${FontManrope.className} cursor-pointer hover:bg-secondary hover:opacity-100`}
+                                        onClick={() => updateOrderSorting('desc')}
+                                      >
+                                        <IconArrowNarrowUp />
+                                      </div>
+                                    ) : (
+                                      <div
+                                        key={index}
+                                        className={`px-2 py-[6px] text-base font-semibold text-black opacity-75 ${FontManrope.className} cursor-pointer hover:bg-secondary hover:opacity-100`}
+                                        onClick={() => updateOrderSorting('asc')}
+                                      >
+                                        <IconArrowNarrowDown />
+                                      </div>
+                                    )
+                                  ) : null}
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </DropdownContainer>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="w-full px-4">
-        <div className="mx-auto mb-[40px] mt-[19px] flex max-w-[1075px] flex-col md:py-2 lg:py-2">
-          <div className="mb-[19px]">
-            <h1 className={`${FontSpaceMono.className} text-[22px] font-bold uppercase text-black`}>
-              SHOWING {tasks.length} of {pagination?.totalItems || 0} RECORDS
-            </h1>
-            {isAuthenticated && isConnected ? (
-              <span className={`${FontSpaceMono.className} text-sm font-bold text-black opacity-60`}>
-                Fetching latest tasks in {countdown}s
-              </span>
+        <div className="w-full px-4">
+          <div className="mx-auto mb-[40px] mt-[19px] flex max-w-[1075px] flex-col md:py-2 lg:py-2">
+            <div className="mb-[19px]">
+              <h1 className={`${FontSpaceMono.className} text-[22px] font-bold uppercase text-black`}>
+                SHOWING {tasks.length} of {pagination?.totalItems || 0} RECORDS
+              </h1>
+              {isAuthenticated && isConnected ? (
+                <span className={`${FontSpaceMono.className} text-sm font-bold text-black opacity-60`}>
+                  Fetching latest tasks in {countdown}s
+                </span>
+              ) : null}
+            </div>
+            <Datatablev2
+              tooltipShowingXofY={false}
+              headerCellClassName={cn('py-2 uppercase', FontSpaceMono.className)}
+              minColumnSize={10}
+              defaultColumnSize={0}
+              containerClassName="rounded-sm"
+              tableClassName={cn('w-[1071px]', FontManrope.className)}
+              data={tasks || []}
+              columnDef={columnDef}
+              pageSize={pagination?.pageSize || 10}
+              loadingState={loading}
+            />
+            <div className="mt-3"></div>
+            <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange} />
+            {isAuthenticated ? (
+              partners.length === 0 || tasks.length <= 0 ? (
+                <div className="text-center">
+                  <Button
+                    onClick={() => handleViewClick()}
+                    buttonText="Enter Subscription Key"
+                    className="cursor-not-allowed bg-primary text-white"
+                  />
+                </div>
+              ) : null
             ) : null}
           </div>
-          <Datatablev2
-            tooltipShowingXofY={false}
-            headerCellClassName={cn('py-2 uppercase', FontSpaceMono.className)}
-            minColumnSize={10}
-            defaultColumnSize={0}
-            containerClassName="rounded-sm"
-            tableClassName={cn('w-[1071px]', FontManrope.className)}
-            data={tasks || []}
-            columnDef={columnDef}
-            pageSize={pagination?.pageSize || 10}
-            loadingState={loading}
-          />
-          <div className="mt-3"></div>
-          <Pagination totalPages={pagination?.totalPages || 1} handlePageChange={handlePageChange} />
-          {isAuthenticated ? (
-            partners.length === 0 || tasks.length <= 0 ? (
-              <div className="text-center">
-                <Button
-                  onClick={() => handleViewClick()}
-                  buttonText="Enter Subscription Key"
-                  className="cursor-not-allowed bg-primary text-white"
-                />
-              </div>
-            ) : null
-          ) : null}
         </div>
-      </div>
-      {showUserCard && (
-        <WalletManagement
-          address={address || ''}
-          openModal={openModal}
-          closeModal={setShowUserCard}
-          setShowUserCard={setShowUserCard}
-          setShowSubscriptionCard={setIsModalVisible}
-        />
-      )}
-      {isModalVisible && <SubscriptionModal setIsModalVisible={setIsModalVisible} isModalVisible={isModalVisible} />}
-    </Layout>
+        {showUserCard && (
+          <WalletManagement
+            address={address || ''}
+            openModal={openModal}
+            closeModal={setShowUserCard}
+            setShowUserCard={setShowUserCard}
+            setShowSubscriptionCard={setIsModalVisible}
+          />
+        )}
+        {isModalVisible && <SubscriptionModal setIsModalVisible={setIsModalVisible} isModalVisible={isModalVisible} />}
+      </Layout>
+    </>
   );
 }

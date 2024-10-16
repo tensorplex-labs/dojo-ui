@@ -38,10 +38,16 @@ function generateCSP() {
     .map(([key, values]) => `${key} ${values.join(' ')}`)
     .join('; ');
 }
+
 export default function Document() {
   return (
     <Html lang="en">
       <Head />
+      <title>Dojo - Improve Decentralized AI Model with Crowd Sourcing</title>
+      <meta
+        name="description"
+        content="Improve Decentralized AI Multimodal model through Crowd Sourcing with Dojo Network. Support Open Source Models (Bittensor Subnet, etc)"
+      ></meta>
       <meta httpEquiv="Content-Security-Policy" content={generateCSP()} />
       <body style={{ backgroundColor: '#FFFFF4' }}>
         <Main />

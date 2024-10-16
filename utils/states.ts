@@ -1,6 +1,12 @@
 import { Task } from '@/types/QuestionPageTypes';
 
 export type TaskType = 'CODE_GENERATION' | '3D_MODEL' | 'TEXT_TO_IMAGE' | 'TEXT_TO_THREE_D';
+export const TaskTypeMappingDisplay: Record<TaskType, string> = {
+  CODE_GENERATION: 'Code Generation',
+  '3D_MODEL': '3D Model',
+  TEXT_TO_IMAGE: 'Text to Image',
+  TEXT_TO_THREE_D: 'Text to 3D',
+};
 export const tokenType = `dojoui__jwtToken`;
 export const csp_source_whitelist = ['https://cdnjs.cloudflare.com', 'https://cdn.jsdelivr.net', 'https://unpkg.com'];
 
@@ -1474,8 +1480,8 @@ export const tasklistCodegen: Task[] = [
         },
       ],
     },
-    status: 'IN_PROGRESS',
-    numResults: 2,
+    status: 'Completed',
+    numResults: 3,
     maxResults: 3,
     numCriteria: 1,
     isCompletedByWorker: false,
