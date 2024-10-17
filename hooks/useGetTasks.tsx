@@ -87,7 +87,7 @@ const useGetTasks = (
         if (exp) {
           return await fetchDemoTasks();
         } else {
-          if (!isAuthenticated || !isConnected) {
+          if (!isAuthenticated || !isConnected || partnerCount <= 0) {
             return null;
           }
           return await fetchTasks();
