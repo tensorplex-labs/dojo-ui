@@ -33,7 +33,7 @@ import { DropdownContainer } from '@/components/Common/DropDown';
 import SubscriptionModal from '@/components/Common/Modal/SubscriptionModal';
 import { Pagination } from '@/components/Common/Pagination';
 import Tooltip from '@/components/Common/Tooltip';
-import TasktypePill, { getTaskTypeMappingDisplay } from '@/components/QuestionPageComponents/TaskPrompt/tasktype-pill';
+import TasktypePill from '@/components/QuestionPageComponents/TaskPrompt/tasktype-pill';
 import CategoryItem from '@/components/TaskListPageComponents/CategoryList/CategoryItem';
 import { ALL_CATEGORY } from '@/constants';
 import useFeature from '@/hooks/useFeature';
@@ -41,7 +41,7 @@ import Layout from '@/layout';
 import { ButtonState } from '@/types/CommonTypes';
 import { MODAL } from '@/types/ProvidersTypes';
 import { Task } from '@/types/QuestionPageTypes';
-import { tasklistFull, TASKTYPE_COLOR_MAP } from '@/utils/states';
+import { tasklistFull } from '@/utils/states';
 import { cn } from '@/utils/tw';
 import { ColumnDef, Row } from '@tanstack/react-table';
 import Head from 'next/head';
@@ -97,18 +97,8 @@ const RenderTaskLengthBadge = (length: number) => {
 };
 
 const RenderPill = ({ type, ...task }: Task) => {
-  const pillContent = getTaskTypeMappingDisplay(type);
-  const colorText = TASKTYPE_COLOR_MAP[type];
   return (
     <div className="flex flex-wrap items-stretch gap-[5px] text-font-primary/80">
-      {/* <div
-        className={cn(
-          'w-fit flex items-center gap-[6px] rounded-full px-2 py-1 border border-font-primary/30 text-xs font-bold  '
-        )}
-      >
-        <div className={cn('size-[10px] rounded-full', colorText)}></div>
-        {pillContent}
-      </div> */}
       <TasktypePill tasktype={type} />
 
       <Tooltip
