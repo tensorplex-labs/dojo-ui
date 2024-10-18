@@ -1,5 +1,5 @@
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
-import Leaderboard from './Leaderboard';
+import LeaderboardTwo from './Leaderboard';
 
 interface MinerData {
   hotkey: string;
@@ -34,7 +34,7 @@ const LeaderboardSection: React.FC<LeaderboardSectionProps> = ({ miners, loading
           Showing {miners?.length ?? 0} out of {miners?.length ?? 0} items
         </p>
       </div>
-      <Leaderboard miners={miners} isLoading={loading} />
+      <LeaderboardTwo miners={miners} isLoading={loading} />
     </>
   );
 };

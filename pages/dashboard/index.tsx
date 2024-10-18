@@ -4,7 +4,6 @@ import DashboardGraphAndMetrics from '@/components/DashboardPageComponents/Dashb
 import DashboardHeader from '@/components/DashboardPageComponents/DashboardHeader';
 import LeaderboardSection from '@/components/DashboardPageComponents/LeaderboardSection';
 import { WalletManagement } from '@/components/TaskListPageComponents';
-import { useJwtToken } from '@/hooks/useJwtToken';
 import { useModal } from '@/hooks/useModal';
 import { useSIWE } from '@/hooks/useSIWE';
 import useSubnetMetagraph from '@/hooks/useSubnetMetaGraph';
@@ -14,27 +13,16 @@ import { useEffect, useState } from 'react';
 import { useAccount, useDisconnect } from 'wagmi';
 
 const DashboardPage = () => {
-  const { data: subnetData, loading, error } = useSubnetMetagraph(20);
+  const { data: subnetData, loading, error } = useSubnetMetagraph(52);
   const [showUserCard, setShowUserCard] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { openModal } = useModal(MODAL.wallet);
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
-  const { isAuthenticated, isSignedIn } = useAuth();
+  const { isAuthenticated } = useAuth();
   const { signInWithEthereum } = useSIWE(() => console.log('post signin'));
-  const jwtToken = useJwtToken();
 
   const jwtTokenKey = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
-
-  useEffect(() => {
-    if (!isAuthenticated && isConnected && isSignedIn) {
-      signInWithEthereum(address ?? '');
-    }
-  }, [isAuthenticated, isConnected, isSignedIn, address, signInWithEthereum]);
-
-  useEffect(() => {
-    if (jwtToken) console.log('User is authenticated');
-  }, [jwtToken]);
 
   useEffect(() => {
     const handleStorageChange = (event: StorageEvent) => {
