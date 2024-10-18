@@ -1,4 +1,5 @@
 import Datatablev2 from '@/components/Common/DataTable/Datatablev2';
+import { NonRootNeuronObj } from '@/types/DashboardTypes';
 import { getFirstAndLastCharacters } from '@/utils/math_helpers';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
 import { createColumnHelper } from '@tanstack/react-table';
@@ -20,7 +21,7 @@ interface MinerData {
 }
 
 interface LeaderboardProps {
-  miners: MinerData[] | null;
+  miners: NonRootNeuronObj[] | null;
   isLoading: boolean;
 }
 
@@ -94,14 +95,14 @@ const ShimmerRow: React.FC = () => (
 );
 
 const LeaderboardTwo = ({ miners, isLoading }: LeaderboardProps) => {
-  const columnHelper = createColumnHelper<MinerData>();
+  const columnHelper = createColumnHelper<NonRootNeuronObj>();
 
   const columns = useMemo(
     () => [
-      columnHelper.accessor('rank', {
+      columnHelper.accessor('uid', {
         header: 'Position',
         size: 100,
-        cell: (info) => `#${info.getValue()}`,
+        cell: (info) => `#${info.getValue() + 1}`,
       }),
       columnHelper.accessor('hotkey', {
         header: 'Miner',
@@ -111,7 +112,9 @@ const LeaderboardTwo = ({ miners, isLoading }: LeaderboardProps) => {
       columnHelper.accessor('minerWeight', {
         header: 'Score',
         size: 100,
-        cell: (info) => info.getValue(),
+        cell: (info) => {
+          return Number(info.getValue()).toFixed(9);
+        },
       }),
       columnHelper.accessor('emission', {
         header: 'Emission',

@@ -5,22 +5,17 @@ import DashboardHeader from '@/components/DashboardPageComponents/DashboardHeade
 import LeaderboardSection from '@/components/DashboardPageComponents/LeaderboardSection';
 import { WalletManagement } from '@/components/TaskListPageComponents';
 import { useModal } from '@/hooks/useModal';
-import { useSIWE } from '@/hooks/useSIWE';
 import useSubnetMetagraph from '@/hooks/useSubnetMetaGraph';
-import { useAuth } from '@/providers/authContext';
 import { MODAL } from '@/types/ProvidersTypes';
 import { useEffect, useState } from 'react';
-import { useAccount, useDisconnect } from 'wagmi';
+import { useAccount } from 'wagmi';
 
 const DashboardPage = () => {
   const { data: subnetData, loading, error } = useSubnetMetagraph(52);
   const [showUserCard, setShowUserCard] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { openModal } = useModal(MODAL.wallet);
-  const { address, isConnected } = useAccount();
-  const { disconnect } = useDisconnect();
-  const { isAuthenticated } = useAuth();
-  const { signInWithEthereum } = useSIWE(() => console.log('post signin'));
+  const { address } = useAccount();
 
   const jwtTokenKey = `${process.env.NEXT_PUBLIC_REACT_APP_ENVIRONMENT}__jwtToken`;
 
@@ -48,12 +43,8 @@ const DashboardPage = () => {
         <LeaderboardSection
           miners={
             subnetData?.nonRootNeurons.map((neuron) => ({
-              hotkey: neuron.hotkey,
-              minerWeight: neuron.minerWeight,
-              stakedAmt: neuron.stakedAmt,
-              emission: neuron.emission,
-              rank: neuron.rank,
-              performanceData: neuron.historicalEmissions?.map((he) => he.emission) || [],
+              ...neuron,
+              performanceData: neuron.historicalEmissions?.map((e) => e.emission) ?? [],
             })) || []
           }
           loading={loading}
