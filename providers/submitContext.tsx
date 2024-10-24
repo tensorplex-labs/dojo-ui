@@ -1,7 +1,9 @@
 import useFeature from '@/hooks/useFeature';
+import useGetNextInProgressTask from '@/hooks/useGetNextTask';
 import { useSubmitTaskNew } from '@/hooks/useSubmitTaskNew';
 import { RankOrder, SubmitContextType } from '@/types/ProvidersTypes';
 import { CriterionWithResponses, Task } from '@/types/QuestionPageTypes';
+import { getTaskIdFromRouter } from '@/utils/general_helpers';
 import { useRouter } from 'next/router';
 import React, { ReactNode, createContext, useCallback, useContext, useState } from 'react';
 
@@ -19,6 +21,7 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [criterionForResponse, setCriterionForResponse] = useState<CriterionWithResponses[]>([]);
   const { submitTask, error, resetError: resetSubmissionError, response } = useSubmitTaskNew();
   const [multiSelectData, setMultiSelectData] = useState<string[]>([]);
+  const { fetchNextInProgressTask } = useGetNextInProgressTask();
   const [rankingData, setRankingData] = useState<any>();
   const [scoreData, setScoreData] = useState<number>(0);
   const [multiScore, setMultiScore] = useState<any>();
@@ -97,6 +100,7 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     ]); //Setting up the initial state with responses
   }, []);
   const submitTaskNew = useCallback(async () => {
+    if (!router) return;
     //Prepare the results data first
     const resultData = criterionForResponse.map((c) => {
       return { type: c.type, value: c.responses };
@@ -104,7 +108,9 @@ export const SubmitProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     const submitTaskRes = await submitTask(resultData as any);
     if (submitTaskRes?.success) {
       resetSubmissionError();
-      router.push('/task-list');
+      const nextTaskResponse = await fetchNextInProgressTask(getTaskIdFromRouter(router));
+      if (nextTaskResponse) router.replace(`/Questions?taskId=${nextTaskResponse.nextInProgressTaskId}`);
+      else router.push('/task-list');
     }
     //Then call the submit api
   }, [criterionForResponse]);
