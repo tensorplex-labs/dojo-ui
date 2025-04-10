@@ -1,32 +1,34 @@
 import { SubnetData } from '@/types/DashboardTypes';
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+
+const fetchSubnetMetagraph = async (subnetId: number): Promise<SubnetData> => {
+  // Hardcoding this at code level because this is the only cross service endpoint
+  const response = await fetch(`https://backprop.finance/api/subnets/${subnetId}/info`);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  const result = await response.json();
+  if (!result.body) {
+    throw new Error('API response did not contain expected body');
+  }
+  return result.body as SubnetData;
+};
 
 const useSubnetMetagraph = (subnetId: number) => {
-  const [data, setData] = useState<SubnetData | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data, isLoading, isError, error } = useQuery<SubnetData, Error>({
+    queryKey: ['subnetMetagraph', subnetId],
+    queryFn: () => fetchSubnetMetagraph(subnetId),
+    enabled: !!subnetId,
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
+    retry: 2,
+  });
 
-  useEffect(() => {
-    const fetchSubnetMetagraph = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(`https://ttx-api.tensorplex.ai/api/subnets/${subnetId}/info`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const result = await response.json();
-        setData(result.body);
-      } catch (e) {
-        setError(e instanceof Error ? e.message : 'An unknown error occurred');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSubnetMetagraph();
-  }, [subnetId]);
-
-  return { data, loading, error };
+  return {
+    data: data ?? null,
+    loading: isLoading,
+    error: isError ? error.message : null,
+  };
 };
 
 export default useSubnetMetagraph;

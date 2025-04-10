@@ -1,22 +1,51 @@
+import useSubnetMetagraph from '@/hooks/useSubnetMetaGraph';
 import { NonRootNeuronObj } from '@/types/DashboardTypes';
 import { FontManrope, FontSpaceMono } from '@/utils/typography';
-import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useCallback, useState } from 'react';
 import MinerLeaderboard from './MinerLeaderboard';
 import ValidatorLeaderboard from './ValidatorLeaderboard';
 
-interface LeaderboardSectionProps {
-  miners: NonRootNeuronObj[];
-  validators: NonRootNeuronObj[];
-  loading: boolean;
-  error?: string | null;
-}
-
-const LeaderboardSection: React.FC<LeaderboardSectionProps> = ({ miners, validators, loading, error }) => {
+const LeaderboardSection = () => {
   const [showValidators, setShowValidators] = useState(false);
+  const { data: subnetData, loading: subnetDataIsLoading, error: subnetDataError } = useSubnetMetagraph(52);
 
-  if (error) {
-    return <div>Error loading leaderboard: {error}</div>;
-  }
+  const {
+    data: delegates,
+    isLoading: delegatesLoading,
+    error: delegatesError,
+  } = useQuery({
+    queryKey: ['getDelegates'],
+    queryFn: async () => {
+      const res = await fetch(
+        'https://raw.githubusercontent.com/opentensor/bittensor-delegates/refs/heads/main/public/delegates.json'
+      );
+      return res.json();
+    },
+  });
+
+  const getValidatorsOrMiners = useCallback(
+    (which: 'miner' | 'validator') => {
+      if (subnetDataError || delegatesError || !delegates) return [];
+      const tmpRetList: NonRootNeuronObj[] = [];
+      const delegateKeys = Object.keys(delegates);
+      subnetData?.nonRootNeurons.forEach((data) => {
+        const totalEmission = data.historicalEmissions.reduce((sum, { emission }) => sum + emission, 0);
+        const neuronWithEmission = { ...data, totalEmission };
+
+        const matchedValidator = delegateKeys.find((key) => key === data.hotkey);
+        if (matchedValidator && which === 'validator') {
+          tmpRetList.push(neuronWithEmission);
+        }
+        if (!matchedValidator && which === 'miner') {
+          tmpRetList.push(neuronWithEmission);
+        }
+      });
+
+      return tmpRetList;
+    },
+    [subnetData, delegates, delegatesError, subnetDataError]
+  );
 
   const toggleLeaderboard = () => {
     setShowValidators((prev) => !prev);
@@ -43,9 +72,15 @@ const LeaderboardSection: React.FC<LeaderboardSectionProps> = ({ miners, validat
       </div>
       <div className="overflow-x-auto">
         {showValidators ? (
-          <ValidatorLeaderboard validators={validators} isLoading={loading} />
+          <ValidatorLeaderboard
+            validators={getValidatorsOrMiners('validator')}
+            isLoading={subnetDataIsLoading || delegatesLoading}
+          />
         ) : (
-          <MinerLeaderboard miners={miners} isLoading={loading} />
+          <MinerLeaderboard
+            miners={getValidatorsOrMiners('miner')}
+            isLoading={subnetDataIsLoading || delegatesLoading}
+          />
         )}
       </div>
     </div>
