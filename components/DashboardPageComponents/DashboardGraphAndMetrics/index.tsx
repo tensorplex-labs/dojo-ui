@@ -1,10 +1,12 @@
 import useCompletedTasksCount from '@/hooks/useCompletedTasksCount';
 import useCompletedTasksByInterval from '@/hooks/useCumulativeTask';
+import useSubnetMetagraph from '@/hooks/useSubnetMetaGraph';
 import { abbreviateNumber } from '@/utils/math_helpers';
 import { FontSpaceMono } from '@/utils/typography';
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts/highstock';
 import { useEffect, useRef, useState } from 'react';
+import { GraphErrorState, GraphLoadingState } from './graph-display-states';
 
 interface SubnetData {
   id: number;
@@ -38,16 +40,11 @@ interface SubnetData {
   }[];
 }
 
-interface DashboardGraphAndMetricsProps {
-  subnetData: SubnetData | null;
-  loading: boolean;
-  error: string | null;
-}
-
-function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraphAndMetricsProps) {
+const DashboardGraphAndMetrics = () => {
   // const [chartOptions, setChartOptions] = useState<Highcharts.Options>({});
   const { numCompletedTasks, loading: completedTasksLoading, error: completedTasksError } = useCompletedTasksCount();
   const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
+  const { data: subnetData, loading: subnetDataIsLoading, error: subnetDataError } = useSubnetMetagraph(52);
 
   // State for date range
   const [dateRange] = useState(() => {
@@ -417,10 +414,6 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
     };
   }, []);
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
   // Add resize handler
   return (
     <div className="flex w-full flex-col gap-2 pt-5">
@@ -431,7 +424,7 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
             className="min-w-[200px] grow rounded-sm border-2 border-black bg-white p-3  lg:min-w-0 lg:p-4"
           >
             <div className={`${FontSpaceMono.className} mb-1 text-sm font-bold lg:text-lg`}>{metric.label}</div>
-            {loading ? (
+            {subnetDataIsLoading ? (
               <div className={`${FontSpaceMono.className} h-8 w-24 animate-pulse bg-gray-200 lg:h-10 lg:w-36`}></div>
             ) : (
               <div className={`text-2xl font-bold lg:text-4xl`}>{metric.value}</div>
@@ -441,14 +434,30 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
       </div>
       <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
         <div className=" rounded-sm border-2 border-black bg-white">
-          <HighchartsReact highcharts={Highcharts} options={optionsLiveEmPast30D} constructorType={'stockChart'} />
+          {subnetDataIsLoading ? (
+            <GraphLoadingState id="historical emissions" />
+          ) : subnetDataError ? (
+            <GraphErrorState id="historical emissions" />
+          ) : (
+            <HighchartsReact highcharts={Highcharts} options={optionsLiveEmPast30D} constructorType={'stockChart'} />
+          )}
         </div>{' '}
         <div className=" rounded-sm border-2 border-black bg-white">
-          <HighchartsReact highcharts={Highcharts} options={optionsCumWorkerTaskCount} constructorType={'stockChart'} />
+          {cumulativeTasksCompletedLoading ? (
+            <GraphLoadingState id="cumulative tasks completed" />
+          ) : cumulativeTasksCompletedError ? (
+            <GraphErrorState id="cumulative tasks completed" />
+          ) : (
+            <HighchartsReact
+              highcharts={Highcharts}
+              options={optionsCumWorkerTaskCount}
+              constructorType={'stockChart'}
+            />
+          )}
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default DashboardGraphAndMetrics;
