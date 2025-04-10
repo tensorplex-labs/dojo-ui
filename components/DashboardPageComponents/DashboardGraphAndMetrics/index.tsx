@@ -449,50 +449,6 @@ function DashboardGraphAndMetrics({ subnetData, loading, error }: DashboardGraph
       </div>
     </div>
   );
-
-  return (
-    <div className="container mx-auto mb-6 px-0">
-      <div className="flex w-full flex-col justify-between gap-3 lg:flex-row">
-        <div className="flex flex-row gap-3 overflow-x-auto py-3 lg:min-w-[240px] lg:flex-col lg:overflow-x-visible lg:p-0">
-          {kpiMetrics.map((metric, index) => (
-            <div
-              key={index}
-              className="w-full min-w-[200px] rounded-sm border-2 border-black bg-white p-3  lg:min-w-0 lg:p-4"
-            >
-              <div className={`${FontSpaceMono.className} mb-1 text-sm font-bold lg:text-lg`}>{metric.label}</div>
-              {loading ? (
-                <div className={`${FontSpaceMono.className} h-8 w-24 animate-pulse bg-gray-200 lg:h-10 lg:w-36`}></div>
-              ) : (
-                <div className={`text-2xl font-bold lg:text-4xl`}>{metric.value}</div>
-              )}
-            </div>
-          ))}
-        </div>
-        <div className="min-h-[300px] flex-1 rounded-sm border-2 border-black bg-white lg:min-h-[400px]">
-          <div className="size-full p-4">
-            {loading ? (
-              <div className="flex h-full flex-col">
-                <div className="mb-4 h-6 w-48 animate-pulse bg-gray-200"></div>
-                <div className="mb-6 h-8 w-32 animate-pulse bg-gray-300"></div>
-                <div className="flex-1 space-y-4">
-                  <div className="h-40 w-full animate-pulse bg-gray-200"></div>
-                  <div className="h-4 w-3/4 animate-pulse bg-gray-200"></div>
-                  <div className="h-4 w-1/2 animate-pulse bg-gray-200"></div>
-                </div>
-                <div className="mt-4 flex justify-between">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="h-8 w-16 animate-pulse rounded-md bg-gray-200"></div>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <HighchartsReact highcharts={Highcharts} options={optionsLiveEmPast30D} constructorType={'stockChart'} />
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
 }
 
 export default DashboardGraphAndMetrics;
