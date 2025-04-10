@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 const fetchCompletedTasksByInterval = async (dateFrom: number, dateTo: number, intervalDays: number) => {
   const response = await fetch(
-    `https://dojo-api-testnet.tensorplex.ai/api/v1/metrics/completed-tasks-by-interval?dateFrom=${dateFrom}&dateTo=${dateTo}&intervalDays=${intervalDays}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/metrics/completed-tasks-by-interval?dateFrom=${dateFrom}&dateTo=${dateTo}&intervalDays=${intervalDays}`,
     {
       method: 'GET',
       headers: {
