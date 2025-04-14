@@ -3,7 +3,7 @@ function generateCSP() {
   const policy = process.env.NEXT_PUBLIC_BACKEND_URL?.includes('localhost')
     ? ''
     : {
-        'default-src': ['https://*.tensorplex.ai', 'https://*.tensorplex.dev'],
+        'default-src': ['https://raw.githubusercontent.com', 'https://backprop.finance'],
         'script-src': [
           "'self'",
           "'unsafe-eval'",
@@ -26,6 +26,8 @@ function generateCSP() {
           'wss://*.walletconnect.com',
           'https://*.walletconnect.com',
           'https://*.google-analytics.com',
+          'https://raw.githubusercontent.com',
+          'https://backprop.finance',
         ],
         'worker-src': ["'self'", 'blob:'],
         'media-src': ["'self'", 'blob: data:'],
