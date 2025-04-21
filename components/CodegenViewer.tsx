@@ -303,7 +303,7 @@ const CodegenViewer = ({ encodedHtml }: CodegenVisProps) => {
       src={iframeSrc || ''}
       title="Dynamic Visualization"
       style={{ border: 'none', display: 'block' }}
-      className="aspect-square w-full min-w-[400px]"
+      className="aspect-square w-full min-w-[318px]"
       onLoad={handleIframeLoad}
     />
   );
