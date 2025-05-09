@@ -244,8 +244,9 @@ const SingleOutputTaskVisualizer = ({ task, className, ...props }: TaskVisualize
           return (
             <div className={cn('overflow-hidden rounded-sm border-2 border-black w-full')}>
               <textarea
+                maxLength={600}
                 className={cn(
-                  `${FontManrope.className} block w-full resize-none overflow-hidden rounded-sm border-black bg-background px-3 py-2 text-sm font-semibold text-black placeholder:text-sm focus:bg-white focus:outline-none md:border-0`
+                  `${FontManrope.className} h-[200px] block w-full resize-none overflow-hidden rounded-sm border-black bg-background px-3 py-2 text-sm font-semibold text-black placeholder:text-sm focus:bg-white focus:outline-none md:border-0`
                 )}
                 onChange={(e) => onchangeHandler(crit.query ?? '', e.target.value)}
               />
