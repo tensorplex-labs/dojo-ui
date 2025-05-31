@@ -71,7 +71,7 @@ const MainFooter = ({ className, ...props }: Props) => {
                 'max-w-[1100px] grow text-muted-foreground text-xs text-center sm:text-start hidden sm:flex'
               )}
             >
-              ©2024 Tensorplex Labs - All rights reserved.
+              2025 Tensorplex Labs - All rights reserved.
             </div>
             <div className="flex">
               {footerLinks.map((link, idx) => {
@@ -85,7 +85,7 @@ const MainFooter = ({ className, ...props }: Props) => {
             <div
               className={cn('max-w-[1100px] grow text-muted-foreground text-xs text-center sm:text-start sm:hidden')}
             >
-              ©2024 Tensorplex Labs - All rights reserved.
+              ©2025 Tensorplex Labs - All rights reserved.
             </div>
           </div>
         </div>
