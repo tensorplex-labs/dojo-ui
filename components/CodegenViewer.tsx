@@ -193,15 +193,21 @@ const JSSecurityFull = `
             delete window.chrome.runtime;
         }
 
-        // Restrict access to sensitive globals
+         // Restrict access to sensitive globals
         const restrictedGlobals = ['localStorage', 'sessionStorage', 'indexedDB', 'webkitIndexedDB', 'mozIndexedDB', 'msIndexedDB'];
-        restrictedGlobals.forEach(prop => {
-            Object.defineProperty(window, prop, {
-                get: function() { return 'Access denied'; },
-                set: function() { return 'Access denied'; }
-            });
-        });
+        const mockStorage = {
+              getItem: (key) => "mock",
+              setItem: (key, value) => {},
+              removeItem: (key) => {},
+              clear: () => {},
+            };
 
+            restrictedGlobals.forEach((prop) => {
+              Object.defineProperty(window, prop, {
+                value: mockStorage,
+                writable: true,
+              });
+            });
         // console.log("iframe eth in window",'ethereum' in window)
         // console.log("iframe has cookies",!!document.cookie)
         // console.log("iframe has localstorage",localStorage)
