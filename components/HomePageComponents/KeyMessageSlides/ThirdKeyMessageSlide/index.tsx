@@ -1,3 +1,4 @@
+'use client';
 import { KEY_MESSAGE_SCROLL_HEIGHT } from '@/constants';
 import { FontSpaceMono } from '@/utils/typography';
 import { useWindowSize } from '@uidotdev/usehooks';
