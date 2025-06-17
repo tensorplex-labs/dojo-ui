@@ -1,3 +1,4 @@
+'use client';
 import {
   KEY_MESSAGE_SCROLL_HEIGHT,
   buttonAnimVariant,
