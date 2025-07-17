@@ -4,10 +4,11 @@ import { IconLoader } from '@tabler/icons-react';
 
 interface Props extends React.HTMLProps<HTMLDivElement> {
   url: string;
+  disableKeyboards?: boolean;
 }
 
-const GaussianSplatViewer = ({ url, className, ...rest }: Props) => {
-  const { containerRef, ready, error } = useGaussianSplatViewer(url);
+const GaussianSplatViewer = ({ url, className, disableKeyboards, ...rest }: Props) => {
+  const { containerRef, ready, error } = useGaussianSplatViewer(url, { disableKeyboards });
 
   return (
     <div className={cn(!ready && 'h-[200px]', className)}>

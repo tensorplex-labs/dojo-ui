@@ -156,10 +156,11 @@ const New3DVisualizer = ({ task }: Props) => {
                 <div className={cn(FontSpaceMono.className, 'font-bold w-full flex justify-between')}>
                   3D Output {index + 1} - {response.model}
                 </div>
-                <div className="size-full rounded-sm border-2 border-black">
+                <div className="size-full rounded-sm ">
                   <GaussianSplatViewer
                     className={cn('max-h-[400px] h-full w-full max-w-full aspect-square')}
                     url={response.completion.url}
+                    disableKeyboards={true}
                   ></GaussianSplatViewer>
                 </div>
               </div>
