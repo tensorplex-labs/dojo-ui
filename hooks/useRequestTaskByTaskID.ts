@@ -6,7 +6,7 @@ import useFeature from './useFeature';
 
 const getCorrectS3UrlByUrl = (s3Url: string, taskType: string) => {
   try {
-    if (taskType === 'TEXT_TO_THREE_D') {
+    if (taskType === 'TEXT_TO_THREE_D' || taskType === 'TEXT_TO_THREE_D_DEMO') {
       return `${process.env.NEXT_PUBLIC_BACKEND_URL}${s3Url}`;
     }
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
@@ -46,6 +46,7 @@ const useRequestTaskByTaskID = (taskId: string, isConnected?: boolean, isAuthent
         //We need to process it by getting the correct url.
         if (
           filteredTask.taskData.task_modality === 'TEXT_TO_THREE_D' ||
+          filteredTask.taskData.task_modality === 'TEXT_TO_THREE_D_DEMO' ||
           filteredTask.taskData.task_modality === 'TEXT_TO_IMAGE'
         ) {
           filteredTask.taskData.responses.forEach((r: any) => {

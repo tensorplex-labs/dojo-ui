@@ -79,6 +79,7 @@ const useGaussianSplatViewer = (url: string) => {
         rootElement: containerRef.current,
         sharedMemoryForWorkers: false,
         dynamicScene: true,
+        useBuiltInControls: false,
       });
       viewerRef.current = viewer;
 
