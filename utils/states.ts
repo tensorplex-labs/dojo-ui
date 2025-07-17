@@ -306,6 +306,93 @@ export const taskTTI: any[] = [
 export const task3d: any[] = [
   {
     taskId: 'demo8-3d',
+    summary: '404GEN-3D-Duel',
+    title: 'SN17 - 3D Duel',
+    body: 'blue industrial building with pipes',
+    expireAt: '2099-12-03T15:04:00Z',
+    taskData: {
+      task_modality: 'TEXT_TO_THREE_D',
+      prompt: 'Blue industrial building with pipes',
+      criteria: [
+        {
+          max: 10,
+          min: 1,
+          query: 'MULTI SCORE',
+          type: 'score',
+          options: ['3D object 1', '3D object 2'],
+        },
+      ],
+      responses: [
+        {
+          model: 'ef04e47c-f02f-46d2-b21c-ba3e937cd1ae',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              query: 'MULTI SCORE',
+              type: 'score',
+              options: ['3D object 1', '3D object 2'],
+            },
+          ],
+          completion: {
+            url: '/img/demo/blue_industrial_building_with_pipes_win.ply',
+          },
+        },
+        {
+          model: '9ea7dbde-4e27-466a-aab6-987bde7c5fb1',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              query: 'MULTI SCORE',
+              type: 'score',
+              options: ['3D object 1', '3D object 2'],
+            },
+          ],
+          completion: {
+            url: '/img/demo/blue_industrial_building_with_pipes_win_augmented_pcd_tensor_1_ok.ply',
+          },
+        },
+        {
+          model: '04027a35-9a53-4ca1-a7b0-72f8ac128b68',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              query: 'MULTI SCORE',
+              type: 'score',
+              options: ['3D object 1', '3D object 2'],
+            },
+          ],
+          completion: {
+            url: '/img/demo/blue_industrial_building_with_pipes_win_augmented_pcd_tensor_2_ok.ply',
+          },
+        },
+        {
+          model: '2b1881d7-33b7-4de5-838d-0dc9ac63a002',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              query: 'MULTI SCORE',
+              type: 'score',
+              options: ['3D object 1', '3D object 2'],
+            },
+          ],
+          completion: {
+            url: '/img/demo/blue_industrial_building_with_pipes_win_augmented_pcd_tensor_3_ok.ply',
+          },
+        },
+      ],
+    },
+    status: 'IN_PROGRESS',
+    maxResults: 10,
+    numResults: 2,
+    numCriteria: 4,
+    isCompletedByWorker: false,
+  },
+  {
+    taskId: 'demo8-3d',
     summary: '3D crisp lettuce bowl model',
     title: 'SN17 - 3D Model',
     body: 'Crisp Lettuce in a bowl.',
