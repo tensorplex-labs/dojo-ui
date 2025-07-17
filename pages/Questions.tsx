@@ -1,5 +1,6 @@
 import Footer from '@/components/Common/Footer';
 import { ErrorModal } from '@/components/QuestionPageComponents';
+import New3DVisualizer from '@/components/QuestionPageComponents/3DModel/New3DVisualizer';
 import MultiOutputVisualizer from '@/components/QuestionPageComponents/MultiOutputTask/MultiOutputVisualizer';
 import SingleOutputTaskVisualizer from '@/components/QuestionPageComponents/SingleOutputTask/SingleOutputTaskVisualizer';
 import useRequestTaskByTaskID from '@/hooks/useRequestTaskByTaskID';
@@ -30,6 +31,7 @@ const Questionsv2 = () => {
     error: taskError,
   } = useRequestTaskByTaskID(getTaskIdFromRouter(), isConnected, isAuthenticated);
   useEffect(() => {
+    console.log('restting', task);
     task && resetCriterionForResponse(task); //Putting the reset in this common parent page
   }, [task]);
 
@@ -50,8 +52,12 @@ const Questionsv2 = () => {
             </div>
           </div>
         )}
-        {task && task.taskData.responses.length > 1 && !isTaskLoading && (
-          <MultiOutputVisualizer containerClassName="" task={task} />
+        {task?.title.includes('3D Model Demo') ? (
+          <New3DVisualizer task={task} />
+        ) : (
+          task &&
+          task.taskData.responses.length > 1 &&
+          !isTaskLoading && <MultiOutputVisualizer containerClassName="" task={task} />
         )}
       </div>
       {!isTaskLoading && task && ((isAuthenticated && isConnected) || exp) && <Footer task={task} />}

@@ -17,7 +17,7 @@ const checkPlyUrl = async (url: string): Promise<boolean> => {
   }
 };
 
-const useGaussianSplatViewer = (url: string) => {
+const useGaussianSplatViewer = (url: string, { disableKeyboards = false }: { disableKeyboards?: boolean } = {}) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<any>(null);
   const plyUrl = url.startsWith('https:') ? url : `https://${url}`;
@@ -79,6 +79,7 @@ const useGaussianSplatViewer = (url: string) => {
         rootElement: containerRef.current,
         sharedMemoryForWorkers: false,
         dynamicScene: true,
+        useBuiltInControls: !disableKeyboards,
       });
       viewerRef.current = viewer;
 
