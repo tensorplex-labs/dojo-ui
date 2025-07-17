@@ -315,18 +315,17 @@ export const task3d: any[] = [
       criteria: [
         {
           type: 'single-select',
-          query: 'Duel Robot Arms Winner',
-          options: ['a1z372x8', 'b0a92nw', 'Draw'],
+          query: 'Which is the better output',
+          options: ['miner-20187a', 'miner-ba716ah', 'Draw'],
         },
         {
           type: 'text',
-          query:
-            'What specific improvements could make this output more accurate, complete, or relevant to the prompt?',
+          query: 'Why?',
         },
       ],
       responses: [
         {
-          model: 'a1z372x8',
+          model: 'miner-20187a',
           criteria: [
             {
               max: 10,
@@ -341,7 +340,7 @@ export const task3d: any[] = [
           },
         },
         {
-          model: 'b0a92nw',
+          model: 'miner-ba716ah',
           criteria: [
             {
               max: 10,

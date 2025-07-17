@@ -1,14 +1,38 @@
+import CopyBtn from '@/components/Common/CopyButton/CopyBtn';
 import MultiSelectV2 from '@/components/Common/MultileSelect/MultiSelectV2';
 import Slider from '@/components/Common/Slider';
 import GaussianSplatViewer from '@/components/GaussianSplatViewer';
 import { useSubmit } from '@/providers/submitContext';
 import { Criterion, Task } from '@/types/QuestionPageTypes';
 import { cn } from '@/utils/tw';
-import { FontManrope } from '@/utils/typography';
+
+import { FontManrope, FontSpaceMono } from '@/utils/typography';
+import { IconProgress, IconSparkles } from '@tabler/icons-react';
 import { useCallback, useState } from 'react';
+import { CollapsiblePrompt } from '../FormattedPrompt';
 interface Props {
   task: Task;
 }
+
+interface VisualizerContentBoxProps extends React.HTMLProps<HTMLDivElement> {
+  children: React.ReactNode;
+  key?: string;
+}
+const VisualizerContentBox: React.FC<VisualizerContentBoxProps> = ({
+  children,
+  className,
+  ...props
+}: VisualizerContentBoxProps) => (
+  <div
+    className={cn(
+      'flex w-full flex-wrap items-start gap-[5px] rounded-md border-0 border-font-primary/10 bg-background p-3',
+      className
+    )}
+  >
+    {children}
+  </div>
+);
+
 const New3DVisualizer = ({ task }: Props) => {
   //This is temporary
   const [qn1, setQn1] = useState<string>('');
@@ -42,7 +66,8 @@ const New3DVisualizer = ({ task }: Props) => {
         case 'text':
           return (
             <div className="flex flex-col gap-0.5">
-              <div>{crit.query}</div>
+              <div className={cn(FontSpaceMono.className, 'font-bold')}>{crit.query}</div>
+
               <div className={cn('overflow-hidden rounded-sm border-2 border-black w-full')}>
                 <textarea
                   value={qn2}
@@ -61,7 +86,7 @@ const New3DVisualizer = ({ task }: Props) => {
         case 'single-select':
           return (
             <div className="flex flex-col gap-0.5">
-              <div>{crit.query}</div>
+              <div className={cn(FontSpaceMono.className, 'font-bold')}>{crit.query}</div>
               <MultiSelectV2
                 singleSelect={true}
                 options={crit.options ?? []}
@@ -96,18 +121,49 @@ const New3DVisualizer = ({ task }: Props) => {
   );
   return (
     <div className="mx-4 grid w-full max-w-[1075px] grid-cols-2 gap-4">
-      <div className="flex flex-col gap-4">
+      <div className="flex h-fit w-full flex-col justify-start gap-4  rounded-lg border border-font-primary/10 bg-background-accent p-3 ">
+        <div className={cn('flex justify-between text-xs ', FontSpaceMono.className)}>
+          <div className="flex flex-col lowercase">
+            <div className={cn('flex items-center gap-[5px]')}>
+              <span className="w-fit max-w-[150px] truncate">id: {task.taskId}</span>
+              <CopyBtn copyString={task.taskId} className="size-[14px]" />
+            </div>
+            <span>type: {task.taskData.task_modality.replaceAll('_', ' ')}</span>
+            <span>model: kimi/kimi-3d-v1-1</span>
+          </div>
+          <div className="flex items-start gap-[3px]">
+            In Progress
+            <IconProgress size={16} />
+          </div>
+        </div>
+        <VisualizerContentBox>
+          <div className="flex gap-[5px]">
+            <IconSparkles className="my-[2px] size-[20px] shrink-0 animate-pulse"></IconSparkles>
+            <CollapsiblePrompt
+              // collapsedClassName="h-[70px]"
+              // autoHideHeightThreshold={75}
+              // isCollapsibleClassName="pr-4"
+              className="text-sm"
+            >
+              {task.taskData.prompt}
+            </CollapsiblePrompt>
+          </div>
+        </VisualizerContentBox>
         {task.taskData.responses.map((response, index) => {
           return (
-            <div className="flex flex-col gap-0.5" key={'new_3d_model_' + index}>
-              <div className="">{response.model}</div>
-              <div className="size-full rounded-sm border-2 border-black">
-                <GaussianSplatViewer
-                  className={cn('max-h-[400px] h-full w-full max-w-full aspect-square')}
-                  url={response.completion.url}
-                ></GaussianSplatViewer>
+            <VisualizerContentBox key={'new_3d_model_' + index}>
+              <div className="flex w-full flex-col gap-0.5">
+                <div className={cn(FontSpaceMono.className, 'font-bold w-full flex justify-between')}>
+                  3D Output {index + 1} - {response.model}
+                </div>
+                <div className="size-full rounded-sm border-2 border-black">
+                  <GaussianSplatViewer
+                    className={cn('max-h-[400px] h-full w-full max-w-full aspect-square')}
+                    url={response.completion.url}
+                  ></GaussianSplatViewer>
+                </div>
               </div>
-            </div>
+            </VisualizerContentBox>
           );
         })}
       </div>
