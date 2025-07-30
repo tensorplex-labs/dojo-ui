@@ -45,6 +45,7 @@ import { Task } from '@/types/QuestionPageTypes';
 import { cn } from '@/utils/tw';
 import { ColumnDef, Row } from '@tanstack/react-table';
 import Head from 'next/head';
+
 const countdownTimerAutoFetchTask = 120;
 const getCategoryObjectsFromUrlQuery = (query: string | string[] | undefined, baseCategories: any[]) => {
   if (!query) return [];
@@ -168,6 +169,25 @@ const RenderButton = (id: string, state: ButtonState, router: NextRouter, exp: b
       </a>
     </Tooltip>
   );
+};
+const spzLoader = async () => {
+  const spzUrl = 'http://localhost:3000/racoonfamily.spz';
+  // const spzUrl = 'http://localhost:3000/a9807cb1-9944-429d-8681-c3f301741687.spz';
+  const spzBuffer = await fetch(spzUrl)
+    .then((res) => res.arrayBuffer())
+    .then((buf) => new Uint8Array(buf));
+  console.log('spzbuffer', spzBuffer.byteLength, spzBuffer.length);
+  return spzBuffer;
+  // const result = await loadSpz(spzBuffer)
+  //   .then((result) => {
+  //     console.log(result.numPoints);
+  //     return result;
+  //   })
+  //   .catch((e) => {
+  //     console.error(e);
+  //     return null;
+  //   });
+  // return result;
 };
 
 export default function Index() {

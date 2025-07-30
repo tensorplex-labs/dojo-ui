@@ -305,6 +305,64 @@ export const taskTTI: any[] = [
 // Demo data for codes
 export const task3d: any[] = [
   {
+    summary: '3D Habitat with dome structure',
+    title: 'SN17 - 3D Model Demo',
+    body: 'Habitat with dome structure.',
+    expireAt: '2099-12-03T15:04:00Z',
+    taskData: {
+      task_modality: 'TEXT_TO_THREE_D',
+      prompt: 'Habitat with dome structure.',
+      criteria: [
+        {
+          type: 'single-select',
+          query: 'Which is the better output',
+          options: ['miner-5Ljf42dd', 'miner-5mN45fd', 'Draw'],
+        },
+        {
+          type: 'text',
+          query: 'Why?',
+        },
+      ],
+      responses: [
+        {
+          model: 'miner-5Ljf42dd',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              query: 'MULTI SCORE',
+              type: 'score',
+              options: ['3D object 1', '3D object 2'],
+            },
+          ],
+          completion: {
+            url: '/img/demo/habitat_with_dome_structure_miner-5Ljf42dd.ply',
+          },
+        },
+        {
+          model: 'miner-5mN45fd',
+          criteria: [
+            {
+              max: 10,
+              min: 1,
+              query: 'MULTI SCORE',
+              type: 'score',
+              options: ['3D object 1', '3D object 2'],
+            },
+          ],
+          completion: {
+            url: '/img/demo/habitat_with_dome_structure_miner-5mN45fd.ply ',
+          },
+        },
+      ],
+    },
+    status: 'IN_PROGRESS',
+    maxResults: 10,
+    numResults: 2,
+    numCriteria: 4,
+    isCompletedByWorker: false,
+  },
+  {
     summary: '3D Black and white striped robot arm extending',
     title: 'SN17 - 3D Model Demo',
     body: 'Black and white striped robot arm extending.',
@@ -363,7 +421,6 @@ export const task3d: any[] = [
     isCompletedByWorker: false,
   },
   {
-    taskId: 'demo8-3d',
     summary: '404GEN-3D-Duel',
     title: 'SN17 - 3D Duel',
     body: 'blue industrial building with pipes',
@@ -449,92 +506,7 @@ export const task3d: any[] = [
     numCriteria: 4,
     isCompletedByWorker: false,
   },
-  {
-    summary: '3D crisp lettuce bowl model',
-    title: 'SN17 - 3D Model',
-    body: 'Crisp Lettuce in a bowl.',
-    expireAt: '2099-12-03T15:04:00Z',
-    taskData: {
-      task_modality: 'TEXT_TO_THREE_D',
-      prompt: 'Crisp Lettuce in a bowl.',
-      criteria: [
-        {
-          max: 10,
-          min: 1,
-          query: 'MULTI SCORE',
-          type: 'score',
-          options: ['3D object 1', '3D object 2'],
-        },
-      ],
-      responses: [
-        {
-          model: 'stabilityai/stable-diffusion-xl-base-1.0',
-          criteria: [
-            {
-              max: 10,
-              min: 1,
-              query: 'MULTI SCORE',
-              type: 'score',
-              options: ['3D object 1', '3D object 2'],
-            },
-          ],
-          completion: {
-            url: '/img/demo/crisp_lettuce_in_bowl.5G6NHLWHx9qqDid5J8w8K8MCyJzny2b1KDYuHtMStjHMpdsL.ply',
-          },
-        },
-        {
-          model: 'runwayml/stable-diffusion-v1-5',
-          criteria: [
-            {
-              max: 10,
-              min: 1,
-              query: 'MULTI SCORE',
-              type: 'score',
-              options: ['3D object 1', '3D object 2'],
-            },
-          ],
-          completion: {
-            url: '/img/demo/crisp_lettuce_in_bowl.5DCq8TQ4JQh2r5TGoMx18qzgFQadvqHdwmP8EWiTM1eb3VKk.ply',
-          },
-        },
-        {
-          model: 'yourm/stable-diffusion-v0-2',
-          criteria: [
-            {
-              max: 10,
-              min: 1,
-              query: 'MULTI SCORE',
-              type: 'score',
-              options: ['3D object 1', '3D object 2'],
-            },
-          ],
-          completion: {
-            url: '/img/demo/crisp_lettuce_in_bowl.5EfRE6UGyeJYd8cTPJnZVBc4GwjMpGfik3U4cNBnp6Skjd2T.ply',
-          },
-        },
-        {
-          model: 'dllm/sd-extra-0.3',
-          criteria: [
-            {
-              max: 10,
-              min: 1,
-              query: 'MULTI SCORE',
-              type: 'score',
-              options: ['3D object 1', '3D object 2'],
-            },
-          ],
-          completion: {
-            url: '/img/demo/crisp_lettuce_in_bowl.5CStaWfMH2E7oVGgGZsC2pDqgGjRjgy3Mjtq8eUrEL5Wwhg1.ply',
-          },
-        },
-      ],
-    },
-    status: 'IN_PROGRESS',
-    maxResults: 10,
-    numResults: 2,
-    numCriteria: 4,
-    isCompletedByWorker: false,
-  },
+
   {
     taskId: 'demo8-3d',
     summary: '3D crisp lettuce bowl model',
@@ -566,7 +538,7 @@ export const task3d: any[] = [
             },
           ],
           completion: {
-            url: '/img/demo/crisp_lettuce_in_bowl.5G6NHLWHx9qqDid5J8w8K8MCyJzny2b1KDYuHtMStjHMpdsL.ply',
+            url: 'https://s3.us-east-005.backblazeb2.com/sn52-3d-gen/dec09ae6-bd5c-48bf-b14d-e6a35c63d376/a9807cb1-9944-429d-8681-c3f301741687.spz',
           },
         },
         {

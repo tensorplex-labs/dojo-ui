@@ -19,6 +19,7 @@ function generateCSP() {
         'frame-src': ['blob: data:', 'https://verify.walletconnect.org', "'self'"],
         'connect-src': [
           "'self'",
+          'https://s3.us-east-005.backblazeb2.com',
           'https://*.tensorplex.ai',
           'https://dojo.network',
           'https://*.dojo.network',
@@ -50,11 +51,14 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* <script src="https://unpkg.com/fzstd@0.1.1" async></script> */}
       </Head>
       <meta
         name="description"
         content="Improve Decentralized AI Multimodal model through Crowd Sourcing with Dojo Network. Support Open Source Models (Bittensor Subnet, etc)"
       ></meta>
+      <meta httpEquiv="Cross-Origin-Embedder-Policy" content="require-corp" />
+      <meta httpEquiv="Cross-Origin-Opener-Policy" content="same-origin" />
       <meta httpEquiv="Content-Security-Policy" content={generateCSP()} />
       <body style={{ backgroundColor: '#FFFFF4' }}>
         <Main />

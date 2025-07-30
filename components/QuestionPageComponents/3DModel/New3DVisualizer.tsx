@@ -169,11 +169,13 @@ const New3DVisualizer = ({ task }: Props) => {
         })}
       </div>
       <div className="flex flex-col gap-4">
-        {(task.taskData as any).criteria.map((crit: Criterion, _: any) =>
-          renderLabelQuestion(task.taskId, crit, (idx, value) => {
-            handleChange(task.taskId, crit, value);
-          })
-        )}
+        {(task.taskData as any).criteria.map((crit: Criterion, _: any) => (
+          <div key={crit.query}>
+            {renderLabelQuestion(task.taskId, crit, (idx, value) => {
+              handleChange(task.taskId, crit, value);
+            })}
+          </div>
+        ))}
       </div>
     </div>
   );

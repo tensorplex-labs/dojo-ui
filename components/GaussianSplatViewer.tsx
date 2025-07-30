@@ -9,7 +9,7 @@ interface Props extends React.HTMLProps<HTMLDivElement> {
 
 const GaussianSplatViewer = ({ url, className, disableKeyboards, ...rest }: Props) => {
   const { containerRef, ready, error } = useGaussianSplatViewer(url, { disableKeyboards });
-
+  console.log('ready', ready, url);
   return (
     <div className={cn(!ready && 'h-[200px]', className)}>
       {!ready && <IconLoader className="size-20 animate-spin" />}
