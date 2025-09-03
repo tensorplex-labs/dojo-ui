@@ -10,7 +10,7 @@ export interface LoginAuthResponse {
 
 export interface LoginAuthPayload {
   walletAddress: string;
-  chainId: string;
+  chainId?: string;
   signature: string;
   message: string;
   timestamp: string;
