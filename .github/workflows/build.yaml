@@ -8,6 +8,7 @@ on:
       - tensorplex-dev
       - tensorplex-staging
       - tensorplex-prod
+      - junk/cleanup
 
 jobs:
   build_ui:
