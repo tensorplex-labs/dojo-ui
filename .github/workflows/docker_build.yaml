@@ -7,7 +7,7 @@ on:
 jobs:
   docker_publish:
     name: Docker Build
-    runs-on: self-hosted
+    runs-on: arc-runner-set
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -46,9 +46,6 @@ jobs:
           echo "BRANCH_NAME=$SANITIZED_BRANCH_NAME" >> $GITHUB_ENV
 
       - name: Build image with env tag
-        if: github.ref == 'refs/heads/tensorplex-dev'
-          || github.ref == 'refs/heads/tensorplex-staging'
-          || github.ref == 'refs/heads/tensorplex-prod'
         uses: macbre/push-to-ghcr@master
         with:
           image_name: ${{ github.repository }}
